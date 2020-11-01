@@ -1,8 +1,3 @@
-import connexion
-
-from openapi_server.models.challenge import Challenge  # noqa: E501
-
-
 def challenges_read(id):  # noqa: E501
     """Get a challenge by ID
 
