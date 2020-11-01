@@ -37,17 +37,17 @@ jobs:
     - uses: actions/checkout@v2
     - name: Validate docker-compose.yml
       run: docker-compose -f docker-compose.yml config >/dev/null
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip tox
-    - name: Run integration tests
-      run: |
-        cd server
-        tox
+    # - name: Set up Python
+    #   uses: actions/setup-python@v2
+    #   with:
+    #     python-version: '3.x'
+    # - name: Install dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip tox
+    # - name: Run integration tests
+    #   run: |
+    #     cd server
+    #     tox
 
   # docker-client:
   #   needs: [test]
