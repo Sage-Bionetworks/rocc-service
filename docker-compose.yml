@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   date-annotator:
-    # image: nlpsandbox/date-annotator-example:latest
+    image: sagebionetworks/rocc-server:latest
     build:
       context: server
       dockerfile: Dockerfile
