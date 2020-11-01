@@ -1,0 +1,302 @@
+openapi: 3.0.2
+info:
+  contact:
+    email: contact@example.com
+    url: http://example.com/contact
+  description: |
+    The OpenAPI specification implemented by the Challenge Registries.
+    # Introduction
+    TBA
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://example.com/terms/
+  title: Challenge API
+  version: 0.1.0
+  x-logo:
+    url: https://redocly.github.io/openapi-template/logo.png
+servers:
+- url: http://example.com/api/v1
+- url: https://example.com/api/v1
+tags:
+- description: Challenge operations
+  name: Challenge
+- description: Health operations
+  name: Health
+- description: User operations
+  name: User
+paths:
+  /challenges:
+    get:
+      description: Returns the challenges
+      operationId: notes_read_all
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Challenge'
+                type: array
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Challenge not found
+      summary: Get all challenges
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{id}:
+    get:
+      description: Returns the challenge for a given ID
+      operationId: challenges_read
+      parameters:
+      - description: The ID of the challenge to fetch
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Challenge not found
+      summary: Get a challenge by ID
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    put:
+      description: This can only be done by the logged in user.
+      operationId: challenges_update
+      parameters:
+      - description: Updates the challenge for a given ID
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Challenge'
+        description: Updated challenge
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid challenge supplied
+        "404":
+          description: Challenge not found
+      summary: Update a challenge by ID
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /health:
+    get:
+      description: Get the health of the service
+      operationId: health
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Health'
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: Health not found
+      summary: Get Health
+      tags:
+      - Health
+      x-openapi-router-controller: openapi_server.controllers.health_controller
+  /users/{username}:
+    get:
+      description: |
+        Some description of the operation.
+        You can use `markdown` here.
+      operationId: get_user_by_name
+      parameters:
+      - description: Pretty print response
+        explode: true
+        in: query
+        name: pretty_print
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: The name that needs to be fetched
+        explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+        style: simple
+      - description: Filter users without email
+        explode: true
+        in: query
+        name: with_email
+        required: false
+        schema:
+          type: boolean
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              example:
+                username: user1
+                email: user@example.com
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Success
+        "403":
+          description: Forbidden
+        "404":
+          description: User not found
+      summary: Get user by user name
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    put:
+      description: This can only be done by the logged in user.
+      operationId: update_user
+      parameters:
+      - description: Pretty print response
+        explode: true
+        in: query
+        name: pretty_print
+        required: false
+        schema:
+          type: boolean
+        style: form
+      - description: The name that needs to be updated
+        explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          type: string
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+        description: Updated user object
+        required: true
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid user supplied
+        "404":
+          description: User not found
+      summary: Updated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+components:
+  schemas:
+    Entity:
+      properties:
+        id:
+          description: ID
+          type: integer
+        createdBy:
+          $ref: '#/components/schemas/User'
+        createdAt:
+          description: When the entity has been created
+          format: date-time
+          type: string
+        updatedBy:
+          $ref: '#/components/schemas/User'
+        updatedAt:
+          description: When the entity has been updated
+          format: date-time
+          type: string
+      required:
+      - id
+      type: object
+    Email:
+      description: User email address
+      example: john.smith@example.com
+      format: test
+      type: string
+    User:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      example:
+        firstName: John
+        lastName: Smith
+        email: john.smith@example.com
+        username: John78
+      properties:
+        username:
+          description: User supplied username
+          example: John78
+          minLength: 4
+          type: string
+        firstName:
+          description: User first name
+          example: John
+          minLength: 1
+          type: string
+        lastName:
+          description: User last name
+          example: Smith
+          minLength: 1
+          type: string
+        email:
+          description: User email address
+          example: john.smith@example.com
+          format: test
+          type: string
+      required:
+      - email
+      - firstName
+      - lastName
+      - username
+      type: object
+    Challenge:
+      allOf:
+      - $ref: '#/components/schemas/Entity'
+      description: A challenge
+      example:
+        title: title
+      properties:
+        title:
+          description: The challenge title
+          type: string
+      required:
+      - title
+      type: object
+    Health:
+      example:
+        status: pass
+      properties:
+        status:
+          description: Health status
+          enum:
+          - pass
+          - warn
+          type: string
+      type: object
