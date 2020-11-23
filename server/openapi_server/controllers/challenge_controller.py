@@ -1,8 +1,6 @@
 import connexion
-import six
 
 from openapi_server.models.challenge import Challenge  # noqa: E501
-from openapi_server import util
 
 
 def challenges_create(challenge):  # noqa: E501
@@ -10,13 +8,15 @@ def challenges_create(challenge):  # noqa: E501
 
     This can only be done by a Challenge Organizer # noqa: E501
 
-    :param challenge: 
+    :param challenge:
     :type challenge: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
         challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
+        print(f"challenge: {challenge}")
+
     return 'do some magic!'
 
 
@@ -77,11 +77,13 @@ def challenges_update_all(id, challenge):  # noqa: E501
 
     :param id: challenge ID
     :type id: str
-    :param challenge: 
+    :param challenge:
     :type challenge: dict | bytes
 
     :rtype: None
     """
     if connexion.request.is_json:
         challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
+        print(f"challenge: {challenge}")
+
     return 'do some magic!'

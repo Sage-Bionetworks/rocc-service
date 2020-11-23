@@ -1,8 +1,6 @@
 import connexion
-import six
 
 from openapi_server.models.user import User  # noqa: E501
-from openapi_server import util
 
 
 def get_user_by_name(username, pretty_print=None, with_email=None):  # noqa: E501
@@ -38,4 +36,7 @@ def update_user(username, user, pretty_print=None):  # noqa: E501
     """
     if connexion.request.is_json:
         user = User.from_dict(connexion.request.get_json())  # noqa: E501
+
+    print(f"user: {user}")
+
     return 'do some magic!'
