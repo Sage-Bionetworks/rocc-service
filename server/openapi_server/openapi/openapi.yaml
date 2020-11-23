@@ -14,22 +14,29 @@ info:
   title: Challenge API
   version: 0.1.0
   x-logo:
-    url: https://redocly.github.io/openapi-template/logo.png
+    url: rocc_logo_black.png
 servers:
-- url: http://example.com/api/v1
-- url: https://example.com/api/v1
+- url: '{protocol}://rocc.com/{environment}/v1'
+  variables:
+    protocol:
+      default: https
+      enum:
+      - http
+      - https
+    environment:
+      default: api.dev
+      enum:
+      - api
+      - api.dev
 tags:
 - description: Challenge operations
   name: Challenge
-- description: Health operations
-  name: Health
 - description: User operations
   name: User
 paths:
   /challenges:
     get:
-      description: Returns the challenges
-      operationId: notes_read_all
+      operationId: challenges_read_all
       responses:
         "200":
           content:
@@ -39,20 +46,70 @@ paths:
                   $ref: '#/components/schemas/Challenge'
                 type: array
           description: Success
+        "404":
+          description: Request not available
+      summary: Lists all challenges
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    post:
+      description: This can only be done by a Challenge Organizer
+      operationId: challenges_create
+      requestBody:
+        content:
+          application/json:
+            example:
+              id: CH1234567
+              name: Sample Challenge
+              startDate: 2020-11-10
+              endDate: 2020-12-31
+              status: open
+            schema:
+              $ref: '#/components/schemas/Challenge'
+        required: true
+      responses:
+        "201":
+          description: Challenge created
         "403":
           description: Forbidden
-        "404":
-          description: Challenge not found
-      summary: Get all challenges
+      summary: Adds a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{id}:
+    delete:
+      description: |
+        Removes the challenge of the given ID
+
+        This action can only be done by a Challenge Organizer.
+      operationId: challenges_delete
+      parameters:
+      - description: challenge ID
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "204":
+          description: Challenge removed
+        "400":
+          description: Invalid challenge ID
+        "403":
+          description: Forbidden
+        "422":
+          description: Challenge not found
+      summary: Removes a challenge
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
     get:
       description: Returns the challenge for a given ID
       operationId: challenges_read
       parameters:
-      - description: The ID of the challenge to fetch
+      - description: challenge ID
         explode: false
         in: path
         name: id
@@ -67,19 +124,50 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
           description: Success
+        "400":
+          description: Invalid challenge ID
+        "422":
+          description: Challenge not found
+      summary: Lists one challenge
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    patch:
+      description: |
+        Updates and/or adds one or more details of the given challenge ID.
+
+        This action can only be done by a Challenge Organizer.
+      operationId: challenges_update
+      parameters:
+      - description: challenge ID
+        explode: false
+        in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        style: simple
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Invalid challenge ID
         "403":
           description: Forbidden
-        "404":
+        "422":
           description: Challenge not found
-      summary: Get a challenge by ID
+      summary: Updates selected details of a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
     put:
-      description: This can only be done by the logged in user.
-      operationId: challenges_update
+      description: |
+        Updates all details of the given challenge ID.
+
+        This action can only be done by a Challenge Organizer.
+      operationId: challenges_update_all
       parameters:
-      - description: Updates the challenge for a given ID
+      - description: challenge ID
         explode: false
         in: path
         name: id
@@ -92,38 +180,20 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Challenge'
-        description: Updated challenge
         required: true
       responses:
         "200":
           description: OK
         "400":
-          description: Invalid challenge supplied
-        "404":
+          description: Invalid challenge ID
+        "403":
+          description: Forbidden
+        "422":
           description: Challenge not found
-      summary: Update a challenge by ID
+      summary: Updates all details of a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-  /health:
-    get:
-      description: Get the health of the service
-      operationId: health
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Health'
-          description: Success
-        "403":
-          description: Forbidden
-        "404":
-          description: Health not found
-      summary: Get Health
-      tags:
-      - Health
-      x-openapi-router-controller: openapi_server.controllers.health_controller
   /users/{username}:
     get:
       description: |
@@ -216,52 +286,55 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
   schemas:
-    Entity:
+    Organization:
+      description: Organization
       properties:
         id:
-          description: ID
-          type: integer
-        createdBy:
-          $ref: '#/components/schemas/User'
-        createdAt:
-          description: When the entity has been created
-          format: date-time
+          readOnly: true
           type: string
-        updatedBy:
-          $ref: '#/components/schemas/User'
-        updatedAt:
-          description: When the entity has been updated
-          format: date-time
+        name:
+          type: string
+        url:
           type: string
       required:
-      - id
+      - name
+      type: object
+    Grant:
+      description: Information about monetary resources for challenge
+      properties:
+        id:
+          readOnly: true
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        sponsor:
+          $ref: '#/components/schemas/Organization'
+        amount:
+          format: float
+          type: integer
+        url:
+          type: string
+      required:
+      - name
+      - sponsor
       type: object
     Email:
       description: User email address
       example: john.smith@example.com
       format: test
       type: string
-    User:
-      allOf:
-      - $ref: '#/components/schemas/Entity'
-      example:
-        firstName: John
-        lastName: Smith
-        email: john.smith@example.com
-        username: John78
+    Person:
       properties:
-        username:
-          description: User supplied username
-          example: John78
-          minLength: 4
+        id:
+          readOnly: true
           type: string
         firstName:
-          description: User first name
           example: John
           minLength: 1
           type: string
         lastName:
-          description: User last name
           example: Smith
           minLength: 1
           type: string
@@ -273,30 +346,125 @@ components:
       required:
       - email
       - firstName
-      - lastName
-      - username
       type: object
     Challenge:
-      allOf:
-      - $ref: '#/components/schemas/Entity'
       description: A challenge
       example:
-        title: title
+        id: CH1234567
+        name: Sample Challenge
+        startDate: 2020-11-10
+        endDate: 2020-12-31
+        website: www.rocc.com/challenges/CH1234567
+        status: closed
+        tags:
+        - Machine Learning
+        organizers:
+        - id: 1
+          firstName: John
+          lastName: Smith
+          email: john.smith@example.org
+        - id: 2
+          firstName: J
+          lastName: Doe
+          email: jane.doe@example.org
       properties:
-        title:
-          description: The challenge title
+        id:
+          description: Challenge ID
+          readOnly: true
           type: string
-      required:
-      - title
-      type: object
-    Health:
-      example:
-        status: pass
-      properties:
+        name:
+          description: Name of challenge
+          type: string
+        startDate:
+          description: Starting date (when submissions are accepted) in YYYY-MM-DD
+            format
+          format: date
+          type: string
+        endDate:
+          description: Ending date (when submissions are no longer accepted) in YYYY-MM-DD
+            format
+          format: date
+          type: string
+        website:
+          description: URL to challenge website
+          format: url
+          type: string
         status:
-          description: Health status
+          description: Current status of challenge
           enum:
-          - pass
-          - warn
+          - upcoming
+          - open
+          - closed
           type: string
+        tags:
+          description: Domains/area of expertise, e.g. "Breast Cancer", "Machine Learning"
+          items:
+            type: string
+          minItems: 1
+          type: array
+        grant:
+          description: Monetary/resources sponsorship for challenge
+          items:
+            $ref: '#/components/schemas/Grant'
+          type: array
+        organizers:
+          description: Persons involved with the challenge, e.g. clinical leads, data
+            providers, governance
+          items:
+            $ref: '#/components/schemas/Person'
+          type: array
+      required:
+      - endDate
+      - name
+      - startDate
+      - status
+      type: object
+    User:
+      example:
+        id: 1
+        username: John78
+        firstName: John
+        lastName: Smith
+        email: john.smith@example.com
+        organizations:
+        - id: 1
+          name: Organization1
+      properties:
+        id:
+          readOnly: true
+          type: string
+        username:
+          minLength: 4
+          type: string
+        password:
+          format: password
+          minLength: 3
+          type: string
+          writeOnly: true
+        firstName:
+          description: User first name
+          minLength: 1
+          type: string
+        lastName:
+          description: User last name
+          minLength: 1
+          type: string
+        email:
+          description: User email address
+          example: john.smith@example.com
+          format: test
+          type: string
+        role:
+          default: user
+          enum:
+          - user
+          - admin
+          type: string
+        organizations:
+          items:
+            $ref: '#/components/schemas/Organization'
+          type: array
+      required:
+      - email
+      - username
       type: object
