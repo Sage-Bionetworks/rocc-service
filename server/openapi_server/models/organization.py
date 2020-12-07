@@ -56,6 +56,7 @@ class Organization(Model):
     def id(self):
         """Gets the id of this Organization.
 
+        The ID of the organization  # noqa: E501
 
         :return: The id of this Organization.
         :rtype: str
@@ -66,6 +67,7 @@ class Organization(Model):
     def id(self, id):
         """Sets the id of this Organization.
 
+        The ID of the organization  # noqa: E501
 
         :param id: The id of this Organization.
         :type id: str
@@ -77,6 +79,7 @@ class Organization(Model):
     def name(self):
         """Gets the name of this Organization.
 
+        The organization name  # noqa: E501
 
         :return: The name of this Organization.
         :rtype: str
@@ -87,6 +90,7 @@ class Organization(Model):
     def name(self, name):
         """Sets the name of this Organization.
 
+        The organization name  # noqa: E501
 
         :param name: The name of this Organization.
         :type name: str
@@ -100,6 +104,7 @@ class Organization(Model):
     def url(self):
         """Gets the url of this Organization.
 
+        The URL to the homepage of the organization  # noqa: E501
 
         :return: The url of this Organization.
         :rtype: str
@@ -110,9 +115,12 @@ class Organization(Model):
     def url(self, url):
         """Sets the url of this Organization.
 
+        The URL to the homepage of the organization  # noqa: E501
 
         :param url: The url of this Organization.
         :type url: str
         """
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url

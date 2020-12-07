@@ -61,6 +61,7 @@ class Person(Model):
     def id(self):
         """Gets the id of this Person.
 
+        The ID of a person  # noqa: E501
 
         :return: The id of this Person.
         :rtype: str
@@ -71,6 +72,7 @@ class Person(Model):
     def id(self, id):
         """Sets the id of this Person.
 
+        The ID of a person  # noqa: E501
 
         :param id: The id of this Person.
         :type id: str
@@ -82,6 +84,7 @@ class Person(Model):
     def first_name(self):
         """Gets the first_name of this Person.
 
+        The first name of a person  # noqa: E501
 
         :return: The first_name of this Person.
         :rtype: str
@@ -92,6 +95,7 @@ class Person(Model):
     def first_name(self, first_name):
         """Sets the first_name of this Person.
 
+        The first name of a person  # noqa: E501
 
         :param first_name: The first_name of this Person.
         :type first_name: str
@@ -107,6 +111,7 @@ class Person(Model):
     def last_name(self):
         """Gets the last_name of this Person.
 
+        The last name of a Person  # noqa: E501
 
         :return: The last_name of this Person.
         :rtype: str
@@ -117,6 +122,7 @@ class Person(Model):
     def last_name(self, last_name):
         """Sets the last_name of this Person.
 
+        The last name of a Person  # noqa: E501
 
         :param last_name: The last_name of this Person.
         :type last_name: str
@@ -130,7 +136,7 @@ class Person(Model):
     def email(self):
         """Gets the email of this Person.
 
-        User email address  # noqa: E501
+        An email address  # noqa: E501
 
         :return: The email of this Person.
         :rtype: str
@@ -141,7 +147,7 @@ class Person(Model):
     def email(self, email):
         """Sets the email of this Person.
 
-        User email address  # noqa: E501
+        An email address  # noqa: E501
 
         :param email: The email of this Person.
         :type email: str

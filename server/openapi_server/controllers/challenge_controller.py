@@ -1,44 +1,33 @@
-import connexion
+# import connexion
+# import six
 
-from openapi_server.models.challenge import Challenge  # noqa: E501
+# from openapi_server.models.challenge import Challenge  # noqa: E501
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
+# from openapi_server import util
 
 
-def challenges_create(challenge):  # noqa: E501
-    """Adds a challenge
+def create_challenge(challenge):  # noqa: E501
+    """Add a challenge
 
-    This can only be done by a Challenge Organizer # noqa: E501
+    Adds a challenge # noqa: E501
 
     :param challenge:
     :type challenge: dict | bytes
 
-    :rtype: None
+    :rtype: Challenge
     """
-    if connexion.request.is_json:
-        challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
-        print(f"challenge: {challenge}")
-
+    # if connexion.request.is_json:
+    #     challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
-def challenges_delete(id):  # noqa: E501
-    """Removes a challenge
+def delete_challenge(id):  # noqa: E501
+    """Delete a challenge
 
-    Removes the challenge of the given ID  This action can only be done by a Challenge Organizer.  # noqa: E501
+    Deletes the challenge specified # noqa: E501
 
-    :param id: challenge ID
-    :type id: str
-
-    :rtype: None
-    """
-    return 'do some magic!'
-
-
-def challenges_read(id):  # noqa: E501
-    """Lists one challenge
-
-    Returns the challenge for a given ID # noqa: E501
-
-    :param id: challenge ID
+    :param id: The ID of the challenge
     :type id: str
 
     :rtype: Challenge
@@ -46,44 +35,29 @@ def challenges_read(id):  # noqa: E501
     return 'do some magic!'
 
 
-def challenges_read_all():  # noqa: E501
-    """Lists all challenges
+def get_challenge(id):  # noqa: E501
+    """Get a challenge
 
-     # noqa: E501
+    Returns the challenge specified # noqa: E501
 
+    :param id: The ID of the challenge
+    :type id: str
 
-    :rtype: List[Challenge]
+    :rtype: Challenge
     """
     return 'do some magic!'
 
 
-def challenges_update(id):  # noqa: E501
-    """Updates selected details of a challenge
+def list_challenges(limit=None, offset=None):  # noqa: E501
+    """List all the challenges
 
-    Updates and/or adds one or more details of the given challenge ID.  This action can only be done by a Challenge Organizer.  # noqa: E501
+    Returns all the challenges # noqa: E501
 
-    :param id: challenge ID
-    :type id: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
 
-    :rtype: None
+    :rtype: PageOfChallenges
     """
-    return 'do some magic!'
-
-
-def challenges_update_all(id, challenge):  # noqa: E501
-    """Updates all details of a challenge
-
-    Updates all details of the given challenge ID.  This action can only be done by a Challenge Organizer.  # noqa: E501
-
-    :param id: challenge ID
-    :type id: str
-    :param challenge:
-    :type challenge: dict | bytes
-
-    :rtype: None
-    """
-    if connexion.request.is_json:
-        challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
-        print(f"challenge: {challenge}")
-
     return 'do some magic!'
