@@ -83,6 +83,7 @@ class User(Model):
     def id(self):
         """Gets the id of this User.
 
+        The ID of the user  # noqa: E501
 
         :return: The id of this User.
         :rtype: str
@@ -93,6 +94,7 @@ class User(Model):
     def id(self, id):
         """Sets the id of this User.
 
+        The ID of the user  # noqa: E501
 
         :param id: The id of this User.
         :type id: str
@@ -104,6 +106,7 @@ class User(Model):
     def username(self):
         """Gets the username of this User.
 
+        The username of the user  # noqa: E501
 
         :return: The username of this User.
         :rtype: str
@@ -114,6 +117,7 @@ class User(Model):
     def username(self, username):
         """Sets the username of this User.
 
+        The username of the user  # noqa: E501
 
         :param username: The username of this User.
         :type username: str
@@ -129,6 +133,7 @@ class User(Model):
     def password(self):
         """Gets the password of this User.
 
+        The password of the user  # noqa: E501
 
         :return: The password of this User.
         :rtype: str
@@ -139,6 +144,7 @@ class User(Model):
     def password(self, password):
         """Sets the password of this User.
 
+        The password of the user  # noqa: E501
 
         :param password: The password of this User.
         :type password: str
@@ -152,7 +158,7 @@ class User(Model):
     def first_name(self):
         """Gets the first_name of this User.
 
-        User first name  # noqa: E501
+        The first name of the user  # noqa: E501
 
         :return: The first_name of this User.
         :rtype: str
@@ -163,7 +169,7 @@ class User(Model):
     def first_name(self, first_name):
         """Sets the first_name of this User.
 
-        User first name  # noqa: E501
+        The first name of the user  # noqa: E501
 
         :param first_name: The first_name of this User.
         :type first_name: str
@@ -177,7 +183,7 @@ class User(Model):
     def last_name(self):
         """Gets the last_name of this User.
 
-        User last name  # noqa: E501
+        The last name of the user  # noqa: E501
 
         :return: The last_name of this User.
         :rtype: str
@@ -188,7 +194,7 @@ class User(Model):
     def last_name(self, last_name):
         """Sets the last_name of this User.
 
-        User last name  # noqa: E501
+        The last name of the user  # noqa: E501
 
         :param last_name: The last_name of this User.
         :type last_name: str
@@ -202,7 +208,7 @@ class User(Model):
     def email(self):
         """Gets the email of this User.
 
-        User email address  # noqa: E501
+        An email address  # noqa: E501
 
         :return: The email of this User.
         :rtype: str
@@ -213,7 +219,7 @@ class User(Model):
     def email(self, email):
         """Sets the email of this User.
 
-        User email address  # noqa: E501
+        An email address  # noqa: E501
 
         :param email: The email of this User.
         :type email: str
@@ -227,6 +233,7 @@ class User(Model):
     def role(self):
         """Gets the role of this User.
 
+        The role of the user  # noqa: E501
 
         :return: The role of this User.
         :rtype: str
@@ -237,6 +244,7 @@ class User(Model):
     def role(self, role):
         """Sets the role of this User.
 
+        The role of the user  # noqa: E501
 
         :param role: The role of this User.
         :type role: str
@@ -254,6 +262,7 @@ class User(Model):
     def organizations(self):
         """Gets the organizations of this User.
 
+        The organizations the user belongs to  # noqa: E501
 
         :return: The organizations of this User.
         :rtype: List[Organization]
@@ -264,6 +273,7 @@ class User(Model):
     def organizations(self, organizations):
         """Sets the organizations of this User.
 
+        The organizations the user belongs to  # noqa: E501
 
         :param organizations: The organizations of this User.
         :type organizations: List[Organization]

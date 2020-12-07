@@ -73,6 +73,7 @@ class Grant(Model):
     def id(self):
         """Gets the id of this Grant.
 
+        The ID of the grant  # noqa: E501
 
         :return: The id of this Grant.
         :rtype: str
@@ -83,6 +84,7 @@ class Grant(Model):
     def id(self, id):
         """Sets the id of this Grant.
 
+        The ID of the grant  # noqa: E501
 
         :param id: The id of this Grant.
         :type id: str
@@ -94,6 +96,7 @@ class Grant(Model):
     def name(self):
         """Gets the name of this Grant.
 
+        The grant name  # noqa: E501
 
         :return: The name of this Grant.
         :rtype: str
@@ -104,6 +107,7 @@ class Grant(Model):
     def name(self, name):
         """Sets the name of this Grant.
 
+        The grant name  # noqa: E501
 
         :param name: The name of this Grant.
         :type name: str
@@ -117,6 +121,7 @@ class Grant(Model):
     def description(self):
         """Gets the description of this Grant.
 
+        A description of the grant  # noqa: E501
 
         :return: The description of this Grant.
         :rtype: str
@@ -127,6 +132,7 @@ class Grant(Model):
     def description(self, description):
         """Sets the description of this Grant.
 
+        A description of the grant  # noqa: E501
 
         :param description: The description of this Grant.
         :type description: str
@@ -161,6 +167,7 @@ class Grant(Model):
     def amount(self):
         """Gets the amount of this Grant.
 
+        The amount of the grant in USD  # noqa: E501
 
         :return: The amount of this Grant.
         :rtype: int
@@ -171,6 +178,7 @@ class Grant(Model):
     def amount(self, amount):
         """Sets the amount of this Grant.
 
+        The amount of the grant in USD  # noqa: E501
 
         :param amount: The amount of this Grant.
         :type amount: int
@@ -182,6 +190,7 @@ class Grant(Model):
     def url(self):
         """Gets the url of this Grant.
 
+        The URL to the grant  # noqa: E501
 
         :return: The url of this Grant.
         :rtype: str
@@ -192,6 +201,7 @@ class Grant(Model):
     def url(self, url):
         """Sets the url of this Grant.
 
+        The URL to the grant  # noqa: E501
 
         :param url: The url of this Grant.
         :type url: str

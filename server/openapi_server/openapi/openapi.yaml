@@ -1,115 +1,127 @@
 openapi: 3.0.2
 info:
   contact:
-    email: contact@example.com
-    url: http://example.com/contact
+    email: thomas.schaffter@sagebionetworks.org
+    name: The ROCC Team
+    url: https://Sage-Bionetworks.github.io/rocc-schemas
   description: |
     The OpenAPI specification implemented by the Challenge Registries.
     # Introduction
     TBA
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: https://example.com/terms/
-  title: Challenge API
+    url: https://Sage-Bionetworks.github.io/rocc-schemas
+  title: Registry of Open Community Challenge API
   version: 0.1.0
   x-logo:
-    url: rocc_logo_black.png
+    url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
-- url: '{protocol}://rocc.com/{environment}/v1'
+- url: '{protocol}://rocc.org/api/v1'
   variables:
     protocol:
       default: https
       enum:
       - http
       - https
-    environment:
-      default: api.dev
-      enum:
-      - api
-      - api.dev
 tags:
-- description: Challenge operations
+- description: Operations about challenges
   name: Challenge
-- description: User operations
+- description: Operations about users
   name: User
 paths:
   /challenges:
     get:
-      operationId: challenges_read_all
+      description: Returns all the challenges
+      operationId: list_challenges
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                items:
-                  $ref: '#/components/schemas/Challenge'
-                type: array
+                $ref: '#/components/schemas/PageOfChallenges'
           description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
         "404":
-          description: Request not available
-      summary: Lists all challenges
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: List all the challenges
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
     post:
-      description: This can only be done by a Challenge Organizer
-      operationId: challenges_create
+      description: Adds a challenge
+      operationId: create_challenge
       requestBody:
         content:
           application/json:
-            example:
-              id: CH1234567
-              name: Sample Challenge
-              startDate: 2020-11-10
-              endDate: 2020-12-31
-              status: open
             schema:
               $ref: '#/components/schemas/Challenge'
         required: true
       responses:
-        "201":
-          description: Challenge created
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+          description: Success
         "403":
-          description: Forbidden
-      summary: Adds a challenge
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+      summary: Add a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{id}:
     delete:
-      description: |
-        Removes the challenge of the given ID
-
-        This action can only be done by a Challenge Organizer.
-      operationId: challenges_delete
+      description: Deletes the challenge specified
+      operationId: delete_challenge
       parameters:
-      - description: challenge ID
-        explode: false
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "204":
-          description: Challenge removed
-        "400":
-          description: Invalid challenge ID
-        "403":
-          description: Forbidden
-        "422":
-          description: Challenge not found
-      summary: Removes a challenge
-      tags:
-      - Challenge
-      x-openapi-router-controller: openapi_server.controllers.challenge_controller
-    get:
-      description: Returns the challenge for a given ID
-      operationId: challenges_read
-      parameters:
-      - description: challenge ID
+      - description: The ID of the challenge
         explode: false
         in: path
         name: id
@@ -124,22 +136,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
           description: Success
-        "400":
-          description: Invalid challenge ID
-        "422":
-          description: Challenge not found
-      summary: Lists one challenge
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Delete a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-    patch:
-      description: |
-        Updates and/or adds one or more details of the given challenge ID.
-
-        This action can only be done by a Challenge Organizer.
-      operationId: challenges_update
+    get:
+      description: Returns the challenge specified
+      operationId: get_challenge
       parameters:
-      - description: challenge ID
+      - description: The ID of the challenge
         explode: false
         in: path
         name: id
@@ -149,67 +166,33 @@ paths:
         style: simple
       responses:
         "200":
-          description: OK
-        "400":
-          description: Invalid challenge ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Challenge'
+          description: Success
         "403":
-          description: Forbidden
-        "422":
-          description: Challenge not found
-      summary: Updates selected details of a challenge
-      tags:
-      - Challenge
-      x-openapi-router-controller: openapi_server.controllers.challenge_controller
-    put:
-      description: |
-        Updates all details of the given challenge ID.
-
-        This action can only be done by a Challenge Organizer.
-      operationId: challenges_update_all
-      parameters:
-      - description: challenge ID
-        explode: false
-        in: path
-        name: id
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Challenge'
-        required: true
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Invalid challenge ID
-        "403":
-          description: Forbidden
-        "422":
-          description: Challenge not found
-      summary: Updates all details of a challenge
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get a challenge
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /users/{username}:
     get:
-      description: |
-        Some description of the operation.
-        You can use `markdown` here.
+      description: Gets the user with the specified name
       operationId: get_user_by_name
       parameters:
-      - description: Pretty print response
-        explode: true
-        in: query
-        name: pretty_print
-        required: false
-        schema:
-          type: boolean
-        style: form
-      - description: The name that needs to be fetched
+      - description: The username of the user who needs to be fetched
         explode: false
         in: path
         name: username
@@ -217,131 +200,160 @@ paths:
         schema:
           type: string
         style: simple
-      - description: Filter users without email
-        explode: true
-        in: query
-        name: with_email
-        required: false
-        schema:
-          type: boolean
-        style: form
       responses:
         "200":
           content:
             application/json:
-              example:
-                username: user1
-                email: user@example.com
               schema:
                 $ref: '#/components/schemas/User'
           description: Success
         "403":
-          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
         "404":
-          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
       summary: Get user by user name
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
-    put:
-      description: This can only be done by the logged in user.
-      operationId: update_user
-      parameters:
-      - description: Pretty print response
-        explode: true
-        in: query
-        name: pretty_print
-        required: false
-        schema:
-          type: boolean
-        style: form
-      - description: The name that needs to be updated
-        explode: false
-        in: path
-        name: username
-        required: true
-        schema:
-          type: string
-        style: simple
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/User'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/User'
-        description: Updated user object
-        required: true
-      responses:
-        "200":
-          description: OK
-        "400":
-          description: Invalid user supplied
-        "404":
-          description: User not found
-      summary: Updated user
-      tags:
-      - User
-      x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
+  responses:
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The specified resource was not found
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The request conflicts with current state of the target resource
   schemas:
+    ResponsePageMetadata:
+      description: A page of results
+      properties:
+        offset:
+          description: Index of the first result that must be returned
+          type: integer
+        limit:
+          description: Maximum number of results returned
+          type: integer
+        links:
+          $ref: '#/components/schemas/ResponsePageMetadata_links'
+      required:
+      - limit
+      - links
+      - offset
+      type: object
     Organization:
-      description: Organization
+      description: An organization
+      example:
+        name: Sage Bionetworks
+        id: 507f1f77bcf86cd799439011
+        url: https://sagebionetworks.org/
       properties:
         id:
+          description: The ID of the organization
+          example: 507f1f77bcf86cd799439011
           readOnly: true
           type: string
         name:
+          description: The organization name
+          example: Sage Bionetworks
           type: string
         url:
+          description: The URL to the homepage of the organization
+          example: https://sagebionetworks.org/
+          format: uri
           type: string
       required:
       - name
+      - url
       type: object
     Grant:
       description: Information about monetary resources for challenge
+      example:
+        sponsor:
+          name: Sage Bionetworks
+          id: 507f1f77bcf86cd799439011
+          url: https://sagebionetworks.org/
+        amount: 0
+        name: name
+        description: description
+        id: 507f1f77bcf86cd799439011
+        url: https://openapi-generator.tech
       properties:
         id:
+          description: The ID of the grant
+          example: 507f1f77bcf86cd799439011
           readOnly: true
           type: string
         name:
+          description: The grant name
           type: string
         description:
+          description: A description of the grant
           type: string
         sponsor:
           $ref: '#/components/schemas/Organization'
         amount:
-          format: float
+          description: The amount of the grant in USD
           type: integer
         url:
+          description: The URL to the grant
+          format: uri
           type: string
       required:
       - name
       - sponsor
       type: object
     Email:
-      description: User email address
+      description: An email address
       example: john.smith@example.com
-      format: test
+      format: email
       type: string
     Person:
+      description: A person
+      example:
+        firstName: John
+        lastName: Smith
+        id: 507f1f77bcf86cd799439011
+        email: john.smith@example.com
       properties:
         id:
+          description: The ID of a person
+          example: 507f1f77bcf86cd799439011
           readOnly: true
           type: string
         firstName:
+          description: The first name of a person
           example: John
           minLength: 1
           type: string
         lastName:
+          description: The last name of a Person
           example: Smith
           minLength: 1
           type: string
         email:
-          description: User email address
+          description: An email address
           example: john.smith@example.com
-          format: test
+          format: email
           type: string
       required:
       - email
@@ -350,66 +362,92 @@ components:
     Challenge:
       description: A challenge
       example:
-        id: CH1234567
+        website: https://synapse.org/sample-challenge
+        endDate: 2020-12-31T00:00:00.000+0000
         name: Sample Challenge
-        startDate: 2020-11-10
-        endDate: 2020-12-31
-        website: www.rocc.com/challenges/CH1234567
-        status: closed
+        organizers:
+        - firstName: John
+          lastName: Smith
+          id: 507f1f77bcf86cd799439011
+          email: john.smith@example.com
+        - firstName: John
+          lastName: Smith
+          id: 507f1f77bcf86cd799439011
+          email: john.smith@example.com
+        id: 507f1f77bcf86cd799439011
+        grant:
+        - sponsor:
+            name: Sage Bionetworks
+            id: 507f1f77bcf86cd799439011
+            url: https://sagebionetworks.org/
+          amount: 0
+          name: name
+          description: description
+          id: 507f1f77bcf86cd799439011
+          url: https://openapi-generator.tech
+        - sponsor:
+            name: Sage Bionetworks
+            id: 507f1f77bcf86cd799439011
+            url: https://sagebionetworks.org/
+          amount: 0
+          name: name
+          description: description
+          id: 507f1f77bcf86cd799439011
+          url: https://openapi-generator.tech
+        startDate: 2020-11-10T00:00:00.000+0000
+        status: open
         tags:
         - Machine Learning
-        organizers:
-        - id: 1
-          firstName: John
-          lastName: Smith
-          email: john.smith@example.org
-        - id: 2
-          firstName: J
-          lastName: Doe
-          email: jane.doe@example.org
+        - Breast Cancer
       properties:
         id:
-          description: Challenge ID
+          description: The ID of the challenge
+          example: 507f1f77bcf86cd799439011
           readOnly: true
           type: string
         name:
-          description: Name of challenge
+          description: The challenge name
+          example: Sample Challenge
           type: string
         startDate:
-          description: Starting date (when submissions are accepted) in YYYY-MM-DD
-            format
+          description: When the challenge started
+          example: 2020-11-10
           format: date
           type: string
         endDate:
-          description: Ending date (when submissions are no longer accepted) in YYYY-MM-DD
-            format
+          description: When the challenge ended
+          example: 2020-12-31
           format: date
           type: string
         website:
-          description: URL to challenge website
+          description: The URL to the challenge website
+          example: https://synapse.org/sample-challenge
           format: url
           type: string
         status:
-          description: Current status of challenge
+          description: The status of challenge
           enum:
           - upcoming
           - open
           - closed
+          example: open
           type: string
         tags:
-          description: Domains/area of expertise, e.g. "Breast Cancer", "Machine Learning"
+          description: The tags associated to the challenge
+          example:
+          - Machine Learning
+          - Breast Cancer
           items:
             type: string
           minItems: 1
           type: array
         grant:
-          description: Monetary/resources sponsorship for challenge
+          description: The grants supporting this challenge
           items:
             $ref: '#/components/schemas/Grant'
           type: array
         organizers:
-          description: Persons involved with the challenge, e.g. clinical leads, data
-            providers, governance
+          description: The organizers of the challenge
           items:
             $ref: '#/components/schemas/Person'
           type: array
@@ -419,52 +457,111 @@ components:
       - startDate
       - status
       type: object
+    PageOfChallenges:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfChallenges_allOf'
+      description: A page of Challenges
+      type: object
+    Error:
+      description: Problem details (tools.ietf.org/html/rfc7807)
+      properties:
+        title:
+          description: A human readable documentation for the problem type
+          type: string
+        status:
+          description: The HTTP status code
+          type: integer
+        detail:
+          description: A human readable explanation specific to this occurrence of
+            the problem
+          type: string
+        type:
+          description: An absolute URI that identifies the problem type
+          type: string
+      required:
+      - status
+      - title
+      type: object
     User:
+      description: A user of the API
       example:
-        id: 1
-        username: John78
         firstName: John
         lastName: Smith
-        email: john.smith@example.com
+        password: password
+        role: user
         organizations:
-        - id: 1
-          name: Organization1
+        - name: Sage Bionetworks
+          id: 507f1f77bcf86cd799439011
+          url: https://sagebionetworks.org/
+        - name: Sage Bionetworks
+          id: 507f1f77bcf86cd799439011
+          url: https://sagebionetworks.org/
+        id: 507f1f77bcf86cd799439011
+        email: john.smith@example.com
+        username: John78
       properties:
         id:
+          description: The ID of the user
+          example: 507f1f77bcf86cd799439011
           readOnly: true
           type: string
         username:
+          description: The username of the user
+          example: John78
           minLength: 4
           type: string
         password:
+          description: The password of the user
           format: password
           minLength: 3
           type: string
           writeOnly: true
         firstName:
-          description: User first name
+          description: The first name of the user
+          example: John
           minLength: 1
           type: string
         lastName:
-          description: User last name
+          description: The last name of the user
+          example: Smith
           minLength: 1
           type: string
         email:
-          description: User email address
+          description: An email address
           example: john.smith@example.com
-          format: test
+          format: email
           type: string
         role:
           default: user
+          description: The role of the user
           enum:
           - user
           - admin
+          example: user
           type: string
         organizations:
+          description: The organizations the user belongs to
           items:
             $ref: '#/components/schemas/Organization'
           type: array
       required:
       - email
       - username
+      type: object
+    ResponsePageMetadata_links:
+      description: Links to navigate to different pages of results
+      properties:
+        next:
+          description: Link to the next page of results
+          format: uri
+          type: string
+      type: object
+    PageOfChallenges_allOf:
+      properties:
+        challenges:
+          description: An array of Challenges
+          items:
+            $ref: '#/components/schemas/Challenge'
+          type: array
       type: object

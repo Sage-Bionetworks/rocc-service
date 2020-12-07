@@ -90,7 +90,7 @@ class Challenge(Model):
     def id(self):
         """Gets the id of this Challenge.
 
-        Challenge ID  # noqa: E501
+        The ID of the challenge  # noqa: E501
 
         :return: The id of this Challenge.
         :rtype: str
@@ -101,7 +101,7 @@ class Challenge(Model):
     def id(self, id):
         """Sets the id of this Challenge.
 
-        Challenge ID  # noqa: E501
+        The ID of the challenge  # noqa: E501
 
         :param id: The id of this Challenge.
         :type id: str
@@ -113,7 +113,7 @@ class Challenge(Model):
     def name(self):
         """Gets the name of this Challenge.
 
-        Name of challenge  # noqa: E501
+        The challenge name  # noqa: E501
 
         :return: The name of this Challenge.
         :rtype: str
@@ -124,7 +124,7 @@ class Challenge(Model):
     def name(self, name):
         """Sets the name of this Challenge.
 
-        Name of challenge  # noqa: E501
+        The challenge name  # noqa: E501
 
         :param name: The name of this Challenge.
         :type name: str
@@ -138,7 +138,7 @@ class Challenge(Model):
     def start_date(self):
         """Gets the start_date of this Challenge.
 
-        Starting date (when submissions are accepted) in YYYY-MM-DD format  # noqa: E501
+        When the challenge started  # noqa: E501
 
         :return: The start_date of this Challenge.
         :rtype: date
@@ -149,7 +149,7 @@ class Challenge(Model):
     def start_date(self, start_date):
         """Sets the start_date of this Challenge.
 
-        Starting date (when submissions are accepted) in YYYY-MM-DD format  # noqa: E501
+        When the challenge started  # noqa: E501
 
         :param start_date: The start_date of this Challenge.
         :type start_date: date
@@ -163,7 +163,7 @@ class Challenge(Model):
     def end_date(self):
         """Gets the end_date of this Challenge.
 
-        Ending date (when submissions are no longer accepted) in YYYY-MM-DD format  # noqa: E501
+        When the challenge ended  # noqa: E501
 
         :return: The end_date of this Challenge.
         :rtype: date
@@ -174,7 +174,7 @@ class Challenge(Model):
     def end_date(self, end_date):
         """Sets the end_date of this Challenge.
 
-        Ending date (when submissions are no longer accepted) in YYYY-MM-DD format  # noqa: E501
+        When the challenge ended  # noqa: E501
 
         :param end_date: The end_date of this Challenge.
         :type end_date: date
@@ -188,7 +188,7 @@ class Challenge(Model):
     def website(self):
         """Gets the website of this Challenge.
 
-        URL to challenge website  # noqa: E501
+        The URL to the challenge website  # noqa: E501
 
         :return: The website of this Challenge.
         :rtype: str
@@ -199,7 +199,7 @@ class Challenge(Model):
     def website(self, website):
         """Sets the website of this Challenge.
 
-        URL to challenge website  # noqa: E501
+        The URL to the challenge website  # noqa: E501
 
         :param website: The website of this Challenge.
         :type website: str
@@ -211,7 +211,7 @@ class Challenge(Model):
     def status(self):
         """Gets the status of this Challenge.
 
-        Current status of challenge  # noqa: E501
+        The status of challenge  # noqa: E501
 
         :return: The status of this Challenge.
         :rtype: str
@@ -222,7 +222,7 @@ class Challenge(Model):
     def status(self, status):
         """Sets the status of this Challenge.
 
-        Current status of challenge  # noqa: E501
+        The status of challenge  # noqa: E501
 
         :param status: The status of this Challenge.
         :type status: str
@@ -240,7 +240,7 @@ class Challenge(Model):
     def tags(self):
         """Gets the tags of this Challenge.
 
-        Domains/area of expertise, e.g. \"Breast Cancer\", \"Machine Learning\"  # noqa: E501
+        The tags associated to the challenge  # noqa: E501
 
         :return: The tags of this Challenge.
         :rtype: List[str]
@@ -251,7 +251,7 @@ class Challenge(Model):
     def tags(self, tags):
         """Sets the tags of this Challenge.
 
-        Domains/area of expertise, e.g. \"Breast Cancer\", \"Machine Learning\"  # noqa: E501
+        The tags associated to the challenge  # noqa: E501
 
         :param tags: The tags of this Challenge.
         :type tags: List[str]
@@ -263,7 +263,7 @@ class Challenge(Model):
     def grant(self):
         """Gets the grant of this Challenge.
 
-        Monetary/resources sponsorship for challenge  # noqa: E501
+        The grants supporting this challenge  # noqa: E501
 
         :return: The grant of this Challenge.
         :rtype: List[Grant]
@@ -274,7 +274,7 @@ class Challenge(Model):
     def grant(self, grant):
         """Sets the grant of this Challenge.
 
-        Monetary/resources sponsorship for challenge  # noqa: E501
+        The grants supporting this challenge  # noqa: E501
 
         :param grant: The grant of this Challenge.
         :type grant: List[Grant]
@@ -286,7 +286,7 @@ class Challenge(Model):
     def organizers(self):
         """Gets the organizers of this Challenge.
 
-        Persons involved with the challenge, e.g. clinical leads, data providers, governance  # noqa: E501
+        The organizers of the challenge  # noqa: E501
 
         :return: The organizers of this Challenge.
         :rtype: List[Person]
@@ -297,7 +297,7 @@ class Challenge(Model):
     def organizers(self, organizers):
         """Sets the organizers of this Challenge.
 
-        Persons involved with the challenge, e.g. clinical leads, data providers, governance  # noqa: E501
+        The organizers of the challenge  # noqa: E501
 
         :param organizers: The organizers of this Challenge.
         :type organizers: List[Person]
