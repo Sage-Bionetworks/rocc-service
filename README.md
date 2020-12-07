@@ -5,21 +5,31 @@
 [![GitHub License](https://img.shields.io/github/license/Sage-Bionetworks/rocc-portal.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-portal)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sagebionetworks/rocc-server.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/repository/docker/sagebionetworks/rocc-server)
 
-API service and web client of the Registry of Open Community Challenge
+API and web client of the Registry of Open Community Challenge
 
 ## Specification
 
 - Implements the [Challenge OpenAPI specification]
 
-## Usage
+## Deploying using Docker
 
-### Running with Docker
+1. Create the file that contains the future environment variables
 
-The command below starts the ROCC locally.
+       cp .env.sample .env
 
-    docker-compose up
+2. Export the variables defined in *.env* to environment variables
 
-### Running with Python
+       export $(grep -v '^#' .env | xargs -d '\n')
+
+3. Start the Data Node API service
+
+       docker-compose up
+
+4. In your browser, go to the API service documentation page
+   <http://localhost:8080/api/v1/ui/> to check that the API service is
+   successfully running.
+
+## Running with Python
 
 We recommend using a Conda environment to install and run the ROCC.
 
