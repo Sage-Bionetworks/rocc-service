@@ -8,7 +8,6 @@ from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
 from openapi_server.models.organization import Organization
 from openapi_server.models.page_of_challenges import PageOfChallenges
-from openapi_server.models.page_of_challenges_all_of import PageOfChallengesAllOf
 from openapi_server.models.person import Person
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks
