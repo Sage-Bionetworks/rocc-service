@@ -7,59 +7,119 @@ from flask import json
 from six import BytesIO
 
 from openapi_server.models.challenge import Challenge  # noqa: E501
+from openapi_server.models.error import Error  # noqa: E501
+from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
 from openapi_server.test import BaseTestCase
 
 
 class TestChallengeController(BaseTestCase):
     """ChallengeController integration test stubs"""
 
-    def test_challenges_read(self):
-        """Test case for challenges_read
+    def disabled_test_create_challenge(self):
+        """Test case for create_challenge
 
-        Get a challenge by ID
-        """
-        headers = { 
-            'Accept': 'application/json',
-        }
-        response = self.client.open(
-            '/api/v1/challenges/{id}'.format(id='id_example'),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
-
-    def test_challenges_update(self):
-        """Test case for challenges_update
-
-        Update a challenge by ID
+        Add a challenge
         """
         challenge = {
-  "title" : "title"
+  "website" : "https://synapse.org/sample-challenge",
+  "endDate" : "2020-12-31T00:00:00.000+0000",
+  "name" : "Sample Challenge",
+  "organizers" : [ {
+    "firstName" : "John",
+    "lastName" : "Smith",
+    "id" : "507f1f77bcf86cd799439011",
+    "email" : "john.smith@example.com"
+  }, {
+    "firstName" : "John",
+    "lastName" : "Smith",
+    "id" : "507f1f77bcf86cd799439011",
+    "email" : "john.smith@example.com"
+  } ],
+  "grant" : [ {
+    "sponsor" : {
+      "name" : "Sage Bionetworks",
+      "id" : "507f1f77bcf86cd799439011",
+      "url" : "https://sagebionetworks.org/"
+    },
+    "amount" : 0,
+    "name" : "name",
+    "description" : "description",
+    "id" : "507f1f77bcf86cd799439011",
+    "url" : "https://openapi-generator.tech"
+  }, {
+    "sponsor" : {
+      "name" : "Sage Bionetworks",
+      "id" : "507f1f77bcf86cd799439011",
+      "url" : "https://sagebionetworks.org/"
+    },
+    "amount" : 0,
+    "name" : "name",
+    "description" : "description",
+    "id" : "507f1f77bcf86cd799439011",
+    "url" : "https://openapi-generator.tech"
+  } ],
+  "startDate" : "2020-11-10T00:00:00.000+0000",
+  "status" : "open",
+  "tags" : [ "Machine Learning", "Breast Cancer" ]
 }
-        headers = { 
+        headers = {
+            'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
         response = self.client.open(
-            '/api/v1/challenges/{id}'.format(id='id_example'),
-            method='PUT',
+            '/api/v1/challenges',
+            method='POST',
             headers=headers,
             data=json.dumps(challenge),
             content_type='application/json')
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_notes_read_all(self):
-        """Test case for notes_read_all
+    def disabled_test_delete_challenge(self):
+        """Test case for delete_challenge
 
-        Get all challenges
+        Delete a challenge
         """
-        headers = { 
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/api/v1/challenges/{id}'.format(id='id_example'),
+            method='DELETE',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def disabled_test_get_challenge(self):
+        """Test case for get_challenge
+
+        Get a challenge
+        """
+        headers = {
+            'Accept': 'application/json',
+        }
+        response = self.client.open(
+            '/api/v1/challenges/{id}'.format(id='id_example'),
+            method='GET',
+            headers=headers)
+        self.assert200(response,
+                       'Response body is : ' + response.data.decode('utf-8'))
+
+    def test_list_challenges(self):
+        """Test case for list_challenges
+
+        List all the challenges
+        """
+        query_string = [('limit', 10),
+                        ('offset', 0)]
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
             '/api/v1/challenges',
             method='GET',
-            headers=headers)
+            headers=headers,
+            query_string=query_string)
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
