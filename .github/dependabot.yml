@@ -1,12 +1,6 @@
 version: 2
 
 updates:
-  # - package-ecosystem: "docker"
-  #   directory: "/client"
-  #   schedule:
-  #     interval: "monthly"
-  #   target-branch: "develop"
-
   - package-ecosystem: "docker"
     directory: "/server"
     schedule:

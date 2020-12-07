@@ -33,21 +33,24 @@ jobs:
   test:
     needs: [lint]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.7, 3.8]  # 3.9
     steps:
     - uses: actions/checkout@v2
-    - name: Validate docker-compose.yml
-      run: docker-compose -f docker-compose.yml config >/dev/null
-    # - name: Set up Python
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: '3.x'
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip tox
-    # - name: Run integration tests
-    #   run: |
-    #     cd server
-    #     tox
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: |
+        cd server
+        python -m pip install --upgrade pip
+        pip install tox tox-gh-actions
+    - name: Test with tox
+      run: |
+        cd server
+        tox
 
   # docker-client:
   #   needs: [test]
