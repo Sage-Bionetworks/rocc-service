@@ -17,7 +17,7 @@ services:
       - "${MONGO_PORT}:27017"
 
   api:
-    # image: sagebionetworks/rocc-server:latest
+    image: sagebionetworks/rocc:edge
     build:
       context: server
       dockerfile: Dockerfile
