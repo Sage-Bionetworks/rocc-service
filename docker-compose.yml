@@ -17,11 +17,11 @@ services:
       - "${MONGO_PORT}:27017"
 
   api:
-    image: sagebionetworks/rocc-server:latest
+    # image: sagebionetworks/rocc-server:latest
     build:
       context: server
       dockerfile: Dockerfile
-    container_name: rocc-server
+    container_name: rocc-api
     environment:
       - SERVER_PROTOCOL
       - SERVER_DOMAIN
