@@ -1,4 +1,4 @@
 connexion[swagger-ui] == 2.7.0
 python_dateutil == 2.8.1
-setuptools == 50.3.2
+setuptools == 51.0.0
 swagger-ui-bundle == 0.0.8
