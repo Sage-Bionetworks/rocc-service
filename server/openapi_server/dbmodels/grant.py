@@ -1,4 +1,4 @@
-from mongoengine import StringField, LongField, IntField, URLField
+from mongoengine import Document, ReferenceField, StringField, LongField, IntField, URLField  # noqa: E501
 
 from openapi_server.dbmodels.organization import Organization
 
