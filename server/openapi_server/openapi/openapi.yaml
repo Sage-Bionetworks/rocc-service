@@ -362,7 +362,6 @@ components:
     Challenge:
       description: A challenge
       example:
-        website: https://synapse.org/sample-challenge
         endDate: 2020-12-31T00:00:00.000+0000
         name: Sample Challenge
         organizers:
@@ -395,6 +394,7 @@ components:
           id: 507f1f77bcf86cd799439011
           url: https://openapi-generator.tech
         startDate: 2020-11-10T00:00:00.000+0000
+        url: https://synapse.org/sample-challenge
         status: open
         tags:
         - Machine Learning
@@ -419,10 +419,10 @@ components:
           example: 2020-12-31
           format: date
           type: string
-        website:
+        url:
           description: The URL to the challenge website
           example: https://synapse.org/sample-challenge
-          format: url
+          format: uri
           type: string
         status:
           description: The status of challenge
@@ -556,7 +556,6 @@ components:
           description: Link to the next page of results
           format: uri
           type: string
-      type: object
     PageOfChallenges_allOf:
       properties:
         challenges:
@@ -564,4 +563,3 @@ components:
           items:
             $ref: '#/components/schemas/Challenge'
           type: array
-      type: object
