@@ -1,4 +1,4 @@
-from mongoengine import StringField, URLField
+from mongoengine import Document, StringField, URLField  # noqa: E501
 
 
 class Organization(Document):

@@ -1,4 +1,4 @@
-from mongoengine import StringField, EmailField
+from mongoengine import Document, StringField, EmailField  # noqa: E501
 
 
 class Person(Document):
