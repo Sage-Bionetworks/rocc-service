@@ -1,10 +1,11 @@
-from mongoengine import Document, ListField, ReferenceField, StringField, URLField  # noqa: E501
+from mongoengine import ListField, ReferenceField, StringField, URLField
 
+from openapi_server.dbmodels.base_document import BaseDocument
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.person import Person
 
 
-class Challenge(Document):
+class Challenge(BaseDocument):
     name = StringField(required=True, unique=True)
     startDate = StringField(required=True, regex=r"^\d{4}(-\d{2})?(-\d{2})?$")
     endDate = StringField(required=True, regex=r"^\d{4}(-\d{2})?(-\d{2})?$")
