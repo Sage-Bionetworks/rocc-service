@@ -15,30 +15,35 @@ class Organization(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, url=None):  # noqa: E501
+    def __init__(self, id=None, name=None, short_name=None, url=None):  # noqa: E501
         """Organization - a model defined in OpenAPI
 
         :param id: The id of this Organization.  # noqa: E501
         :type id: str
         :param name: The name of this Organization.  # noqa: E501
         :type name: str
+        :param short_name: The short_name of this Organization.  # noqa: E501
+        :type short_name: str
         :param url: The url of this Organization.  # noqa: E501
         :type url: str
         """
         self.openapi_types = {
             'id': str,
             'name': str,
+            'short_name': str,
             'url': str
         }
 
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
+            'short_name': 'shortName',
             'url': 'url'
         }
 
         self._id = id
         self._name = name
+        self._short_name = short_name
         self._url = url
 
     @classmethod
@@ -99,6 +104,29 @@ class Organization(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def short_name(self):
+        """Gets the short_name of this Organization.
+
+        The organization short name  # noqa: E501
+
+        :return: The short_name of this Organization.
+        :rtype: str
+        """
+        return self._short_name
+
+    @short_name.setter
+    def short_name(self, short_name):
+        """Sets the short_name of this Organization.
+
+        The organization short name  # noqa: E501
+
+        :param short_name: The short_name of this Organization.
+        :type short_name: str
+        """
+
+        self._short_name = short_name
 
     @property
     def url(self):

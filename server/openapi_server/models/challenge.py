@@ -7,6 +7,7 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.grant import Grant
+from openapi_server.models.organization import Organization
 from openapi_server.models.person import Person
 from openapi_server import util
 
@@ -17,7 +18,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None, grant=None, organizers=None):  # noqa: E501
+    def __init__(self, id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None, grant=None, organizers=None, organizations=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -38,6 +39,8 @@ class Challenge(Model):
         :type grant: List[Grant]
         :param organizers: The organizers of this Challenge.  # noqa: E501
         :type organizers: List[Person]
+        :param organizations: The organizations of this Challenge.  # noqa: E501
+        :type organizations: List[Organization]
         """
         self.openapi_types = {
             'id': str,
@@ -48,7 +51,8 @@ class Challenge(Model):
             'status': str,
             'tags': List[str],
             'grant': List[Grant],
-            'organizers': List[Person]
+            'organizers': List[Person],
+            'organizations': List[Organization]
         }
 
         self.attribute_map = {
@@ -60,7 +64,8 @@ class Challenge(Model):
             'status': 'status',
             'tags': 'tags',
             'grant': 'grant',
-            'organizers': 'organizers'
+            'organizers': 'organizers',
+            'organizations': 'organizations'
         }
 
         self._id = id
@@ -72,6 +77,7 @@ class Challenge(Model):
         self._tags = tags
         self._grant = grant
         self._organizers = organizers
+        self._organizations = organizations
 
     @classmethod
     def from_dict(cls, dikt) -> 'Challenge':
@@ -302,3 +308,26 @@ class Challenge(Model):
         """
 
         self._organizers = organizers
+
+    @property
+    def organizations(self):
+        """Gets the organizations of this Challenge.
+
+        The organizations sponsoring this challenge  # noqa: E501
+
+        :return: The organizations of this Challenge.
+        :rtype: List[Organization]
+        """
+        return self._organizations
+
+    @organizations.setter
+    def organizations(self, organizations):
+        """Sets the organizations of this Challenge.
+
+        The organizations sponsoring this challenge  # noqa: E501
+
+        :param organizations: The organizations of this Challenge.
+        :type organizations: List[Organization]
+        """
+
+        self._organizations = organizations

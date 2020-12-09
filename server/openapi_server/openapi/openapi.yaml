@@ -265,6 +265,7 @@ components:
       example:
         name: Sage Bionetworks
         id: 507f1f77bcf86cd799439011
+        shortName: Sage
         url: https://sagebionetworks.org/
       properties:
         id:
@@ -275,6 +276,10 @@ components:
         name:
           description: The organization name
           example: Sage Bionetworks
+          type: string
+        shortName:
+          description: The organization short name
+          example: Sage
           type: string
         url:
           description: The URL to the homepage of the organization
@@ -291,6 +296,7 @@ components:
         sponsor:
           name: Sage Bionetworks
           id: 507f1f77bcf86cd799439011
+          shortName: Sage
           url: https://sagebionetworks.org/
         name: name
         description: description
@@ -316,7 +322,7 @@ components:
           type: string
       required:
       - name
-      - sponsor
+      - url
       type: object
     Email:
       description: An email address
@@ -369,11 +375,21 @@ components:
           lastName: Smith
           id: 507f1f77bcf86cd799439011
           email: john.smith@example.com
+        organizations:
+        - name: Sage Bionetworks
+          id: 507f1f77bcf86cd799439011
+          shortName: Sage
+          url: https://sagebionetworks.org/
+        - name: Sage Bionetworks
+          id: 507f1f77bcf86cd799439011
+          shortName: Sage
+          url: https://sagebionetworks.org/
         id: 507f1f77bcf86cd799439011
         grant:
         - sponsor:
             name: Sage Bionetworks
             id: 507f1f77bcf86cd799439011
+            shortName: Sage
             url: https://sagebionetworks.org/
           name: name
           description: description
@@ -382,6 +398,7 @@ components:
         - sponsor:
             name: Sage Bionetworks
             id: 507f1f77bcf86cd799439011
+            shortName: Sage
             url: https://sagebionetworks.org/
           name: name
           description: description
@@ -445,6 +462,11 @@ components:
           items:
             $ref: '#/components/schemas/Person'
           type: array
+        organizations:
+          description: The organizations sponsoring this challenge
+          items:
+            $ref: '#/components/schemas/Organization'
+          type: array
       required:
       - endDate
       - name
@@ -487,9 +509,11 @@ components:
         organizations:
         - name: Sage Bionetworks
           id: 507f1f77bcf86cd799439011
+          shortName: Sage
           url: https://sagebionetworks.org/
         - name: Sage Bionetworks
           id: 507f1f77bcf86cd799439011
+          shortName: Sage
           url: https://sagebionetworks.org/
         id: 507f1f77bcf86cd799439011
         email: john.smith@example.com
