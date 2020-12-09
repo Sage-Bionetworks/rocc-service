@@ -56,7 +56,17 @@ def delete_challenge(id):
 
     :rtype: Challenge
     """
-    return 'do some magic!'
+    try:
+        DbChallenge.objects(id=id).delete()
+        res = f"Challenge {id} has been removed!"
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def get_challenge(id):
@@ -69,7 +79,17 @@ def get_challenge(id):
 
     :rtype: Challenge
     """
-    return 'do some magic!'
+    try:
+        db_challenge = DbChallenge.objects(id=id)
+        res = Challenge.from_dict(db_challenge.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_challenges(limit=None, offset=None):
