@@ -19,5 +19,5 @@ class Challenge(Document):
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        doc["id"] = str(self.pk)
+        # doc["id"] = str(self.pk)
         return doc
