@@ -3,7 +3,7 @@ from mongoengine import Document, ListField, ReferenceField, StringField, EmailF
 from openapi_server.dbmodels.organization import Organization
 
 
-class Challenge(Document):
+class User(Document):
     username = StringField(required=True)
     password = StringField(min_length=3)
     firstName = StringField(min_length=1)
