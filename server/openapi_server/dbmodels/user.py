@@ -5,11 +5,11 @@ from openapi_server.dbmodels.organization import Organization
 
 class Challenge(Document):
     username = StringField(required=True)
-    password = StringField()
-    firstName = StringField()
-    lastName = StringField()
-    email = EmailField()
-    role = StringField
+    password = StringField(min_length=3)
+    firstName = StringField(min_length=1)
+    lastName = StringField(min_length=1)
+    email = EmailField(required=True)
+    role = StringField(choices=["user", "admin"], default="admin")
     organizations = ListField(ReferenceField(Organization))
 
     def to_dict(self):
