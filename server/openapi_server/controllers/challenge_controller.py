@@ -20,6 +20,8 @@ def create_challenge(challenge):
 
     :rtype: Challenge
     """
+    res = None
+    status = None
     if connexion.request.is_json:
         try:
             challenge = Challenge.from_dict(connexion.request.get_json())
@@ -33,14 +35,14 @@ def create_challenge(challenge):
                 grant=challenge.grant,
                 organizers=challenge.organizers
             ).save()
-            res = Challenge.from_dict(db_challenge.to_dict())
             status = 200
+            res = Challenge.from_dict(db_challenge.to_dict())
         except NotUniqueError as error:
-            res = Error("Conflict", status, str(error))
             status = 409
+            res = Error("Conflict", status, str(error))
         except Exception as error:
-            res = Error("Internal error", status, str(error))
             status = 500
+            res = Error("Internal error", status, str(error))
     return res, status
 
 
@@ -82,4 +84,29 @@ def list_challenges(limit=None, offset=None):
 
     :rtype: PageOfChallenges
     """
-    return 'do some magic!'
+    try:
+        db_challenges = DbChallenge.objects().skip(offset).limit(limit)
+        challenges = [Challenge.from_dict(c.to_dict()) for c in db_challenges]
+        next_ = ""
+        if len(challenges) == limit:
+            next_ = '{api_url}/challenges?limit={limit}&offset={offset}'.format(  # noqa: E501
+                api_url=Config().server_api_url,
+                limit=limit,
+                offset=offset + limit
+            )
+        res = PageOfChallenges(
+            offset=offset,
+            limit=limit,
+            links={
+                "next": next_
+            },
+            challenges=challenges
+        )
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
