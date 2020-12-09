@@ -4,16 +4,21 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-# from six import BytesIO
 
-# from openapi_server.models.challenge import Challenge  # noqa: E501
-# from openapi_server.models.error import Error  # noqa: E501
-# from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
+from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.test import BaseTestCase
+from openapi_server.test import util
 
 
 class TestChallengeController(BaseTestCase):
     """ChallengeController integration test stubs"""
+
+    def setUp(self):
+        util.connect_db()
+        DbChallenge.objects().delete()
+
+    def tearDown(self):
+        util.disconnect_db()
 
     def disabled_test_create_challenge(self):
         """Test case for create_challenge
@@ -21,33 +26,21 @@ class TestChallengeController(BaseTestCase):
         Add a challenge
         """
         challenge = {
-            "url": "https://synapse.org/sample-challenge",
-            "endDate": "2020-12-31",
             "name": "Sample Challenge",
+            "startDate": "2020-11-10",
+            "endDate": "2020-12-31",
+            "url": "https://synapse.org/sample-challenge",
+            "status": "open",
             "organizers": [{
                 "firstName": "John",
                 "lastName": "Smith",
-                "id": "507f1f77bcf86cd799439011",
                 "email": "john.smith@example.com"
-            }, {
-                "firstName": "Jane",
-                "lastName": "Smith",
-                "id": "507f1f77bcf86cd799439011",
-                "email": "jane.smith@example.com"
             }],
-            "grant": [{
-                "sponsor": {
-                    "name": "Sage Bionetworks",
-                    "id": "507f1f77bcf86cd799439011",
-                    "url": "https://sagebionetworks.org/"
-                },
-                "name": "name",
-                "description": "description",
-                "id": "507f1f77bcf86cd799439011",
-                "url": "https://openapi-generator.tech"
+            "organizations": [{
+                "name": "Sage Bionetworks",
+                "url": "https://www.sagebionetworks.org"
             }],
-            "startDate": "2020-11-10",
-            "status": "open",
+            "grant": [],
             "tags": ["Machine Learning", "Breast Cancer"]
         }
         headers = {
@@ -78,16 +71,17 @@ class TestChallengeController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def disabled_test_get_challenge(self):
+    def test_get_challenge(self):
         """Test case for get_challenge
 
         Get a challenge
         """
+        util.create_test_challenge("awesome-challenge")
         headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
-            '/api/v1/challenges/{id}'.format(id='id_example'),
+            '/api/v1/challenges/{id}'.format(id='awesome-challenge'),
             method='GET',
             headers=headers)
         self.assert200(response,
