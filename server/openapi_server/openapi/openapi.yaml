@@ -292,7 +292,6 @@ components:
           name: Sage Bionetworks
           id: 507f1f77bcf86cd799439011
           url: https://sagebionetworks.org/
-        amount: 0
         name: name
         description: description
         id: 507f1f77bcf86cd799439011
@@ -311,9 +310,6 @@ components:
           type: string
         sponsor:
           $ref: '#/components/schemas/Organization'
-        amount:
-          description: The amount of the grant in USD
-          type: integer
         url:
           description: The URL to the grant
           format: uri
@@ -379,7 +375,6 @@ components:
             name: Sage Bionetworks
             id: 507f1f77bcf86cd799439011
             url: https://sagebionetworks.org/
-          amount: 0
           name: name
           description: description
           id: 507f1f77bcf86cd799439011
@@ -388,7 +383,6 @@ components:
             name: Sage Bionetworks
             id: 507f1f77bcf86cd799439011
             url: https://sagebionetworks.org/
-          amount: 0
           name: name
           description: description
           id: 507f1f77bcf86cd799439011
