@@ -6,8 +6,8 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.challenge import Challenge
-# from openapi_server.models.response_page_metadata import ResponsePageMetadata
+from openapi_server.models.challenge import Challenge  # noqa: E501
+from openapi_server.models.response_page_metadata import ResponsePageMetadata  # noqa: E501
 from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks  # noqa: E501
 from openapi_server import util
 

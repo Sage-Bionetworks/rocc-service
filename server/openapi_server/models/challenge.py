@@ -6,9 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.grant import Grant
-from openapi_server.models.organization import Organization
-from openapi_server.models.person import Person
 from openapi_server import util
 
 
@@ -18,7 +15,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None, grant=None, organizers=None, organizations=None):  # noqa: E501
+    def __init__(self, id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -35,12 +32,6 @@ class Challenge(Model):
         :type status: str
         :param tags: The tags of this Challenge.  # noqa: E501
         :type tags: List[str]
-        :param grant: The grant of this Challenge.  # noqa: E501
-        :type grant: List[Grant]
-        :param organizers: The organizers of this Challenge.  # noqa: E501
-        :type organizers: List[Person]
-        :param organizations: The organizations of this Challenge.  # noqa: E501
-        :type organizations: List[Organization]
         """
         self.openapi_types = {
             'id': str,
@@ -49,10 +40,7 @@ class Challenge(Model):
             'end_date': date,
             'url': str,
             'status': str,
-            'tags': List[str],
-            'grant': List[Grant],
-            'organizers': List[Person],
-            'organizations': List[Organization]
+            'tags': List[str]
         }
 
         self.attribute_map = {
@@ -62,10 +50,7 @@ class Challenge(Model):
             'end_date': 'endDate',
             'url': 'url',
             'status': 'status',
-            'tags': 'tags',
-            'grant': 'grant',
-            'organizers': 'organizers',
-            'organizations': 'organizations'
+            'tags': 'tags'
         }
 
         self._id = id
@@ -75,9 +60,6 @@ class Challenge(Model):
         self._url = url
         self._status = status
         self._tags = tags
-        self._grant = grant
-        self._organizers = organizers
-        self._organizations = organizations
 
     @classmethod
     def from_dict(cls, dikt) -> 'Challenge':
@@ -262,72 +244,3 @@ class Challenge(Model):
         """
 
         self._tags = tags
-
-    @property
-    def grant(self):
-        """Gets the grant of this Challenge.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :return: The grant of this Challenge.
-        :rtype: List[Grant]
-        """
-        return self._grant
-
-    @grant.setter
-    def grant(self, grant):
-        """Sets the grant of this Challenge.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :param grant: The grant of this Challenge.
-        :type grant: List[Grant]
-        """
-
-        self._grant = grant
-
-    @property
-    def organizers(self):
-        """Gets the organizers of this Challenge.
-
-        The organizers of the challenge  # noqa: E501
-
-        :return: The organizers of this Challenge.
-        :rtype: List[Person]
-        """
-        return self._organizers
-
-    @organizers.setter
-    def organizers(self, organizers):
-        """Sets the organizers of this Challenge.
-
-        The organizers of the challenge  # noqa: E501
-
-        :param organizers: The organizers of this Challenge.
-        :type organizers: List[Person]
-        """
-
-        self._organizers = organizers
-
-    @property
-    def organizations(self):
-        """Gets the organizations of this Challenge.
-
-        The organizations sponsoring this challenge  # noqa: E501
-
-        :return: The organizations of this Challenge.
-        :rtype: List[Organization]
-        """
-        return self._organizations
-
-    @organizations.setter
-    def organizations(self, organizations):
-        """Sets the organizations of this Challenge.
-
-        The organizations sponsoring this challenge  # noqa: E501
-
-        :param organizations: The organizations of this Challenge.
-        :type organizations: List[Organization]
-        """
-
-        self._organizations = organizations

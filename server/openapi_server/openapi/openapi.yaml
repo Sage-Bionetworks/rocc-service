@@ -26,8 +26,6 @@ servers:
 tags:
 - description: Operations about challenges
   name: Challenge
-- description: Operations about users
-  name: User
 paths:
   /challenges:
     get:
@@ -187,42 +185,6 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-  /users/{username}:
-    get:
-      description: Gets the user with the specified name
-      operationId: get_user_by_name
-      parameters:
-      - description: The username of the user who needs to be fetched
-        explode: false
-        in: path
-        name: username
-        required: true
-        schema:
-          type: string
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-          description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-      summary: Get user by user name
-      tags:
-      - User
-      x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
   responses:
     Unauthorized:
@@ -260,156 +222,22 @@ components:
       - links
       - offset
       type: object
-    Organization:
-      description: An organization
-      example:
-        name: Sage Bionetworks
-        id: 507f1f77bcf86cd799439011
-        shortName: Sage
-        url: https://sagebionetworks.org/
-      properties:
-        id:
-          description: The ID of the organization
-          example: 507f1f77bcf86cd799439011
-          readOnly: true
-          type: string
-        name:
-          description: The organization name
-          example: Sage Bionetworks
-          type: string
-        shortName:
-          description: The organization short name
-          example: Sage
-          type: string
-        url:
-          description: The URL to the homepage of the organization
-          example: https://sagebionetworks.org/
-          format: uri
-          type: string
-      required:
-      - name
-      - url
-      type: object
-    Grant:
-      description: Information about monetary resources for challenge
-      example:
-        sponsor:
-          name: Sage Bionetworks
-          id: 507f1f77bcf86cd799439011
-          shortName: Sage
-          url: https://sagebionetworks.org/
-        name: name
-        description: description
-        id: 507f1f77bcf86cd799439011
-        url: https://openapi-generator.tech
-      properties:
-        id:
-          description: The ID of the grant
-          example: 507f1f77bcf86cd799439011
-          readOnly: true
-          type: string
-        name:
-          description: The grant name
-          type: string
-        description:
-          description: A description of the grant
-          type: string
-        sponsor:
-          $ref: '#/components/schemas/Organization'
-        url:
-          description: The URL to the grant
-          format: uri
-          type: string
-      required:
-      - name
-      - url
-      type: object
-    Email:
-      description: An email address
-      example: john.smith@example.com
-      format: email
+    TagId:
+      description: The ID of a tag
+      example: 507f1f77bcf86cd799439011
       type: string
-    Person:
-      description: A person
-      example:
-        firstName: John
-        lastName: Smith
-        id: 507f1f77bcf86cd799439011
-        email: john.smith@example.com
-      properties:
-        id:
-          description: The ID of a person
-          example: 507f1f77bcf86cd799439011
-          readOnly: true
-          type: string
-        firstName:
-          description: The first name of a person
-          example: John
-          minLength: 1
-          type: string
-        lastName:
-          description: The last name of a Person
-          example: Smith
-          minLength: 1
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-      required:
-      - email
-      - firstName
-      type: object
     Challenge:
       description: A challenge
       example:
         endDate: 2020-12-31T00:00:00.000+0000
-        name: Sample Challenge
-        organizers:
-        - firstName: John
-          lastName: Smith
-          id: 507f1f77bcf86cd799439011
-          email: john.smith@example.com
-        - firstName: John
-          lastName: Smith
-          id: 507f1f77bcf86cd799439011
-          email: john.smith@example.com
-        organizations:
-        - name: Sage Bionetworks
-          id: 507f1f77bcf86cd799439011
-          shortName: Sage
-          url: https://sagebionetworks.org/
-        - name: Sage Bionetworks
-          id: 507f1f77bcf86cd799439011
-          shortName: Sage
-          url: https://sagebionetworks.org/
+        name: Awesome Challenge
         id: 507f1f77bcf86cd799439011
-        grant:
-        - sponsor:
-            name: Sage Bionetworks
-            id: 507f1f77bcf86cd799439011
-            shortName: Sage
-            url: https://sagebionetworks.org/
-          name: name
-          description: description
-          id: 507f1f77bcf86cd799439011
-          url: https://openapi-generator.tech
-        - sponsor:
-            name: Sage Bionetworks
-            id: 507f1f77bcf86cd799439011
-            shortName: Sage
-            url: https://sagebionetworks.org/
-          name: name
-          description: description
-          id: 507f1f77bcf86cd799439011
-          url: https://openapi-generator.tech
         startDate: 2020-11-10T00:00:00.000+0000
-        url: https://synapse.org/sample-challenge
+        url: https://synapse.org/awesome-challenge
         status: open
         tags:
-        - Machine Learning
-        - Breast Cancer
+        - 507f1f77bcf86cd799439011
+        - 507f1f77bcf86cd799439011
       properties:
         id:
           description: The ID of the challenge
@@ -418,7 +246,7 @@ components:
           type: string
         name:
           description: The challenge name
-          example: Sample Challenge
+          example: Awesome Challenge
           type: string
         startDate:
           description: When the challenge started
@@ -432,7 +260,7 @@ components:
           type: string
         url:
           description: The URL to the challenge website
-          example: https://synapse.org/sample-challenge
+          example: https://synapse.org/awesome-challenge
           format: uri
           type: string
         status:
@@ -445,27 +273,8 @@ components:
           type: string
         tags:
           description: The tags associated to the challenge
-          example:
-          - Machine Learning
-          - Breast Cancer
           items:
-            type: string
-          minItems: 1
-          type: array
-        grant:
-          description: The grants supporting this challenge
-          items:
-            $ref: '#/components/schemas/Grant'
-          type: array
-        organizers:
-          description: The organizers of the challenge
-          items:
-            $ref: '#/components/schemas/Person'
-          type: array
-        organizations:
-          description: The organizations sponsoring this challenge
-          items:
-            $ref: '#/components/schemas/Organization'
+            $ref: '#/components/schemas/TagId'
           type: array
       required:
       - endDate
@@ -499,74 +308,6 @@ components:
       - status
       - title
       type: object
-    User:
-      description: A user of the API
-      example:
-        firstName: John
-        lastName: Smith
-        password: password
-        role: user
-        organizations:
-        - name: Sage Bionetworks
-          id: 507f1f77bcf86cd799439011
-          shortName: Sage
-          url: https://sagebionetworks.org/
-        - name: Sage Bionetworks
-          id: 507f1f77bcf86cd799439011
-          shortName: Sage
-          url: https://sagebionetworks.org/
-        id: 507f1f77bcf86cd799439011
-        email: john.smith@example.com
-        username: John78
-      properties:
-        id:
-          description: The ID of the user
-          example: 507f1f77bcf86cd799439011
-          readOnly: true
-          type: string
-        username:
-          description: The username of the user
-          example: John78
-          minLength: 4
-          type: string
-        password:
-          description: The password of the user
-          format: password
-          minLength: 3
-          type: string
-          writeOnly: true
-        firstName:
-          description: The first name of the user
-          example: John
-          minLength: 1
-          type: string
-        lastName:
-          description: The last name of the user
-          example: Smith
-          minLength: 1
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        role:
-          default: user
-          description: The role of the user
-          enum:
-          - user
-          - admin
-          example: user
-          type: string
-        organizations:
-          description: The organizations the user belongs to
-          items:
-            $ref: '#/components/schemas/Organization'
-          type: array
-      required:
-      - email
-      - username
-      type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
       properties:
@@ -574,6 +315,7 @@ components:
           description: Link to the next page of results
           format: uri
           type: string
+      type: object
     PageOfChallenges_allOf:
       properties:
         challenges:
@@ -581,3 +323,4 @@ components:
           items:
             $ref: '#/components/schemas/Challenge'
           type: array
+      type: object

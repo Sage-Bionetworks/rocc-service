@@ -16,7 +16,7 @@ class Challenge(BaseDocument):
     )
     tags = ListField(StringField(max_length=30))
     grant = ListField(ReferenceField(Grant))
-    organizers = ListField(ReferenceField(Person))
+    # organizers = ListField(ReferenceField(Person))
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
