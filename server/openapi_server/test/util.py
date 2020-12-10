@@ -11,9 +11,9 @@ def disconnect_db():
     disconnect(alias='mongoenginetest')
 
 
-def create_test_challenge(challenge_id):
+def create_test_challenge(challenge_name):
     return Challenge(
-        name='challenges/{challenge_id}'.format(challenge_id=challenge_id),
+        name=challenge_name,
         startDate="2020",
         endDate="2020",
         status="open"
