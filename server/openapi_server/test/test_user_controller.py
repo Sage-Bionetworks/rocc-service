@@ -14,7 +14,7 @@ from openapi_server.test import BaseTestCase
 class TestUserController(BaseTestCase):
     """UserController integration test stubs"""
 
-    def test_get_user_by_name(self):
+    def disabled_test_get_user_by_name(self):
         """Test case for get_user_by_name
 
         Get user by user name

@@ -10,7 +10,7 @@ from openapi_server.models.page_of_challenges import PageOfChallenges
 # from openapi_server import util
 
 
-def create_challenge(challenge):
+def create_challenge(challenge=None):
     """Add a challenge
 
     Adds a challenge
@@ -25,15 +25,16 @@ def create_challenge(challenge):
     if connexion.request.is_json:
         try:
             challenge = Challenge.from_dict(connexion.request.get_json())
+            print(f"challenge: {challenge}")
             db_challenge = DbChallenge(
                 name=challenge.name,
-                startDate=challenge.start_date,
-                endDate=challenge.end_date,
+                startDate=challenge.start_date.timestamp(),
+                endDate=challenge.end_date.timestamp(),
                 url=challenge.url,
                 status=challenge.status,
                 tags=challenge.tags,
-                grant=challenge.grant,
-                organizers=challenge.organizers
+                # grant=challenge.grant,
+                # organizers=challenge.organizers
             ).save()
             status = 200
             res = Challenge.from_dict(db_challenge.to_dict())
