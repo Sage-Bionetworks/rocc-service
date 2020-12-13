@@ -26,6 +26,12 @@ servers:
 tags:
 - description: Operations about challenges
   name: Challenge
+- description: Operations about grants
+  name: Grant
+- description: Operations about organizations
+  name: Organization
+- description: Operations about tags
+  name: Tag
 paths:
   /challenges:
     get:
@@ -114,7 +120,7 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-  /challenges/{id}:
+  /challenges/{challengeId}:
     delete:
       description: Deletes the challenge specified
       operationId: delete_challenge
@@ -122,10 +128,10 @@ paths:
       - description: The ID of the challenge
         explode: false
         in: path
-        name: id
+        name: challengeId
         required: true
         schema:
-          type: string
+          $ref: '#/components/schemas/ChallengeId'
         style: simple
       responses:
         "200":
@@ -157,10 +163,10 @@ paths:
       - description: The ID of the challenge
         explode: false
         in: path
-        name: id
+        name: challengeId
         required: true
         schema:
-          type: string
+          $ref: '#/components/schemas/ChallengeId'
         style: simple
       responses:
         "200":
@@ -185,6 +191,495 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /grants:
+    get:
+      description: Returns the grants
+      operationId: list_grants
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfGrants'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get all grants
+      tags:
+      - Grant
+      x-openapi-router-controller: openapi_server.controllers.grant_controller
+    post:
+      description: Create a grant with the specified name
+      operationId: create_grant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Grant'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grant'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+      summary: Create a grant
+      tags:
+      - Grant
+      x-openapi-router-controller: openapi_server.controllers.grant_controller
+  /grants/{grantId}:
+    delete:
+      description: Deletes the grant specified
+      operationId: delete_grant
+      parameters:
+      - description: The ID of the grant that is being created
+        explode: false
+        in: path
+        name: grantId
+        required: true
+        schema:
+          $ref: '#/components/schemas/GrantId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grant'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Delete a grant
+      tags:
+      - Grant
+      x-openapi-router-controller: openapi_server.controllers.grant_controller
+    get:
+      description: Returns the grant specified
+      operationId: get_grant
+      parameters:
+      - description: The ID of the grant that is being created
+        explode: false
+        in: path
+        name: grantId
+        required: true
+        schema:
+          $ref: '#/components/schemas/GrantId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Grant'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get a grant
+      tags:
+      - Grant
+      x-openapi-router-controller: openapi_server.controllers.grant_controller
+  /organizations:
+    get:
+      description: Returns the organizations
+      operationId: list_organizations
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfOrganizations'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get all organizations
+      tags:
+      - Organization
+      x-openapi-router-controller: openapi_server.controllers.organization_controller
+    post:
+      description: Create an organization with the specified name
+      operationId: create_organization
+      parameters:
+      - description: The ID of the organization that is being created
+        explode: true
+        in: query
+        name: organizationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/OrganizationId'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+      summary: Create an organization
+      tags:
+      - Organization
+      x-openapi-router-controller: openapi_server.controllers.organization_controller
+  /organizations/{organizationId}:
+    delete:
+      description: Deletes the organization specified
+      operationId: delete_organization
+      parameters:
+      - description: The ID of the organization
+        explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/OrganizationId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Delete an organization
+      tags:
+      - Organization
+      x-openapi-router-controller: openapi_server.controllers.organization_controller
+    get:
+      description: Returns the organization specified
+      operationId: get_organization
+      parameters:
+      - description: The ID of the organization
+        explode: false
+        in: path
+        name: organizationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/OrganizationId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get an organization
+      tags:
+      - Organization
+      x-openapi-router-controller: openapi_server.controllers.organization_controller
+  /tags:
+    get:
+      description: Returns the tags
+      operationId: list_tags
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfTags'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get all tags
+      tags:
+      - Tag
+      x-openapi-router-controller: openapi_server.controllers.tag_controller
+    post:
+      description: Create a tag with the specified name
+      operationId: create_tag
+      parameters:
+      - description: The ID of the tag that is being created
+        explode: true
+        in: query
+        name: tagId
+        required: true
+        schema:
+          $ref: '#/components/schemas/TagId'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Tag'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+      summary: Create a tag
+      tags:
+      - Tag
+      x-openapi-router-controller: openapi_server.controllers.tag_controller
+  /tags/{tagId}:
+    delete:
+      description: Deletes the tag specified
+      operationId: delete_tag
+      parameters:
+      - description: The ID of the tag
+        explode: false
+        in: path
+        name: tagId
+        required: true
+        schema:
+          $ref: '#/components/schemas/TagId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Delete a tag
+      tags:
+      - Tag
+      x-openapi-router-controller: openapi_server.controllers.tag_controller
+    get:
+      description: Returns the tag specified
+      operationId: get_tag
+      parameters:
+      - description: The ID of the tag
+        explode: false
+        in: path
+        name: tagId
+        required: true
+        schema:
+          $ref: '#/components/schemas/TagId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Tag'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get a tag
+      tags:
+      - Tag
+      x-openapi-router-controller: openapi_server.controllers.tag_controller
 components:
   responses:
     Unauthorized:
@@ -222,27 +717,33 @@ components:
       - links
       - offset
       type: object
-    TagId:
-      description: The ID of a tag
+    ChallengeId:
+      description: The ID of the challenge
       example: 507f1f77bcf86cd799439011
+      type: string
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       type: string
     Challenge:
       description: A challenge
       example:
+        challengeId: 507f1f77bcf86cd799439011
         endDate: 2020-12-31T00:00:00.000+0000
         name: Awesome Challenge
-        id: 507f1f77bcf86cd799439011
         startDate: 2020-11-10T00:00:00.000+0000
         url: https://synapse.org/awesome-challenge
         status: open
         tags:
-        - 507f1f77bcf86cd799439011
-        - 507f1f77bcf86cd799439011
+        - awesome-tag
+        - awesome-tag
       properties:
-        id:
+        challengeId:
           description: The ID of the challenge
           example: 507f1f77bcf86cd799439011
-          readOnly: true
           type: string
         name:
           description: The challenge name
@@ -276,11 +777,6 @@ components:
           items:
             $ref: '#/components/schemas/TagId'
           type: array
-      required:
-      - endDate
-      - name
-      - startDate
-      - status
       type: object
     PageOfChallenges:
       allOf:
@@ -308,6 +804,101 @@ components:
       - status
       - title
       type: object
+    GrantId:
+      description: The ID of the grant
+      example: 507f1f77bcf86cd799439011
+      type: string
+    Grant:
+      description: Information about monetary resources for challenge
+      example:
+        grantId: 507f1f77bcf86cd799439011
+        name: name
+        description: description
+        url: https://openapi-generator.tech
+      properties:
+        grantId:
+          description: The ID of the grant
+          example: 507f1f77bcf86cd799439011
+          type: string
+        name:
+          description: The grant name
+          type: string
+        description:
+          description: A description of the grant
+          type: string
+        url:
+          description: The URL to the grant
+          format: uri
+          type: string
+      type: object
+    PageOfGrants:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfGrants_allOf'
+      description: A page of Grants
+      type: object
+    OrganizationId:
+      description: The ID of the organization
+      example: awesome-organization
+      maxLength: 60
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      type: string
+    Organization:
+      description: An organization
+      example:
+        organizationId: awesome-organization
+        name: name
+        shortName: shortName
+        url: https://openapi-generator.tech
+      properties:
+        organizationId:
+          description: The ID of the organization
+          example: awesome-organization
+          maxLength: 60
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+        name:
+          description: The organization name
+          type: string
+        shortName:
+          description: The organization short name
+          type: string
+        url:
+          description: The URL to the homepage of the organization
+          format: uri
+          type: string
+      type: object
+    PageOfOrganizations:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfOrganizations_allOf'
+      description: A page of Organizations
+      type: object
+    Tag:
+      description: A tag that can be assigned to a resource
+      example:
+        tagId: awesome-tag
+        description: description
+      properties:
+        tagId:
+          description: The ID of the tag
+          example: awesome-tag
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+        description:
+          description: A short description of the tag
+          type: string
+      type: object
+    PageOfTags:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfTags_allOf'
+      description: A page of Tags
+      type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
       properties:
@@ -322,5 +913,29 @@ components:
           description: An array of Challenges
           items:
             $ref: '#/components/schemas/Challenge'
+          type: array
+      type: object
+    PageOfGrants_allOf:
+      properties:
+        grants:
+          description: An array of Grants
+          items:
+            $ref: '#/components/schemas/Grant'
+          type: array
+      type: object
+    PageOfOrganizations_allOf:
+      properties:
+        organizations:
+          description: An array of Organizations
+          items:
+            $ref: '#/components/schemas/Organization'
+          type: array
+      type: object
+    PageOfTags_allOf:
+      properties:
+        tags:
+          description: An array of Tags
+          items:
+            $ref: '#/components/schemas/Tag'
           type: array
       type: object
