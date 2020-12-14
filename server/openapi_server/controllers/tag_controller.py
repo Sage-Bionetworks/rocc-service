@@ -40,7 +40,7 @@ def create_tag(tag_id, tag=None):  # noqa: E501
             res = Error("Internal error", status, str(error))
     else:
         status = 422
-        res = Error("The query parameter datasetId is not specified", status)
+        res = Error("Unable to process the request", status)
 
     return res, status
 

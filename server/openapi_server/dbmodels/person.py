@@ -1,12 +1,13 @@
-from mongoengine import Document, StringField, EmailField  # noqa: E501
+from mongoengine import Document, StringField, EmailField, ListField  # noqa: E501
 
 
 class Person(Document):
-    firstName = StringField(required=True, min_length=1)
+    firstName = StringField(min_length=1)
     lastName = StringField(min_length=1)
-    email = EmailField(required=True)
+    email = EmailField()
+    organizations = ListField(StringField())
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        # doc["id"] = str(self.pk)
+        doc["personId"] = str(self.pk)
         return doc

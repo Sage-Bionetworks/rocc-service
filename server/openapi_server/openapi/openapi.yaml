@@ -1003,7 +1003,7 @@ components:
       maxLength: 60
       minLength: 3
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      readOnly: true
+      # readOnly: true
       type: string
     Organization:
       description: An organization
@@ -1019,7 +1019,7 @@ components:
           maxLength: 60
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          readOnly: true
+          # readOnly: true
           type: string
         name:
           description: The organization name

@@ -1,10 +1,12 @@
 import connexion
-import six
+from mongoengine.errors import DoesNotExist, NotUniqueError
 
+from openapi_server.dbmodels.person import Person as DbPerson  # noqa: E501
+from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_persons import PageOfPersons  # noqa: E501
 from openapi_server.models.person import Person  # noqa: E501
-from openapi_server import util
+from openapi_server.config import Config
 
 
 def create_person(person=None):  # noqa: E501
@@ -12,14 +14,48 @@ def create_person(person=None):  # noqa: E501
 
     Create a person with the specified name # noqa: E501
 
-    :param person: 
+    :param person:
     :type person: dict | bytes
 
     :rtype: Person
     """
-    if connexion.request.is_json:
-        person = Person.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        if connexion.request.is_json:
+            person = Person.from_dict(connexion.request.get_json())
+            # Check that the organizations specified exist
+            for org_id in person.organizations:
+                try:
+                    DbOrganization.objects.get(organizationId=org_id)
+                except DoesNotExist:
+                    status = 404
+                    res = Error(
+                        'The organization {org_id} was not found'
+                        .format(org_id=org_id),
+                        status)
+            # create the person
+            if status is None:
+                try:
+                    db_person = DbPerson(
+                        firstName=person.first_name,
+                        lastName=person.last_name,
+                        email=person.email,
+                        organizations=person.organizations
+                    ).save()
+                    res = Person.from_dict(db_person.to_dict())
+                    status = 200
+                except NotUniqueError as error:
+                    status = 409
+                    res = Error("Conflict", status, str(error))
+        else:
+            status = 422
+            res = Error("Unable to process the request ", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def delete_person(person_id):  # noqa: E501
@@ -32,7 +68,21 @@ def delete_person(person_id):  # noqa: E501
 
     :rtype: Person
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_person = DbPerson.objects.get(id=person_id)
+        res = Person.from_dict(db_person.to_dict())
+        db_person.delete()
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def get_person(person_id):  # noqa: E501
@@ -45,7 +95,20 @@ def get_person(person_id):  # noqa: E501
 
     :rtype: Person
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_person = DbPerson.objects.get(id=person_id)
+        res = Person.from_dict(db_person.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def list_persons(limit=None, offset=None):  # noqa: E501
@@ -60,4 +123,28 @@ def list_persons(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfPersons
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_persons = DbPerson.objects.skip(offset).limit(limit)
+        persons = [Person.from_dict(d.to_dict()) for d in db_persons]
+        next_ = ""
+        if len(persons) == limit:
+            next_ = "%s/persons?limit=%s&offset=%s" % \
+                (Config().server_api_url, limit, offset + limit)
+        res = PageOfPersons(
+            offset=offset,
+            limit=limit,
+            links={
+                "next": next_
+            },
+            persons=persons)
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
