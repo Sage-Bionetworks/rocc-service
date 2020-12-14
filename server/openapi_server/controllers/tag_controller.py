@@ -1,12 +1,12 @@
 import connexion
 
-from mongoengine.errors import NotUniqueError
+from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.tag import Tag as DbTag  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
 from openapi_server.models.tag import Tag  # noqa: E501
-from openapi_server import util
+from openapi_server.config import Config
 
 
 def create_tag(tag_id, tag=None):  # noqa: E501
@@ -56,7 +56,21 @@ def delete_tag(tag_id):  # noqa: E501
 
     :rtype: Tag
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_tag = DbTag.objects.get(tagId=tag_id)
+        res = Tag.from_dict(db_tag.to_dict())
+        db_tag.delete()
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def get_tag(tag_id):  # noqa: E501
@@ -69,7 +83,20 @@ def get_tag(tag_id):  # noqa: E501
 
     :rtype: Tag
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_tag = DbTag.objects.get(tagId=tag_id)
+        res = Tag.from_dict(db_tag.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def list_tags(limit=None, offset=None):  # noqa: E501
@@ -84,4 +111,28 @@ def list_tags(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfTags
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_tags = DbTag.objects.skip(offset).limit(limit)
+        tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
+        next_ = ""
+        if len(tags) == limit:
+            next_ = "%s/tags?limit=%s&offset=%s" % \
+                (Config().server_api_url, limit, offset + limit)
+        res = PageOfTags(
+            offset=offset,
+            limit=limit,
+            links={
+                "next": next_
+            },
+            tags=tags)
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
