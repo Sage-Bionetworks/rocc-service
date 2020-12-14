@@ -30,6 +30,8 @@ tags:
   name: Grant
 - description: Operations about organizations
   name: Organization
+- description: Operations about persons
+  name: Person
 - description: Operations about tags
   name: Tag
 paths:
@@ -514,6 +516,163 @@ paths:
       tags:
       - Organization
       x-openapi-router-controller: openapi_server.controllers.organization_controller
+  /persons:
+    get:
+      description: Returns the persons
+      operationId: list_persons
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfPersons'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get all persons
+      tags:
+      - Person
+      x-openapi-router-controller: openapi_server.controllers.person_controller
+    post:
+      description: Create a person with the specified name
+      operationId: create_person
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Person'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+      summary: Create a person
+      tags:
+      - Person
+      x-openapi-router-controller: openapi_server.controllers.person_controller
+  /persons/{personId}:
+    delete:
+      description: Deletes the person specified
+      operationId: delete_person
+      parameters:
+      - description: The ID of the person
+        explode: false
+        in: path
+        name: personId
+        required: true
+        schema:
+          $ref: '#/components/schemas/PersonId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Delete a person
+      tags:
+      - Person
+      x-openapi-router-controller: openapi_server.controllers.person_controller
+    get:
+      description: Returns the person specified
+      operationId: get_person
+      parameters:
+      - description: The ID of the person
+        explode: false
+        in: path
+        name: personId
+        required: true
+        schema:
+          $ref: '#/components/schemas/PersonId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Person'
+          description: Success
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get a person
+      tags:
+      - Person
+      x-openapi-router-controller: openapi_server.controllers.person_controller
   /tags:
     get:
       description: Returns the tags
@@ -876,6 +1035,57 @@ components:
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
       type: object
+    PersonId:
+      description: The ID of the person
+      example: 507f1f77bcf86cd799439011
+      type: string
+    Email:
+      description: An email address
+      example: john.smith@example.com
+      format: email
+      type: string
+    Person:
+      description: A person
+      example:
+        firstName: John
+        lastName: Smith
+        organizations:
+        - awesome-organization
+        - awesome-organization
+        personId: ""
+        email: john.smith@example.com
+      properties:
+        personId:
+          allOf:
+          - $ref: '#/components/schemas/PersonId'
+          readOnly: true
+        firstName:
+          description: The first name of the person
+          example: John
+          minLength: 1
+          type: string
+        lastName:
+          description: The last name of the person
+          example: Smith
+          minLength: 1
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        organizations:
+          description: The organizations the person belongs to
+          items:
+            $ref: '#/components/schemas/OrganizationId'
+          type: array
+      type: object
+    PageOfPersons:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfPersons_allOf'
+      description: A page of Persons
+      type: object
     Tag:
       description: A tag that can be assigned to a resource
       example:
@@ -929,6 +1139,14 @@ components:
           description: An array of Organizations
           items:
             $ref: '#/components/schemas/Organization'
+          type: array
+      type: object
+    PageOfPersons_allOf:
+      properties:
+        persons:
+          description: An array of Persons
+          items:
+            $ref: '#/components/schemas/Person'
           type: array
       type: object
     PageOfTags_allOf:
