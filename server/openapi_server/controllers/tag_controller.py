@@ -1,6 +1,8 @@
 import connexion
-import six
 
+from mongoengine.errors import NotUniqueError
+
+from openapi_server.dbmodels.tag import Tag as DbTag  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
 from openapi_server.models.tag import Tag  # noqa: E501
@@ -14,14 +16,34 @@ def create_tag(tag_id, tag=None):  # noqa: E501
 
     :param tag_id: The ID of the tag that is being created
     :type tag_id: str
-    :param tag: 
+    :param tag:
     :type tag: dict | bytes
 
     :rtype: Tag
     """
-    if connexion.request.is_json:
-        tag = Tag.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    res = None
+    status = None
+    if tag_id is not None and connexion.request.is_json:
+        try:
+            tag = Tag.from_dict(connexion.request.get_json())
+            tag.tag_id = tag_id
+            db_tag = DbTag(
+                tagId=tag.tag_id,
+                description=tag.description
+            ).save()
+            res = Tag.from_dict(db_tag.to_dict())
+            status = 200
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 422
+        res = Error("The query parameter datasetId is not specified", status)
+
+    return res, status
 
 
 def delete_tag(tag_id):  # noqa: E501

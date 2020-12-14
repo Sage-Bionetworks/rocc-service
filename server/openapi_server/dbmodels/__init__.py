@@ -7,4 +7,4 @@ from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.person import Person
-from openapi_server.dbmodels.user import User
+from openapi_server.dbmodels.tag import Tag
