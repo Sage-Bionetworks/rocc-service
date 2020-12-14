@@ -1,5 +1,4 @@
 import connexion
-
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.tag import Tag as DbTag  # noqa: E501

@@ -1,10 +1,11 @@
 import connexion
-import six
+from mongoengine.errors import DoesNotExist, NotUniqueError
 
+from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.organization import Organization  # noqa: E501
 from openapi_server.models.page_of_organizations import PageOfOrganizations  # noqa: E501
-from openapi_server import util
+from openapi_server.config import Config
 
 
 def create_organization(organization_id, organization=None):  # noqa: E501
@@ -14,14 +15,36 @@ def create_organization(organization_id, organization=None):  # noqa: E501
 
     :param organization_id: The ID of the organization that is being created
     :type organization_id: str
-    :param organization: 
+    :param organization:
     :type organization: dict | bytes
 
     :rtype: Organization
     """
-    if connexion.request.is_json:
-        organization = Organization.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    res = None
+    status = None
+    if organization_id is not None and connexion.request.is_json:
+        try:
+            org = Organization.from_dict(connexion.request.get_json())
+            org.organization_id = organization_id
+            db_org = DbOrganization(
+                organizationId=org.organization_id,
+                name=org.name,
+                shortName=org.short_name,
+                url=org.url
+            ).save()
+            res = Organization.from_dict(db_org.to_dict())
+            status = 200
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 422
+        res = Error("The query parameter datasetId is not specified", status)
+
+    return res, status
 
 
 def delete_organization(organization_id):  # noqa: E501
@@ -34,7 +57,21 @@ def delete_organization(organization_id):  # noqa: E501
 
     :rtype: Organization
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        res = Organization.from_dict(db_org.to_dict())
+        db_org.delete()
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def get_organization(organization_id):  # noqa: E501
@@ -47,7 +84,20 @@ def get_organization(organization_id):  # noqa: E501
 
     :rtype: Organization
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        res = Organization.from_dict(db_org.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
 def list_organizations(limit=None, offset=None):  # noqa: E501
@@ -62,4 +112,28 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfOrganizations
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_orgs = DbOrganization.objects.skip(offset).limit(limit)
+        orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
+        next_ = ""
+        if len(orgs) == limit:
+            next_ = "%s/orgs?limit=%s&offset=%s" % \
+                (Config().server_api_url, limit, offset + limit)
+        res = PageOfOrganizations(
+            offset=offset,
+            limit=limit,
+            links={
+                "next": next_
+            },
+            organizations=orgs)
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
