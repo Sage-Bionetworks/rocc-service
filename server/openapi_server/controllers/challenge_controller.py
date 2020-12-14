@@ -12,7 +12,7 @@ def create_challenge(challenge):  # noqa: E501
 
     Adds a challenge # noqa: E501
 
-    :param challenge: 
+    :param challenge:
     :type challenge: dict | bytes
 
     :rtype: Challenge
