@@ -66,6 +66,7 @@ class Person(Model):
     def person_id(self):
         """Gets the person_id of this Person.
 
+        The ID of the person  # noqa: E501
 
         :return: The person_id of this Person.
         :rtype: str
@@ -76,6 +77,7 @@ class Person(Model):
     def person_id(self, person_id):
         """Sets the person_id of this Person.
 
+        The ID of the person  # noqa: E501
 
         :param person_id: The person_id of this Person.
         :type person_id: str
