@@ -22,26 +22,26 @@ def create_challenge(challenge):  # noqa: E501
     return 'do some magic!'
 
 
-def delete_challenge(id):  # noqa: E501
+def delete_challenge(challenge_id):  # noqa: E501
     """Delete a challenge
 
     Deletes the challenge specified # noqa: E501
 
-    :param id: The ID of the challenge
-    :type id: str
+    :param challenge_id: The ID of the challenge
+    :type challenge_id: str
 
     :rtype: Challenge
     """
     return 'do some magic!'
 
 
-def get_challenge(id):  # noqa: E501
+def get_challenge(challenge_id):  # noqa: E501
     """Get a challenge
 
     Returns the challenge specified # noqa: E501
 
-    :param id: The ID of the challenge
-    :type id: str
+    :param challenge_id: The ID of the challenge
+    :type challenge_id: str
 
     :rtype: Challenge
     """

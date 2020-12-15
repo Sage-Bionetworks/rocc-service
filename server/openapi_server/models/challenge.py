@@ -6,12 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.grant import Grant
-from openapi_server.models.person import Person
 from openapi_server import util
-
-from openapi_server.models.grant import Grant  # noqa: E501
-from openapi_server.models.person import Person  # noqa: E501
 
 
 class Challenge(Model):
@@ -20,11 +15,11 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None, grant=None, organizers=None):  # noqa: E501
+    def __init__(self, challenge_id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
-        :param id: The id of this Challenge.  # noqa: E501
-        :type id: str
+        :param challenge_id: The challenge_id of this Challenge.  # noqa: E501
+        :type challenge_id: str
         :param name: The name of this Challenge.  # noqa: E501
         :type name: str
         :param start_date: The start_date of this Challenge.  # noqa: E501
@@ -37,44 +32,34 @@ class Challenge(Model):
         :type status: str
         :param tags: The tags of this Challenge.  # noqa: E501
         :type tags: List[str]
-        :param grant: The grant of this Challenge.  # noqa: E501
-        :type grant: List[Grant]
-        :param organizers: The organizers of this Challenge.  # noqa: E501
-        :type organizers: List[Person]
         """
         self.openapi_types = {
-            'id': str,
+            'challenge_id': str,
             'name': str,
             'start_date': date,
             'end_date': date,
             'url': str,
             'status': str,
-            'tags': List[str],
-            'grant': List[Grant],
-            'organizers': List[Person]
+            'tags': List[str]
         }
 
         self.attribute_map = {
-            'id': 'id',
+            'challenge_id': 'challengeId',
             'name': 'name',
             'start_date': 'startDate',
             'end_date': 'endDate',
             'url': 'url',
             'status': 'status',
-            'tags': 'tags',
-            'grant': 'grant',
-            'organizers': 'organizers'
+            'tags': 'tags'
         }
 
-        self._id = id
+        self._challenge_id = challenge_id
         self._name = name
         self._start_date = start_date
         self._end_date = end_date
         self._url = url
         self._status = status
         self._tags = tags
-        self._grant = grant
-        self._organizers = organizers
 
     @classmethod
     def from_dict(cls, dikt) -> 'Challenge':
@@ -88,27 +73,27 @@ class Challenge(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
-        """Gets the id of this Challenge.
+    def challenge_id(self):
+        """Gets the challenge_id of this Challenge.
 
         The ID of the challenge  # noqa: E501
 
-        :return: The id of this Challenge.
+        :return: The challenge_id of this Challenge.
         :rtype: str
         """
-        return self._id
+        return self._challenge_id
 
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Challenge.
+    @challenge_id.setter
+    def challenge_id(self, challenge_id):
+        """Sets the challenge_id of this Challenge.
 
         The ID of the challenge  # noqa: E501
 
-        :param id: The id of this Challenge.
-        :type id: str
+        :param challenge_id: The challenge_id of this Challenge.
+        :type challenge_id: str
         """
 
-        self._id = id
+        self._challenge_id = challenge_id
 
     @property
     def name(self):
@@ -130,8 +115,6 @@ class Challenge(Model):
         :param name: The name of this Challenge.
         :type name: str
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -155,8 +138,6 @@ class Challenge(Model):
         :param start_date: The start_date of this Challenge.
         :type start_date: date
         """
-        if start_date is None:
-            raise ValueError("Invalid value for `start_date`, must not be `None`")  # noqa: E501
 
         self._start_date = start_date
 
@@ -180,8 +161,6 @@ class Challenge(Model):
         :param end_date: The end_date of this Challenge.
         :type end_date: date
         """
-        if end_date is None:
-            raise ValueError("Invalid value for `end_date`, must not be `None`")  # noqa: E501
 
         self._end_date = end_date
 
@@ -259,49 +238,3 @@ class Challenge(Model):
         """
 
         self._tags = tags
-
-    @property
-    def grant(self):
-        """Gets the grant of this Challenge.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :return: The grant of this Challenge.
-        :rtype: List[Grant]
-        """
-        return self._grant
-
-    @grant.setter
-    def grant(self, grant):
-        """Sets the grant of this Challenge.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :param grant: The grant of this Challenge.
-        :type grant: List[Grant]
-        """
-
-        self._grant = grant
-
-    @property
-    def organizers(self):
-        """Gets the organizers of this Challenge.
-
-        The organizers of the challenge  # noqa: E501
-
-        :return: The organizers of this Challenge.
-        :rtype: List[Person]
-        """
-        return self._organizers
-
-    @organizers.setter
-    def organizers(self, organizers):
-        """Sets the organizers of this Challenge.
-
-        The organizers of the challenge  # noqa: E501
-
-        :param organizers: The organizers of this Challenge.
-        :type organizers: List[Person]
-        """
-
-        self._organizers = organizers
