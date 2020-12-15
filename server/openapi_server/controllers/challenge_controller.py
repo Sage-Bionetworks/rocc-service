@@ -1,10 +1,10 @@
-import connexion
-import six
+# import connexion
+# import six
 
-from openapi_server.models.challenge import Challenge  # noqa: E501
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
-from openapi_server import util
+# from openapi_server.models.challenge import Challenge  # noqa: E501
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
+# from openapi_server import util
 
 
 def create_challenge(challenge):  # noqa: E501
@@ -17,8 +17,8 @@ def create_challenge(challenge):  # noqa: E501
 
     :rtype: Challenge
     """
-    if connexion.request.is_json:
-        challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
+    # if connexion.request.is_json:
+    #     challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

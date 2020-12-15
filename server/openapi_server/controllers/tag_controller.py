@@ -30,6 +30,7 @@ def create_tag(tag_id, tag=None):  # noqa: E501
                 tagId=tag.tag_id,
                 description=tag.description
             ).save()
+            print(f"TAG: {db_tag.to_dict()}")
             res = Tag.from_dict(db_tag.to_dict())
             status = 200
         except NotUniqueError as error:

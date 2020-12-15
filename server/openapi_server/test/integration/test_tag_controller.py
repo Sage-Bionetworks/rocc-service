@@ -4,16 +4,24 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from six import BytesIO
 
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
-from openapi_server.models.tag import Tag  # noqa: E501
-from openapi_server.test import BaseTestCase
+# from openapi_server.dbmodels.tag import Tag as DbTag # noqa: E501
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
+# from openapi_server.models.tag import Tag  # noqa: E501
+from openapi_server.test.integration import BaseTestCase
+from openapi_server.test.integration import util
 
 
 class TestTagController(BaseTestCase):
     """TagController integration test stubs"""
+
+    def setUp(self):
+        util.connect_db()
+        # DbTag.objects().delete()
+
+    def tearDown(self):
+        util.disconnect_db()
 
     def test_create_tag(self):
         """Test case for create_tag
@@ -21,11 +29,10 @@ class TestTagController(BaseTestCase):
         Create a tag
         """
         tag = {
-  "tagId" : "awesome-tag",
-  "description" : "description"
-}
-        query_string = [('tagId', 'tag_id_example')]
-        headers = { 
+            "description": "description"
+        }
+        query_string = [('tagId', 'awesome-tag')]
+        headers = {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
         }
@@ -39,12 +46,12 @@ class TestTagController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_delete_tag(self):
+    def delete_tag(self):
         """Test case for delete_tag
 
         Delete a tag
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
@@ -54,12 +61,12 @@ class TestTagController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_get_tag(self):
+    def get_tag(self):
         """Test case for get_tag
 
         Get a tag
         """
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(
@@ -69,14 +76,14 @@ class TestTagController(BaseTestCase):
         self.assert200(response,
                        'Response body is : ' + response.data.decode('utf-8'))
 
-    def test_list_tags(self):
+    def list_tags(self):
         """Test case for list_tags
 
         Get all tags
         """
         query_string = [('limit', 10),
                         ('offset', 0)]
-        headers = { 
+        headers = {
             'Accept': 'application/json',
         }
         response = self.client.open(

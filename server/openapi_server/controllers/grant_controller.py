@@ -1,10 +1,10 @@
-import connexion
-import six
+# import connexion
+# import six
 
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.grant import Grant  # noqa: E501
-from openapi_server.models.page_of_grants import PageOfGrants  # noqa: E501
-from openapi_server import util
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.grant import Grant  # noqa: E501
+# from openapi_server.models.page_of_grants import PageOfGrants  # noqa: E501
+# from openapi_server import util
 
 
 def create_grant(grant=None):  # noqa: E501
@@ -12,13 +12,13 @@ def create_grant(grant=None):  # noqa: E501
 
     Create a grant with the specified name # noqa: E501
 
-    :param grant: 
+    :param grant:
     :type grant: dict | bytes
 
     :rtype: Grant
     """
-    if connexion.request.is_json:
-        grant = Grant.from_dict(connexion.request.get_json())  # noqa: E501
+    # if connexion.request.is_json:
+    #     grant = Grant.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
