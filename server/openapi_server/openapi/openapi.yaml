@@ -746,6 +746,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tag'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -859,6 +865,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: The request conflicts with current state of the target resource
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Invalid request
   schemas:
     ResponsePageMetadata:
       description: A page of results
@@ -886,7 +898,6 @@ components:
       maxLength: 60
       minLength: 1
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      readOnly: true
       type: string
     Challenge:
       description: A challenge
@@ -1003,7 +1014,6 @@ components:
       maxLength: 60
       minLength: 3
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      # readOnly: true
       type: string
     Organization:
       description: An organization
@@ -1019,7 +1029,6 @@ components:
           maxLength: 60
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          # readOnly: true
           type: string
         name:
           description: The organization name
@@ -1041,7 +1050,6 @@ components:
     PersonId:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
-      readOnly: true
       type: string
     Email:
       description: An email address
@@ -1062,17 +1070,14 @@ components:
         personId:
           description: The ID of the person
           example: 507f1f77bcf86cd799439011
-          readOnly: true
           type: string
         firstName:
           description: The first name of the person
           example: John
-          minLength: 1
           type: string
         lastName:
           description: The last name of the person
           example: Smith
-          minLength: 1
           type: string
         email:
           description: An email address
@@ -1103,7 +1108,6 @@ components:
           maxLength: 60
           minLength: 1
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          readOnly: true
           type: string
         description:
           description: A short description of the tag

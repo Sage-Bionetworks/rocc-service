@@ -105,8 +105,6 @@ class Person(Model):
         :param first_name: The first_name of this Person.
         :type first_name: str
         """
-        if first_name is not None and len(first_name) < 1:
-            raise ValueError("Invalid value for `first_name`, length must be greater than or equal to `1`")  # noqa: E501
 
         self._first_name = first_name
 
@@ -130,8 +128,6 @@ class Person(Model):
         :param last_name: The last_name of this Person.
         :type last_name: str
         """
-        if last_name is not None and len(last_name) < 1:
-            raise ValueError("Invalid value for `last_name`, length must be greater than or equal to `1`")  # noqa: E501
 
         self._last_name = last_name
 
