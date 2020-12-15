@@ -22,7 +22,7 @@ def create_tag(tag_id, tag=None):  # noqa: E501
     """
     res = None
     status = None
-    if tag_id is not None and connexion.request.is_json:
+    if connexion.request.is_json:
         try:
             tag = Tag.from_dict(connexion.request.get_json())
             tag.tag_id = tag_id
@@ -39,8 +39,8 @@ def create_tag(tag_id, tag=None):  # noqa: E501
             status = 500
             res = Error("Internal error", status, str(error))
     else:
-        status = 422
-        res = Error("Unable to process the request", status)
+        status = 400
+        res = Error("Bad request", status)
 
     return res, status
 
