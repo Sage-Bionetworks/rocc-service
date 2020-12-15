@@ -1,5 +1,5 @@
 from bson import ObjectId
-from mongoengine import Document, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
+from mongoengine import Document, StringField, URLField, ObjectIdField  # , ReferenceField # noqa: E501
 
 # from openapi_server.dbmodels.organization import Organization
 
