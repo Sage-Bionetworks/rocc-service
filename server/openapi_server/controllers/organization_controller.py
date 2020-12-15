@@ -60,7 +60,7 @@ def delete_organization(organization_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        db_org = DbOrganization.objects(organizationId=organization_id).first()
         res = Organization.from_dict(db_org.to_dict())
         db_org.delete()
         status = 200
@@ -87,7 +87,7 @@ def get_organization(organization_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        db_org = DbOrganization.objects(organizationId=organization_id).first()
         res = Organization.from_dict(db_org.to_dict())
         status = 200
     except DoesNotExist:

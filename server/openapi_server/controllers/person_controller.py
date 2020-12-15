@@ -42,15 +42,15 @@ def create_person(person=None):  # noqa: E501
                         lastName=person.last_name,
                         email=person.email,
                         organizations=person.organizations
-                    ).save()
+                    ).save(force_insert=True)
                     res = Person.from_dict(db_person.to_dict())
                     status = 200
                 except NotUniqueError as error:
                     status = 409
                     res = Error("Conflict", status, str(error))
         else:
-            status = 422
-            res = Error("Unable to process the request ", status)
+            status = 400
+            res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -71,7 +71,7 @@ def delete_person(person_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_person = DbPerson.objects.get(id=person_id)
+        db_person = DbPerson.objects(personId=person_id).first()
         res = Person.from_dict(db_person.to_dict())
         db_person.delete()
         status = 200
@@ -98,7 +98,7 @@ def get_person(person_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_person = DbPerson.objects.get(id=person_id)
+        db_person = DbPerson.objects(personId=person_id).first()
         res = Person.from_dict(db_person.to_dict())
         status = 200
     except DoesNotExist:

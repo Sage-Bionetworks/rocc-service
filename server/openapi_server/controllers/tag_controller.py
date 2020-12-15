@@ -58,7 +58,7 @@ def delete_tag(tag_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_tag = DbTag.objects.get(tagId=tag_id)
+        db_tag = DbTag.objects(tagId=tag_id).first()
         res = Tag.from_dict(db_tag.to_dict())
         db_tag.delete()
         status = 200
@@ -85,7 +85,7 @@ def get_tag(tag_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_tag = DbTag.objects.get(tagId=tag_id)
+        db_tag = DbTag.objects(tagId=tag_id).first()
         res = Tag.from_dict(db_tag.to_dict())
         status = 200
     except DoesNotExist:
