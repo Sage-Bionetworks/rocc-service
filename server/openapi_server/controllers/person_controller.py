@@ -31,8 +31,7 @@ def create_person(person=None):  # noqa: E501
                 except DoesNotExist:
                     status = 404
                     res = Error(
-                        'The organization {org_id} was not found'
-                        .format(org_id=org_id),
+                        f'The organization {org_id} was not found',
                         status)
             # create the person
             if status is None:
