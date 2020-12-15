@@ -3,6 +3,7 @@ from mongoengine import connect, disconnect
 from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag
+from openapi_server.dbmodels.grant import Grant
 
 
 def connect_db():
@@ -32,4 +33,12 @@ def create_test_person(organizations):
         lastName="Person",
         email="awesome-person@example.org",
         organizations=organizations
+    ).save()
+
+
+def create_test_grant():
+    return Grant(
+        name="awesome-grant",
+        description="description",
+        url="https://report.nih.gov/"
     ).save()

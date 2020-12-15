@@ -1,15 +1,17 @@
-from mongoengine import Document, ReferenceField, StringField, LongField, URLField  # noqa: E501
+from bson import ObjectId
+from mongoengine import Document, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
 
-from openapi_server.dbmodels.organization import Organization
+# from openapi_server.dbmodels.organization import Organization
 
 
 class Grant(Document):
+    grantId = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True)
-    description = LongField()
-    sponsor = ReferenceField(Organization, required=True)
+    description = StringField()
+    # sponsor = ReferenceField(Organization, required=True)
     url = URLField()
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        # doc["id"] = str(self.pk)
+        doc["grantId"] = str(self.pk)
         return doc
