@@ -1,102 +1,57 @@
-import connexion
-from mongoengine.errors import DoesNotExist, NotUniqueError
+# import connexion
 # import six
 
-from openapi_server.config import Config
-from openapi_server.dbmodels.challenge import Challenge as DbChallenge
-from openapi_server.models.challenge import Challenge
-from openapi_server.models.error import Error
-from openapi_server.models.page_of_challenges import PageOfChallenges
+# from openapi_server.models.challenge import Challenge  # noqa: E501
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
 # from openapi_server import util
 
 
-def create_challenge(challenge=None):
+def create_challenge(challenge):  # noqa: E501
     """Add a challenge
 
-    Adds a challenge
+    Adds a challenge # noqa: E501
 
     :param challenge:
     :type challenge: dict | bytes
 
     :rtype: Challenge
     """
-    res = None
-    status = None
-    if connexion.request.is_json:
-        try:
-            challenge = Challenge.from_dict(connexion.request.get_json())
-            print(f"challenge: {challenge}")
-            db_challenge = DbChallenge(
-                name=challenge.name,
-                startDate=challenge.start_date.timestamp(),
-                endDate=challenge.end_date.timestamp(),
-                url=challenge.url,
-                status=challenge.status,
-                tags=challenge.tags,
-                # grant=challenge.grant,
-                # organizers=challenge.organizers
-            ).save()
-            status = 200
-            res = Challenge.from_dict(db_challenge.to_dict())
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    return res, status
+    # if connexion.request.is_json:
+    #     challenge = Challenge.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
-def delete_challenge(id):
+def delete_challenge(challenge_id):  # noqa: E501
     """Delete a challenge
 
-    Deletes the challenge specified
+    Deletes the challenge specified # noqa: E501
 
-    :param id: The ID of the challenge
-    :type id: str
+    :param challenge_id: The ID of the challenge
+    :type challenge_id: str
 
     :rtype: Challenge
     """
-    try:
-        DbChallenge.objects(id=id).delete()
-        res = f"Challenge {id} has been removed!"
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def get_challenge(id):
+def get_challenge(challenge_id):  # noqa: E501
     """Get a challenge
 
-    Returns the challenge specified
+    Returns the challenge specified # noqa: E501
 
-    :param id: The ID of the challenge
-    :type id: str
+    :param challenge_id: The ID of the challenge
+    :type challenge_id: str
 
     :rtype: Challenge
     """
-    try:
-        db_challenge = DbChallenge.objects(id=id)
-        res = Challenge.from_dict(db_challenge.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def list_challenges(limit=None, offset=None):
+def list_challenges(limit=None, offset=None):  # noqa: E501
     """List all the challenges
 
-    Returns all the challenges
+    Returns all the challenges # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -105,29 +60,4 @@ def list_challenges(limit=None, offset=None):
 
     :rtype: PageOfChallenges
     """
-    try:
-        db_challenges = DbChallenge.objects().skip(offset).limit(limit)
-        challenges = [Challenge.from_dict(c.to_dict()) for c in db_challenges]
-        next_ = ""
-        if len(challenges) == limit:
-            next_ = '{api_url}/challenges?limit={limit}&offset={offset}'.format(  # noqa: E501
-                api_url=Config().server_api_url,
-                limit=limit,
-                offset=offset + limit
-            )
-        res = PageOfChallenges(
-            offset=offset,
-            limit=limit,
-            links={
-                "next": next_
-            },
-            challenges=challenges
-        )
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'

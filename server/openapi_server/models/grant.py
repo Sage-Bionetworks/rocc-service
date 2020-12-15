@@ -6,7 +6,6 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.organization import Organization
 from openapi_server import util
 
 
@@ -16,40 +15,35 @@ class Grant(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, sponsor=None, url=None):  # noqa: E501
+    def __init__(self, grant_id=None, name=None, description=None, url=None):  # noqa: E501
         """Grant - a model defined in OpenAPI
 
-        :param id: The id of this Grant.  # noqa: E501
-        :type id: str
+        :param grant_id: The grant_id of this Grant.  # noqa: E501
+        :type grant_id: str
         :param name: The name of this Grant.  # noqa: E501
         :type name: str
         :param description: The description of this Grant.  # noqa: E501
         :type description: str
-        :param sponsor: The sponsor of this Grant.  # noqa: E501
-        :type sponsor: Organization
         :param url: The url of this Grant.  # noqa: E501
         :type url: str
         """
         self.openapi_types = {
-            'id': str,
+            'grant_id': str,
             'name': str,
             'description': str,
-            'sponsor': Organization,
             'url': str
         }
 
         self.attribute_map = {
-            'id': 'id',
+            'grant_id': 'grantId',
             'name': 'name',
             'description': 'description',
-            'sponsor': 'sponsor',
             'url': 'url'
         }
 
-        self._id = id
+        self._grant_id = grant_id
         self._name = name
         self._description = description
-        self._sponsor = sponsor
         self._url = url
 
     @classmethod
@@ -64,27 +58,27 @@ class Grant(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def id(self):
-        """Gets the id of this Grant.
+    def grant_id(self):
+        """Gets the grant_id of this Grant.
 
         The ID of the grant  # noqa: E501
 
-        :return: The id of this Grant.
+        :return: The grant_id of this Grant.
         :rtype: str
         """
-        return self._id
+        return self._grant_id
 
-    @id.setter
-    def id(self, id):
-        """Sets the id of this Grant.
+    @grant_id.setter
+    def grant_id(self, grant_id):
+        """Sets the grant_id of this Grant.
 
         The ID of the grant  # noqa: E501
 
-        :param id: The id of this Grant.
-        :type id: str
+        :param grant_id: The grant_id of this Grant.
+        :type grant_id: str
         """
 
-        self._id = id
+        self._grant_id = grant_id
 
     @property
     def name(self):
@@ -106,8 +100,6 @@ class Grant(Model):
         :param name: The name of this Grant.
         :type name: str
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -133,29 +125,6 @@ class Grant(Model):
         """
 
         self._description = description
-
-    @property
-    def sponsor(self):
-        """Gets the sponsor of this Grant.
-
-
-        :return: The sponsor of this Grant.
-        :rtype: Organization
-        """
-        return self._sponsor
-
-    @sponsor.setter
-    def sponsor(self, sponsor):
-        """Sets the sponsor of this Grant.
-
-
-        :param sponsor: The sponsor of this Grant.
-        :type sponsor: Organization
-        """
-        if sponsor is None:
-            raise ValueError("Invalid value for `sponsor`, must not be `None`")  # noqa: E501
-
-        self._sponsor = sponsor
 
     @property
     def url(self):

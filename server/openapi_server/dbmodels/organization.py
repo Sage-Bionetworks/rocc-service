@@ -2,10 +2,13 @@ from mongoengine import Document, StringField, URLField
 
 
 class Organization(Document):
-    name = StringField(required=True)
-    url = URLField(required=True)
+    organizationId = StringField(primary_key=True)
+    name = StringField(required=True, unique=True)
+    shortName = StringField()
+    url = URLField()
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        # doc["id"] = str(self.pk)
+        doc["organizationId"] = str(self.pk)
+        doc.pop('_id', None)
         return doc

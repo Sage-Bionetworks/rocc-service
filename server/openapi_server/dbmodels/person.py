@@ -1,12 +1,17 @@
-from mongoengine import Document, StringField, EmailField  # noqa: E501
+from bson import ObjectId
+from mongoengine import Document, StringField, EmailField, ListField, ObjectIdField, ReferenceField  # noqa: E501
+
+from openapi_server.dbmodels.organization import Organization
 
 
 class Person(Document):
-    firstName = StringField(required=True, min_length=1)
-    lastName = StringField(min_length=1)
-    email = EmailField(required=True)
+    personId = ObjectIdField(primary_key=True, default=ObjectId)
+    firstName = StringField(required=True)
+    lastName = StringField(required=True)
+    email = EmailField(unique=True)  # TODO Should be an index
+    organizations = ListField(ReferenceField(Organization))
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        # doc["id"] = str(self.pk)
+        doc["personId"] = str(self.pk)
         return doc
