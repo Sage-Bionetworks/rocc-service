@@ -22,7 +22,7 @@ def create_organization(organization_id, organization=None):  # noqa: E501
     """
     res = None
     status = None
-    if organization_id is not None and connexion.request.is_json:
+    if connexion.request.is_json:
         try:
             org = Organization.from_dict(connexion.request.get_json())
             org.organization_id = organization_id
@@ -31,7 +31,7 @@ def create_organization(organization_id, organization=None):  # noqa: E501
                 name=org.name,
                 shortName=org.short_name,
                 url=org.url
-            ).save()
+            ).save(force_insert=True)
             res = Organization.from_dict(db_org.to_dict())
             status = 200
         except NotUniqueError as error:
@@ -41,8 +41,8 @@ def create_organization(organization_id, organization=None):  # noqa: E501
             status = 500
             res = Error("Internal error", status, str(error))
     else:
-        status = 422
-        res = Error("Unable to process the request", status)
+        status = 400
+        res = Error("Bad request", status)
 
     return res, status
 

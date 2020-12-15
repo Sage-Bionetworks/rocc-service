@@ -1,13 +1,7 @@
 from mongoengine import connect, disconnect
 
+from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.tag import Tag
-# from openapi_server.dbmodels.annotation_source import AnnotationSource
-# from openapi_server.dbmodels.annotation_store import AnnotationStore
-# from openapi_server.dbmodels.dataset import Dataset
-# from openapi_server.dbmodels.fhir_store import FhirStore
-# from openapi_server.dbmodels.note import Note
-# from openapi_server.dbmodels.patient import Patient
-# from openapi_server.dbmodels.resource_source import ResourceSource
 
 
 def connect_db():
@@ -20,3 +14,12 @@ def disconnect_db():
 
 def create_test_tag(tag_id):
     return Tag(tagId=tag_id).save()
+
+
+def create_test_organization(organization_id):
+    return Organization(
+        organizationId=organization_id,
+        name="Sage Bionetworks",
+        shortName="Sage",
+        url="https://openapi-generator.tech"
+    ).save()
