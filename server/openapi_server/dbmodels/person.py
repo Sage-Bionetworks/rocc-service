@@ -8,7 +8,9 @@ class Person(Document):
     personId = ObjectIdField(primary_key=True, default=ObjectId)
     firstName = StringField(required=True)
     lastName = StringField(required=True)
-    email = EmailField(unique=True)  # TODO Should be an index
+    # TODO Decide whether email should be unique. If yes, email should be an
+    # index
+    email = EmailField()
     organizations = ListField(ReferenceField(Organization))
 
     def to_dict(self):
