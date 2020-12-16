@@ -65,33 +65,6 @@ jobs:
       run: |
         cd server
         coveralls
-    # - name: Test with tox
-    #   # env:
-    #   #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   #   COVERALLS_FLAG_NAME: ${PYTHON_ENV}
-    #   #   COVERALLS_PARALLEL: true
-    #     # COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-    #   run: |
-    #     cd server
-    #     tox
-    #   # tox -e ${PYTHON_ENV}-coveralls
-    # - name: Coveralls Parallel
-    #   uses: coverallsapp/github-action@master
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
-    #     flag-name: run-${{ env.PYTHON_ENV }}
-    #     parallel: true
-
-  # finish-coveralls:
-  #   needs: test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Coveralls Finished
-  #     uses: coverallsapp/github-action@master
-  #     with:
-  #       github-token: ${{ secrets.GITHUB_TOKEN }}
-  #       parallel-finished: true
-  #       base-path: server
 
   finish-coveralls:
     needs: test
