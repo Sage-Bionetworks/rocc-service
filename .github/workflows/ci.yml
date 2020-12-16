@@ -53,18 +53,10 @@ jobs:
     - name: Test with tox
       run: |
         cd server
+        PYTHON_ENV=$(echo py${{ matrix.python-version }} | tr -d .)
         COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
-          tox -e $(echo py${{ matrix.python-version }} | tr -d .)-coveralls
-      # COVERALLS_FLAG_NAME=${{ matrix.python-version }} \
-      #   COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} coveralls
-    # - name:
-    # - name: Coveralls
-    #   uses: coverallsapp/github-action@master
-    #   with:
-    #     github-token: ${{ secrets.GITHUB_TOKEN }}
-    #     flag-name: Integration
-    #     # path-to-lcov: ./server/.coverage
-
+          COVERALLS_FLAG_NAME=${PYTHON_ENV} \
+          tox -e ${PYTHON_ENV}-coveralls
 
   docker:
     needs: [test]
