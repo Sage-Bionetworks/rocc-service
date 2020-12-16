@@ -51,12 +51,26 @@ jobs:
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
     - name: Test with tox
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_FLAG_NAME: $(echo py${{ matrix.python-version }} | tr -d .)
+        COVERALLS_PARALLEL: true
       run: |
         cd server
-        PYTHON_ENV=$(echo py${{ matrix.python-version }} | tr -d .)
-        COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} \
-          COVERALLS_FLAG_NAME=${PYTHON_ENV} \
-          tox -e ${PYTHON_ENV}-coveralls
+        tox -e ${COVERALLS_FLAG_NAME}-coveralls
+
+  coveralls:
+    name: Finish Coveralls
+    needs: [test]
+    runs-on: ubuntu-latest
+    container: python:3-slim
+    steps:
+    - name: Finished
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --finish
 
   docker:
     needs: [test]
