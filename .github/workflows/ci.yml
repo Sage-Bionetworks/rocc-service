@@ -79,6 +79,7 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         parallel-finished: true
+        base-path: server
 
   # coveralls:
   #   name: Finish Coveralls
