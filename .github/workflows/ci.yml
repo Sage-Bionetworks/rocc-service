@@ -63,19 +63,28 @@ jobs:
         cd server
         tox -e ${PYTHON_ENV}-coveralls
 
-  coveralls:
-    name: Finish Coveralls
-    needs: [test]
+  finish-coveralls:
+    needs: test
     runs-on: ubuntu-latest
-    container: python:3-slim
     steps:
-    - name: Finished
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-      run: |
-        pip3 install --upgrade coveralls
-        COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls --finish
+    - name: Coveralls Finished
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.github_token }}
+        parallel-finished: true
+
+  # coveralls:
+  #   name: Finish Coveralls
+  #   needs: [test]
+  #   runs-on: ubuntu-latest
+  #   container: python:3-slim
+  #   steps:
+  #   - name: Finished
+  #     env:
+  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #     run: |
+  #       pip3 install --upgrade coveralls
+  #       COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} coveralls --finish
 
   docker:
     needs: [test]
