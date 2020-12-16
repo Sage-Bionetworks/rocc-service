@@ -16,3 +16,4 @@ from openapi_server.models.person import Person
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks
 from openapi_server.models.tag import Tag
+from openapi_server.models.tag_filter import TagFilter

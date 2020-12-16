@@ -699,6 +699,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: Object that describes how to filter the results
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/TagFilter'
+        style: deepObject
       responses:
         "200":
           content:
@@ -1103,6 +1111,13 @@ components:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfPersons_allOf'
       description: A page of Persons
+      type: object
+    TagFilter:
+      description: Object that describes how to filter Tags
+      properties:
+        tagId:
+          description: Keep tags whose tagId starts with this term
+          type: string
       type: object
     Tag:
       description: A tag that can be assigned to a resource
