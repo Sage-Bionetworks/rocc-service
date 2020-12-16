@@ -75,7 +75,7 @@ jobs:
         COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         pip3 install --upgrade coveralls
-        COVERALLS_REPO_TOKEN coveralls --finish
+        COVERALLS_REPO_TOKEN=${COVERALLS_REPO_TOKEN} coveralls --finish
 
   docker:
     needs: [test]
