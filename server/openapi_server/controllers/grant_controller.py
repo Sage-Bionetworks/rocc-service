@@ -11,7 +11,7 @@ from openapi_server.config import Config
 def create_grant(grant=None):
     """Create a grant
 
-    Create a grant with the specified name # noqa: E501
+    Create a grant with the specified name
 
     :param grant:
     :type grant: dict | bytes
@@ -82,8 +82,8 @@ def get_grant(grant_id):
     res = None
     status = None
     try:
-        db_org = DbGrant.objects(grantId=grant_id).first()
-        res = Grant.from_dict(db_org.to_dict())
+        db_grant = DbGrant.objects(grantId=grant_id).first()
+        res = Grant.from_dict(db_grant.to_dict())
         status = 200
     except DoesNotExist:
         status = 404
