@@ -50,18 +50,25 @@ jobs:
         cd server
         python -m pip install --upgrade pip
         pip install tox tox-gh-actions
-    - name: Prepare
+    - name: Prepare environment
       run: |
         echo "PYTHON_ENV=$(echo py${{ matrix.python-version }} | tr -d .)" >> $GITHUB_ENV
     - name: Test with tox
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: ${PYTHON_ENV}
-        COVERALLS_PARALLEL: true
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      # env:
+      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   COVERALLS_FLAG_NAME: ${PYTHON_ENV}
+      #   COVERALLS_PARALLEL: true
+        # COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         cd server
-        tox -e ${PYTHON_ENV}-coveralls
+        tox
+      # tox -e ${PYTHON_ENV}-coveralls
+    - name: Coveralls Parallel
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        flag-name: run-${{ env.PYTHON_ENV }}
+        parallel: true
 
   finish-coveralls:
     needs: test
@@ -70,7 +77,7 @@ jobs:
     - name: Coveralls Finished
       uses: coverallsapp/github-action@master
       with:
-        github-token: ${{ secrets.github_token }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         parallel-finished: true
 
   # coveralls:
