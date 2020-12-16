@@ -54,45 +54,56 @@ jobs:
       run: |
         echo "PYTHON_ENV=$(echo py${{ matrix.python-version }} | tr -d .)" >> $GITHUB_ENV
     - name: Test with tox
-      # env:
-      #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   COVERALLS_FLAG_NAME: ${PYTHON_ENV}
-      #   COVERALLS_PARALLEL: true
-        # COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
         cd server
         tox
-      # tox -e ${PYTHON_ENV}-coveralls
     - name: Coveralls Parallel
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        flag-name: run-${{ env.PYTHON_ENV }}
-        parallel: true
+      env:
+        COVERALLS_FLAG_NAME: ${PYTHON_ENV}
+        COVERALLS_PARALLEL: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls
+    # - name: Test with tox
+    #   # env:
+    #   #   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   #   COVERALLS_FLAG_NAME: ${PYTHON_ENV}
+    #   #   COVERALLS_PARALLEL: true
+    #     # COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+    #   run: |
+    #     cd server
+    #     tox
+    #   # tox -e ${PYTHON_ENV}-coveralls
+    # - name: Coveralls Parallel
+    #   uses: coverallsapp/github-action@master
+    #   with:
+    #     github-token: ${{ secrets.GITHUB_TOKEN }}
+    #     flag-name: run-${{ env.PYTHON_ENV }}
+    #     parallel: true
+
+  # finish-coveralls:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Coveralls Finished
+  #     uses: coverallsapp/github-action@master
+  #     with:
+  #       github-token: ${{ secrets.GITHUB_TOKEN }}
+  #       parallel-finished: true
+  #       base-path: server
 
   finish-coveralls:
     needs: test
     runs-on: ubuntu-latest
+    container: python:3-slim
     steps:
-    - name: Coveralls Finished
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        parallel-finished: true
-        base-path: server
-
-  # coveralls:
-  #   name: Finish Coveralls
-  #   needs: [test]
-  #   runs-on: ubuntu-latest
-  #   container: python:3-slim
-  #   steps:
-  #   - name: Finished
-  #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #     run: |
-  #       pip3 install --upgrade coveralls
-  #       COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_REPO_TOKEN }} coveralls --finish
+    - name: Finish Coveralls Parallel
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --finish
 
   docker:
     needs: [test]
