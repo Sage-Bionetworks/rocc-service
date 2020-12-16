@@ -1,9 +1,10 @@
 # Registry of Open Community Challenge (ROCC)
 
-[![GitHub Release](https://img.shields.io/github/release/Sage-Bionetworks/rocc-portal.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-portal/releases)
-[![GitHub CI](https://img.shields.io/github/workflow/status/Sage-Bionetworks/rocc-portal/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-portal)
-[![GitHub License](https://img.shields.io/github/license/Sage-Bionetworks/rocc-portal.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-portal)
+[![GitHub Release](https://img.shields.io/github/release/Sage-Bionetworks/rocc.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc/releases)
+[![GitHub CI](https://img.shields.io/github/workflow/status/Sage-Bionetworks/rocc/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc)
+[![GitHub License](https://img.shields.io/github/license/Sage-Bionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc)
 [![Docker Pulls](https://img.shields.io/docker/pulls/sagebionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/repository/docker/sagebionetworks/rocc)
+[![Coverage Status](https://img.shields.io/coveralls/github/Sage-Bionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=coverage&logo=Coveralls)](https://coveralls.io/github/Sage-Bionetworks/rocc?branch=)
 
 API service and web client of the Registry of Open Community Challenges
 
