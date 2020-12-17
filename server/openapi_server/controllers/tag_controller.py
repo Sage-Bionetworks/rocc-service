@@ -1,5 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.tag import Tag as DbTag  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
@@ -98,7 +99,7 @@ def get_tag(tag_id):  # noqa: E501
     return res, status
 
 
-def list_tags(limit=None, offset=None):  # noqa: E501
+def list_tags(limit=None, offset=None, filter_=None):  # noqa: E501
     """Get all tags
 
     Returns the tags # noqa: E501
@@ -113,7 +114,9 @@ def list_tags(limit=None, offset=None):  # noqa: E501
     res = None
     status = None
     try:
-        db_tags = DbTag.objects.skip(offset).limit(limit)
+        tag_id_q = Q(tagId__istartswith=filter_['tagId']) \
+            if 'tagId' in filter_ else Q()
+        db_tags = DbTag.objects(tag_id_q).skip(offset).limit(limit)
         tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
         next_ = ""
         if len(tags) == limit:
