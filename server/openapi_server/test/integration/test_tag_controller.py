@@ -6,6 +6,7 @@ import unittest
 from flask import json
 
 from openapi_server.dbmodels.tag import Tag as DbTag
+from openapi_server.models.tag_filter import TagFilter
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
 
@@ -82,7 +83,10 @@ class TestTagController(BaseTestCase):
         """
         util.create_test_tag("awesome-tag")
         query_string = [('limit', 10),
-                        ('offset', 0)]
+                        ('offset', 0),
+                        ('filter_', {
+                            # 'tagId': 'a'  # TODO Fix this issue
+                        })]
         headers = {
             'Accept': 'application/json',
         }
