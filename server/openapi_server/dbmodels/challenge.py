@@ -3,7 +3,7 @@ from mongoengine import Document, DateTimeField, ListField, ReferenceField, Stri
 
 from openapi_server.dbmodels.tag import Tag
 # from openapi_server.dbmodels.grant import Grant
-# from openapi_server.dbmodels.person import Person
+from openapi_server.dbmodels.person import Person
 
 
 class Challenge(Document):
@@ -17,7 +17,7 @@ class Challenge(Document):
         choices=["open", "upcoming", "closed"]
     )
     # grant = ListField(ReferenceField(Grant))
-    # organizers = ListField(ReferenceField(Person))
+    organizers = ListField(ReferenceField(Person))
     tags = ListField(ReferenceField(Tag))
 
     def to_dict(self):

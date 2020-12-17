@@ -7,6 +7,7 @@ import unittest
 from flask import json
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
@@ -18,6 +19,7 @@ class TestChallengeController(BaseTestCase):
     def setUp(self):
         util.connect_db()
         DbChallenge.objects().delete()
+        DbPerson.objects().delete()
         DbTag.objects().delete()
         util.create_test_tag("awesome-tag")
 
@@ -29,12 +31,15 @@ class TestChallengeController(BaseTestCase):
 
         Create a challenge
         """
+        person = util.create_test_person(
+            organizations=['awesome-organization']).to_dict()
         challenge = {
             "name": "awesome-challenge",
             "startDate": date(2020, 12, 1),
             "endDate": date(2020, 12, 31),
             "url": "https://www.synapse.org/",
             "status": "upcoming",
+            "organizers": [person.get("personId")],
             "tags": ["awesome-tag"]
         }
         headers = {
@@ -55,7 +60,10 @@ class TestChallengeController(BaseTestCase):
 
         Delete a challenge
         """
+        person = util.create_test_person(
+            organizations=['awesome-organization'])
         challenge = util.create_test_challenge(
+            organizers=[person.personId],
             tags=["awesome-tag"])
         headers = {
             "Accept": "application/json",
@@ -73,7 +81,10 @@ class TestChallengeController(BaseTestCase):
 
         Get a challenge
         """
+        person = util.create_test_person(
+            organizations=['awesome-organization'])
         challenge = util.create_test_challenge(
+            organizers=[person.personId],
             tags=["awesome-tag"])
         headers = {
             "Accept": "application/json",
@@ -91,7 +102,10 @@ class TestChallengeController(BaseTestCase):
 
         Get all challenges
         """
+        person = util.create_test_person(
+            organizations=['awesome-organization'])
         util.create_test_challenge(
+            organizers=[person.personId],
             tags=["awesome-tag"])
         query_string = [("limit", 10),
                         ("offset", 0)]

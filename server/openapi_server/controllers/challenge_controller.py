@@ -2,6 +2,7 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.challenge import Challenge
 from openapi_server.models.error import Error
@@ -24,12 +25,24 @@ def create_challenge(challenge=None):
     try:
         if connexion.request.is_json:
             challenge = Challenge.from_dict(connexion.request.get_json())
+
+            # Check for tags not currently in our db.
             for tag_id in challenge.tags:
                 try:
                     DbTag.objects.get(tagId=tag_id)
                 except DoesNotExist:
                     status = 404
                     res = Error(f"The tag, {tag_id}, was not found", status)
+
+            # Check for persons not currently in our db.
+            for person_id in challenge.organizers:
+                try:
+                    DbPerson.objects.get(personId=person_id)
+                except DoesNotExist:
+                    status = 404
+                    res = Error(f"Person {person_id} not found", status)
+
+            # Add challenge if all tags and persons are found and valid.
             if status is None:
                 try:
                     db_challenge = DbChallenge(
@@ -39,7 +52,7 @@ def create_challenge(challenge=None):
                         url=challenge.url,
                         status=challenge.status,
                         # grant=challenge.grant,
-                        # organizers=challenge.organizers,
+                        organizers=challenge.organizers,
                         tags=challenge.tags
                     ).save(force_insert=True)
                     res = Challenge.from_dict(db_challenge.to_dict())
