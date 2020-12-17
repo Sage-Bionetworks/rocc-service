@@ -89,7 +89,10 @@ class TestPersonController(BaseTestCase):
         util.create_test_person(
             organizations=['awesome-organization'])
         query_string = [('limit', 10),
-                        ('offset', 0)]
+                        ('offset', 0),
+                        ('filter_', {
+                            # 'tagId': 'a'  # TODO Fix this issue
+                        })]
         headers = {
             'Accept': 'application/json',
         }

@@ -1,7 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from mongoengine.queryset.visitor import Q
-import traceback
 
 from openapi_server.dbmodels.person import Person as DbPerson  # noqa: E501
 from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
@@ -133,13 +132,10 @@ def list_persons(limit=None, offset=None, filter_=None):  # noqa: E501
             if 'lastName' in filter_ else Q()
         email_q = Q(email=filter_['email']) \
             if 'email' in filter_ else Q()
-
-        # a = filter_
-        print(f"filter: {filter_}")
-
-
+        organization_q = Q(organizations__contains=filter_['organization']) \
+            if 'organization' in filter_ else Q()
         db_persons = DbPerson.objects(
-           first_name_q & last_name_q & email_q
+           first_name_q & last_name_q & email_q & organization_q
         ).skip(offset).limit(limit)
         persons = [Person.from_dict(d.to_dict()) for d in db_persons]
         next_ = ""
@@ -158,7 +154,6 @@ def list_persons(limit=None, offset=None, filter_=None):  # noqa: E501
         status = 404
         res = Error("The specified resource was not found", status)
     except Exception as error:
-        # print(f"{error}")
         status = 500
         res = Error("Internal error", status, str(error))
 
