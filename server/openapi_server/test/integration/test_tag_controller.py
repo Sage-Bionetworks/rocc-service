@@ -6,7 +6,7 @@ import unittest
 from flask import json
 
 from openapi_server.dbmodels.tag import Tag as DbTag
-from openapi_server.models.tag_filter import TagFilter
+# from openapi_server.models.tag_filter import TagFilter
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
 
