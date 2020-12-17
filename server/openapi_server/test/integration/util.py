@@ -47,12 +47,13 @@ def create_test_grant():
     ).save()
 
 
-def create_test_challenge(tags):
+def create_test_challenge(organizers, tags):
     return Challenge(
         name="awesome-challenge",
         startDate=date(2020, 12, 1),
         endDate=date(2020, 12, 31),
         url="https://www.synapse.org/",
         status="upcoming",
+        organizers=organizers,
         tags=tags
     ).save()

@@ -15,7 +15,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, challenge_id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None):  # noqa: E501
+    def __init__(self, challenge_id=None, name=None, start_date=None, end_date=None, url=None, status=None, tags=None, organizers=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param challenge_id: The challenge_id of this Challenge.  # noqa: E501
@@ -32,6 +32,8 @@ class Challenge(Model):
         :type status: str
         :param tags: The tags of this Challenge.  # noqa: E501
         :type tags: List[str]
+        :param organizers: The organizers of this Challenge.  # noqa: E501
+        :type organizers: List[str]
         """
         self.openapi_types = {
             'challenge_id': str,
@@ -40,7 +42,8 @@ class Challenge(Model):
             'end_date': date,
             'url': str,
             'status': str,
-            'tags': List[str]
+            'tags': List[str],
+            'organizers': List[str]
         }
 
         self.attribute_map = {
@@ -50,7 +53,8 @@ class Challenge(Model):
             'end_date': 'endDate',
             'url': 'url',
             'status': 'status',
-            'tags': 'tags'
+            'tags': 'tags',
+            'organizers': 'organizers'
         }
 
         self._challenge_id = challenge_id
@@ -60,6 +64,7 @@ class Challenge(Model):
         self._url = url
         self._status = status
         self._tags = tags
+        self._organizers = organizers
 
     @classmethod
     def from_dict(cls, dikt) -> 'Challenge':
@@ -238,3 +243,26 @@ class Challenge(Model):
         """
 
         self._tags = tags
+
+    @property
+    def organizers(self):
+        """Gets the organizers of this Challenge.
+
+        The organizers of the challenge  # noqa: E501
+
+        :return: The organizers of this Challenge.
+        :rtype: List[str]
+        """
+        return self._organizers
+
+    @organizers.setter
+    def organizers(self, organizers):
+        """Sets the organizers of this Challenge.
+
+        The organizers of the challenge  # noqa: E501
+
+        :param organizers: The organizers of this Challenge.
+        :type organizers: List[str]
+        """
+
+        self._organizers = organizers

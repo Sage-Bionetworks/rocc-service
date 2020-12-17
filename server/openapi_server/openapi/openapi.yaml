@@ -899,12 +899,19 @@ components:
       minLength: 1
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       type: string
+    PersonId:
+      description: The ID of the person
+      example: 507f1f77bcf86cd799439011
+      type: string
     Challenge:
       description: A challenge
       example:
         challengeId: 507f1f77bcf86cd799439011
         endDate: 2020-12-31T00:00:00.000+0000
         name: Awesome Challenge
+        organizers:
+        - 507f1f77bcf86cd799439011
+        - 507f1f77bcf86cd799439011
         startDate: 2020-11-10T00:00:00.000+0000
         url: https://synapse.org/awesome-challenge
         status: open
@@ -947,6 +954,11 @@ components:
           description: The tags associated to the challenge
           items:
             $ref: '#/components/schemas/TagId'
+          type: array
+        organizers:
+          description: The organizers of the challenge
+          items:
+            $ref: '#/components/schemas/PersonId'
           type: array
       type: object
     PageOfChallenges:
@@ -1047,10 +1059,6 @@ components:
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
       type: object
-    PersonId:
-      description: The ID of the person
-      example: 507f1f77bcf86cd799439011
-      type: string
     Email:
       description: An email address
       example: john.smith@example.com
