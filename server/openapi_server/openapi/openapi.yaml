@@ -61,6 +61,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: Object that describes how to filter the results
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/ChallengeFilter'
+        style: deepObject
       responses:
         "200":
           content:
@@ -542,6 +550,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: Object that describes how to filter the results
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/PersonFilter'
+        style: deepObject
       responses:
         "200":
           content:
@@ -880,6 +896,44 @@ components:
             $ref: '#/components/schemas/Error'
       description: Invalid request
   schemas:
+    ChallengeStatus:
+      description: The status of challenge
+      enum:
+      - upcoming
+      - open
+      - closed
+      example: open
+      type: string
+    PersonId:
+      description: The ID of the person
+      example: 507f1f77bcf86cd799439011
+      type: string
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      type: string
+    ChallengeFilter:
+      description: An object that describes how to filter Challenges
+      properties:
+        name:
+          description: Keep the challenges whose name include this term
+          type: string
+        status:
+          $ref: '#/components/schemas/ChallengeStatus'
+        organizers:
+          description: Keep the challenges organized by these persons
+          items:
+            $ref: '#/components/schemas/PersonId'
+          type: array
+        tags:
+          description: Keep the challenges associated to these tags
+          items:
+            $ref: '#/components/schemas/TagId'
+          type: array
+      type: object
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -898,17 +952,6 @@ components:
       type: object
     ChallengeId:
       description: The ID of the challenge
-      example: 507f1f77bcf86cd799439011
-      type: string
-    TagId:
-      description: The ID of the tag
-      example: awesome-tag
-      maxLength: 60
-      minLength: 1
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      type: string
-    PersonId:
-      description: The ID of the person
       example: 507f1f77bcf86cd799439011
       type: string
     Challenge:
@@ -951,13 +994,7 @@ components:
           format: uri
           type: string
         status:
-          description: The status of challenge
-          enum:
-          - upcoming
-          - open
-          - closed
-          example: open
-          type: string
+          $ref: '#/components/schemas/ChallengeStatus'
         tags:
           description: The tags associated to the challenge
           items:
@@ -1067,6 +1104,24 @@ components:
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
       type: object
+    PersonFilter:
+      description: An object that describes how to filter Persons
+      properties:
+        firstName:
+          description: Keep the persons whose first name starts with this term
+          type: string
+        lastName:
+          description: Keep the persons whose last name starts with this term
+          type: string
+        email:
+          description: Keep the persons whose email matches this term
+          type: string
+        organizations:
+          description: Keep the persons who belong to these organizations
+          items:
+            $ref: '#/components/schemas/OrganizationId'
+          type: array
+      type: object
     Email:
       description: An email address
       example: john.smith@example.com
@@ -1113,10 +1168,10 @@ components:
       description: A page of Persons
       type: object
     TagFilter:
-      description: Object that describes how to filter Tags
+      description: An object that describes how to filter Tags
       properties:
         tagId:
-          description: Keep tags whose tagId starts with this term
+          description: Keep the tags whose tagId starts with this term
           type: string
       type: object
     Tag:
