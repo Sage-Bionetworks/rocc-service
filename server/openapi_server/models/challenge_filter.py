@@ -17,36 +17,36 @@ class ChallengeFilter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, status=None, organizers=None, tags=None):  # noqa: E501
+    def __init__(self, name=None, status=None, organizer=None, tag=None):  # noqa: E501
         """ChallengeFilter - a model defined in OpenAPI
 
         :param name: The name of this ChallengeFilter.  # noqa: E501
         :type name: str
         :param status: The status of this ChallengeFilter.  # noqa: E501
         :type status: ChallengeStatus
-        :param organizers: The organizers of this ChallengeFilter.  # noqa: E501
-        :type organizers: List[str]
-        :param tags: The tags of this ChallengeFilter.  # noqa: E501
-        :type tags: List[str]
+        :param organizer: The organizer of this ChallengeFilter.  # noqa: E501
+        :type organizer: str
+        :param tag: The tag of this ChallengeFilter.  # noqa: E501
+        :type tag: str
         """
         self.openapi_types = {
             'name': str,
             'status': ChallengeStatus,
-            'organizers': List[str],
-            'tags': List[str]
+            'organizer': str,
+            'tag': str
         }
 
         self.attribute_map = {
             'name': 'name',
             'status': 'status',
-            'organizers': 'organizers',
-            'tags': 'tags'
+            'organizer': 'organizer',
+            'tag': 'tag'
         }
 
         self._name = name
         self._status = status
-        self._organizers = organizers
-        self._tags = tags
+        self._organizer = organizer
+        self._tag = tag
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeFilter':
@@ -104,47 +104,47 @@ class ChallengeFilter(Model):
         self._status = status
 
     @property
-    def organizers(self):
-        """Gets the organizers of this ChallengeFilter.
+    def organizer(self):
+        """Gets the organizer of this ChallengeFilter.
 
-        Keep the challenges organized by these persons  # noqa: E501
+        Keep the challenges organized by this person  # noqa: E501
 
-        :return: The organizers of this ChallengeFilter.
-        :rtype: List[str]
+        :return: The organizer of this ChallengeFilter.
+        :rtype: str
         """
-        return self._organizers
+        return self._organizer
 
-    @organizers.setter
-    def organizers(self, organizers):
-        """Sets the organizers of this ChallengeFilter.
+    @organizer.setter
+    def organizer(self, organizer):
+        """Sets the organizer of this ChallengeFilter.
 
-        Keep the challenges organized by these persons  # noqa: E501
+        Keep the challenges organized by this person  # noqa: E501
 
-        :param organizers: The organizers of this ChallengeFilter.
-        :type organizers: List[str]
+        :param organizer: The organizer of this ChallengeFilter.
+        :type organizer: str
         """
 
-        self._organizers = organizers
+        self._organizer = organizer
 
     @property
-    def tags(self):
-        """Gets the tags of this ChallengeFilter.
+    def tag(self):
+        """Gets the tag of this ChallengeFilter.
 
-        Keep the challenges associated to these tags  # noqa: E501
+        Keep the challenges associated to this tag  # noqa: E501
 
-        :return: The tags of this ChallengeFilter.
-        :rtype: List[str]
+        :return: The tag of this ChallengeFilter.
+        :rtype: str
         """
-        return self._tags
+        return self._tag
 
-    @tags.setter
-    def tags(self, tags):
-        """Sets the tags of this ChallengeFilter.
+    @tag.setter
+    def tag(self, tag):
+        """Sets the tag of this ChallengeFilter.
 
-        Keep the challenges associated to these tags  # noqa: E501
+        Keep the challenges associated to this tag  # noqa: E501
 
-        :param tags: The tags of this ChallengeFilter.
-        :type tags: List[str]
+        :param tag: The tag of this ChallengeFilter.
+        :type tag: str
         """
 
-        self._tags = tags
+        self._tag = tag

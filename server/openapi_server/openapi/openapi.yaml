@@ -76,6 +76,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfChallenges'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -108,6 +114,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -565,6 +577,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfPersons'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -596,6 +614,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Person'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -871,6 +895,12 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.tag_controller
 components:
   responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Invalid request
     Unauthorized:
       content:
         application/json:
@@ -889,12 +919,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: The request conflicts with current state of the target resource
-    BadRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid request
   schemas:
     ChallengeStatus:
       description: The status of challenge
@@ -904,17 +928,6 @@ components:
       - closed
       example: open
       type: string
-    PersonId:
-      description: The ID of the person
-      example: 507f1f77bcf86cd799439011
-      type: string
-    TagId:
-      description: The ID of the tag
-      example: awesome-tag
-      maxLength: 60
-      minLength: 1
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      type: string
     ChallengeFilter:
       description: An object that describes how to filter Challenges
       properties:
@@ -923,16 +936,12 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/ChallengeStatus'
-        organizers:
-          description: Keep the challenges organized by these persons
-          items:
-            $ref: '#/components/schemas/PersonId'
-          type: array
-        tags:
-          description: Keep the challenges associated to these tags
-          items:
-            $ref: '#/components/schemas/TagId'
-          type: array
+        organizer:
+          description: Keep the challenges organized by this person
+          type: string
+        tag:
+          description: Keep the challenges associated to this tag
+          type: string
       type: object
     ResponsePageMetadata:
       description: A page of results
@@ -952,6 +961,17 @@ components:
       type: object
     ChallengeId:
       description: The ID of the challenge
+      example: 507f1f77bcf86cd799439011
+      type: string
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      type: string
+    PersonId:
+      description: The ID of the person
       example: 507f1f77bcf86cd799439011
       type: string
     Challenge:
@@ -1116,11 +1136,9 @@ components:
         email:
           description: Keep the persons whose email matches this term
           type: string
-        organizations:
-          description: Keep the persons who belong to these organizations
-          items:
-            $ref: '#/components/schemas/OrganizationId'
-          type: array
+        organization:
+          description: Keep the persons who belong to this organization
+          type: string
       type: object
     Email:
       description: An email address

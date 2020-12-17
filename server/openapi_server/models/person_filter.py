@@ -15,7 +15,7 @@ class PersonFilter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, first_name=None, last_name=None, email=None, organizations=None):  # noqa: E501
+    def __init__(self, first_name=None, last_name=None, email=None, organization=None):  # noqa: E501
         """PersonFilter - a model defined in OpenAPI
 
         :param first_name: The first_name of this PersonFilter.  # noqa: E501
@@ -24,27 +24,27 @@ class PersonFilter(Model):
         :type last_name: str
         :param email: The email of this PersonFilter.  # noqa: E501
         :type email: str
-        :param organizations: The organizations of this PersonFilter.  # noqa: E501
-        :type organizations: List[str]
+        :param organization: The organization of this PersonFilter.  # noqa: E501
+        :type organization: str
         """
         self.openapi_types = {
             'first_name': str,
             'last_name': str,
             'email': str,
-            'organizations': List[str]
+            'organization': str
         }
 
         self.attribute_map = {
             'first_name': 'firstName',
             'last_name': 'lastName',
             'email': 'email',
-            'organizations': 'organizations'
+            'organization': 'organization'
         }
 
         self._first_name = first_name
         self._last_name = last_name
         self._email = email
-        self._organizations = organizations
+        self._organization = organization
 
     @classmethod
     def from_dict(cls, dikt) -> 'PersonFilter':
@@ -127,24 +127,24 @@ class PersonFilter(Model):
         self._email = email
 
     @property
-    def organizations(self):
-        """Gets the organizations of this PersonFilter.
+    def organization(self):
+        """Gets the organization of this PersonFilter.
 
-        Keep the persons who belong to these organizations  # noqa: E501
+        Keep the persons who belong to this organization  # noqa: E501
 
-        :return: The organizations of this PersonFilter.
-        :rtype: List[str]
+        :return: The organization of this PersonFilter.
+        :rtype: str
         """
-        return self._organizations
+        return self._organization
 
-    @organizations.setter
-    def organizations(self, organizations):
-        """Sets the organizations of this PersonFilter.
+    @organization.setter
+    def organization(self, organization):
+        """Sets the organization of this PersonFilter.
 
-        Keep the persons who belong to these organizations  # noqa: E501
+        Keep the persons who belong to this organization  # noqa: E501
 
-        :param organizations: The organizations of this PersonFilter.
-        :type organizations: List[str]
+        :param organization: The organization of this PersonFilter.
+        :type organization: str
         """
 
-        self._organizations = organizations
+        self._organization = organization
