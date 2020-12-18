@@ -974,8 +974,13 @@ components:
       description: The results of a challenge
       example:
         nFinalSubmissions: 0
+        nSubmissions: 0
         nRegisteredParticipants: 0
       properties:
+        nSubmissions:
+          description: Number of total submissions throughout the challenge
+          minimum: 0
+          type: integer
         nFinalSubmissions:
           description: Number of final submissions
           minimum: 0
@@ -1000,6 +1005,7 @@ components:
         - 507f1f77bcf86cd799439011
         challengeResults:
           nFinalSubmissions: 0
+          nSubmissions: 0
           nRegisteredParticipants: 0
         startDate: 2020-11-10T00:00:00.000+0000
         url: https://synapse.org/awesome-challenge
