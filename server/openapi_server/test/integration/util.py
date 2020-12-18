@@ -55,5 +55,6 @@ def create_test_challenge(organizers, tags):
         url="https://www.synapse.org/",
         status="upcoming",
         organizers=organizers,
-        tags=tags
+        tags=tags,
+        challengeResults={}
     ).save()

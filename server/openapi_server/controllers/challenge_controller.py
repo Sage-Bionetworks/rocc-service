@@ -1,8 +1,10 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from mongoengine.queryset.visitor import Q
+import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.challenge import Challenge
@@ -55,7 +57,11 @@ def create_challenge(challenge=None):
                         # grant=challenge.grant,
                         organizers=challenge.organizers,
                         tags=challenge.tags,
-                        challengeResults=challenge.challenge_results
+                        challengeResults=DbChallengeResults(
+                            nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
+                            nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
+                            nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
+                        )
                     ).save(force_insert=True)
                     res = Challenge.from_dict(db_challenge.to_dict())
                     status = 200
@@ -66,6 +72,7 @@ def create_challenge(challenge=None):
             status = 400
             res = Error("Bad request", status)
     except Exception as error:
+        traceback.print_exc()
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
