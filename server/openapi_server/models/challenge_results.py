@@ -15,24 +15,29 @@ class ChallengeResults(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, n_final_submissions=None, n_registered_participants=None):  # noqa: E501
+    def __init__(self, n_submissions=None, n_final_submissions=None, n_registered_participants=None):  # noqa: E501
         """ChallengeResults - a model defined in OpenAPI
 
+        :param n_submissions: The n_submissions of this ChallengeResults.  # noqa: E501
+        :type n_submissions: int
         :param n_final_submissions: The n_final_submissions of this ChallengeResults.  # noqa: E501
         :type n_final_submissions: int
         :param n_registered_participants: The n_registered_participants of this ChallengeResults.  # noqa: E501
         :type n_registered_participants: int
         """
         self.openapi_types = {
+            'n_submissions': int,
             'n_final_submissions': int,
             'n_registered_participants': int
         }
 
         self.attribute_map = {
+            'n_submissions': 'nSubmissions',
             'n_final_submissions': 'nFinalSubmissions',
             'n_registered_participants': 'nRegisteredParticipants'
         }
 
+        self._n_submissions = n_submissions
         self._n_final_submissions = n_final_submissions
         self._n_registered_participants = n_registered_participants
 
@@ -46,6 +51,31 @@ class ChallengeResults(Model):
         :rtype: ChallengeResults
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def n_submissions(self):
+        """Gets the n_submissions of this ChallengeResults.
+
+        Number of total submissions throughout the challenge  # noqa: E501
+
+        :return: The n_submissions of this ChallengeResults.
+        :rtype: int
+        """
+        return self._n_submissions
+
+    @n_submissions.setter
+    def n_submissions(self, n_submissions):
+        """Sets the n_submissions of this ChallengeResults.
+
+        Number of total submissions throughout the challenge  # noqa: E501
+
+        :param n_submissions: The n_submissions of this ChallengeResults.
+        :type n_submissions: int
+        """
+        if n_submissions is not None and n_submissions < 0:  # noqa: E501
+            raise ValueError("Invalid value for `n_submissions`, must be a value greater than or equal to `0`")  # noqa: E501
+
+        self._n_submissions = n_submissions
 
     @property
     def n_final_submissions(self):
