@@ -89,7 +89,10 @@ class TestPersonController(BaseTestCase):
         util.create_test_person(
             organizations=['awesome-organization'])
         query_string = [('limit', 10),
-                        ('offset', 0)]
+                        ('offset', 0),
+                        ('filter_', {
+                            # TODO: add values to increase coverage
+                        })]
         headers = {
             'Accept': 'application/json',
         }

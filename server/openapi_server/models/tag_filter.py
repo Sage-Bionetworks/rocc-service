@@ -46,7 +46,7 @@ class TagFilter(Model):
     def tag_id(self):
         """Gets the tag_id of this TagFilter.
 
-        Keep tags whose tagId starts with this term  # noqa: E501
+        Keep the tags whose tagId starts with this term  # noqa: E501
 
         :return: The tag_id of this TagFilter.
         :rtype: str
@@ -57,7 +57,7 @@ class TagFilter(Model):
     def tag_id(self, tag_id):
         """Sets the tag_id of this TagFilter.
 
-        Keep tags whose tagId starts with this term  # noqa: E501
+        Keep the tags whose tagId starts with this term  # noqa: E501
 
         :param tag_id: The tag_id of this TagFilter.
         :type tag_id: str

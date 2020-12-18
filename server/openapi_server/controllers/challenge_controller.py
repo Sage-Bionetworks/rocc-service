@@ -1,5 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.person import Person as DbPerson
@@ -120,7 +121,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None):
+def list_challenges(limit=None, offset=None, filter_=None):
     """List all the challenges
 
     Returns all the challenges
@@ -135,7 +136,17 @@ def list_challenges(limit=None, offset=None):
     res = None
     status = None
     try:
-        db_challenges = DbChallenge.objects.skip(offset).limit(limit)
+        name_q = Q(name__istartswith=filter_['name']) \
+            if 'name' in filter_ else Q()
+        status_q = Q(status=filter_['status']) \
+            if 'status' in filter_ else Q()
+        organizer_q = Q(organizers__contains=filter_['organizer']) \
+            if 'organizer' in filter_ else Q()
+        tag_q = Q(tags__contains=filter_['tag']) \
+            if 'tag' in filter_ else Q()
+        db_challenges = DbChallenge.objects(
+            name_q & status_q & organizer_q & tag_q
+        ).skip(offset).limit(limit)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:

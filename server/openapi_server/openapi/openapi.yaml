@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.1
+  version: 0.1.2
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -61,6 +61,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: Object that describes how to filter the results
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/ChallengeFilter'
+        style: deepObject
       responses:
         "200":
           content:
@@ -68,6 +76,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfChallenges'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -100,6 +114,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -542,6 +562,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: Object that describes how to filter the results
+        explode: true
+        in: query
+        name: filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/PersonFilter'
+        style: deepObject
       responses:
         "200":
           content:
@@ -549,6 +577,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfPersons'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -580,6 +614,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Person'
           description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
         "403":
           content:
             application/json:
@@ -855,6 +895,12 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.tag_controller
 components:
   responses:
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Invalid request
     Unauthorized:
       content:
         application/json:
@@ -873,13 +919,30 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: The request conflicts with current state of the target resource
-    BadRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid request
   schemas:
+    ChallengeStatus:
+      description: The status of challenge
+      enum:
+      - upcoming
+      - open
+      - closed
+      example: open
+      type: string
+    ChallengeFilter:
+      description: An object that describes how to filter Challenges
+      properties:
+        name:
+          description: Keep the challenges whose name include this term
+          type: string
+        status:
+          $ref: '#/components/schemas/ChallengeStatus'
+        organizer:
+          description: Keep the challenges organized by this person
+          type: string
+        tag:
+          description: Keep the challenges associated to this tag
+          type: string
+      type: object
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -951,13 +1014,7 @@ components:
           format: uri
           type: string
         status:
-          description: The status of challenge
-          enum:
-          - upcoming
-          - open
-          - closed
-          example: open
-          type: string
+          $ref: '#/components/schemas/ChallengeStatus'
         tags:
           description: The tags associated to the challenge
           items:
@@ -1067,6 +1124,22 @@ components:
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
       type: object
+    PersonFilter:
+      description: An object that describes how to filter Persons
+      properties:
+        firstName:
+          description: Keep the persons whose first name starts with this term
+          type: string
+        lastName:
+          description: Keep the persons whose last name starts with this term
+          type: string
+        email:
+          description: Keep the persons whose email matches this term
+          type: string
+        organization:
+          description: Keep the persons who belong to this organization
+          type: string
+      type: object
     Email:
       description: An email address
       example: john.smith@example.com
@@ -1113,10 +1186,10 @@ components:
       description: A page of Persons
       type: object
     TagFilter:
-      description: Object that describes how to filter Tags
+      description: An object that describes how to filter Tags
       properties:
         tagId:
-          description: Keep tags whose tagId starts with this term
+          description: Keep the tags whose tagId starts with this term
           type: string
       type: object
     Tag:
