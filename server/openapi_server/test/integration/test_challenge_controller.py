@@ -40,7 +40,8 @@ class TestChallengeController(BaseTestCase):
             "url": "https://www.synapse.org/",
             "status": "upcoming",
             "organizers": [person.get("personId")],
-            "tags": ["awesome-tag"]
+            "tags": ["awesome-tag"],
+            "challengeResults": {}
         }
         headers = {
             "Accept": "application/json",
