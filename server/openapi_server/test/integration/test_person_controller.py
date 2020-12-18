@@ -91,7 +91,7 @@ class TestPersonController(BaseTestCase):
         query_string = [('limit', 10),
                         ('offset', 0),
                         ('filter_', {
-                            # 'tagId': 'a'  # TODO Fix this issue
+                            # TODO: add values to increase coverage
                         })]
         headers = {
             'Accept': 'application/json',
