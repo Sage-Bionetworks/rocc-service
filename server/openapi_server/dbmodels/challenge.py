@@ -1,6 +1,7 @@
 from bson import ObjectId
-from mongoengine import Document, DateTimeField, ListField, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
+from mongoengine import Document, DateTimeField, EmbeddedDocumentField, ListField, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
 
+from openapi_server.dbmodels.challenge_results import ChallengeResults
 from openapi_server.dbmodels.tag import Tag
 # from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.person import Person
@@ -19,6 +20,7 @@ class Challenge(Document):
     # grant = ListField(ReferenceField(Grant))
     organizers = ListField(ReferenceField(Person))
     tags = ListField(ReferenceField(Tag))
+    challengeResults = EmbeddedDocumentField(ChallengeResults)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()

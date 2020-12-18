@@ -970,6 +970,21 @@ components:
       minLength: 1
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       type: string
+    ChallengeResults:
+      description: The results of a challenge
+      example:
+        nFinalSubmissions: 0
+        nRegisteredParticipants: 0
+      properties:
+        nFinalSubmissions:
+          description: Number of final submissions
+          minimum: 0
+          type: integer
+        nRegisteredParticipants:
+          description: Number of registered participants
+          minimum: 0
+          type: integer
+      type: object
     PersonId:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
@@ -983,6 +998,9 @@ components:
         organizers:
         - 507f1f77bcf86cd799439011
         - 507f1f77bcf86cd799439011
+        challengeResults:
+          nFinalSubmissions: 0
+          nRegisteredParticipants: 0
         startDate: 2020-11-10T00:00:00.000+0000
         url: https://synapse.org/awesome-challenge
         status: open
@@ -1020,6 +1038,8 @@ components:
           items:
             $ref: '#/components/schemas/TagId'
           type: array
+        challengeResults:
+          $ref: '#/components/schemas/ChallengeResults'
         organizers:
           description: The organizers of the challenge
           items:

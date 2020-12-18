@@ -5,6 +5,7 @@ from __future__ import absolute_import
 # import models into model package
 from openapi_server.models.challenge import Challenge
 from openapi_server.models.challenge_filter import ChallengeFilter
+from openapi_server.models.challenge_results import ChallengeResults
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
