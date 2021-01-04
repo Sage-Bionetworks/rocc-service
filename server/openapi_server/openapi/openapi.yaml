@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.2
+  version: 0.1.3
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
