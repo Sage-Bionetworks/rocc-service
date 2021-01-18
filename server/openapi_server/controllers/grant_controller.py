@@ -29,8 +29,8 @@ def create_grant(grant=None):
                 # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
-            res = Grant.from_dict(db_grant.to_dict())
-            status = 200
+            res = Grant.from_dict(db_grant.to_dict()).grant_id
+            status = 201
         except NotUniqueError as error:
             status = 409
             res = Error("Conflict", status, str(error))
@@ -56,9 +56,8 @@ def delete_grant(grant_id):
     res = None
     status = None
     try:
-        db_grant = DbGrant.objects(grantId=grant_id).first()
-        res = Grant.from_dict(db_grant.to_dict())
-        db_grant.delete()
+        DbGrant.objects(grantId=grant_id).first().delete()
+        res = {}
         status = 200
     except DoesNotExist:
         status = 404
@@ -121,11 +120,12 @@ def list_grants(limit=None, offset=None):
             links={
                 "next": next_
             },
+            total_results=len(grants),
             grants=grants)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

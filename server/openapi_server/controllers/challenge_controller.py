@@ -63,8 +63,8 @@ def create_challenge(challenge=None):
                             nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
                         )
                     ).save(force_insert=True)
-                    res = Challenge.from_dict(db_challenge.to_dict())
-                    status = 200
+                    res = Challenge.from_dict(db_challenge.to_dict()).challenge_id  # noqa: E501
+                    status = 201
                 except NotUniqueError as error:
                     status = 409
                     res = Error("Conflict", status, str(error))
@@ -91,9 +91,8 @@ def delete_challenge(challenge_id):
     res = None
     status = None
     try:
-        db_challenge = DbChallenge.objects(challengeId=challenge_id).first()
-        res = Challenge.from_dict(db_challenge.to_dict())
-        db_challenge.delete()
+        DbChallenge.objects(challengeId=challenge_id).first().delete()
+        res = {}
         status = 200
     except DoesNotExist:
         status = 404
@@ -166,11 +165,12 @@ def list_challenges(limit=None, offset=None, filter_=None):
             links={
                 "next": next_
             },
+            total_results=len(challenges),
             challenges=challenges)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

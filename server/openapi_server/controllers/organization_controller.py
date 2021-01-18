@@ -8,10 +8,10 @@ from openapi_server.models.page_of_organizations import PageOfOrganizations  # n
 from openapi_server.config import Config
 
 
-def create_organization(organization_id, organization=None):  # noqa: E501
+def create_organization(organization_id, organization=None):
     """Create an organization
 
-    Create an organization with the specified name # noqa: E501
+    Create an organization with the specified name
 
     :param organization_id: The ID of the organization that is being created
     :type organization_id: str
@@ -32,8 +32,8 @@ def create_organization(organization_id, organization=None):  # noqa: E501
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            res = Organization.from_dict(db_org.to_dict())
-            status = 200
+            res = Organization.from_dict(db_org.to_dict()).organization_id
+            status = 201
         except NotUniqueError as error:
             status = 409
             res = Error("Conflict", status, str(error))
@@ -47,10 +47,10 @@ def create_organization(organization_id, organization=None):  # noqa: E501
     return res, status
 
 
-def delete_organization(organization_id):  # noqa: E501
+def delete_organization(organization_id):
     """Delete an organization
 
-    Deletes the organization specified # noqa: E501
+    Deletes the organization specified
 
     :param organization_id: The ID of the organization
     :type organization_id: str
@@ -60,9 +60,8 @@ def delete_organization(organization_id):  # noqa: E501
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects(organizationId=organization_id).first()
-        res = Organization.from_dict(db_org.to_dict())
-        db_org.delete()
+        DbOrganization.objects(organizationId=organization_id).first().delete()  # noqa: E501
+        res = {}
         status = 200
     except DoesNotExist:
         status = 404
@@ -74,10 +73,10 @@ def delete_organization(organization_id):  # noqa: E501
     return res, status
 
 
-def get_organization(organization_id):  # noqa: E501
+def get_organization(organization_id):
     """Get an organization
 
-    Returns the organization specified # noqa: E501
+    Returns the organization specified
 
     :param organization_id: The ID of the organization
     :type organization_id: str
@@ -100,10 +99,10 @@ def get_organization(organization_id):  # noqa: E501
     return res, status
 
 
-def list_organizations(limit=None, offset=None):  # noqa: E501
+def list_organizations(limit=None, offset=None):
     """Get all organizations
 
-    Returns the organizations # noqa: E501
+    Returns the organizations
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -127,11 +126,12 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
             links={
                 "next": next_
             },
+            total_results=len(orgs),
             organizations=orgs)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
