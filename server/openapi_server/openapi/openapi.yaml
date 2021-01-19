@@ -100,7 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChallengeId'
+                $ref: '#/components/schemas/ChallengeCreateResponse'
           description: Success
         "400":
           content:
@@ -108,12 +108,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
         "409":
           content:
             application/json:
@@ -142,8 +136,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-          description: Successful operation
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
         "404":
           content:
             application/json:
@@ -239,7 +233,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GrantId'
+                $ref: '#/components/schemas/GrantCreateResponse'
           description: Success
         "400":
           content:
@@ -275,8 +269,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-          description: Successful operation
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
         "404":
           content:
             application/json:
@@ -381,7 +375,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OrganizationId'
+                $ref: '#/components/schemas/OrganizationCreateResponse'
           description: Success
         "400":
           content:
@@ -417,8 +411,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-          description: Successful operation
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
         "404":
           content:
             application/json:
@@ -522,7 +516,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PersonId'
+                $ref: '#/components/schemas/PersonCreateResponse'
           description: Success
         "400":
           content:
@@ -530,12 +524,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
         "409":
           content:
             application/json:
@@ -564,8 +552,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-          description: Successful operation
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
         "404":
           content:
             application/json:
@@ -678,7 +666,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TagId'
+                $ref: '#/components/schemas/TagCreateResponse'
           description: Success
         "400":
           content:
@@ -714,8 +702,8 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-          description: Successful operation
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
         "404":
           content:
             application/json:
@@ -763,27 +751,21 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Invalid request
-    NotFound:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: The specified resource was not found
     Conflict:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
       description: The request conflicts with current state of the target resource
-    Success:
+    NotFound:
       content:
         application/json:
           schema:
-            type: object
-      description: Successful operation
+            $ref: '#/components/schemas/Error'
+      description: The specified resource was not found
   schemas:
     ChallengeStatus:
-      description: The status of challenge
+      description: The status of the challenge
       enum:
       - upcoming
       - open
@@ -987,6 +969,19 @@ components:
       - startDate
       - status
       type: object
+    ChallengeCreateResponse:
+      description: A challenge ID
+      example:
+        challengeId: 507f1f77bcf86cd799439011
+      properties:
+        challengeId:
+          description: The ID of the challenge
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
+    EmptyObject:
+      description: Empty JSON object
+      type: object
     GrantId:
       description: The ID of the grant
       example: 507f1f77bcf86cd799439011
@@ -1040,6 +1035,16 @@ components:
       required:
       - name
       type: object
+    GrantCreateResponse:
+      description: A grant ID
+      example:
+        grantId: 507f1f77bcf86cd799439011
+      properties:
+        grantId:
+          description: The ID of the grant
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
     OrganizationId:
       description: The ID of the organization
       example: awesome-organization
@@ -1082,6 +1087,19 @@ components:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
+      type: object
+    OrganizationCreateResponse:
+      description: An organization ID
+      example:
+        organizationId: awesome-organization
+      properties:
+        organizationId:
+          description: The ID of the organization
+          example: awesome-organization
+          maxLength: 60
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
       type: object
     PersonFilter:
       description: An object that describes how to filter Persons
@@ -1171,6 +1189,16 @@ components:
       - firstName
       - lastName
       type: object
+    PersonCreateResponse:
+      description: A person ID
+      example:
+        personId: 507f1f77bcf86cd799439011
+      properties:
+        personId:
+          description: The ID of the person
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
     TagFilter:
       description: An object that describes how to filter Tags
       properties:
@@ -1202,6 +1230,19 @@ components:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfTags_allOf'
       description: A page of Tags
+      type: object
+    TagCreateResponse:
+      description: A tag ID
+      example:
+        tagId: awesome-tag
+      properties:
+        tagId:
+          description: The ID of the tag
+          example: awesome-tag
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
       type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
