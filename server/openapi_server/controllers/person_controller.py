@@ -7,16 +7,14 @@ from openapi_server.dbmodels.organization import Organization as DbOrganization 
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_persons import PageOfPersons
 from openapi_server.models.person import Person
+from openapi_server.models.person_create_response import PersonCreateResponse
 from openapi_server.config import Config
 
 
-def create_person(person=None):
+def create_person():
     """Create a person
 
     Create a person with the specified name
-
-    :param person:
-    :type person: dict | bytes
 
     :rtype: Person
     """
@@ -34,20 +32,21 @@ def create_person(person=None):
                     res = Error(
                         f'The organization {org_id} was not found',
                         status)
+                    return res, status
+    
             # create the person
-            if status is None:
-                try:
-                    db_person = DbPerson(
-                        firstName=person.first_name,
-                        lastName=person.last_name,
-                        email=person.email,
-                        organizations=person.organizations
-                    ).save(force_insert=True)
-                    res = Person.from_dict(db_person.to_dict()).person_id
-                    status = 201
-                except NotUniqueError as error:
-                    status = 409
-                    res = Error("Conflict", status, str(error))
+            try:
+                db_person = DbPerson(
+                    firstName=person.first_name,
+                    lastName=person.last_name,
+                    email=person.email,
+                    organizations=person.organizations
+                ).save(force_insert=True)
+                res = PersonCreateResponse.from_dict(db_person.to_dict())
+                status = 201
+            except NotUniqueError as error:
+                status = 409
+                res = Error("Conflict", status, str(error))
         else:
             status = 400
             res = Error("Bad request", status)

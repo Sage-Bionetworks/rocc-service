@@ -4,17 +4,15 @@ from mongoengine.errors import DoesNotExist, NotUniqueError
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
+from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.page_of_grants import PageOfGrants
 from openapi_server.config import Config
 
 
-def create_grant(grant=None):
+def create_grant():
     """Create a grant
 
     Create a grant with the specified name
-
-    :param grant:
-    :type grant: dict | bytes
 
     :rtype: Grant
     """
@@ -29,7 +27,7 @@ def create_grant(grant=None):
                 # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
-            res = Grant.from_dict(db_grant.to_dict()).grant_id
+            res = GrantCreateResponse.from_dict(db_grant.to_dict())
             status = 201
         except NotUniqueError as error:
             status = 409

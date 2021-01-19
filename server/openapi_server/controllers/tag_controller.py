@@ -6,18 +6,17 @@ from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_tags import PageOfTags
 from openapi_server.models.tag import Tag
+from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.config import Config
 
 
-def create_tag(tag_id, tag=None):
+def create_tag(tag_id):
     """Create a tag
 
     Create a tag with the specified name
 
     :param tag_id: The ID of the tag that is being created
     :type tag_id: str
-    :param tag:
-    :type tag: dict | bytes
 
     :rtype: Tag
     """
@@ -31,7 +30,7 @@ def create_tag(tag_id, tag=None):
                 tagId=tag.tag_id,
                 description=tag.description
             ).save(force_insert=True)
-            res = Tag.from_dict(db_tag.to_dict()).tag_id
+            res = TagCreateResponse.from_dict(db_tag.to_dict())
             status = 201
         except NotUniqueError as error:
             status = 409

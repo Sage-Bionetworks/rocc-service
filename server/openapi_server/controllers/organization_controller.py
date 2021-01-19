@@ -2,21 +2,20 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.organization import Organization  # noqa: E501
+from openapi_server.models.error import Error
+from openapi_server.models.organization import Organization
+from openapi_server.models.organization_create_response import OrganizationCreateResponse  # noqa: E501
 from openapi_server.models.page_of_organizations import PageOfOrganizations  # noqa: E501
 from openapi_server.config import Config
 
 
-def create_organization(organization_id, organization=None):
+def create_organization(organization_id):
     """Create an organization
 
     Create an organization with the specified name
 
     :param organization_id: The ID of the organization that is being created
     :type organization_id: str
-    :param organization:
-    :type organization: dict | bytes
 
     :rtype: Organization
     """
@@ -32,7 +31,7 @@ def create_organization(organization_id, organization=None):
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            res = Organization.from_dict(db_org.to_dict()).organization_id
+            res = OrganizationCreateResponse.from_dict(db_org.to_dict())
             status = 201
         except NotUniqueError as error:
             status = 409
