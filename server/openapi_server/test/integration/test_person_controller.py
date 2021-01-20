@@ -18,7 +18,7 @@ class TestPersonController(BaseTestCase):
         util.connect_db()
         DbOrganization.objects().delete()
         DbPerson.objects().delete()
-        util.create_test_organization('awesome-organization')
+        util.create_test_organization("awesome-organization")
 
     def tearDown(self):
         util.disconnect_db()
@@ -29,81 +29,87 @@ class TestPersonController(BaseTestCase):
         Create a person
         """
         person = {
-            "firstName": "John",
-            "lastName": "Smith",
-            "organizations": ["awesome-organization"],
-            "email": "john.smith@example.com"
+            'firstName': "John",
+            'lastName': "Smith",
+            'organizations': ["awesome-organization"],
+            'email': "john.smith@example.com"
         }
         headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': "application/json",
+            'Content-Type': "application/json",
         }
         response = self.client.open(
-            '/api/v1/persons',
-            method='POST',
+            "/api/v1/persons",
+            method="POST",
             headers=headers,
             data=json.dumps(person),
-            content_type='application/json')
-        self.assert_status(response, 201,
-                           'Response body is : ' + response.data.decode('utf-8'))
+            content_type="application/json"
+        )
+        self.assert_status(
+            response, 201,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_delete_person(self):
         """Test case for delete_person
 
         Delete a person
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization'])
+        person = util.create_test_person(["awesome-organization"])
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/persons/{person_id}'.format(person_id=person.personId),
-            method='DELETE',
+            f"/api/v1/persons/{person.personId}",
+            method="DELETE",
             headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_get_person(self):
         """Test case for get_person
 
         Get a person
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization'])
+        person = util.create_test_person(["awesome-organization"])
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/persons/{person_id}'.format(person_id=person.personId),
-            method='GET',
+            f"/api/v1/persons/{person.personId}",
+            method="GET",
             headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_list_persons(self):
         """Test case for list_persons
 
         Get all persons
         """
-        util.create_test_person(
-            organizations=['awesome-organization'])
-        query_string = [('limit', 10),
-                        ('offset', 0),
-                        ('filter_', {
+        util.create_test_person(["awesome-organization"])
+        query_string = [("limit", 10),
+                        ("offset", 0),
+                        ("filter_", {
                             # TODO: add values to increase coverage
                         })]
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/persons',
-            method='GET',
+            "/api/v1/persons",
+            method="GET",
             headers=headers,
             query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

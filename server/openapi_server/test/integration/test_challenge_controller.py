@@ -31,98 +31,107 @@ class TestChallengeController(BaseTestCase):
 
         Create a challenge
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization']).to_dict()
+        person = util.create_test_person(["awesome-organization"]).to_dict()
         challenge = {
-            "name": "awesome-challenge",
-            "startDate": date(2020, 12, 1),
-            "endDate": date(2020, 12, 31),
-            "url": "https://www.synapse.org/",
-            "status": "upcoming",
-            "organizers": [person.get("personId")],
-            "tags": ["awesome-tag"],
-            "challengeResults": {}
+            'name': "awesome-challenge",
+            'startDate': date(2020, 12, 1),
+            'endDate': date(2020, 12, 31),
+            'url': "https://www.synapse.org/",
+            'status': "upcoming",
+            'organizers': [person.get("personId")],
+            'tags': ["awesome-tag"],
+            'challengeResults': {}
         }
         headers = {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
+            'Accept': "application/json",
+            'Content-Type': "application/json",
         }
         response = self.client.open(
             "/api/v1/challenges",
             method="POST",
             headers=headers,
             data=json.dumps(challenge),
-            content_type="application/json")
-        self.assert_status(response, 201,
-                           "Response body is : " + response.data.decode("utf-8"))
+            content_type="application/json"
+        )
+        self.assert_status(
+            response, 201,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_delete_challenge(self):
         """Test case for delete_challenge
 
         Delete a challenge
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization'])
+        person = util.create_test_person(["awesome-organization"])
         challenge = util.create_test_challenge(
             organizers=[person.personId],
-            tags=["awesome-tag"])
+            tags=["awesome-tag"]
+        )
         headers = {
-            "Accept": "application/json",
+            'Accept': "application/json",
         }
         response = self.client.open(
-            "/api/v1/challenges/{challenge_id}".format(
-                challenge_id=challenge.challengeId),
+            f"/api/v1/challenges/{challenge.challengeId}",
             method="DELETE",
-            headers=headers)
-        self.assert200(response,
-                       "Response body is : " + response.data.decode("utf-8"))
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_get_challenge(self):
         """Test case for get_challenge
 
         Get a challenge
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization'])
+        person = util.create_test_person(["awesome-organization"])
         challenge = util.create_test_challenge(
             organizers=[person.personId],
-            tags=["awesome-tag"])
+            tags=["awesome-tag"]
+        )
         headers = {
-            "Accept": "application/json",
+            'Accept': "application/json",
         }
         response = self.client.open(
-            "/api/v1/challenges/{challenge_id}".format(
-                challenge_id=challenge.challengeId),
+            f"/api/v1/challenges/{challenge.challengeId}",
             method="GET",
-            headers=headers)
-        self.assert200(response,
-                       "Response body is : " + response.data.decode("utf-8"))
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_list_challenges(self):
         """Test case for list_challenges
 
         Get all challenges
         """
-        person = util.create_test_person(
-            organizations=['awesome-organization'])
+        person = util.create_test_person(["awesome-organization"])
         util.create_test_challenge(
             organizers=[person.personId],
-            tags=["awesome-tag"])
+            tags=["awesome-tag"]
+        )
         query_string = [("limit", 10),
                         ("offset", 0),
-                        ('filter_', {
+                        ("filter_", {
                             # TODO: add values to increase coverage
                         })]
         headers = {
-            "Accept": "application/json",
+            'Accept': "application/json",
         }
         response = self.client.open(
             "/api/v1/challenges",
             method="GET",
             headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       "Response body is : " + response.data.decode("utf-8"))
+            query_string=query_string
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
 
 if __name__ == "__main__":

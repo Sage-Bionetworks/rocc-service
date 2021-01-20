@@ -26,22 +26,25 @@ class TestGrantController(BaseTestCase):
         Create a grant
         """
         grant = {
-            "name": "awesome-grant",
-            "description": "description",
-            "url": "https://report.nih.gov/"
+            'name': "awesome-grant",
+            'description': "description",
+            'url': "https://report.nih.gov/"
         }
         headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': "application/json",
+            'Content-Type': "application/json",
         }
         response = self.client.open(
-            '/api/v1/grants',
-            method='POST',
+            "/api/v1/grants",
+            method="POST",
             headers=headers,
             data=json.dumps(grant),
-            content_type='application/json')
-        self.assert_status(response, 201,
-                           'Response body is : ' + response.data.decode('utf-8'))
+            content_type="application/json"
+        )
+        self.assert_status(
+            response, 201,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_delete_grant(self):
         """Test case for delete_grant
@@ -50,14 +53,17 @@ class TestGrantController(BaseTestCase):
         """
         grant = util.create_test_grant()
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/grants/{grant_id}'.format(grant_id=grant.grantId),
-            method='DELETE',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            f"/api/v1/grants/{grant.grantId}",
+            method="DELETE",
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_get_grant(self):
         """Test case for get_grant
@@ -66,14 +72,17 @@ class TestGrantController(BaseTestCase):
         """
         grant = util.create_test_grant()
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/grants/{grant_id}'.format(grant_id=grant.grantId),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            f"/api/v1/grants/{grant.grantId}",
+            method="GET",
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_list_grants(self):
         """Test case for list_grants
@@ -81,19 +90,22 @@ class TestGrantController(BaseTestCase):
         Get all grants
         """
         util.create_test_grant()
-        query_string = [('limit', 10),
-                        ('offset', 0)]
+        query_string = [("limit", 10),
+                        ("offset", 0)]
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/grants',
-            method='GET',
+            "/api/v1/grants",
+            method="GET",
             headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            query_string=query_string
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

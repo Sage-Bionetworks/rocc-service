@@ -26,59 +26,66 @@ class TestOrganizationController(BaseTestCase):
         Create an organization
         """
         organization = {
-            "organizationId": "awesome-organization",
-            "name": "name",
-            "shortName": "shortName",
-            "url": "https://openapi-generator.tech"
+            'organizationId': "awesome-organization",
+            'name': "name",
+            'shortName': "shortName",
+            'url': "https://openapi-generator.tech"
         }
-        query_string = [('organizationId', 'awesome-organization')]
+        query_string = [("organizationId", "awesome-organization")]
         headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': "application/json",
+            'Content-Type': "application/json",
         }
         response = self.client.open(
-            '/api/v1/organizations',
-            method='POST',
+            "/api/v1/organizations",
+            method="POST",
             headers=headers,
             data=json.dumps(organization),
-            content_type='application/json',
-            query_string=query_string)
-        self.assert_status(response, 201,
-                           'Response body is : ' + response.data.decode('utf-8'))
+            content_type="application/json",
+            query_string=query_string
+        )
+        self.assert_status(
+            response, 201,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_delete_organization(self):
         """Test case for delete_organization
 
         Delete an organization
         """
-        util.create_test_organization("awesome-organization")
+        organization = util.create_test_organization("awesome-organization")
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/organizations/{organization_id}'.format(
-                organization_id='awesome-organization'),
-            method='DELETE',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            f"/api/v1/organizations/{organization.organizationId}",
+            method="DELETE",
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_get_organization(self):
         """Test case for get_organization
 
         Get an organization
         """
-        util.create_test_organization("awesome-organization")
+        organization = util.create_test_organization("awesome-organization")
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/organizations/{organization_id}'.format(
-                organization_id='awesome-organization'),
-            method='GET',
-            headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            f"/api/v1/organizations/{organization.organizationId}",
+            method="GET",
+            headers=headers
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_list_organizations(self):
         """Test case for list_organizations
@@ -86,19 +93,22 @@ class TestOrganizationController(BaseTestCase):
         Get all organizations
         """
         util.create_test_organization("awesome-organization")
-        query_string = [('limit', 10),
-                        ('offset', 0)]
+        query_string = [("limit", 10),
+                        ("offset", 0)]
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/organizations',
-            method='GET',
+            "/api/v1/organizations",
+            method="GET",
             headers=headers,
-            query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+            query_string=query_string
+        )
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

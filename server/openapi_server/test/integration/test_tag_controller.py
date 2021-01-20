@@ -27,54 +27,60 @@ class TestTagController(BaseTestCase):
         Create a tag
         """
         tag = {
-            "description": "description"
+            'description': "description"
         }
-        query_string = [('tagId', 'awesome-tag')]
+        query_string = [("tagId", "awesome-tag")]
         headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            'Accept': "application/json",
+            'Content-Type': "application/json",
         }
         response = self.client.open(
-            '/api/v1/tags',
-            method='POST',
+            "/api/v1/tags",
+            method="POST",
             headers=headers,
             data=json.dumps(tag),
-            content_type='application/json',
+            content_type="application/json",
             query_string=query_string)
-        self.assert_status(response, 201,
-                           'Response body is : ' + response.data.decode('utf-8'))
+        self.assert_status(
+            response, 201,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_delete_tag(self):
         """Test case for delete_tag
 
         Delete a tag
         """
-        util.create_test_tag("awesome-tag")
+        tag = util.create_test_tag("awesome-tag")
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/tags/{tag_id}'.format(tag_id='awesome-tag'),
-            method='DELETE',
+            f"/api/v1/tags/{tag.tagId}",
+            method="DELETE",
             headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_get_tag(self):
         """Test case for get_tag
 
         Get a tag
         """
-        util.create_test_tag("awesome-tag")
+        tag = util.create_test_tag("awesome-tag")
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/tags/{tag_id}'.format(tag_id='awesome-tag'),
-            method='GET',
+            f"/api/v1/tags/{tag.tagId}",
+            method="GET",
             headers=headers)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
     def test_list_tags(self):
         """Test case for list_tags
@@ -82,22 +88,24 @@ class TestTagController(BaseTestCase):
         Get all tags
         """
         util.create_test_tag("awesome-tag")
-        query_string = [('limit', 10),
-                        ('offset', 0),
-                        ('filter_', {
+        query_string = [("limit", 10),
+                        ("offset", 0),
+                        ("filter_", {
                             # TODO: add values to increase coverage
                         })]
         headers = {
-            'Accept': 'application/json',
+            'Accept': "application/json",
         }
         response = self.client.open(
-            '/api/v1/tags',
-            method='GET',
+            "/api/v1/tags",
+            method="GET",
             headers=headers,
             query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert200(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
