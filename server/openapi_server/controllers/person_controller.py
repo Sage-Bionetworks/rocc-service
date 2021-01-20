@@ -33,7 +33,7 @@ def create_person():
                         f'The organization {org_id} was not found',
                         status)
                     return res, status
-    
+
             # create the person
             try:
                 db_person = DbPerson(
