@@ -369,7 +369,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Organization'
+              $ref: '#/components/schemas/OrganizationCreateRequest'
       responses:
         "201":
           content:
@@ -660,7 +660,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tag'
+              $ref: '#/components/schemas/TagCreateRequest'
       responses:
         "201":
           content:
@@ -1077,16 +1077,33 @@ components:
           description: The URL to the homepage of the organization
           format: uri
           type: string
-      required:
-      - name
-      - organizationId
-      - url
       type: object
     PageOfOrganizations:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
+      type: object
+    OrganizationCreateRequest:
+      description: An organization
+      example:
+        name: Awesome Organization
+        shortName: AO
+        url: https://www.example.org
+      properties:
+        name:
+          description: The organization name
+          type: string
+        shortName:
+          description: The organization short name
+          type: string
+        url:
+          description: The URL to the homepage of the organization
+          format: uri
+          type: string
+      required:
+      - name
+      - url
       type: object
     OrganizationCreateResponse:
       description: An organization ID
@@ -1222,14 +1239,21 @@ components:
         description:
           description: A short description of the tag
           type: string
-      required:
-      - tagId
       type: object
     PageOfTags:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfTags_allOf'
       description: A page of Tags
+      type: object
+    TagCreateRequest:
+      description: A tag that can be assigned to a resource
+      example:
+        description: Awesome tag
+      properties:
+        description:
+          description: A short description of the tag
+          type: string
       type: object
     TagCreateResponse:
       description: A tag ID

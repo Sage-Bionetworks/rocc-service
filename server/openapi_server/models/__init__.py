@@ -14,6 +14,7 @@ from openapi_server.models.grant import Grant
 from openapi_server.models.grant_create_request import GrantCreateRequest
 from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.organization import Organization
+from openapi_server.models.organization_create_request import OrganizationCreateRequest
 from openapi_server.models.organization_create_response import OrganizationCreateResponse
 from openapi_server.models.page_of_challenges import PageOfChallenges
 from openapi_server.models.page_of_grants import PageOfGrants
@@ -27,5 +28,6 @@ from openapi_server.models.person_filter import PersonFilter
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks
 from openapi_server.models.tag import Tag
+from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.tag_filter import TagFilter

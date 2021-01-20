@@ -78,8 +78,6 @@ class Organization(Model):
         :param organization_id: The organization_id of this Organization.
         :type organization_id: str
         """
-        if organization_id is None:
-            raise ValueError("Invalid value for `organization_id`, must not be `None`")  # noqa: E501
         if organization_id is not None and len(organization_id) > 60:
             raise ValueError("Invalid value for `organization_id`, length must be less than or equal to `60`")  # noqa: E501
         if organization_id is not None and len(organization_id) < 3:
@@ -109,8 +107,6 @@ class Organization(Model):
         :param name: The name of this Organization.
         :type name: str
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -157,7 +153,5 @@ class Organization(Model):
         :param url: The url of this Organization.
         :type url: str
         """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url
