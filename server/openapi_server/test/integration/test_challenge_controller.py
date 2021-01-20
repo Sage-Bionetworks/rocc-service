@@ -53,8 +53,8 @@ class TestChallengeController(BaseTestCase):
             headers=headers,
             data=json.dumps(challenge),
             content_type="application/json")
-        self.assert200(response,
-                       "Response body is : " + response.data.decode("utf-8"))
+        self.assert_status(response, 201,
+                           "Response body is : " + response.data.decode("utf-8"))
 
     def test_delete_challenge(self):
         """Test case for delete_challenge

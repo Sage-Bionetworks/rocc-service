@@ -43,8 +43,8 @@ class TestOrganizationController(BaseTestCase):
             data=json.dumps(organization),
             content_type='application/json',
             query_string=query_string)
-        self.assert200(response,
-                       'Response body is : ' + response.data.decode('utf-8'))
+        self.assert_status(response, 201,
+                           'Response body is : ' + response.data.decode('utf-8'))
 
     def test_delete_organization(self):
         """Test case for delete_organization
