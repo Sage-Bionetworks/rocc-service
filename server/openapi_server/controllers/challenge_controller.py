@@ -90,12 +90,14 @@ def delete_challenge(challenge_id):
     res = None
     status = None
     try:
-        DbChallenge.objects(challengeId=challenge_id).first().delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        db_challenge = DbChallenge.objects(challengeId=challenge_id).first()
+        if db_challenge:
+            db_challenge.delete()
+            res = {}
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -116,11 +118,12 @@ def get_challenge(challenge_id):
     status = None
     try:
         db_challenge = DbChallenge.objects(challengeId=challenge_id).first()
-        res = Challenge.from_dict(db_challenge.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_challenge:
+            res = Challenge.from_dict(db_challenge.to_dict())
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

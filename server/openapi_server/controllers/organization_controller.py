@@ -59,12 +59,14 @@ def delete_organization(organization_id):
     res = None
     status = None
     try:
-        DbOrganization.objects(organizationId=organization_id).first().delete()  # noqa: E501
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        db_org = DbOrganization.objects(organizationId=organization_id).first()
+        if db_org:
+            db_org.delete()
+            res = {}
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -86,11 +88,12 @@ def get_organization(organization_id):
     status = None
     try:
         db_org = DbOrganization.objects(organizationId=organization_id).first()
-        res = Organization.from_dict(db_org.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_org:
+            res = Organization.from_dict(db_org.to_dict())
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
