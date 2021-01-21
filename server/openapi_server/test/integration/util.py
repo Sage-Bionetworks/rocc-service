@@ -7,6 +7,7 @@ from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.challenge import Challenge
+from openapi_server.dbmodels.challenge_results import ChallengeResults
 
 
 def connect_db():
@@ -47,6 +48,14 @@ def create_test_grant():
     ).save()
 
 
+def create_test_challenge_results():
+    return ChallengeResults(
+        nSubmissions=0,
+        nFinalSubmissions=0,
+        nRegisteredParticipants=0
+    )
+
+
 def create_test_challenge(organizers, tags):
     return Challenge(
         name="awesome-challenge",
@@ -56,5 +65,5 @@ def create_test_challenge(organizers, tags):
         status="upcoming",
         organizers=organizers,
         tags=tags,
-        challengeResults={}
+        challengeResults=create_test_challenge_results().to_dict()
     ).save()
