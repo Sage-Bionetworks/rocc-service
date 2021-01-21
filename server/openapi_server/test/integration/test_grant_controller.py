@@ -57,6 +57,28 @@ class TestGrantController(BaseTestCase):
     def test_create_grant_with_status400(self):
         """Test case for create_grant
 
+        Create a (non-JSON) grant (400)
+        """
+        grant = {
+            'name': "awesome-grant",
+            'description': "description",
+            'url': "https://report.nih.gov/"
+        }
+        response = self.client.open(
+            "/api/v1/grants",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=grant,
+            content_type="application/json"
+        )
+        self.assert400(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_empty_grant_with_status400(self):
+        """Test case for create_grant
+
         Create an empty grant (400)
         """
         grant = {}
