@@ -46,8 +46,7 @@ class TestGrantController(BaseTestCase):
             "/api/v1/grants",
             method="POST",
             headers=REQUEST_HEADERS,
-            data=json.dumps(grant),
-            content_type="application/json"
+            data=json.dumps(grant)
         )
         self.assertStatus(
             response, 201,
@@ -68,8 +67,7 @@ class TestGrantController(BaseTestCase):
             "/api/v1/grants",
             method="POST",
             headers=REQUEST_HEADERS,
-            data=grant,
-            content_type="application/json"
+            data=grant
         )
         self.assert400(
             response,
@@ -86,8 +84,7 @@ class TestGrantController(BaseTestCase):
             "/api/v1/grants",
             method="POST",
             headers=REQUEST_HEADERS,
-            data=json.dumps(grant),
-            content_type="application/json"
+            data=json.dumps(grant)
         )
         self.assert400(
             response,

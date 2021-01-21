@@ -47,7 +47,6 @@ class TestTagController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=json.dumps(tag),
-            content_type="application/json",
             query_string=ID_QUERY)
         self.assertStatus(
             response, 201,
@@ -67,7 +66,6 @@ class TestTagController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=tag,
-            content_type="application/json",
             query_string=ID_QUERY)
         self.assert400(
             response,
@@ -88,7 +86,6 @@ class TestTagController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=json.dumps(tag),
-            content_type="application/json",
             query_string=ID_QUERY)
         self.assertStatus(
             response, 409,

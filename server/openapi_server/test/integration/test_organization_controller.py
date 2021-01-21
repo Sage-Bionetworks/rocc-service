@@ -48,7 +48,6 @@ class TestOrganizationController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=json.dumps(organization),
-            content_type="application/json",
             query_string=ID_QUERY
         )
         self.assertStatus(
@@ -71,7 +70,6 @@ class TestOrganizationController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=organization,
-            content_type="application/json",
             query_string=ID_QUERY
         )
         self.assert400(
@@ -95,7 +93,6 @@ class TestOrganizationController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=json.dumps(organization),
-            content_type="application/json",
             query_string=ID_QUERY
         )
         self.assertStatus(
