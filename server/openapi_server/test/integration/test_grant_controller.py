@@ -4,12 +4,11 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
+from bson.objectid import ObjectId
 
-from mongoengine.errors import DoesNotExist, NotUniqueError
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
-from bson.objectid import ObjectId
 
 
 REQUEST_HEADERS = {
@@ -19,6 +18,8 @@ REQUEST_HEADERS = {
 RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
+
+# TODO: mock 409 and 500 reponses
 
 
 class TestGrantController(BaseTestCase):
@@ -48,7 +49,7 @@ class TestGrantController(BaseTestCase):
             data=json.dumps(grant),
             content_type="application/json"
         )
-        self.assert_status(
+        self.assertStatus(
             response, 201,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -66,35 +67,10 @@ class TestGrantController(BaseTestCase):
             data=json.dumps(grant),
             content_type="application/json"
         )
-        self.assert_400(
+        self.assert400(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
-
-    # TODO: update controller so that NotUniqueError is thrown
-    # def test_create_grant_with_status409(self):
-    #     """Test case for create_grant
-
-    #     Create a duplicate grant (409)
-    #     """
-    #     grant = util.create_test_grant()
-    #     dup_grant = {
-    #         'name': "awesome-grant",
-    #         'description': "description",
-    #         'url': "https://report.nih.gov/"
-    #     }
-    #     response = self.client.open(
-    #         "/api/v1/grants",
-    #         method="POST",
-    #         headers=REQUEST_HEADERS,
-    #         data=json.dumps(dup_grant),
-    #         content_type="application/json"
-    #     )
-    #     with self.assertRaises(NotUniqueError):
-    #         self.assert_status(
-    #             response, 409,
-    #             f"Response body is: {response.data.decode('utf-8')}"
-    #         )
 
     def test_delete_grant_with_status200(self):
         """Test case for delete_grant
@@ -107,7 +83,7 @@ class TestGrantController(BaseTestCase):
             method="DELETE",
             headers=RESPONSE_HEADERS
         )
-        self.assert_200(
+        self.assert200(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -123,7 +99,7 @@ class TestGrantController(BaseTestCase):
             method="DELETE",
             headers=RESPONSE_HEADERS
         )
-        self.assert_404(
+        self.assert404(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -139,7 +115,7 @@ class TestGrantController(BaseTestCase):
             method="GET",
             headers=RESPONSE_HEADERS
         )
-        self.assert_200(
+        self.assert200(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -155,7 +131,7 @@ class TestGrantController(BaseTestCase):
             method="GET",
             headers=RESPONSE_HEADERS
         )
-        self.assert_404(
+        self.assert404(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -174,7 +150,7 @@ class TestGrantController(BaseTestCase):
             headers=RESPONSE_HEADERS,
             query_string=query_string
         )
-        self.assert_200(
+        self.assert200(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -193,7 +169,7 @@ class TestGrantController(BaseTestCase):
             headers=RESPONSE_HEADERS,
             query_string=query_string
         )
-        self.assert_400(
+        self.assert400(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
