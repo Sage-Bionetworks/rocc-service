@@ -27,7 +27,8 @@ def create_grant():
                 # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
-            res = GrantCreateResponse.from_dict(db_grant.to_dict())
+            new_id = db_grant.to_dict().get("grantId")
+            res = GrantCreateResponse(grant_id=new_id)
             status = 201
         except NotUniqueError as error:
             status = 409

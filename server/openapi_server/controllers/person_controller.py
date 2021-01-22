@@ -42,7 +42,8 @@ def create_person():
                     email=person.email,
                     organizations=person.organizations
                 ).save(force_insert=True)
-                res = PersonCreateResponse.from_dict(db_person.to_dict())
+                new_id = db_person.to_dict().get("personId")
+                res = PersonCreateResponse(person_id=new_id)
                 status = 201
             except NotUniqueError as error:
                 status = 409

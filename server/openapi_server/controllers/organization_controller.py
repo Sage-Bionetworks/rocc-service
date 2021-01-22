@@ -31,7 +31,8 @@ def create_organization(organization_id):
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            res = OrganizationCreateResponse.from_dict(db_org.to_dict())
+            new_id = db_org.to_dict().get("organizationId")
+            res = OrganizationCreateResponse(organization_id=new_id)
             status = 201
         except NotUniqueError as error:
             status = 409

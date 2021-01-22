@@ -62,7 +62,8 @@ def create_challenge():
                         nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
                     )
                 ).save(force_insert=True)
-                res = ChallengeCreateResponse.from_dict(db_challenge.to_dict())
+                new_id = db_challenge.to_dict().get("challengeId")
+                res = ChallengeCreateResponse(challenge_id=new_id)
                 status = 201
             except NotUniqueError as error:
                 status = 409

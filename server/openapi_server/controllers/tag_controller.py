@@ -30,7 +30,8 @@ def create_tag(tag_id):
                 tagId=tag.tag_id,
                 description=tag.description
             ).save(force_insert=True)
-            res = TagCreateResponse.from_dict(db_tag.to_dict())
+            new_id = db_tag.to_dict().get("tagId")
+            res = TagCreateResponse(tag_id=new_id)
             status = 201
         except NotUniqueError as error:
             status = 409
