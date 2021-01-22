@@ -2,7 +2,7 @@ FROM python:3.9.1-slim-buster
 
 ENV APP_DIR=/opt/app
 
-# Safer bash scripts with 'set -euxo pipefail'
+# Safer bash script execution
 SHELL ["/bin/bash", "-euxo", "pipefail", "-c"]
 
 # Install dependencies
