@@ -4,17 +4,15 @@ from mongoengine.errors import DoesNotExist, NotUniqueError
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
+from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.page_of_grants import PageOfGrants
 from openapi_server.config import Config
 
 
-def create_grant(grant=None):
+def create_grant():
     """Create a grant
 
     Create a grant with the specified name
-
-    :param grant:
-    :type grant: dict | bytes
 
     :rtype: Grant
     """
@@ -29,8 +27,9 @@ def create_grant(grant=None):
                 # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
-            res = Grant.from_dict(db_grant.to_dict())
-            status = 200
+            new_id = db_grant.to_dict().get("grantId")
+            res = GrantCreateResponse(grant_id=new_id)
+            status = 201
         except NotUniqueError as error:
             status = 409
             res = Error("Conflict", status, str(error))
@@ -57,12 +56,13 @@ def delete_grant(grant_id):
     status = None
     try:
         db_grant = DbGrant.objects(grantId=grant_id).first()
-        res = Grant.from_dict(db_grant.to_dict())
-        db_grant.delete()
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_grant:
+            db_grant.delete()
+            res = {}
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -83,11 +83,12 @@ def get_grant(grant_id):
     status = None
     try:
         db_grant = DbGrant.objects(grantId=grant_id).first()
-        res = Grant.from_dict(db_grant.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_grant:
+            res = Grant.from_dict(db_grant.to_dict())
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -121,11 +122,12 @@ def list_grants(limit=None, offset=None):
             links={
                 "next": next_
             },
+            total_results=len(grants),
             grants=grants)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

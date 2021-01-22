@@ -6,8 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.person import Person  # noqa: E501
-from openapi_server.models.response_page_metadata import ResponsePageMetadata  # noqa: E501
+from openapi_server.models.person import Person
 from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks  # noqa: E501
 from openapi_server import util
 
@@ -18,7 +17,7 @@ class PageOfPersons(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, offset=None, limit=None, links=None, persons=None):  # noqa: E501
+    def __init__(self, offset=None, limit=None, links=None, total_results=None, persons=None):  # noqa: E501
         """PageOfPersons - a model defined in OpenAPI
 
         :param offset: The offset of this PageOfPersons.  # noqa: E501
@@ -27,6 +26,8 @@ class PageOfPersons(Model):
         :type limit: int
         :param links: The links of this PageOfPersons.  # noqa: E501
         :type links: ResponsePageMetadataLinks
+        :param total_results: The total_results of this PageOfPersons.  # noqa: E501
+        :type total_results: int
         :param persons: The persons of this PageOfPersons.  # noqa: E501
         :type persons: List[Person]
         """
@@ -34,6 +35,7 @@ class PageOfPersons(Model):
             'offset': int,
             'limit': int,
             'links': ResponsePageMetadataLinks,
+            'total_results': int,
             'persons': List[Person]
         }
 
@@ -41,12 +43,14 @@ class PageOfPersons(Model):
             'offset': 'offset',
             'limit': 'limit',
             'links': 'links',
+            'total_results': 'totalResults',
             'persons': 'persons'
         }
 
         self._offset = offset
         self._limit = limit
         self._links = links
+        self._total_results = total_results
         self._persons = persons
 
     @classmethod
@@ -132,6 +136,29 @@ class PageOfPersons(Model):
             raise ValueError("Invalid value for `links`, must not be `None`")  # noqa: E501
 
         self._links = links
+
+    @property
+    def total_results(self):
+        """Gets the total_results of this PageOfPersons.
+
+        Total number of results in the result set  # noqa: E501
+
+        :return: The total_results of this PageOfPersons.
+        :rtype: int
+        """
+        return self._total_results
+
+    @total_results.setter
+    def total_results(self, total_results):
+        """Sets the total_results of this PageOfPersons.
+
+        Total number of results in the result set  # noqa: E501
+
+        :param total_results: The total_results of this PageOfPersons.
+        :type total_results: int
+        """
+
+        self._total_results = total_results
 
     @property
     def persons(self):

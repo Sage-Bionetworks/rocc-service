@@ -2,22 +2,21 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from mongoengine.queryset.visitor import Q
 
-from openapi_server.dbmodels.tag import Tag as DbTag  # noqa: E501
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
-from openapi_server.models.tag import Tag  # noqa: E501
+from openapi_server.dbmodels.tag import Tag as DbTag
+from openapi_server.models.error import Error
+from openapi_server.models.page_of_tags import PageOfTags
+from openapi_server.models.tag import Tag
+from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.config import Config
 
 
-def create_tag(tag_id, tag=None):  # noqa: E501
+def create_tag(tag_id):
     """Create a tag
 
-    Create a tag with the specified name # noqa: E501
+    Create a tag with the specified name
 
     :param tag_id: The ID of the tag that is being created
     :type tag_id: str
-    :param tag:
-    :type tag: dict | bytes
 
     :rtype: Tag
     """
@@ -31,8 +30,9 @@ def create_tag(tag_id, tag=None):  # noqa: E501
                 tagId=tag.tag_id,
                 description=tag.description
             ).save(force_insert=True)
-            res = Tag.from_dict(db_tag.to_dict())
-            status = 200
+            new_id = db_tag.to_dict().get("tagId")
+            res = TagCreateResponse(tag_id=new_id)
+            status = 201
         except NotUniqueError as error:
             status = 409
             res = Error("Conflict", status, str(error))
@@ -46,10 +46,10 @@ def create_tag(tag_id, tag=None):  # noqa: E501
     return res, status
 
 
-def delete_tag(tag_id):  # noqa: E501
+def delete_tag(tag_id):
     """Delete a tag
 
-    Deletes the tag specified # noqa: E501
+    Deletes the tag specified
 
     :param tag_id: The ID of the tag
     :type tag_id: str
@@ -60,12 +60,13 @@ def delete_tag(tag_id):  # noqa: E501
     status = None
     try:
         db_tag = DbTag.objects(tagId=tag_id).first()
-        res = Tag.from_dict(db_tag.to_dict())
-        db_tag.delete()
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_tag:
+            db_tag.delete()
+            res = {}
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -73,10 +74,10 @@ def delete_tag(tag_id):  # noqa: E501
     return res, status
 
 
-def get_tag(tag_id):  # noqa: E501
+def get_tag(tag_id):
     """Get a tag
 
-    Returns the tag specified # noqa: E501
+    Returns the tag specified
 
     :param tag_id: The ID of the tag
     :type tag_id: str
@@ -87,11 +88,12 @@ def get_tag(tag_id):  # noqa: E501
     status = None
     try:
         db_tag = DbTag.objects(tagId=tag_id).first()
-        res = Tag.from_dict(db_tag.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_tag:
+            res = Tag.from_dict(db_tag.to_dict())
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -99,10 +101,10 @@ def get_tag(tag_id):  # noqa: E501
     return res, status
 
 
-def list_tags(limit=None, offset=None, filter_=None):  # noqa: E501
+def list_tags(limit=None, offset=None, filter_=None):
     """Get all tags
 
-    Returns the tags # noqa: E501
+    Returns the tags
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -128,11 +130,12 @@ def list_tags(limit=None, offset=None, filter_=None):  # noqa: E501
             links={
                 "next": next_
             },
+            total_results=len(tags),
             tags=tags)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

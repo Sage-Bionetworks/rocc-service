@@ -82,18 +82,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
       summary: List all the challenges
       tags:
       - Challenge
@@ -105,14 +93,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Challenge'
+              $ref: '#/components/schemas/ChallengeCreateRequest'
         required: true
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/ChallengeCreateResponse'
           description: Success
         "400":
           content:
@@ -120,18 +108,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
         "409":
           content:
             application/json:
@@ -160,14 +136,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Challenge'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -197,12 +167,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Challenge'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -246,18 +210,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfGrants'
           description: Success
-        "403":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: Invalid request
       summary: Get all grants
       tags:
       - Grant
@@ -269,26 +227,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Grant'
+              $ref: '#/components/schemas/GrantCreateRequest'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Grant'
+                $ref: '#/components/schemas/GrantCreateResponse'
           description: Success
-        "403":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: Invalid request
         "409":
           content:
             application/json:
@@ -317,14 +269,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Grant'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -354,12 +300,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Grant'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -403,18 +343,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfOrganizations'
           description: Success
-        "403":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: Invalid request
       summary: Get all organizations
       tags:
       - Organization
@@ -435,26 +369,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Organization'
+              $ref: '#/components/schemas/OrganizationCreateRequest'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationCreateResponse'
           description: Success
-        "403":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: Invalid request
         "409":
           content:
             application/json:
@@ -483,14 +411,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -520,12 +442,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Organization'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -583,18 +499,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
       summary: Get all persons
       tags:
       - Person
@@ -606,13 +510,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Person'
+              $ref: '#/components/schemas/PersonCreateRequest'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Person'
+                $ref: '#/components/schemas/PersonCreateResponse'
           description: Success
         "400":
           content:
@@ -620,18 +524,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
         "409":
           content:
             application/json:
@@ -660,14 +552,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Person'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -697,12 +583,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Person'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -754,18 +634,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PageOfTags'
           description: Success
-        "403":
+        "400":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: Invalid request
       summary: Get all tags
       tags:
       - Tag
@@ -786,13 +660,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Tag'
+              $ref: '#/components/schemas/TagCreateRequest'
       responses:
-        "200":
+        "201":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tag'
+                $ref: '#/components/schemas/TagCreateResponse'
           description: Success
         "400":
           content:
@@ -800,18 +674,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
         "409":
           content:
             application/json:
@@ -840,14 +702,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Tag'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -877,12 +733,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/Tag'
           description: Success
-        "403":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Unauthorized
         "404":
           content:
             application/json:
@@ -901,27 +751,21 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Invalid request
-    Unauthorized:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Unauthorized
-    NotFound:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: The specified resource was not found
     Conflict:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
       description: The request conflicts with current state of the target resource
+    NotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The specified resource was not found
   schemas:
     ChallengeStatus:
-      description: The status of challenge
+      description: The status of the challenge
       enum:
       - upcoming
       - open
@@ -954,6 +798,9 @@ components:
           type: integer
         links:
           $ref: '#/components/schemas/ResponsePageMetadata_links'
+        totalResults:
+          description: Total number of results in the result set
+          type: integer
       required:
       - limit
       - links
@@ -972,10 +819,6 @@ components:
       type: string
     ChallengeResults:
       description: The results of a challenge
-      example:
-        nFinalSubmissions: 0
-        nSubmissions: 0
-        nRegisteredParticipants: 0
       properties:
         nSubmissions:
           description: Number of total submissions throughout the challenge
@@ -998,21 +841,20 @@ components:
       description: A challenge
       example:
         challengeId: 507f1f77bcf86cd799439011
-        endDate: 2020-12-31T00:00:00.000+0000
         name: Awesome Challenge
-        organizers:
-        - 507f1f77bcf86cd799439011
-        - 507f1f77bcf86cd799439011
-        challengeResults:
-          nFinalSubmissions: 0
-          nSubmissions: 0
-          nRegisteredParticipants: 0
-        startDate: 2020-11-10T00:00:00.000+0000
+        startDate: 2020-11-10
+        endDate: 2020-12-31
         url: https://synapse.org/awesome-challenge
         status: open
         tags:
-        - awesome-tag
-        - awesome-tag
+        - awesome-tag1
+        - awesome-tag2
+        challengeResults:
+          nSubmissions: 0
+          nFinalSubmissions: 0
+          nRegisteredParticipants: 0
+        organizers:
+        - 507f1f77bcf86cd799439011
       properties:
         challengeId:
           description: The ID of the challenge
@@ -1020,21 +862,17 @@ components:
           type: string
         name:
           description: The challenge name
-          example: Awesome Challenge
           type: string
         startDate:
           description: When the challenge started
-          example: 2020-11-10
           format: date
           type: string
         endDate:
           description: When the challenge ended
-          example: 2020-12-31
           format: date
           type: string
         url:
           description: The URL to the challenge website
-          example: https://synapse.org/awesome-challenge
           format: uri
           type: string
         status:
@@ -1078,6 +916,72 @@ components:
       - status
       - title
       type: object
+    ChallengeCreateRequest:
+      description: A challenge
+      example:
+        name: Awesome Challenge
+        startDate: 2020-11-10
+        endDate: 2020-12-31
+        url: https://synapse.org/awesome-challenge
+        status: open
+        tags:
+        - awesome-tag1
+        - awesome-tag2
+        challengeResults:
+          nSubmissions: 0
+          nFinalSubmissions: 0
+          nRegisteredParticipants: 0
+        organizers:
+        - 507f1f77bcf86cd799439011
+      properties:
+        name:
+          description: The challenge name
+          type: string
+        startDate:
+          description: When the challenge started
+          format: date
+          type: string
+        endDate:
+          description: When the challenge ended
+          format: date
+          type: string
+        url:
+          description: The URL to the challenge website
+          format: uri
+          type: string
+        status:
+          $ref: '#/components/schemas/ChallengeStatus'
+        tags:
+          description: The tags associated to the challenge
+          items:
+            $ref: '#/components/schemas/TagId'
+          type: array
+        challengeResults:
+          $ref: '#/components/schemas/ChallengeResults'
+        organizers:
+          description: The organizers of the challenge
+          items:
+            $ref: '#/components/schemas/PersonId'
+          type: array
+      required:
+      - endDate
+      - name
+      - startDate
+      - status
+      type: object
+    ChallengeCreateResponse:
+      description: A challenge ID
+      example:
+        challengeId: 507f1f77bcf86cd799439011
+      properties:
+        challengeId:
+          description: The ID of the challenge
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
+    EmptyObject:
+      description: Empty JSON object
+      type: object
     GrantId:
       description: The ID of the grant
       example: 507f1f77bcf86cd799439011
@@ -1086,9 +990,9 @@ components:
       description: Information about monetary resources for challenge
       example:
         grantId: 507f1f77bcf86cd799439011
-        name: name
-        description: description
-        url: https://openapi-generator.tech
+        name: Awesome Grant
+        description: This is an awesome grant
+        url: https://report.nih.gov/
       properties:
         grantId:
           description: The ID of the grant
@@ -1111,6 +1015,36 @@ components:
       - $ref: '#/components/schemas/PageOfGrants_allOf'
       description: A page of Grants
       type: object
+    GrantCreateRequest:
+      description: Information about monetary resources for challenge
+      example:
+        name: Awesome Grant
+        description: This is an awesome grant
+        url: https://report.nih.gov/
+      properties:
+        name:
+          description: The grant name
+          type: string
+        description:
+          description: A description of the grant
+          type: string
+        url:
+          description: The URL to the grant
+          format: uri
+          type: string
+      required:
+      - name
+      type: object
+    GrantCreateResponse:
+      description: A grant ID
+      example:
+        grantId: 507f1f77bcf86cd799439011
+      properties:
+        grantId:
+          description: The ID of the grant
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
     OrganizationId:
       description: The ID of the organization
       example: awesome-organization
@@ -1122,9 +1056,9 @@ components:
       description: An organization
       example:
         organizationId: awesome-organization
-        name: name
-        shortName: shortName
-        url: https://openapi-generator.tech
+        name: Awesome Organization
+        shortName: AO
+        url: https://www.example.org
       properties:
         organizationId:
           description: The ID of the organization
@@ -1150,6 +1084,40 @@ components:
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
       type: object
+    OrganizationCreateRequest:
+      description: An organization
+      example:
+        name: Awesome Organization
+        shortName: AO
+        url: https://www.example.org
+      properties:
+        name:
+          description: The organization name
+          type: string
+        shortName:
+          description: The organization short name
+          type: string
+        url:
+          description: The URL to the homepage of the organization
+          format: uri
+          type: string
+      required:
+      - name
+      - url
+      type: object
+    OrganizationCreateResponse:
+      description: An organization ID
+      example:
+        organizationId: awesome-organization
+      properties:
+        organizationId:
+          description: The ID of the organization
+          example: awesome-organization
+          maxLength: 60
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+      type: object
     PersonFilter:
       description: An object that describes how to filter Persons
       properties:
@@ -1174,13 +1142,12 @@ components:
     Person:
       description: A person
       example:
+        personId: 507f1f77bcf86cd799439011
         firstName: John
         lastName: Smith
-        organizations:
-        - awesome-organization
-        - awesome-organization
-        personId: 507f1f77bcf86cd799439011
         email: john.smith@example.com
+        organizations:
+        - awesome-organization1
       properties:
         personId:
           description: The ID of the person
@@ -1188,11 +1155,9 @@ components:
           type: string
         firstName:
           description: The first name of the person
-          example: John
           type: string
         lastName:
           description: The last name of the person
-          example: Smith
           type: string
         email:
           description: An email address
@@ -1211,6 +1176,46 @@ components:
       - $ref: '#/components/schemas/PageOfPersons_allOf'
       description: A page of Persons
       type: object
+    PersonCreateRequest:
+      description: A person
+      example:
+        firstName: John
+        lastName: Smith
+        email: john.smith@example.com
+        organizations:
+        - awesome-organization1
+      properties:
+        firstName:
+          description: The first name of the person
+          type: string
+        lastName:
+          description: The last name of the person
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        organizations:
+          description: The organizations the person belongs to
+          items:
+            $ref: '#/components/schemas/OrganizationId'
+          type: array
+      required:
+      - email
+      - firstName
+      - lastName
+      type: object
+    PersonCreateResponse:
+      description: A person ID
+      example:
+        personId: 507f1f77bcf86cd799439011
+      properties:
+        personId:
+          description: The ID of the person
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
     TagFilter:
       description: An object that describes how to filter Tags
       properties:
@@ -1222,7 +1227,7 @@ components:
       description: A tag that can be assigned to a resource
       example:
         tagId: awesome-tag
-        description: description
+        description: Awesome tag
       properties:
         tagId:
           description: The ID of the tag
@@ -1241,6 +1246,28 @@ components:
       - $ref: '#/components/schemas/PageOfTags_allOf'
       description: A page of Tags
       type: object
+    TagCreateRequest:
+      description: A tag that can be assigned to a resource
+      example:
+        description: Awesome tag
+      properties:
+        description:
+          description: A short description of the tag
+          type: string
+      type: object
+    TagCreateResponse:
+      description: A tag ID
+      example:
+        tagId: awesome-tag
+      properties:
+        tagId:
+          description: The ID of the tag
+          example: awesome-tag
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+      type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
       properties:
@@ -1248,7 +1275,6 @@ components:
           description: Link to the next page of results
           format: uri
           type: string
-      type: object
     PageOfChallenges_allOf:
       properties:
         challenges:
@@ -1256,7 +1282,6 @@ components:
           items:
             $ref: '#/components/schemas/Challenge'
           type: array
-      type: object
     PageOfGrants_allOf:
       properties:
         grants:
@@ -1264,7 +1289,6 @@ components:
           items:
             $ref: '#/components/schemas/Grant'
           type: array
-      type: object
     PageOfOrganizations_allOf:
       properties:
         organizations:
@@ -1272,7 +1296,6 @@ components:
           items:
             $ref: '#/components/schemas/Organization'
           type: array
-      type: object
     PageOfPersons_allOf:
       properties:
         persons:
@@ -1280,7 +1303,6 @@ components:
           items:
             $ref: '#/components/schemas/Person'
           type: array
-      type: object
     PageOfTags_allOf:
       properties:
         tags:
@@ -1288,4 +1310,3 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
-      type: object

@@ -8,18 +8,16 @@ from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChal
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.challenge import Challenge
+from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_challenges import PageOfChallenges
 from openapi_server.config import Config
 
 
-def create_challenge(challenge=None):
+def create_challenge():
     """Add a challenge
 
     Adds a challenge
-
-    :param challenge:
-    :type challenge: dict | bytes
 
     :rtype: Challenge
     """
@@ -36,6 +34,7 @@ def create_challenge(challenge=None):
                 except DoesNotExist:
                     status = 404
                     res = Error(f"The tag, {tag_id}, was not found", status)
+                    return res, status
 
             # Check for persons not currently in our db.
             for person_id in challenge.organizers:
@@ -44,30 +43,31 @@ def create_challenge(challenge=None):
                 except DoesNotExist:
                     status = 404
                     res = Error(f"Person {person_id} not found", status)
+                    return res, status
 
             # Add challenge if all tags and persons are found and valid.
-            if status is None:
-                try:
-                    db_challenge = DbChallenge(
-                        name=challenge.name,
-                        startDate=challenge.start_date,
-                        endDate=challenge.end_date,
-                        url=challenge.url,
-                        status=challenge.status,
-                        # grant=challenge.grant,
-                        organizers=challenge.organizers,
-                        tags=challenge.tags,
-                        challengeResults=DbChallengeResults(
-                            nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
-                            nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
-                            nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
-                        )
-                    ).save(force_insert=True)
-                    res = Challenge.from_dict(db_challenge.to_dict())
-                    status = 200
-                except NotUniqueError as error:
-                    status = 409
-                    res = Error("Conflict", status, str(error))
+            try:
+                db_challenge = DbChallenge(
+                    name=challenge.name,
+                    startDate=challenge.start_date,
+                    endDate=challenge.end_date,
+                    url=challenge.url,
+                    status=challenge.status,
+                    # grant=challenge.grant,
+                    organizers=challenge.organizers,
+                    tags=challenge.tags,
+                    challengeResults=DbChallengeResults(
+                        nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
+                        nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
+                        nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
+                    )
+                ).save(force_insert=True)
+                new_id = db_challenge.to_dict().get("challengeId")
+                res = ChallengeCreateResponse(challenge_id=new_id)
+                status = 201
+            except NotUniqueError as error:
+                status = 409
+                res = Error("Conflict", status, str(error))
         else:
             status = 400
             res = Error("Bad request", status)
@@ -92,12 +92,13 @@ def delete_challenge(challenge_id):
     status = None
     try:
         db_challenge = DbChallenge.objects(challengeId=challenge_id).first()
-        res = Challenge.from_dict(db_challenge.to_dict())
-        db_challenge.delete()
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_challenge:
+            db_challenge.delete()
+            res = {}
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -118,11 +119,12 @@ def get_challenge(challenge_id):
     status = None
     try:
         db_challenge = DbChallenge.objects(challengeId=challenge_id).first()
-        res = Challenge.from_dict(db_challenge.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+        if db_challenge:
+            res = Challenge.from_dict(db_challenge.to_dict())
+            status = 200
+        else:
+            status = 404
+            res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -166,11 +168,12 @@ def list_challenges(limit=None, offset=None, filter_=None):
             links={
                 "next": next_
             },
+            total_results=len(challenges),
             challenges=challenges)
         status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
+    except DoesNotExist:  # TODO: update exception handling
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
