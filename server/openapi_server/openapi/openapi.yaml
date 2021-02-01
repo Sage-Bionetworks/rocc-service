@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.3
+  version: 0.1.4
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -34,6 +34,8 @@ tags:
   name: Person
 - description: Operations about tags
   name: Tag
+- description: Operations about users
+  name: User
 paths:
   /challenges:
     get:
@@ -82,6 +84,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: List all the challenges
       tags:
       - Challenge
@@ -114,6 +123,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Add a challenge
       tags:
       - Challenge
@@ -144,6 +160,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Delete a challenge
       tags:
       - Challenge
@@ -173,6 +196,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get a challenge
       tags:
       - Challenge
@@ -216,6 +246,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get all grants
       tags:
       - Grant
@@ -247,6 +284,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Create a grant
       tags:
       - Grant
@@ -277,6 +321,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Delete a grant
       tags:
       - Grant
@@ -306,6 +357,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get a grant
       tags:
       - Grant
@@ -349,6 +407,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get all organizations
       tags:
       - Organization
@@ -389,6 +454,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Create an organization
       tags:
       - Organization
@@ -419,6 +491,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Delete an organization
       tags:
       - Organization
@@ -448,6 +527,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get an organization
       tags:
       - Organization
@@ -499,6 +585,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get all persons
       tags:
       - Person
@@ -530,6 +623,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Create a person
       tags:
       - Person
@@ -560,6 +660,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Delete a person
       tags:
       - Person
@@ -589,6 +696,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get a person
       tags:
       - Person
@@ -640,6 +754,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get all tags
       tags:
       - Tag
@@ -680,6 +801,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Create a tag
       tags:
       - Tag
@@ -710,6 +838,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Delete a tag
       tags:
       - Tag
@@ -739,10 +874,187 @@ paths:
               schema:
                 $ref: '#/components/schemas/Error'
           description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get a tag
       tags:
       - Tag
       x-openapi-router-controller: openapi_server.controllers.tag_controller
+  /users:
+    get:
+      description: Returns the users
+      operationId: list_users
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfUsers'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get all users
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    post:
+      description: Create a user with the specified username
+      operationId: create_user
+      parameters:
+      - description: The username of the user that is being created
+        explode: true
+        in: query
+        name: username
+        required: true
+        schema:
+          $ref: '#/components/schemas/Username'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreateResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+  /users/{username}:
+    delete:
+      description: Deletes the user specified
+      operationId: delete_user
+      parameters:
+      - description: The username of the user
+        explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          $ref: '#/components/schemas/Username'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    get:
+      description: Returns the user specified
+      operationId: get_user
+      parameters:
+      - description: The username of the user
+        explode: false
+        in: path
+        name: username
+        required: true
+        schema:
+          $ref: '#/components/schemas/Username'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get a user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
   responses:
     BadRequest:
@@ -751,6 +1063,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Invalid request
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The request cannot be fulfilled due to an unexpected server error
     Conflict:
       content:
         application/json:
@@ -810,6 +1128,16 @@ components:
       description: The ID of the challenge
       example: 507f1f77bcf86cd799439011
       type: string
+    ChallengeCreateResponse:
+      description: A challenge ID
+      example:
+        challengeId: 507f1f77bcf86cd799439011
+      properties:
+        challengeId:
+          description: The ID of the challenge
+          example: 507f1f77bcf86cd799439011
+          type: string
+      type: object
     TagId:
       description: The ID of the tag
       example: awesome-tag
@@ -837,85 +1165,6 @@ components:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
       type: string
-    Challenge:
-      description: A challenge
-      example:
-        challengeId: 507f1f77bcf86cd799439011
-        name: Awesome Challenge
-        startDate: 2020-11-10
-        endDate: 2020-12-31
-        url: https://synapse.org/awesome-challenge
-        status: open
-        tags:
-        - awesome-tag1
-        - awesome-tag2
-        challengeResults:
-          nSubmissions: 0
-          nFinalSubmissions: 0
-          nRegisteredParticipants: 0
-        organizers:
-        - 507f1f77bcf86cd799439011
-      properties:
-        challengeId:
-          description: The ID of the challenge
-          example: 507f1f77bcf86cd799439011
-          type: string
-        name:
-          description: The challenge name
-          type: string
-        startDate:
-          description: When the challenge started
-          format: date
-          type: string
-        endDate:
-          description: When the challenge ended
-          format: date
-          type: string
-        url:
-          description: The URL to the challenge website
-          format: uri
-          type: string
-        status:
-          $ref: '#/components/schemas/ChallengeStatus'
-        tags:
-          description: The tags associated to the challenge
-          items:
-            $ref: '#/components/schemas/TagId'
-          type: array
-        challengeResults:
-          $ref: '#/components/schemas/ChallengeResults'
-        organizers:
-          description: The organizers of the challenge
-          items:
-            $ref: '#/components/schemas/PersonId'
-          type: array
-      type: object
-    PageOfChallenges:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfChallenges_allOf'
-      description: A page of Challenges
-      type: object
-    Error:
-      description: Problem details (tools.ietf.org/html/rfc7807)
-      properties:
-        title:
-          description: A human readable documentation for the problem type
-          type: string
-        status:
-          description: The HTTP status code
-          type: integer
-        detail:
-          description: A human readable explanation specific to this occurrence of
-            the problem
-          type: string
-        type:
-          description: An absolute URI that identifies the problem type
-          type: string
-      required:
-      - status
-      - title
-      type: object
     ChallengeCreateRequest:
       description: A challenge
       example:
@@ -969,15 +1218,37 @@ components:
       - startDate
       - status
       type: object
-    ChallengeCreateResponse:
-      description: A challenge ID
-      example:
-        challengeId: 507f1f77bcf86cd799439011
+    Challenge:
+      allOf:
+      - $ref: '#/components/schemas/ChallengeCreateResponse'
+      - $ref: '#/components/schemas/ChallengeCreateRequest'
+      description: A challenge
+      type: object
+    PageOfChallenges:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfChallenges_allOf'
+      description: A page of Challenges
+      type: object
+    Error:
+      description: Problem details (tools.ietf.org/html/rfc7807)
       properties:
-        challengeId:
-          description: The ID of the challenge
-          example: 507f1f77bcf86cd799439011
+        title:
+          description: A human readable documentation for the problem type
           type: string
+        status:
+          description: The HTTP status code
+          type: integer
+        detail:
+          description: A human readable explanation specific to this occurrence of
+            the problem
+          type: string
+        type:
+          description: An absolute URI that identifies the problem type
+          type: string
+      required:
+      - status
+      - title
       type: object
     EmptyObject:
       description: Empty JSON object
@@ -986,34 +1257,15 @@ components:
       description: The ID of the grant
       example: 507f1f77bcf86cd799439011
       type: string
-    Grant:
-      description: Information about monetary resources for challenge
+    GrantCreateResponse:
+      description: A grant ID
       example:
         grantId: 507f1f77bcf86cd799439011
-        name: Awesome Grant
-        description: This is an awesome grant
-        url: https://report.nih.gov/
       properties:
         grantId:
           description: The ID of the grant
           example: 507f1f77bcf86cd799439011
           type: string
-        name:
-          description: The grant name
-          type: string
-        description:
-          description: A description of the grant
-          type: string
-        url:
-          description: The URL to the grant
-          format: uri
-          type: string
-      type: object
-    PageOfGrants:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfGrants_allOf'
-      description: A page of Grants
       type: object
     GrantCreateRequest:
       description: Information about monetary resources for challenge
@@ -1035,15 +1287,17 @@ components:
       required:
       - name
       type: object
-    GrantCreateResponse:
-      description: A grant ID
-      example:
-        grantId: 507f1f77bcf86cd799439011
-      properties:
-        grantId:
-          description: The ID of the grant
-          example: 507f1f77bcf86cd799439011
-          type: string
+    Grant:
+      allOf:
+      - $ref: '#/components/schemas/GrantCreateResponse'
+      - $ref: '#/components/schemas/GrantCreateRequest'
+      description: Information about monetary resources for challenge
+      type: object
+    PageOfGrants:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfGrants_allOf'
+      description: A page of Grants
       type: object
     OrganizationId:
       description: The ID of the organization
@@ -1052,13 +1306,10 @@ components:
       minLength: 3
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       type: string
-    Organization:
-      description: An organization
+    OrganizationCreateResponse:
+      description: An organization ID
       example:
         organizationId: awesome-organization
-        name: Awesome Organization
-        shortName: AO
-        url: https://www.example.org
       properties:
         organizationId:
           description: The ID of the organization
@@ -1067,22 +1318,6 @@ components:
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
           type: string
-        name:
-          description: The organization name
-          type: string
-        shortName:
-          description: The organization short name
-          type: string
-        url:
-          description: The URL to the homepage of the organization
-          format: uri
-          type: string
-      type: object
-    PageOfOrganizations:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfOrganizations_allOf'
-      description: A page of Organizations
       type: object
     OrganizationCreateRequest:
       description: An organization
@@ -1105,18 +1340,17 @@ components:
       - name
       - url
       type: object
-    OrganizationCreateResponse:
-      description: An organization ID
-      example:
-        organizationId: awesome-organization
-      properties:
-        organizationId:
-          description: The ID of the organization
-          example: awesome-organization
-          maxLength: 60
-          minLength: 3
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          type: string
+    Organization:
+      allOf:
+      - $ref: '#/components/schemas/OrganizationCreateResponse'
+      - $ref: '#/components/schemas/OrganizationCreateRequest'
+      description: An organization
+      type: object
+    PageOfOrganizations:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfOrganizations_allOf'
+      description: A page of Organizations
       type: object
     PersonFilter:
       description: An object that describes how to filter Persons
@@ -1134,48 +1368,21 @@ components:
           description: Keep the persons who belong to this organization
           type: string
       type: object
-    Email:
-      description: An email address
-      example: john.smith@example.com
-      format: email
-      type: string
-    Person:
-      description: A person
+    PersonCreateResponse:
+      description: A person ID
       example:
         personId: 507f1f77bcf86cd799439011
-        firstName: John
-        lastName: Smith
-        email: john.smith@example.com
-        organizations:
-        - awesome-organization1
       properties:
         personId:
           description: The ID of the person
           example: 507f1f77bcf86cd799439011
           type: string
-        firstName:
-          description: The first name of the person
-          type: string
-        lastName:
-          description: The last name of the person
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        organizations:
-          description: The organizations the person belongs to
-          items:
-            $ref: '#/components/schemas/OrganizationId'
-          type: array
       type: object
-    PageOfPersons:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfPersons_allOf'
-      description: A page of Persons
-      type: object
+    Email:
+      description: An email address
+      example: john.smith@example.com
+      format: email
+      type: string
     PersonCreateRequest:
       description: A person
       example:
@@ -1183,7 +1390,7 @@ components:
         lastName: Smith
         email: john.smith@example.com
         organizations:
-        - awesome-organization1
+        - awesome-organization
       properties:
         firstName:
           description: The first name of the person
@@ -1206,53 +1413,23 @@ components:
       - firstName
       - lastName
       type: object
-    PersonCreateResponse:
-      description: A person ID
-      example:
-        personId: 507f1f77bcf86cd799439011
-      properties:
-        personId:
-          description: The ID of the person
-          example: 507f1f77bcf86cd799439011
-          type: string
+    Person:
+      allOf:
+      - $ref: '#/components/schemas/PersonCreateResponse'
+      - $ref: '#/components/schemas/PersonCreateRequest'
+      description: A person
+      type: object
+    PageOfPersons:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfPersons_allOf'
+      description: A page of Persons
       type: object
     TagFilter:
       description: An object that describes how to filter Tags
       properties:
         tagId:
           description: Keep the tags whose tagId starts with this term
-          type: string
-      type: object
-    Tag:
-      description: A tag that can be assigned to a resource
-      example:
-        tagId: awesome-tag
-        description: Awesome tag
-      properties:
-        tagId:
-          description: The ID of the tag
-          example: awesome-tag
-          maxLength: 60
-          minLength: 1
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          type: string
-        description:
-          description: A short description of the tag
-          type: string
-      type: object
-    PageOfTags:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfTags_allOf'
-      description: A page of Tags
-      type: object
-    TagCreateRequest:
-      description: A tag that can be assigned to a resource
-      example:
-        description: Awesome tag
-      properties:
-        description:
-          description: A short description of the tag
           type: string
       type: object
     TagCreateResponse:
@@ -1267,6 +1444,88 @@ components:
           minLength: 1
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
           type: string
+      type: object
+    TagCreateRequest:
+      description: A tag that can be assigned to a resource
+      example:
+        description: Awesome tag
+      properties:
+        description:
+          description: A short description of the tag
+          type: string
+      type: object
+    Tag:
+      allOf:
+      - $ref: '#/components/schemas/TagCreateResponse'
+      - $ref: '#/components/schemas/TagCreateRequest'
+      description: A tag that can be assigned to a resource
+      type: object
+    PageOfTags:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfTags_allOf'
+      description: A page of Tags
+      type: object
+    Username:
+      description: The username of the user
+      example: awesome-user
+      maxLength: 25
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      type: string
+    UserCreateResponse:
+      description: A user's username
+      example:
+        username: awesome-user
+      properties:
+        username:
+          description: The username of the user
+          example: awesome-user
+          maxLength: 25
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+      type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/PersonCreateRequest'
+      - $ref: '#/components/schemas/User_allOf'
+      description: A user of the portal
+      example:
+        username: awesome-user
+        role: user
+        firstName: John
+        lastName: Smith
+        email: john.smith@example.com
+        organizations:
+        - awesome-organization
+      type: object
+    PageOfUsers:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfUsers_allOf'
+      description: A page of Users
+      type: object
+    Password:
+      description: A user's password
+      example: awesome-password!
+      maxLength: 100
+      minLength: 8
+      type: string
+    UserCreateRequest:
+      allOf:
+      - $ref: '#/components/schemas/PersonCreateRequest'
+      - $ref: '#/components/schemas/UserCreateRequest_allOf'
+      description: A user of the portal
+      example:
+        password: awesome-password
+        role: user
+        firstName: John
+        lastName: Smith
+        email: john.smith@example.com
+        organizations:
+        - awesome-organization
       type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
@@ -1310,3 +1569,37 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
+    User_allOf:
+      properties:
+        role:
+          default: user
+          description: The role of the user
+          enum:
+          - user
+          - admin
+          type: string
+    PageOfUsers_allOf:
+      properties:
+        users:
+          description: An array of Users
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+    UserCreateRequest_allOf:
+      properties:
+        password:
+          description: A user's password
+          example: awesome-password!
+          maxLength: 100
+          minLength: 8
+          type: string
+        role:
+          default: user
+          description: The role of the user
+          enum:
+          - user
+          - admin
+          type: string
+      required:
+      - email
+      - password

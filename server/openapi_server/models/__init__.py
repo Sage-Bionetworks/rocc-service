@@ -31,3 +31,6 @@ from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.tag_filter import TagFilter
+from openapi_server.models.user import User
+from openapi_server.models.user_create_request import UserCreateRequest
+from openapi_server.models.user_create_response import UserCreateResponse
