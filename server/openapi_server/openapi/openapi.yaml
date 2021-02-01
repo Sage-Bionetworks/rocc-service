@@ -1601,5 +1601,4 @@ components:
           - admin
           type: string
       required:
-      - email
-      - password
+        - password
