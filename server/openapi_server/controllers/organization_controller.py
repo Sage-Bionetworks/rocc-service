@@ -60,14 +60,12 @@ def delete_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects.get(organizationId=organization_id)
-        if db_org:
-            db_org.delete()
-            res = {}
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        DbOrganization.objects.get(organizationId=organization_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

@@ -1,30 +1,54 @@
 import connexion
+from mongoengine.errors import DoesNotExist, NotUniqueError
 
+from openapi_server.dbmodels.user import User as DbUser
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.user import User
-from openapi_server.models.user_create_request import UserCreateRequest
 from openapi_server.models.user_create_response import UserCreateResponse
+from openapi_server.config import Config
 
 
-def create_user(username, user_create_request=None):  # noqa: E501
+def create_user(username):
     """Create a user
 
     Create a user with the specified username # noqa: E501
 
     :param username: The username of the user that is being created
     :type username: str
-    :param user_create_request:
-    :type user_create_request: dict | bytes
 
     :rtype: UserCreateResponse
     """
+    res = None
+    status = None
     if connexion.request.is_json:
-        user_create_request = UserCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        try:
+            user = User.from_dict(connexion.request.get_json())
+            user.username = username
+            db_user = DbUser(
+                username=user.username,
+                password=user.password,
+                firstName=user.first_first,
+                lastName=user.last_name,
+                email=user.email
+            ).save(force_insert=True)
+            new_id = db_user.to_dict().get("username")
+            res = UserCreateResponse(user=new_id)
+            status = 201
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status)
+
+    return res, status
 
 
-def delete_user(username):  # noqa: E501
+def delete_user(username):
     """Delete a user
 
     Deletes the user specified # noqa: E501
@@ -34,10 +58,23 @@ def delete_user(username):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        DbUser.objects.get(username=username).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
-def get_user(username):  # noqa: E501
+def get_user(username):
     """Get a user
 
     Returns the user specified # noqa: E501
@@ -47,10 +84,23 @@ def get_user(username):  # noqa: E501
 
     :rtype: User
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_user = DbUser.objects.get(username=username)
+        res = User.from_dict(db_user.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
 
 
-def list_users(limit=None, offset=None):  # noqa: E501
+def list_users(limit=None, offset=None):
     """Get all users
 
     Returns the users # noqa: E501
@@ -62,4 +112,29 @@ def list_users(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfUsers
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_users = DbUser.objects.skip(offset).limit(limit)
+        users = [User.from_dict(d.to_dict()) for d in db_users]
+        next_ = ""
+        if len(users) == limit:
+            next_ = "%s/orgs?limit=%s&offset=%s" % \
+                (Config().server_api_url, limit, offset + limit)
+        res = PageOfUsers(
+            offset=offset,
+            limit=limit,
+            links={
+                "next": next_
+            },
+            total_results=len(users),
+            users=users)
+        status = 200
+    except TypeError:  # TODO: may need different exception
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+
+    return res, status
