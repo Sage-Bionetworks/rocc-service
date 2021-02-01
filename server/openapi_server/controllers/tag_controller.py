@@ -59,14 +59,12 @@ def delete_tag(tag_id):
     res = None
     status = None
     try:
-        db_tag = DbTag.objects(tagId=tag_id).first()
-        if db_tag:
-            db_tag.delete()
-            res = {}
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        DbTag.objects.get(tagId=tag_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -87,13 +85,12 @@ def get_tag(tag_id):
     res = None
     status = None
     try:
-        db_tag = DbTag.objects(tagId=tag_id).first()
-        if db_tag:
-            res = Tag.from_dict(db_tag.to_dict())
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        db_tag = DbTag.objects.get(tagId=tag_id)
+        res = Tag.from_dict(db_tag.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -133,7 +130,7 @@ def list_tags(limit=None, offset=None, filter_=None):
             total_results=len(tags),
             tags=tags)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:

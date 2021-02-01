@@ -60,7 +60,7 @@ def delete_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects(organizationId=organization_id).first()
+        db_org = DbOrganization.objects.get(organizationId=organization_id)
         if db_org:
             db_org.delete()
             res = {}
@@ -88,13 +88,12 @@ def get_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects(organizationId=organization_id).first()
-        if db_org:
-            res = Organization.from_dict(db_org.to_dict())
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        res = Organization.from_dict(db_org.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -132,7 +131,7 @@ def list_organizations(limit=None, offset=None):
             total_results=len(orgs),
             organizations=orgs)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:

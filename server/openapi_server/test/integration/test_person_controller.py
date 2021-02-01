@@ -28,8 +28,8 @@ class TestPersonController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbOrganization.objects().delete()
-        DbPerson.objects().delete()
+        DbOrganization.objects.delete()
+        DbPerson.objects.delete()
         util.create_test_organization("awesome-organization")
 
     def tearDown(self):

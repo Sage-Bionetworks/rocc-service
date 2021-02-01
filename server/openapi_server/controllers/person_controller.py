@@ -71,14 +71,12 @@ def delete_person(person_id):
     res = None
     status = None
     try:
-        db_person = DbPerson.objects(personId=person_id).first()
-        if db_person:
-            db_person.delete()
-            res = {}
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        DbPerson.objects.get(personId=person_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -98,13 +96,12 @@ def get_person(person_id):
     res = None
     status = None
     try:
-        db_person = DbPerson.objects(personId=person_id).first()
-        if db_person:
-            res = Person.from_dict(db_person.to_dict())
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        db_person = DbPerson.objects.get(personId=person_id)
+        res = Person.from_dict(db_person.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -152,7 +149,7 @@ def list_persons(limit=None, offset=None, filter_=None):
             total_results=len(persons),
             persons=persons)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:

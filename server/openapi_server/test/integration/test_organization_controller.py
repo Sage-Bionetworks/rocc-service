@@ -28,7 +28,7 @@ class TestOrganizationController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbOrganization.objects().delete()
+        DbOrganization.objects.delete()
 
     def tearDown(self):
         util.disconnect_db()

@@ -27,7 +27,7 @@ class TestGrantController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbGrant.objects().delete()
+        DbGrant.objects.delete()
 
     def tearDown(self):
         util.disconnect_db()

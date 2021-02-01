@@ -30,9 +30,9 @@ class TestChallengeController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbChallenge.objects().delete()
-        DbPerson.objects().delete()
-        DbTag.objects().delete()
+        DbChallenge.objects.delete()
+        DbPerson.objects.delete()
+        DbTag.objects.delete()
         util.create_test_tag("awesome-tag")
 
     def tearDown(self):

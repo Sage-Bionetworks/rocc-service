@@ -29,7 +29,7 @@ class TestTagController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbTag.objects().delete()
+        DbTag.objects.delete()
 
     def tearDown(self):
         util.disconnect_db()
