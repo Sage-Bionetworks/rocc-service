@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.tag import Tag as DbTag
 # from openapi_server.models.tag_filter import TagFilter
@@ -21,7 +20,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 500 reponses
+# TODO: mock 500 responses
 
 
 class TestTagController(BaseTestCase):
@@ -29,7 +28,7 @@ class TestTagController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbTag.objects().delete()
+        DbTag.objects.delete()
 
     def tearDown(self):
         util.disconnect_db()
@@ -53,6 +52,7 @@ class TestTagController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_tag_with_status400(self):
         """Test case for create_tag
 
@@ -112,7 +112,7 @@ class TestTagController(BaseTestCase):
 
         Delete an unknown tag (404)
         """
-        tag_id = ObjectId()
+        tag_id = "foo"
         response = self.client.open(
             f"/api/v1/tags/{tag_id}",
             method="DELETE",
@@ -142,7 +142,7 @@ class TestTagController(BaseTestCase):
 
         Get an unknown tag (404)
         """
-        tag_id = ObjectId()
+        tag_id = "foo"
         response = self.client.open(
             f"/api/v1/tags/{tag_id}",
             method="GET",

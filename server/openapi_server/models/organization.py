@@ -107,6 +107,8 @@ class Organization(Model):
         :param name: The name of this Organization.
         :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -153,5 +155,7 @@ class Organization(Model):
         :param url: The url of this Organization.
         :type url: str
         """
+        if url is None:
+            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
 
         self._url = url

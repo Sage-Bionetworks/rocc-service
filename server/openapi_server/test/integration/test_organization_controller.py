@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.test.integration import BaseTestCase
@@ -20,7 +19,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 409 and 500 reponses
+# TODO: mock 500 responses
 
 
 class TestOrganizationController(BaseTestCase):
@@ -28,7 +27,7 @@ class TestOrganizationController(BaseTestCase):
 
     def setUp(self):
         util.connect_db()
-        DbOrganization.objects().delete()
+        DbOrganization.objects.delete()
 
     def tearDown(self):
         util.disconnect_db()
@@ -55,6 +54,7 @@ class TestOrganizationController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_organization_with_status400(self):
         """Test case for create_organization
 
@@ -70,6 +70,24 @@ class TestOrganizationController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=organization,
+            query_string=ID_QUERY
+        )
+        self.assert400(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_empty_organization_with_status400(self):
+        """Test case for create_organization
+
+        Create an empty organization with missing required properties (400)
+        """
+        organization = {}
+        response = self.client.open(
+            "/api/v1/organizations",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(organization),
             query_string=ID_QUERY
         )
         self.assert400(
@@ -121,7 +139,7 @@ class TestOrganizationController(BaseTestCase):
 
         Delete an unknown organization (404)
         """
-        organization_id = ObjectId()
+        organization_id = "foo"
         response = self.client.open(
             f"/api/v1/organizations/{organization_id}",
             method="DELETE",
@@ -153,7 +171,7 @@ class TestOrganizationController(BaseTestCase):
 
         Get an existing organization (200)
         """
-        organization_id = ObjectId()
+        organization_id = "foo"
         response = self.client.open(
             f"/api/v1/organizations/{organization_id}",
             method="GET",

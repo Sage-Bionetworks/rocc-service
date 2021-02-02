@@ -21,6 +21,7 @@ from openapi_server.models.page_of_grants import PageOfGrants
 from openapi_server.models.page_of_organizations import PageOfOrganizations
 from openapi_server.models.page_of_persons import PageOfPersons
 from openapi_server.models.page_of_tags import PageOfTags
+from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.person import Person
 from openapi_server.models.person_create_request import PersonCreateRequest
 from openapi_server.models.person_create_response import PersonCreateResponse
@@ -31,3 +32,6 @@ from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.tag_filter import TagFilter
+from openapi_server.models.user import User
+from openapi_server.models.user_create_request import UserCreateRequest
+from openapi_server.models.user_create_response import UserCreateResponse

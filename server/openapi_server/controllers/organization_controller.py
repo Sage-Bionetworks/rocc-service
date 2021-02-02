@@ -24,15 +24,13 @@ def create_organization(organization_id):
     if connexion.request.is_json:
         try:
             org = Organization.from_dict(connexion.request.get_json())
-            org.organization_id = organization_id
-            db_org = DbOrganization(
-                organizationId=org.organization_id,
+            DbOrganization(
+                organizationId=organization_id,
                 name=org.name,
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            new_id = db_org.to_dict().get("organizationId")
-            res = OrganizationCreateResponse(organization_id=new_id)
+            res = OrganizationCreateResponse(organization_id=organization_id)
             status = 201
         except NotUniqueError as error:
             status = 409
@@ -60,14 +58,12 @@ def delete_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects(organizationId=organization_id).first()
-        if db_org:
-            db_org.delete()
-            res = {}
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        DbOrganization.objects.get(organizationId=organization_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -88,13 +84,12 @@ def get_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects(organizationId=organization_id).first()
-        if db_org:
-            res = Organization.from_dict(db_org.to_dict())
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        res = Organization.from_dict(db_org.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -132,7 +127,7 @@ def list_organizations(limit=None, offset=None):
             total_results=len(orgs),
             organizations=orgs)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:

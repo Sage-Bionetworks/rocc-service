@@ -127,6 +127,8 @@ class Challenge(Model):
         :param name: The name of this Challenge.
         :type name: str
         """
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
 
@@ -150,6 +152,8 @@ class Challenge(Model):
         :param start_date: The start_date of this Challenge.
         :type start_date: date
         """
+        if start_date is None:
+            raise ValueError("Invalid value for `start_date`, must not be `None`")  # noqa: E501
 
         self._start_date = start_date
 
@@ -173,6 +177,8 @@ class Challenge(Model):
         :param end_date: The end_date of this Challenge.
         :type end_date: date
         """
+        if end_date is None:
+            raise ValueError("Invalid value for `end_date`, must not be `None`")  # noqa: E501
 
         self._end_date = end_date
 
@@ -217,6 +223,8 @@ class Challenge(Model):
         :param status: The status of this Challenge.
         :type status: ChallengeStatus
         """
+        if status is None:
+            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
 
         self._status = status
 

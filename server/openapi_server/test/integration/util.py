@@ -8,6 +8,7 @@ from openapi_server.dbmodels.tag import Tag
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.challenge_results import ChallengeResults
+from openapi_server.dbmodels.user import User
 
 
 def connect_db():
@@ -33,6 +34,16 @@ def create_test_organization(organization_id):
 
 def create_test_person(organizations):
     return Person(
+        firstName="Awesome",
+        lastName="Person",
+        email="awesome-person@example.org",
+        organizations=organizations
+    ).save()
+
+
+def create_test_user(username, organizations):
+    return User(
+        username=username,
         firstName="Awesome",
         lastName="Person",
         email="awesome-person@example.org",

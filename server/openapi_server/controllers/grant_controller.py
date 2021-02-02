@@ -55,14 +55,12 @@ def delete_grant(grant_id):
     res = None
     status = None
     try:
-        db_grant = DbGrant.objects(grantId=grant_id).first()
-        if db_grant:
-            db_grant.delete()
-            res = {}
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        DbGrant.objects.get(grantId=grant_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -82,13 +80,12 @@ def get_grant(grant_id):
     res = None
     status = None
     try:
-        db_grant = DbGrant.objects(grantId=grant_id).first()
-        if db_grant:
-            res = Grant.from_dict(db_grant.to_dict())
-            status = 200
-        else:
-            status = 404
-            res = Error("The specified resource was not found", status)
+        db_grant = DbGrant.objects.get(grantId=grant_id)
+        res = Grant.from_dict(db_grant.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
@@ -125,7 +122,7 @@ def list_grants(limit=None, offset=None):
             total_results=len(grants),
             grants=grants)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:
