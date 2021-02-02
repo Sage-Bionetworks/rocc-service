@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.test.integration import BaseTestCase
@@ -121,7 +120,7 @@ class TestOrganizationController(BaseTestCase):
 
         Delete an unknown organization (404)
         """
-        organization_id = ObjectId()
+        organization_id = "foo"
         response = self.client.open(
             f"/api/v1/organizations/{organization_id}",
             method="DELETE",
@@ -153,7 +152,7 @@ class TestOrganizationController(BaseTestCase):
 
         Get an existing organization (200)
         """
-        organization_id = ObjectId()
+        organization_id = "foo"
         response = self.client.open(
             f"/api/v1/organizations/{organization_id}",
             method="GET",

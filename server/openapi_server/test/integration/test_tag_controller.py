@@ -4,7 +4,6 @@ from __future__ import absolute_import
 import unittest
 
 from flask import json
-from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.tag import Tag as DbTag
 # from openapi_server.models.tag_filter import TagFilter
@@ -112,7 +111,7 @@ class TestTagController(BaseTestCase):
 
         Delete an unknown tag (404)
         """
-        tag_id = ObjectId()
+        tag_id = "foo"
         response = self.client.open(
             f"/api/v1/tags/{tag_id}",
             method="DELETE",
@@ -142,7 +141,7 @@ class TestTagController(BaseTestCase):
 
         Get an unknown tag (404)
         """
-        tag_id = ObjectId()
+        tag_id = "foo"
         response = self.client.open(
             f"/api/v1/tags/{tag_id}",
             method="GET",
