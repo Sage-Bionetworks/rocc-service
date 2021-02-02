@@ -11,7 +11,9 @@ class TestOrganizationModel(BaseTestCase):
 
     def setUp(self):
         self.organization = Organization(
-            organization_id="awesome-organization"
+            organization_id="awesome-organization",
+            name="Awesome Organization",
+            url="www.awesome-organization.org"
         )
 
     def test_long_organization_id(self):
@@ -38,6 +40,22 @@ class TestOrganizationModel(BaseTestCase):
         """
         with self.assertRaises(ValueError):
             self.organization.organization_id = "awesome--organization"
+
+    def test_missing_organization_name(self):
+        """Test case for Organization
+
+        Set the name to None
+        """
+        with self.assertRaises(ValueError):
+            self.organization.name = None
+
+    def test_missing_organization_url(self):
+        """Test case for Organization
+
+        Set the url to None
+        """
+        with self.assertRaises(ValueError):
+            self.organization.url = None
 
 
 if __name__ == "__main__":

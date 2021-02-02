@@ -22,7 +22,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 409 and 500 reponses
+# TODO: mock 500 responses
 
 
 class TestChallengeController(BaseTestCase):
@@ -43,14 +43,14 @@ class TestChallengeController(BaseTestCase):
 
         Create a challenge (201)
         """
-        person = util.create_test_person(["awesome-organization"]).to_dict()
+        person = util.create_test_person(["awesome-organization"])
         challenge = {
             'name': "awesome-challenge",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [person.get("personId")],
+            'organizers': [str(person.personId)],
             'tags': ["awesome-tag"],
             'challengeResults': {}
         }
@@ -65,19 +65,20 @@ class TestChallengeController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_challenge_with_status400(self):
         """Test case for create_challenge
 
         Create a (non-JSON) challenge (400)
         """
-        person = util.create_test_person(["awesome-organization"]).to_dict()
+        person = util.create_test_person(["awesome-organization"])
         challenge = {
             'name': "awesome-challenge",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [person.get("personId")],
+            'organizers': [str(person.personId)],
             'tags': ["awesome-tag"],
             'challengeResults': {}
         }
@@ -95,7 +96,7 @@ class TestChallengeController(BaseTestCase):
     def test_create_empty_challenge_with_status400(self):
         """Test case for create_challenge
 
-        Create an empty challenge (400)
+        Create an empty challenge with missing required properties (400)
         """
         challenge = {}
         response = self.client.open(
@@ -106,6 +107,91 @@ class TestChallengeController(BaseTestCase):
         )
         self.assert400(
             response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_challenge_with_status404(self):
+        """Test case for create_challenge
+
+        Create a challenge with an unknown tag (404)
+        """
+        person = util.create_test_person(["awesome-organization"])
+        challenge = {
+            'name': "awesome-challenge",
+            'startDate': date(2020, 12, 1),
+            'endDate': date(2020, 12, 31),
+            'url': "https://www.synapse.org/",
+            'status': "upcoming",
+            'organizers': [str(person.personId)],
+            'tags': ["foo"],
+            'challengeResults': {}
+        }
+        response = self.client.open(
+            "/api/v1/challenges",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(challenge)
+        )
+        self.assert404(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_challenge_with_status404_again(self):
+        """Test case for create_challenge
+
+        Create a challenge with an unknown organizer (404)
+        """
+        person = ObjectId()
+        challenge = {
+            'name': "awesome-challenge",
+            'startDate': date(2020, 12, 1),
+            'endDate': date(2020, 12, 31),
+            'url': "https://www.synapse.org/",
+            'status': "upcoming",
+            'organizers': [str(person)],
+            'tags': ["awesome-tag"],
+            'challengeResults': {}
+        }
+        response = self.client.open(
+            "/api/v1/challenges",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(challenge)
+        )
+        self.assert404(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_challenge_with_status409(self):
+        """Test case for create_challenge
+
+        Create a duplicate challenge (409)
+        """
+        person = util.create_test_person(["awesome-organization"])
+        util.create_test_challenge(
+            organizers=[person.personId],
+            tags=["awesome-tag"]
+        )
+        challenge = {
+            'name': "awesome-challenge",
+            'startDate': date(2020, 12, 1),
+            'endDate': date(2020, 12, 31),
+            'url': "https://www.synapse.org/",
+            'status': "upcoming",
+            'organizers': [str(person.personId)],
+            'tags': ["awesome-tag"],
+            'challengeResults': {}
+        }
+        response = self.client.open(
+            "/api/v1/challenges",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(challenge)
+        )
+        self.assertStatus(
+            response, 409,
             f"Response body is: {response.data.decode('utf-8')}"
         )
 

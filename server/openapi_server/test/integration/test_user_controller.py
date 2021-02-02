@@ -64,7 +64,6 @@ class TestUserController(BaseTestCase):
         Create a (non-JSON) user (400)
         """
         user = {
-            'password': "awesome-password",
             'firstName': "John",
             'lastName': "Smith",
             'organizations': ["awesome-organization"],
@@ -85,7 +84,7 @@ class TestUserController(BaseTestCase):
     def test_create_empty_user_with_status400(self):
         """Test case for create_user
 
-        Create an empty user (400)
+        Create an empty user with missing required properties (400)
         """
         user = {}
         response = self.client.open(
@@ -97,6 +96,56 @@ class TestUserController(BaseTestCase):
         )
         self.assert400(
             response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_user_with_status404(self):
+        """Test case for create_user
+
+        Create a user with an unknown organization (404)
+        """
+        user = {
+            'firstName': "John",
+            'lastName': "Smith",
+            'organizations': ["foo"],
+            'email': "john.smith@example.com"
+        }
+        response = self.client.open(
+            "/api/v1/users",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(user),
+            query_string=USERNAME_QUERY
+        )
+        self.assert404(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_user_with_status409(self):
+        """Test case for create_user
+
+        Create a duplicated user (409)
+        """
+        util.create_test_user(
+            username="awesome-user",
+            organizations=["awesome-organization"]
+        )
+        user = {
+            'firstName': "John",
+            'lastName': "Smith",
+            'organizations': ["awesome-organization"],
+            'email': "john.smith@example.com"
+        }
+        response = self.client.open(
+            "/api/v1/users",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(user),
+            query_string=USERNAME_QUERY
+        )
+        self.assertStatus(
+            response, 409,
             f"Response body is: {response.data.decode('utf-8')}"
         )
 

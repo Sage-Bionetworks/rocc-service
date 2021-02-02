@@ -20,7 +20,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 500 reponses
+# TODO: mock 500 responses
 
 
 class TestTagController(BaseTestCase):
@@ -52,6 +52,7 @@ class TestTagController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_tag_with_status400(self):
         """Test case for create_tag
 

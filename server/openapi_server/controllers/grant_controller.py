@@ -122,7 +122,7 @@ def list_grants(limit=None, offset=None):
             total_results=len(grants),
             grants=grants)
         status = 200
-    except DoesNotExist:  # TODO: update exception handling
+    except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
     except Exception as error:

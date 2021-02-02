@@ -20,7 +20,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 409 and 500 reponses
+# TODO: mock 500 responses
 
 
 class TestPersonController(BaseTestCase):
@@ -41,10 +41,10 @@ class TestPersonController(BaseTestCase):
         Create a person (201)
         """
         person = {
-            'firstName': "John",
-            'lastName': "Smith",
+            'firstName': "Awesome",
+            'lastName': "Person",
             'organizations': ["awesome-organization"],
-            'email': "john.smith@example.com"
+            'email': "awesome-person@example.org"
         }
         response = self.client.open(
             "/api/v1/persons",
@@ -57,16 +57,17 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_person_with_status400(self):
         """Test case for create_person
 
         Create a (non-JSON) person (400)
         """
         person = {
-            'firstName': "John",
-            'lastName': "Smith",
+            'firstName': "Awesome",
+            'lastName': "Person",
             'organizations': ["awesome-organization"],
-            'email': "john.smith@example.com"
+            'email': "awesome-person@example.org"
         }
         response = self.client.open(
             "/api/v1/persons",
@@ -82,7 +83,7 @@ class TestPersonController(BaseTestCase):
     def test_create_empty_person_with_status400(self):
         """Test case for create_person
 
-        Create an empty person (400)
+        Create an empty person with missing required properties (400)
         """
         person = {}
         response = self.client.open(
@@ -93,6 +94,51 @@ class TestPersonController(BaseTestCase):
         )
         self.assert400(
             response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_person_with_status404(self):
+        """Test case for create_person
+
+        Create a person with an unknown organization (404)
+        """
+        person = {
+            'firstName': "Awesome",
+            'lastName': "Person",
+            'organizations': ["foo"],
+            'email': "awesome-person@example.org"
+        }
+        response = self.client.open(
+            "/api/v1/persons",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(person)
+        )
+        self.assert404(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_person_with_status409(self):
+        """Test case for create_person
+
+        Create a duplicate person (409)
+        """
+        util.create_test_person(["awesome-organization"])
+        person = {
+            'firstName': "Awesome",
+            'lastName': "Person",
+            'organizations': ["awesome-organization"],
+            'email': "awesome-person@example.org"
+        }
+        response = self.client.open(
+            "/api/v1/persons",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(person)
+        )
+        self.assertStatus(
+            response, 409,
             f"Response body is: {response.data.decode('utf-8')}"
         )
 

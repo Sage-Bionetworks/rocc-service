@@ -19,7 +19,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 409 and 500 reponses
+# TODO: mock 500 responses
 
 
 class TestOrganizationController(BaseTestCase):
@@ -54,6 +54,7 @@ class TestOrganizationController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_organization_with_status400(self):
         """Test case for create_organization
 
@@ -69,6 +70,24 @@ class TestOrganizationController(BaseTestCase):
             method="POST",
             headers=REQUEST_HEADERS,
             data=organization,
+            query_string=ID_QUERY
+        )
+        self.assert400(
+            response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_empty_organization_with_status400(self):
+        """Test case for create_organization
+
+        Create an empty organization with missing required properties (400)
+        """
+        organization = {}
+        response = self.client.open(
+            "/api/v1/organizations",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(organization),
             query_string=ID_QUERY
         )
         self.assert400(

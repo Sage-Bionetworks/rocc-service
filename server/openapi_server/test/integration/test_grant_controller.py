@@ -19,7 +19,7 @@ RESPONSE_HEADERS = {
     'Accept': "application/json",
 }
 
-# TODO: mock 409 and 500 reponses
+# TODO: mock 500 responses
 
 
 class TestGrantController(BaseTestCase):
@@ -53,6 +53,7 @@ class TestGrantController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
+    # TODO: update to test for non-JSON connexion request
     def test_create_grant_with_status400(self):
         """Test case for create_grant
 
@@ -77,7 +78,7 @@ class TestGrantController(BaseTestCase):
     def test_create_empty_grant_with_status400(self):
         """Test case for create_grant
 
-        Create an empty grant (400)
+        Create an empty grant with missing required properties (400)
         """
         grant = {}
         response = self.client.open(
@@ -88,6 +89,26 @@ class TestGrantController(BaseTestCase):
         )
         self.assert400(
             response,
+            f"Response body is: {response.data.decode('utf-8')}"
+        )
+
+    def test_create_grant_with_status409(self):
+        """Test case for create_grant
+
+        Create a duplicate grant (409)
+        """
+        util.create_test_grant()  # duplicated Grant
+        grant = {
+            'name': "awesome-grant"
+        }
+        response = self.client.open(
+            "/api/v1/grants",
+            method="POST",
+            headers=REQUEST_HEADERS,
+            data=json.dumps(grant)
+        )
+        self.assertStatus(
+            response, 409,
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
