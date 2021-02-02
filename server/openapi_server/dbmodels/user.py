@@ -9,7 +9,7 @@ class User(Document):
     role = StringField(choices=["user", "admin"], default="user")
     firstName = StringField(required=True)
     lastName = StringField(required=True)
-    email = EmailField()
+    email = EmailField(unique=True)
     organizations = ListField(ReferenceField(Organization))
 
     def to_dict(self):

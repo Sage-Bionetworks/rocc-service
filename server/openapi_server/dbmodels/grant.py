@@ -6,7 +6,7 @@ from mongoengine import Document, StringField, URLField, ObjectIdField  # , Refe
 
 class Grant(Document):
     grantId = ObjectIdField(primary_key=True, default=ObjectId)
-    name = StringField(required=True)
+    name = StringField(required=True, unique=True)
     description = StringField()
     # sponsor = ReferenceField(Organization, required=True)
     url = URLField()
