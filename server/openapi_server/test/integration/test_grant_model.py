@@ -1,7 +1,6 @@
 # coding: utf-8
 
 from __future__ import absolute_import
-from datetime import date
 import unittest
 
 from openapi_server.models.grant import Grant
