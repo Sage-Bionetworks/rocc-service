@@ -15,7 +15,7 @@ class UserCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, first_name=None, last_name=None, email=None, organizations=None, password=None, role='user'):  # noqa: E501
+    def __init__(self, first_name=None, last_name=None, email=None, organizations=None):  # noqa: E501
         """UserCreateRequest - a model defined in OpenAPI
 
         :param first_name: The first_name of this UserCreateRequest.  # noqa: E501
@@ -26,35 +26,25 @@ class UserCreateRequest(Model):
         :type email: str
         :param organizations: The organizations of this UserCreateRequest.  # noqa: E501
         :type organizations: List[str]
-        :param password: The password of this UserCreateRequest.  # noqa: E501
-        :type password: str
-        :param role: The role of this UserCreateRequest.  # noqa: E501
-        :type role: str
         """
         self.openapi_types = {
             'first_name': str,
             'last_name': str,
             'email': str,
-            'organizations': List[str],
-            'password': str,
-            'role': str
+            'organizations': List[str]
         }
 
         self.attribute_map = {
             'first_name': 'firstName',
             'last_name': 'lastName',
             'email': 'email',
-            'organizations': 'organizations',
-            'password': 'password',
-            'role': 'role'
+            'organizations': 'organizations'
         }
 
         self._first_name = first_name
         self._last_name = last_name
         self._email = email
         self._organizations = organizations
-        self._password = password
-        self._role = role
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCreateRequest':
@@ -164,61 +154,3 @@ class UserCreateRequest(Model):
         """
 
         self._organizations = organizations
-
-    @property
-    def password(self):
-        """Gets the password of this UserCreateRequest.
-
-        A user's password  # noqa: E501
-
-        :return: The password of this UserCreateRequest.
-        :rtype: str
-        """
-        return self._password
-
-    @password.setter
-    def password(self, password):
-        """Sets the password of this UserCreateRequest.
-
-        A user's password  # noqa: E501
-
-        :param password: The password of this UserCreateRequest.
-        :type password: str
-        """
-        if password is None:
-            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
-        if password is not None and len(password) > 100:
-            raise ValueError("Invalid value for `password`, length must be less than or equal to `100`")  # noqa: E501
-        if password is not None and len(password) < 8:
-            raise ValueError("Invalid value for `password`, length must be greater than or equal to `8`")  # noqa: E501
-
-        self._password = password
-
-    @property
-    def role(self):
-        """Gets the role of this UserCreateRequest.
-
-        The role of the user  # noqa: E501
-
-        :return: The role of this UserCreateRequest.
-        :rtype: str
-        """
-        return self._role
-
-    @role.setter
-    def role(self, role):
-        """Sets the role of this UserCreateRequest.
-
-        The role of the user  # noqa: E501
-
-        :param role: The role of this UserCreateRequest.
-        :type role: str
-        """
-        allowed_values = ["user", "admin"]  # noqa: E501
-        if role not in allowed_values:
-            raise ValueError(
-                "Invalid value for `role` ({0}), must be one of {1}"
-                .format(role, allowed_values)
-            )
-
-        self._role = role

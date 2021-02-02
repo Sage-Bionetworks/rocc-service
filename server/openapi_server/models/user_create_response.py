@@ -16,21 +16,26 @@ class UserCreateResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, username=None):
+    def __init__(self, username=None, role='user'):
         """UserCreateResponse - a model defined in OpenAPI
 
         :param username: The username of this UserCreateResponse.  # noqa: E501
         :type username: str
+        :param role: The role of this UserCreateResponse.  # noqa: E501
+        :type role: str
         """
         self.openapi_types = {
-            'username': str
+            'username': str,
+            'role': str
         }
 
         self.attribute_map = {
-            'username': 'username'
+            'username': 'username',
+            'role': 'role'
         }
 
         self._username = username
+        self._role = role
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCreateResponse':
@@ -71,3 +76,32 @@ class UserCreateResponse(Model):
             raise ValueError("Invalid value for `username`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._username = username
+
+    @property
+    def role(self):
+        """Gets the role of this UserCreateResponse.
+
+        The role of the user  # noqa: E501
+
+        :return: The role of this UserCreateResponse.
+        :rtype: str
+        """
+        return self._role
+
+    @role.setter
+    def role(self, role):
+        """Sets the role of this UserCreateResponse.
+
+        The role of the user  # noqa: E501
+
+        :param role: The role of this UserCreateResponse.
+        :type role: str
+        """
+        allowed_values = ["user", "admin"]  # noqa: E501
+        if role not in allowed_values:
+            raise ValueError(
+                "Invalid value for `role` ({0}), must be one of {1}"
+                .format(role, allowed_values)
+            )
+
+        self._role = role

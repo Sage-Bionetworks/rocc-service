@@ -5,7 +5,7 @@ from openapi_server.dbmodels.organization import Organization
 
 class User(Document):
     username = StringField(primary_key=True)
-    password = StringField(required=True)
+    # password = StringField(required=True)
     role = StringField(choices=["user", "admin"], default="user")
     firstName = StringField(required=True)
     lastName = StringField(required=True)
@@ -16,4 +16,5 @@ class User(Document):
         doc = self.to_mongo().to_dict()
         doc['username'] = str(self.pk)
         doc.pop('_id', None)
+        # doc.pop('password', None)
         return doc

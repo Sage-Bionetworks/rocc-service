@@ -68,8 +68,6 @@ class Tag(Model):
         :param tag_id: The tag_id of this Tag.
         :type tag_id: str
         """
-        if tag_id is None:
-            raise ValueError("Invalid value for `tag_id`, must not be `None`")  # noqa: E501
         if tag_id is not None and len(tag_id) > 60:
             raise ValueError("Invalid value for `tag_id`, length must be less than or equal to `60`")  # noqa: E501
         if tag_id is not None and len(tag_id) < 1:

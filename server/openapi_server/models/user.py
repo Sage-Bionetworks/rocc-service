@@ -16,11 +16,13 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, username=None, first_name=None, last_name=None, email=None, organizations=None, role='user'):  # noqa: E501
+    def __init__(self, username=None, role='user', first_name=None, last_name=None, email=None, organizations=None):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param username: The username of this User.  # noqa: E501
         :type username: str
+        :param role: The role of this User.  # noqa: E501
+        :type role: str
         :param first_name: The first_name of this User.  # noqa: E501
         :type first_name: str
         :param last_name: The last_name of this User.  # noqa: E501
@@ -29,33 +31,31 @@ class User(Model):
         :type email: str
         :param organizations: The organizations of this User.  # noqa: E501
         :type organizations: List[str]
-        :param role: The role of this User.  # noqa: E501
-        :type role: str
         """
         self.openapi_types = {
             'username': str,
+            'role': str,
             'first_name': str,
             'last_name': str,
             'email': str,
-            'organizations': List[str],
-            'role': str
+            'organizations': List[str]
         }
 
         self.attribute_map = {
             'username': 'username',
+            'role': 'role',
             'first_name': 'firstName',
             'last_name': 'lastName',
             'email': 'email',
-            'organizations': 'organizations',
-            'role': 'role'
+            'organizations': 'organizations'
         }
 
         self._username = username
+        self._role = role
         self._first_name = first_name
         self._last_name = last_name
         self._email = email
         self._organizations = organizations
-        self._role = role
 
     @classmethod
     def from_dict(cls, dikt) -> 'User':
@@ -96,6 +96,35 @@ class User(Model):
             raise ValueError("Invalid value for `username`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._username = username
+
+    @property
+    def role(self):
+        """Gets the role of this User.
+
+        The role of the user  # noqa: E501
+
+        :return: The role of this User.
+        :rtype: str
+        """
+        return self._role
+
+    @role.setter
+    def role(self, role):
+        """Sets the role of this User.
+
+        The role of the user  # noqa: E501
+
+        :param role: The role of this User.
+        :type role: str
+        """
+        allowed_values = ["user", "admin"]  # noqa: E501
+        if role not in allowed_values:
+            raise ValueError(
+                "Invalid value for `role` ({0}), must be one of {1}"
+                .format(role, allowed_values)
+            )
+
+        self._role = role
 
     @property
     def first_name(self):
@@ -194,32 +223,3 @@ class User(Model):
         """
 
         self._organizations = organizations
-
-    @property
-    def role(self):
-        """Gets the role of this User.
-
-        The role of the user  # noqa: E501
-
-        :return: The role of this User.
-        :rtype: str
-        """
-        return self._role
-
-    @role.setter
-    def role(self, role):
-        """Sets the role of this User.
-
-        The role of the user  # noqa: E501
-
-        :param role: The role of this User.
-        :type role: str
-        """
-        allowed_values = ["user", "admin"]  # noqa: E501
-        if role not in allowed_values:
-            raise ValueError(
-                "Invalid value for `role` ({0}), must be one of {1}"
-                .format(role, allowed_values)
-            )
-
-        self._role = role

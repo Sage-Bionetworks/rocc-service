@@ -1477,6 +1477,7 @@ components:
       description: A user's username
       example:
         username: awesome-user
+        role: user
       properties:
         username:
           description: The username of the user
@@ -1485,47 +1486,36 @@ components:
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
           type: string
+        role:
+          default: user
+          description: The role of the user
+          enum:
+          - user
+          - admin
+          type: string
       type: object
-    User:
+    UserCreateRequest:
       allOf:
-      - $ref: '#/components/schemas/UserCreateResponse'
       - $ref: '#/components/schemas/PersonCreateRequest'
-      - $ref: '#/components/schemas/User_allOf'
-      description: A user of the portal
+      description: A user of the service
       example:
-        username: awesome-user
-        role: user
         firstName: John
         lastName: Smith
         email: john.smith@example.com
         organizations:
         - awesome-organization
+      type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/UserCreateRequest'
+      description: A user of the portal
       type: object
     PageOfUsers:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfUsers_allOf'
       description: A page of Users
-      type: object
-    Password:
-      description: A user's password
-      example: awesome-password!
-      maxLength: 100
-      minLength: 8
-      type: string
-    UserCreateRequest:
-      allOf:
-      - $ref: '#/components/schemas/PersonCreateRequest'
-      - $ref: '#/components/schemas/UserCreateRequest_allOf'
-      description: A user of the portal
-      example:
-        password: awesome-password
-        role: user
-        firstName: John
-        lastName: Smith
-        email: john.smith@example.com
-        organizations:
-        - awesome-organization
       type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
@@ -1569,15 +1559,6 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
-    User_allOf:
-      properties:
-        role:
-          default: user
-          description: The role of the user
-          enum:
-          - user
-          - admin
-          type: string
     PageOfUsers_allOf:
       properties:
         users:
@@ -1585,20 +1566,3 @@ components:
           items:
             $ref: '#/components/schemas/User'
           type: array
-    UserCreateRequest_allOf:
-      properties:
-        password:
-          description: A user's password
-          example: awesome-password!
-          maxLength: 100
-          minLength: 8
-          type: string
-        role:
-          default: user
-          description: The role of the user
-          enum:
-          - user
-          - admin
-          type: string
-      required:
-        - password
