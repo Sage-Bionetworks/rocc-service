@@ -14,14 +14,6 @@ class TestTagModel(BaseTestCase):
             tag_id="awesome-tag"
         )
 
-    def test_tag_id_when_none(self):
-        """Test case for Tag
-
-        Set the tag ID to None
-        """
-        with self.assertRaises(ValueError):
-            self.tag.tag_id = None
-
     def test_long_tag_id(self):
         """Test case for Tag
 
