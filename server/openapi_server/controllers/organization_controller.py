@@ -24,15 +24,13 @@ def create_organization(organization_id):
     if connexion.request.is_json:
         try:
             org = Organization.from_dict(connexion.request.get_json())
-            org.organization_id = organization_id
-            db_org = DbOrganization(
-                organizationId=org.organization_id,
+            DbOrganization(
+                organizationId=organization_id,
                 name=org.name,
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            new_id = db_org.to_dict().get("organizationId")
-            res = OrganizationCreateResponse(organization_id=new_id)
+            res = OrganizationCreateResponse(organization_id=organization_id)
             status = 201
         except NotUniqueError as error:
             status = 409

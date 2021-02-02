@@ -25,13 +25,11 @@ def create_tag(tag_id):
     if connexion.request.is_json:
         try:
             tag = Tag.from_dict(connexion.request.get_json())
-            tag.tag_id = tag_id
-            db_tag = DbTag(
-                tagId=tag.tag_id,
+            DbTag(
+                tagId=tag_id,
                 description=tag.description
             ).save(force_insert=True)
-            new_id = db_tag.to_dict().get("tagId")
-            res = TagCreateResponse(tag_id=new_id)
+            res = TagCreateResponse(tag_id=tag_id)
             status = 201
         except NotUniqueError as error:
             status = 409

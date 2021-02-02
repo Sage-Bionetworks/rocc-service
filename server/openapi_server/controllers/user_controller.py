@@ -2,6 +2,7 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.user import User as DbUser
+from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.user import User
@@ -21,29 +22,42 @@ def create_user(username):
     """
     res = None
     status = None
-    if connexion.request.is_json:
-        try:
+    try:
+        if connexion.request.is_json:
             user = User.from_dict(connexion.request.get_json())
-            user.username = username
-            db_user = DbUser(
-                username=user.username,
-                password=user.password,
-                firstName=user.first_first,
-                lastName=user.last_name,
-                email=user.email
-            ).save(force_insert=True)
-            new_id = db_user.to_dict().get("username")
-            res = UserCreateResponse(user=new_id)
-            status = 201
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    else:
-        status = 400
-        res = Error("Bad request", status)
+
+            # Check that the organization specified exists
+            for org_id in user.organizations:
+                try:
+                    DbOrganization.objects.get(organizationId=org_id)
+                except DoesNotExist:
+                    status = 404
+                    res = Error(
+                        f"The organization, {org_id}, was not found",
+                        status)
+                    return res, status
+
+            # Create the user
+            try:
+                DbUser(
+                    username=username,
+                    # password=user.password,
+                    firstName=user.first_name,
+                    lastName=user.last_name,
+                    email=user.email,
+                    organizations=user.organizations
+                ).save(force_insert=True)
+                res = UserCreateResponse(username=username)
+                status = 201
+            except NotUniqueError as error:
+                status = 409
+                res = Error("Conflict", status, str(error))
+        else:
+            status = 400
+            res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
 
     return res, status
 

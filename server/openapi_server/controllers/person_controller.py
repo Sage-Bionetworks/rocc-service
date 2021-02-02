@@ -23,6 +23,7 @@ def create_person():
     try:
         if connexion.request.is_json:
             person = Person.from_dict(connexion.request.get_json())
+
             # Check that the organizations specified exist
             for org_id in person.organizations:
                 try:
@@ -30,11 +31,11 @@ def create_person():
                 except DoesNotExist:
                     status = 404
                     res = Error(
-                        f'The organization {org_id} was not found',
+                        f"The organization {org_id} was not found",
                         status)
                     return res, status
 
-            # create the person
+            # Create the person
             try:
                 db_person = DbPerson(
                     firstName=person.first_name,
