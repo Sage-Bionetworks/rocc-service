@@ -119,28 +119,29 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_person_with_status409(self):
-        """Test case for create_person
+    # TODO: comment back in once `email` must be unique again
+    # def test_create_person_with_status409(self):
+    #     """Test case for create_person
 
-        Create a duplicate person (409)
-        """
-        util.create_test_person(["awesome-organization"])
-        person = {
-            'firstName': "Awesome",
-            'lastName': "Person",
-            'organizations': ["awesome-organization"],
-            'email': "awesome-person@example.org"
-        }
-        response = self.client.open(
-            "/api/v1/persons",
-            method="POST",
-            headers=REQUEST_HEADERS,
-            data=json.dumps(person)
-        )
-        self.assertStatus(
-            response, 409,
-            f"Response body is: {response.data.decode('utf-8')}"
-        )
+    #     Create a duplicate person (409)
+    #     """
+    #     util.create_test_person(["awesome-organization"])
+    #     person = {
+    #         'firstName': "Awesome",
+    #         'lastName': "Person",
+    #         'organizations': ["awesome-organization"],
+    #         'email': "awesome-person@example.org"
+    #     }
+    #     response = self.client.open(
+    #         "/api/v1/persons",
+    #         method="POST",
+    #         headers=REQUEST_HEADERS,
+    #         data=json.dumps(person)
+    #     )
+    #     self.assertStatus(
+    #         response, 409,
+    #         f"Response body is: {response.data.decode('utf-8')}"
+    #     )
 
     def test_delete_person_with_status200(self):
         """Test case for delete_person
