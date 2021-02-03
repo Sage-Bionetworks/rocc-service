@@ -127,8 +127,6 @@ class PersonCreateRequest(Model):
         :param email: The email of this PersonCreateRequest.
         :type email: str
         """
-        if email is None:
-            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 

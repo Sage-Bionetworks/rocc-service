@@ -32,14 +32,6 @@ class TestPersonModel(BaseTestCase):
         with self.assertRaises(ValueError):
             self.person.last_name = None
 
-    def test_missing_email(self):
-        """Test case for Person
-
-        Set the email to None
-        """
-        with self.assertRaises(ValueError):
-            self.person.email = None
-
 
 if __name__ == "__main__":
     unittest.main()

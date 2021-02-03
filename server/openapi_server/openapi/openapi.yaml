@@ -1409,7 +1409,6 @@ components:
             $ref: '#/components/schemas/OrganizationId'
           type: array
       required:
-      - email
       - firstName
       - lastName
       type: object
