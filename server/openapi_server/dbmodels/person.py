@@ -8,7 +8,7 @@ class Person(Document):
     personId = ObjectIdField(primary_key=True, default=ObjectId)
     firstName = StringField(required=True)
     lastName = StringField(required=True)
-    email = EmailField(unique=True)
+    email = EmailField()  # TODO: maybe make unique again later?
     organizations = ListField(ReferenceField(Organization))
 
     def to_dict(self):
