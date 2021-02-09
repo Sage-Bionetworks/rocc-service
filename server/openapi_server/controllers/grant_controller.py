@@ -107,19 +107,24 @@ def list_grants(limit=None, offset=None):
     res = None
     status = None
     try:
+        # Get results based on limit and offset.
         db_grants = DbGrant.objects.skip(offset).limit(limit)
         grants = [Grant.from_dict(d.to_dict()) for d in db_grants]
         next_ = ""
         if len(grants) == limit:
             next_ = "%s/grants?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbGrant.objects.count()
+
         res = PageOfGrants(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(grants),
+            total_results=total,
             grants=grants)
         status = 200
     except TypeError:  # TODO: may need different exception

@@ -112,19 +112,24 @@ def list_organizations(limit=None, offset=None):
     res = None
     status = None
     try:
+        # Get results based on limit and offset.
         db_orgs = DbOrganization.objects.skip(offset).limit(limit)
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""
         if len(orgs) == limit:
             next_ = "%s/orgs?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbOrganization.objects.count()
+
         res = PageOfOrganizations(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(orgs),
+            total_results=total,
             organizations=orgs)
         status = 200
     except TypeError:  # TODO: may need different exception

@@ -129,19 +129,24 @@ def list_users(limit=None, offset=None):
     res = None
     status = None
     try:
+        # Get results based on limit and offset.
         db_users = DbUser.objects.skip(offset).limit(limit)
         users = [User.from_dict(d.to_dict()) for d in db_users]
         next_ = ""
         if len(users) == limit:
             next_ = "%s/orgs?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbUser.objects.count()
+
         res = PageOfUsers(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(users),
+            total_results=total,
             users=users)
         status = 200
     except TypeError:  # TODO: may need different exception
