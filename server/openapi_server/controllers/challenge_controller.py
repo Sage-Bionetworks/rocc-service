@@ -175,3 +175,26 @@ def list_challenges(limit=None, offset=None, filter_=None):
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def delete_all_challenges():
+    """Delete all challenges
+
+    Delete all challenges
+
+    :rtype: object
+    """
+    res = None
+    status = None
+    try:
+        DbChallenge.objects.delete()
+        res = {}
+        status = 200
+    # TODO: find an exception that will raise 400 error
+    # except DoesNotExist:
+    #     status = 400
+    #     res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status

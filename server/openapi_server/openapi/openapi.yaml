@@ -38,6 +38,33 @@ tags:
   name: User
 paths:
   /challenges:
+    delete:
+      description: Delete all challenges
+      operationId: delete_all_challenges
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all challenges
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
     get:
       description: Returns all the challenges
       operationId: list_challenges
@@ -208,6 +235,33 @@ paths:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /grants:
+    delete:
+      description: Delete all grants
+      operationId: delete_all_grants
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all grants
+      tags:
+      - Grant
+      x-openapi-router-controller: openapi_server.controllers.grant_controller
     get:
       description: Returns the grants
       operationId: list_grants
@@ -369,6 +423,33 @@ paths:
       - Grant
       x-openapi-router-controller: openapi_server.controllers.grant_controller
   /organizations:
+    delete:
+      description: Delete all organizations
+      operationId: delete_all_organizations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all organizations
+      tags:
+      - Organization
+      x-openapi-router-controller: openapi_server.controllers.organization_controller
     get:
       description: Returns the organizations
       operationId: list_organizations
@@ -539,6 +620,33 @@ paths:
       - Organization
       x-openapi-router-controller: openapi_server.controllers.organization_controller
   /persons:
+    delete:
+      description: Delete all persons
+      operationId: delete_all_persons
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all persons
+      tags:
+      - Person
+      x-openapi-router-controller: openapi_server.controllers.person_controller
     get:
       description: Returns the persons
       operationId: list_persons
@@ -708,6 +816,33 @@ paths:
       - Person
       x-openapi-router-controller: openapi_server.controllers.person_controller
   /tags:
+    delete:
+      description: Delete all tags
+      operationId: delete_all_tags
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all tags
+      tags:
+      - Tag
+      x-openapi-router-controller: openapi_server.controllers.tag_controller
     get:
       description: Returns the tags
       operationId: list_tags
@@ -886,6 +1021,33 @@ paths:
       - Tag
       x-openapi-router-controller: openapi_server.controllers.tag_controller
   /users:
+    delete:
+      description: Delete all users
+      operationId: delete_all_users
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all users
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
       description: Returns the users
       operationId: list_users
@@ -1523,6 +1685,7 @@ components:
           description: Link to the next page of results
           format: uri
           type: string
+      type: object
     PageOfChallenges_allOf:
       properties:
         challenges:
@@ -1530,6 +1693,7 @@ components:
           items:
             $ref: '#/components/schemas/Challenge'
           type: array
+      type: object
     PageOfGrants_allOf:
       properties:
         grants:
@@ -1537,6 +1701,7 @@ components:
           items:
             $ref: '#/components/schemas/Grant'
           type: array
+      type: object
     PageOfOrganizations_allOf:
       properties:
         organizations:
@@ -1544,6 +1709,7 @@ components:
           items:
             $ref: '#/components/schemas/Organization'
           type: array
+      type: object
     PageOfPersons_allOf:
       properties:
         persons:
@@ -1551,6 +1717,7 @@ components:
           items:
             $ref: '#/components/schemas/Person'
           type: array
+      type: object
     PageOfTags_allOf:
       properties:
         tags:
@@ -1558,6 +1725,7 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
+      type: object
     PageOfUsers_allOf:
       properties:
         users:
@@ -1565,3 +1733,4 @@ components:
           items:
             $ref: '#/components/schemas/User'
           type: array
+      type: object

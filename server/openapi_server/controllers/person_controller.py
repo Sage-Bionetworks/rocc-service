@@ -158,3 +158,26 @@ def list_persons(limit=None, offset=None, filter_=None):
         res = Error("Internal error", status, str(error))
 
     return res, status
+
+
+def delete_all_persons():
+    """Delete all persons
+
+    Delete all persons # noqa: E501
+
+    :rtype: object
+    """
+    res = None
+    status = None
+    try:
+        DbPerson.objects.delete()
+        res = {}
+        status = 200
+    # TODO: find an exception that will raise 400 error
+    # except DoesNotExist:
+    #     status = 400
+    #     res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
