@@ -36,6 +36,8 @@ tags:
   name: Tag
 - description: Operations about users
   name: User
+- description: Operations about health checks
+  name: HealthCheck
 paths:
   /challenges:
     delete:
@@ -422,6 +424,27 @@ paths:
       tags:
       - Grant
       x-openapi-router-controller: openapi_server.controllers.grant_controller
+  /healthcheck:
+    get:
+      description: Get information about the health of the service
+      operationId: get_health_check
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthCheck'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+      summary: Get health check information
+      tags:
+      - HealthCheck
+      x-openapi-router-controller: openapi_server.controllers.health_check_controller
   /organizations:
     delete:
       description: Delete all organizations
@@ -1677,6 +1700,21 @@ components:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfUsers_allOf'
       description: A page of Users
+      type: object
+    HealthCheck:
+      description: Represents the health of a service
+      example:
+        status: pass
+      properties:
+        status:
+          description: Indicates whether the service status is acceptable or not
+          enum:
+          - pass
+          - fail
+          - warn
+          type: string
+      required:
+      - status
       type: object
     ResponsePageMetadata_links:
       description: Links to navigate to different pages of results
