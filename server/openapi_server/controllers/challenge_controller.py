@@ -143,6 +143,7 @@ def list_challenges(limit=None, offset=None, filter_=None):
     res = None
     status = None
     try:
+        # Get results based on query, limit and offset.
         name_q = Q(name__istartswith=filter_['name']) \
             if 'name' in filter_ else Q()
         status_q = Q(status=filter_['status']) \
@@ -159,18 +160,45 @@ def list_challenges(limit=None, offset=None, filter_=None):
         if len(challenges) == limit:
             next_ = "%s/challenges?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbChallenge.objects.count()
+
         res = PageOfChallenges(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(challenges),
+            total_results=total,
             challenges=challenges)
         status = 200
     except TypeError:  # TODO: may need different exception
         status = 400
         res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
+def delete_all_challenges():
+    """Delete all challenges
+
+    Delete all challenges
+
+    :rtype: object
+    """
+    res = None
+    status = None
+    try:
+        DbChallenge.objects.delete()
+        res = {}
+        status = 200
+    # TODO: find an exception that will raise 400 error
+    # except DoesNotExist:
+    #     status = 400
+    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

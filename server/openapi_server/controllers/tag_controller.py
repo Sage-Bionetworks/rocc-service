@@ -111,6 +111,7 @@ def list_tags(limit=None, offset=None, filter_=None):
     res = None
     status = None
     try:
+        # Get results based on query, limit and offset.
         tag_id_q = Q(tagId__istartswith=filter_['tagId']) \
             if 'tagId' in filter_ else Q()
         db_tags = DbTag.objects(tag_id_q).skip(offset).limit(limit)
@@ -119,13 +120,17 @@ def list_tags(limit=None, offset=None, filter_=None):
         if len(tags) == limit:
             next_ = "%s/tags?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbTag.objects.count()
+
         res = PageOfTags(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(tags),
+            total_results=total,
             tags=tags)
         status = 200
     except TypeError:  # TODO: may need different exception
@@ -135,4 +140,27 @@ def list_tags(limit=None, offset=None, filter_=None):
         status = 500
         res = Error("Internal error", status, str(error))
 
+    return res, status
+
+
+def delete_all_tags():
+    """Delete all tags
+
+    Delete all tags # noqa: E501
+
+    :rtype: object
+    """
+    res = None
+    status = None
+    try:
+        DbTag.objects.delete()
+        res = {}
+        status = 200
+    # TODO: find an exception that will raise 400 error
+    # except DoesNotExist:
+    #     status = 400
+    #     res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
     return res, status

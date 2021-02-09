@@ -125,6 +125,7 @@ def list_persons(limit=None, offset=None, filter_=None):
     res = None
     status = None
     try:
+        # Get results based on query, limit and offset.
         first_name_q = Q(firstName__istartswith=filter_['firstName']) \
             if 'firstName' in filter_ else Q()
         last_name_q = Q(lastName__istartswith=filter_['lastName']) \
@@ -141,13 +142,17 @@ def list_persons(limit=None, offset=None, filter_=None):
         if len(persons) == limit:
             next_ = "%s/persons?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = DbPerson.objects.count()
+
         res = PageOfPersons(
             offset=offset,
             limit=limit,
             links={
                 "next": next_
             },
-            total_results=len(persons),
+            total_results=total,
             persons=persons)
         status = 200
     except TypeError:  # TODO: may need different exception
@@ -157,4 +162,27 @@ def list_persons(limit=None, offset=None, filter_=None):
         status = 500
         res = Error("Internal error", status, str(error))
 
+    return res, status
+
+
+def delete_all_persons():
+    """Delete all persons
+
+    Delete all persons # noqa: E501
+
+    :rtype: object
+    """
+    res = None
+    status = None
+    try:
+        DbPerson.objects.delete()
+        res = {}
+        status = 200
+    # TODO: find an exception that will raise 400 error
+    # except DoesNotExist:
+    #     status = 400
+    #     res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
     return res, status
