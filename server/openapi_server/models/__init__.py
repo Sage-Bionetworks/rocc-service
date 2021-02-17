@@ -13,6 +13,7 @@ from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
 from openapi_server.models.grant_create_request import GrantCreateRequest
 from openapi_server.models.grant_create_response import GrantCreateResponse
+from openapi_server.models.health_check import HealthCheck
 from openapi_server.models.organization import Organization
 from openapi_server.models.organization_create_request import OrganizationCreateRequest
 from openapi_server.models.organization_create_response import OrganizationCreateResponse
