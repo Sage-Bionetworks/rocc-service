@@ -435,12 +435,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/HealthCheck'
           description: Success
-        "404":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
+          description: The request cannot be fulfilled due to an unexpected server
+            error
       summary: Get health check information
       tags:
       - HealthCheck
