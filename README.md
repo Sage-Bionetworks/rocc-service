@@ -16,24 +16,20 @@ API service and web client of the Registry of Open Community Challenges
 
 1. Create the file that contains the future environment variables
 
-       cp .env.sample .env
+       cp .env.example .env
 
-2. Export the variables defined in *.env* to environment variables
+2. Start the Data Node API service
 
-       export $(grep -v '^#' .env | xargs -d '\n')
+       docker-compose up --build
 
-3. Start the Data Node API service
-
-       docker-compose up
-
-4. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
+3. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
    to check that the API service is successfully running.
 
 ## Development environment
 
 1. Create the file that contains the future environment variables
 
-       cp .env.sample .env
+       cp .env.example .env
 
 2. Export the variables defined in *.env* to environment variables
 
@@ -41,17 +37,17 @@ API service and web client of the Registry of Open Community Challenges
 
 3. Start the MongoDB instance defined in `docker-compose.yml`
 
-       docker-compose up db
+       docker-compose up -d db
 
 4. We recommend using a Conda environment to install and run the ROCC API service.
 
-       conda create --name rocc python=3.8.5
+       conda create --name rocc python=3.9.1
        conda activate rocc
 
 5. Install the dependancies and start the ROCC
 
        cd server
-       pip install -r requirements.txt
+       pip install -e .
        python -m openapi_server
 
 6. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
