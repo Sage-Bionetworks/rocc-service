@@ -7,7 +7,7 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.challenge import Challenge
-from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks  # noqa: E501
+from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging  # noqa: E501
 from openapi_server import util
 
 
@@ -17,15 +17,15 @@ class PageOfChallenges(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, offset=None, limit=None, links=None, total_results=None, challenges=None):  # noqa: E501
+    def __init__(self, offset=None, limit=None, paging=None, total_results=None, challenges=None):  # noqa: E501
         """PageOfChallenges - a model defined in OpenAPI
 
         :param offset: The offset of this PageOfChallenges.  # noqa: E501
         :type offset: int
         :param limit: The limit of this PageOfChallenges.  # noqa: E501
         :type limit: int
-        :param links: The links of this PageOfChallenges.  # noqa: E501
-        :type links: ResponsePageMetadataLinks
+        :param paging: The links of this PageOfChallenges.  # noqa: E501
+        :type paging: ResponsePageMetadataLinks
         :param total_results: The total_results of this PageOfChallenges.  # noqa: E501
         :type total_results: int
         :param challenges: The challenges of this PageOfChallenges.  # noqa: E501
@@ -34,7 +34,7 @@ class PageOfChallenges(Model):
         self.openapi_types = {
             'offset': int,
             'limit': int,
-            'links': ResponsePageMetadataLinks,
+            'paging': ResponsePageMetadataPaging,
             'total_results': int,
             'challenges': List[Challenge]
         }
@@ -42,14 +42,14 @@ class PageOfChallenges(Model):
         self.attribute_map = {
             'offset': 'offset',
             'limit': 'limit',
-            'links': 'links',
+            'paging': 'paging',
             'total_results': 'totalResults',
             'challenges': 'challenges'
         }
 
         self._offset = offset
         self._limit = limit
-        self._links = links
+        self._paging = paging
         self._total_results = total_results
         self._challenges = challenges
 
@@ -115,27 +115,27 @@ class PageOfChallenges(Model):
         self._limit = limit
 
     @property
-    def links(self):
-        """Gets the links of this PageOfChallenges.
+    def paging(self):
+        """Gets the paging of this PageOfChallenges.
 
 
-        :return: The links of this PageOfChallenges.
-        :rtype: ResponsePageMetadataLinks
+        :return: The paging of this PageOfChallenges.
+        :rtype: ResponsePageMetadataPaging
         """
-        return self._links
+        return self._paging
 
-    @links.setter
-    def links(self, links):
-        """Sets the links of this PageOfChallenges.
+    @paging.setter
+    def paging(self, paging):
+        """Sets the paging of this PageOfChallenges.
 
 
-        :param links: The links of this PageOfChallenges.
-        :type links: ResponsePageMetadataLinks
+        :param paging: The paging of this PageOfChallenges.
+        :type paging: ResponsePageMetadataPaging
         """
-        if links is None:
-            raise ValueError("Invalid value for `links`, must not be `None`")  # noqa: E501
+        if paging is None:
+            raise ValueError("Invalid value for `paging`, must not be `None`")  # noqa: E501
 
-        self._links = links
+        self._paging = paging
 
     @property
     def total_results(self):

@@ -121,7 +121,7 @@ def list_grants(limit=None, offset=None):
         res = PageOfGrants(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,

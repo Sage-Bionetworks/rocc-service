@@ -149,7 +149,7 @@ def list_persons(limit=None, offset=None, filter_=None):
         res = PageOfPersons(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,

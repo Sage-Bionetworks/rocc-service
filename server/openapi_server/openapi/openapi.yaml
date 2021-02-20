@@ -140,6 +140,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/ChallengeCreateResponse'
           description: Success
+          links:
+            GetChallengeById:
+              $ref: '#/components/links/GetChallengeById'
+            DeleteChallengeById:
+              $ref: '#/components/links/DeleteChallengeById'
         "400":
           content:
             application/json:
@@ -328,6 +333,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/GrantCreateResponse'
           description: Success
+          links:
+            GetGrantById:
+              $ref: '#/components/links/GetGrantById'
+            DeleteGrantById:
+              $ref: '#/components/links/DeleteGrantById'
         "400":
           content:
             application/json:
@@ -547,6 +557,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/OrganizationCreateResponse'
           description: Success
+          links:
+            GetOrganizationById:
+              $ref: '#/components/links/GetOrganizationById'
+            DeleteOrganizationById:
+              $ref: '#/components/links/DeleteOrganizationById'
         "400":
           content:
             application/json:
@@ -743,6 +758,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/PersonCreateResponse'
           description: Success
+          links:
+            GetPersonById:
+              $ref: '#/components/links/GetPersonById'
+            DeletePersonById:
+              $ref: '#/components/links/DeletePersonById'
         "400":
           content:
             application/json:
@@ -948,6 +968,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/TagCreateResponse'
           description: Success
+          links:
+            GetTagById:
+              $ref: '#/components/links/GetTagById'
+            DeleteTagById:
+              $ref: '#/components/links/DeleteTagById'
         "400":
           content:
             application/json:
@@ -1145,6 +1170,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/UserCreateResponse'
           description: Success
+          links:
+            GetUserById:
+              $ref: '#/components/links/GetUserById'
+            DeleteUserById:
+              $ref: '#/components/links/DeleteUserById'
         "400":
           content:
             application/json:
@@ -1242,6 +1272,79 @@ paths:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
 components:
+  links:
+    GetChallengeById:
+      description: |
+        The `id` value returned in the response can be used as the `challengeId` parameter in `GET /challenges/{challengeId}`
+      operationId: getChallenge
+      parameters:
+        challengeId: $response.body#/challengeId
+    DeleteChallengeById:
+      description: |
+        The `id` value returned in the response can be used as the `challengeId` parameter in `DELETE /challenges/{challengeId}`
+      operationId: deleteChallenge
+      parameters:
+        challengeId: $response.body#/challengeId
+    GetGrantById:
+      description: |
+        The `id` value returned in the response can be used as the `grantId` parameter in `GET /grants/{grantId}`
+      operationId: getGrant
+      parameters:
+        challengeId: $response.body#/grantId
+    DeleteGrantById:
+      description: |
+        The `id` value returned in the response can be used as the `grantId` parameter in `DELETE /grants/{grantId}`
+      operationId: deleteGrant
+      parameters:
+        challengeId: $response.body#/grantId
+    GetOrganizationById:
+      description: |
+        The `id` value returned in the response can be used as the `organizationId` parameter in `GET /organizations/{organizationId}`
+      operationId: getOrganization
+      parameters:
+        challengeId: $response.body#/organizationId
+    DeleteOrganizationById:
+      description: |
+        The `id` value returned in the response can be used as the `organizationId` parameter in `DELETE /organizations/{organizationId}`
+      operationId: deleteOrganization
+      parameters:
+        challengeId: $response.body#/organizationId
+    GetPersonById:
+      description: |
+        The `id` value returned in the response can be used as the `personId` parameter in `GET /persons/{personId}`
+      operationId: getPerson
+      parameters:
+        challengeId: $response.body#/personId
+    DeletePersonById:
+      description: |
+        The `id` value returned in the response can be used as the `personId` parameter in `DELETE /persons/{personId}`
+      operationId: deletePerson
+      parameters:
+        challengeId: $response.body#/personId
+    GetTagById:
+      description: |
+        The `id` value returned in the response can be used as the `tagId` parameter in `GET /tags/{tagId}`
+      operationId: getTag
+      parameters:
+        challengeId: $response.body#/tagId
+    DeleteTagById:
+      description: |
+        The `id` value returned in the response can be used as the `tagId` parameter in `DELETE /tags/{tagId}`
+      operationId: deleteTag
+      parameters:
+        challengeId: $response.body#/tagId
+    GetUserById:
+      description: |
+        The `username` value returned in the response can be used as the `username` parameter in `GET /users/{username}`
+      operationId: getUser
+      parameters:
+        challengeId: $response.body#/username
+    DeleteUserById:
+      description: |
+        The `username` value returned in the response can be used as the `username` parameter in `DELETE /users/{username}`
+      operationId: deleteUser
+      parameters:
+        challengeId: $response.body#/username
   responses:
     BadRequest:
       content:
@@ -1300,15 +1403,15 @@ components:
         limit:
           description: Maximum number of results returned
           type: integer
-        links:
-          $ref: '#/components/schemas/ResponsePageMetadata_links'
+        paging:
+          $ref: '#/components/schemas/ResponsePageMetadata_paging'
         totalResults:
           description: Total number of results in the result set
           type: integer
       required:
       - limit
-      - links
       - offset
+      - paging
       type: object
     ChallengeId:
       description: The ID of the challenge
@@ -1717,7 +1820,7 @@ components:
       required:
       - status
       type: object
-    ResponsePageMetadata_links:
+    ResponsePageMetadata_paging:
       description: Links to navigate to different pages of results
       properties:
         next:

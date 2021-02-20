@@ -6,7 +6,7 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks  # noqa: E501
+from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging  # noqa: E501
 from openapi_server.models.tag import Tag
 from openapi_server import util
 
@@ -17,15 +17,15 @@ class PageOfTags(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, offset=None, limit=None, links=None, total_results=None, tags=None):  # noqa: E501
+    def __init__(self, offset=None, limit=None, paging=None, total_results=None, tags=None):  # noqa: E501
         """PageOfTags - a model defined in OpenAPI
 
         :param offset: The offset of this PageOfTags.  # noqa: E501
         :type offset: int
         :param limit: The limit of this PageOfTags.  # noqa: E501
         :type limit: int
-        :param links: The links of this PageOfTags.  # noqa: E501
-        :type links: ResponsePageMetadataLinks
+        :param paging: The paging of this PageOfTags.  # noqa: E501
+        :type paging: ResponsePageMetadataPaging
         :param total_results: The total_results of this PageOfTags.  # noqa: E501
         :type total_results: int
         :param tags: The tags of this PageOfTags.  # noqa: E501
@@ -34,7 +34,7 @@ class PageOfTags(Model):
         self.openapi_types = {
             'offset': int,
             'limit': int,
-            'links': ResponsePageMetadataLinks,
+            'paging': ResponsePageMetadataPaging,
             'total_results': int,
             'tags': List[Tag]
         }
@@ -42,14 +42,14 @@ class PageOfTags(Model):
         self.attribute_map = {
             'offset': 'offset',
             'limit': 'limit',
-            'links': 'links',
+            'paging': 'paging',
             'total_results': 'totalResults',
             'tags': 'tags'
         }
 
         self._offset = offset
         self._limit = limit
-        self._links = links
+        self._paging = paging
         self._total_results = total_results
         self._tags = tags
 
@@ -115,27 +115,27 @@ class PageOfTags(Model):
         self._limit = limit
 
     @property
-    def links(self):
-        """Gets the links of this PageOfTags.
+    def paging(self):
+        """Gets the paging of this PageOfTags.
 
 
-        :return: The links of this PageOfTags.
-        :rtype: ResponsePageMetadataLinks
+        :return: The paging of this PageOfTags.
+        :rtype: ResponsePageMetadataPaging
         """
-        return self._links
+        return self._paging
 
-    @links.setter
-    def links(self, links):
-        """Sets the links of this PageOfTags.
+    @paging.setter
+    def paging(self, paging):
+        """Sets the paging of this PageOfTags.
 
 
-        :param links: The links of this PageOfTags.
-        :type links: ResponsePageMetadataLinks
+        :param paging: The paging of this PageOfTags.
+        :type paging: ResponsePageMetadataPaging
         """
-        if links is None:
-            raise ValueError("Invalid value for `links`, must not be `None`")  # noqa: E501
+        if paging is None:
+            raise ValueError("Invalid value for `paging`, must not be `None`")  # noqa: E501
 
-        self._links = links
+        self._paging = paging
 
     @property
     def total_results(self):

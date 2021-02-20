@@ -167,7 +167,7 @@ def list_challenges(limit=None, offset=None, filter_=None):
         res = PageOfChallenges(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,
