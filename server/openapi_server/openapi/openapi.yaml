@@ -1290,61 +1290,61 @@ components:
         The `id` value returned in the response can be used as the `grantId` parameter in `GET /grants/{grantId}`
       operationId: getGrant
       parameters:
-        challengeId: $response.body#/grantId
+        grantId: $response.body#/grantId
     DeleteGrantById:
       description: |
         The `id` value returned in the response can be used as the `grantId` parameter in `DELETE /grants/{grantId}`
       operationId: deleteGrant
       parameters:
-        challengeId: $response.body#/grantId
+        grantId: $response.body#/grantId
     GetOrganizationById:
       description: |
         The `id` value returned in the response can be used as the `organizationId` parameter in `GET /organizations/{organizationId}`
       operationId: getOrganization
       parameters:
-        challengeId: $response.body#/organizationId
+        organizationId: $response.body#/organizationId
     DeleteOrganizationById:
       description: |
         The `id` value returned in the response can be used as the `organizationId` parameter in `DELETE /organizations/{organizationId}`
       operationId: deleteOrganization
       parameters:
-        challengeId: $response.body#/organizationId
+        organizationId: $response.body#/organizationId
     GetPersonById:
       description: |
         The `id` value returned in the response can be used as the `personId` parameter in `GET /persons/{personId}`
       operationId: getPerson
       parameters:
-        challengeId: $response.body#/personId
+        personId: $response.body#/personId
     DeletePersonById:
       description: |
         The `id` value returned in the response can be used as the `personId` parameter in `DELETE /persons/{personId}`
       operationId: deletePerson
       parameters:
-        challengeId: $response.body#/personId
+        personId: $response.body#/personId
     GetTagById:
       description: |
         The `id` value returned in the response can be used as the `tagId` parameter in `GET /tags/{tagId}`
       operationId: getTag
       parameters:
-        challengeId: $response.body#/tagId
+        tagId: $response.body#/tagId
     DeleteTagById:
       description: |
         The `id` value returned in the response can be used as the `tagId` parameter in `DELETE /tags/{tagId}`
       operationId: deleteTag
       parameters:
-        challengeId: $response.body#/tagId
+        tagId: $response.body#/tagId
     GetUserById:
       description: |
         The `username` value returned in the response can be used as the `username` parameter in `GET /users/{username}`
       operationId: getUser
       parameters:
-        challengeId: $response.body#/username
+        username: $response.body#/username
     DeleteUserById:
       description: |
         The `username` value returned in the response can be used as the `username` parameter in `DELETE /users/{username}`
       operationId: deleteUser
       parameters:
-        challengeId: $response.body#/username
+        username: $response.body#/username
   responses:
     BadRequest:
       content:
