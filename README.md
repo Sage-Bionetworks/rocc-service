@@ -18,7 +18,7 @@ API service and web client of the Registry of Open Community Challenges
 
        cp .env.example .env
 
-2. Start the Data Node API service
+2. Start the ROCC API service
 
        docker-compose up --build
 
