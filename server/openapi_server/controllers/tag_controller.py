@@ -127,7 +127,7 @@ def list_tags(limit=None, offset=None, filter_=None):
         res = PageOfTags(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,

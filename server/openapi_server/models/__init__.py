@@ -28,7 +28,7 @@ from openapi_server.models.person_create_request import PersonCreateRequest
 from openapi_server.models.person_create_response import PersonCreateResponse
 from openapi_server.models.person_filter import PersonFilter
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
-from openapi_server.models.response_page_metadata_links import ResponsePageMetadataLinks
+from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse

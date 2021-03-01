@@ -126,7 +126,7 @@ def list_organizations(limit=None, offset=None):
         res = PageOfOrganizations(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,

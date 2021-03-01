@@ -143,7 +143,7 @@ def list_users(limit=None, offset=None):
         res = PageOfUsers(
             offset=offset,
             limit=limit,
-            links={
+            paging={
                 "next": next_
             },
             total_results=total,
