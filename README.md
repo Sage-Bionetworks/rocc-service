@@ -52,7 +52,7 @@ running in detached mode, you will only need to enter `docker-compose down`.
 5. Install the dependancies and start the ROCC.
 
        cd server
-       pip install -e .
+       pip install -r requirements.txt
        python -m openapi_server
 
 6. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
