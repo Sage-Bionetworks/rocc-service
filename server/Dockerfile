@@ -27,10 +27,11 @@ RUN chmod +x docker-entrypoint.sh
 
 EXPOSE 8080
 
+# HEALTHCHECK CMD curl --fail http://localhost:8080/api/v1/healthCheck || exit 1
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Run server in development mode
 # CMD ["python", "-m", "openapi_server"]
-
 # Run server in production mode
 CMD ["uwsgi", "--ini", "uwsgi.ini", "--lazy", "--http", ":8080"]
