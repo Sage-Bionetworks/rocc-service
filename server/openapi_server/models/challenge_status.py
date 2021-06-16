@@ -21,7 +21,6 @@ class ChallengeStatus(Model):
     UPCOMING = "upcoming"
     OPEN = "open"
     CLOSED = "closed"
-
     def __init__(self):  # noqa: E501
         """ChallengeStatus - a model defined in OpenAPI
 

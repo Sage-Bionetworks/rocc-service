@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.4
+  version: 0.1.5
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -326,6 +326,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GrantCreateRequest'
+        required: true
       responses:
         "201":
           content:
@@ -550,6 +551,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OrganizationCreateRequest'
+        required: true
       responses:
         "201":
           content:
@@ -751,6 +753,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PersonCreateRequest'
+        required: true
       responses:
         "201":
           content:
@@ -961,6 +964,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TagCreateRequest'
+        required: true
       responses:
         "201":
           content:
@@ -1163,6 +1167,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserCreateRequest'
+        required: true
       responses:
         "201":
           content:
@@ -1378,21 +1383,26 @@ components:
       - open
       - closed
       example: open
+      title: ChallengeStatus
       type: string
     ChallengeFilter:
       description: An object that describes how to filter Challenges
       properties:
         name:
           description: Keep the challenges whose name include this term
+          title: name
           type: string
         status:
           $ref: '#/components/schemas/ChallengeStatus'
         organizer:
           description: Keep the challenges organized by this person
+          title: organizer
           type: string
         tag:
           description: Keep the challenges associated to this tag
+          title: tag
           type: string
+      title: ChallengeFilter
       type: object
     ResponsePageMetadata:
       description: A page of results
@@ -1415,17 +1425,26 @@ components:
       type: object
     ChallengeId:
       description: The ID of the challenge
-      example: 507f1f77bcf86cd799439011
+      example: awesome-challenge
+      maxLength: 60
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       type: string
     ChallengeCreateResponse:
       description: A challenge ID
       example:
-        challengeId: 507f1f77bcf86cd799439011
+        id: awesome-challenge
       properties:
-        challengeId:
+        id:
           description: The ID of the challenge
-          example: 507f1f77bcf86cd799439011
+          example: awesome-challenge
+          maxLength: 60
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
           type: string
+      required:
+      - id
+      title: ChallengeCreateResponse
       type: object
     TagId:
       description: The ID of the tag
@@ -1433,47 +1452,50 @@ components:
       maxLength: 60
       minLength: 1
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: TagId
       type: string
-    ChallengeResults:
-      description: The results of a challenge
-      properties:
-        nSubmissions:
-          description: Number of total submissions throughout the challenge
-          minimum: 0
-          type: integer
-        nFinalSubmissions:
-          description: Number of final submissions
-          minimum: 0
-          type: integer
-        nRegisteredParticipants:
-          description: Number of registered participants
-          minimum: 0
-          type: integer
-      type: object
     PersonId:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
+      title: PersonId
+      type: string
+    OrganizationId:
+      description: The ID of the organization
+      example: awesome-organization
+      maxLength: 60
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: OrganizationId
       type: string
     ChallengeCreateRequest:
       description: A challenge
       example:
         name: Awesome Challenge
+        description: This challenge is awesome.
+        summary: This challenge is awesome.
         startDate: 2020-11-10
         endDate: 2020-12-31
         url: https://synapse.org/awesome-challenge
         status: open
-        tags:
+        tagIds:
         - awesome-tag1
         - awesome-tag2
-        challengeResults:
-          nSubmissions: 0
-          nFinalSubmissions: 0
-          nRegisteredParticipants: 0
-        organizers:
+        organizerIds:
         - 507f1f77bcf86cd799439011
+        dataProviderIds:
+        - awesome-organization
       properties:
         name:
           description: The challenge name
+          maxLength: 60
+          minLength: 3
+          type: string
+        description:
+          description: A short description of the challenge
+          maxLength: 280
+          type: string
+        summary:
+          description: The summary of challenge
           type: string
         startDate:
           description: When the challenge started
@@ -1489,55 +1511,68 @@ components:
           type: string
         status:
           $ref: '#/components/schemas/ChallengeStatus'
-        tags:
+        tagIds:
           description: The tags associated to the challenge
           items:
             $ref: '#/components/schemas/TagId'
           type: array
-        challengeResults:
-          $ref: '#/components/schemas/ChallengeResults'
-        organizers:
+        organizerIds:
           description: The organizers of the challenge
           items:
             $ref: '#/components/schemas/PersonId'
           type: array
+        dataProviderIds:
+          description: The organizations contributing the data
+          items:
+            $ref: '#/components/schemas/OrganizationId'
+          type: array
       required:
-      - endDate
+      - dataProviderIds
+      - description
       - name
-      - startDate
+      - organizerIds
       - status
+      - tagIds
+      - url
       type: object
     Challenge:
       allOf:
       - $ref: '#/components/schemas/ChallengeCreateResponse'
       - $ref: '#/components/schemas/ChallengeCreateRequest'
       description: A challenge
+      title: Challenge
       type: object
     PageOfChallenges:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfChallenges_allOf'
       description: A page of Challenges
+      title: PageOfChallenges
       type: object
     Error:
       description: Problem details (tools.ietf.org/html/rfc7807)
       properties:
         title:
           description: A human readable documentation for the problem type
+          title: title
           type: string
         status:
           description: The HTTP status code
+          title: status
           type: integer
         detail:
           description: A human readable explanation specific to this occurrence of
             the problem
+          title: detail
           type: string
         type:
           description: An absolute URI that identifies the problem type
+          title: type
           type: string
       required:
       - status
       - title
+      title: Error
       type: object
     EmptyObject:
       description: Empty JSON object
@@ -1549,12 +1584,13 @@ components:
     GrantCreateResponse:
       description: A grant ID
       example:
-        grantId: 507f1f77bcf86cd799439011
+        id: 507f1f77bcf86cd799439011
       properties:
-        grantId:
+        id:
           description: The ID of the grant
           example: 507f1f77bcf86cd799439011
           type: string
+      title: GrantCreateResponse
       type: object
     GrantCreateRequest:
       description: Information about monetary resources for challenge
@@ -1581,32 +1617,31 @@ components:
       - $ref: '#/components/schemas/GrantCreateResponse'
       - $ref: '#/components/schemas/GrantCreateRequest'
       description: Information about monetary resources for challenge
+      title: Grant
       type: object
     PageOfGrants:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfGrants_allOf'
       description: A page of Grants
+      title: PageOfGrants
       type: object
-    OrganizationId:
-      description: The ID of the organization
-      example: awesome-organization
-      maxLength: 60
-      minLength: 3
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      type: string
     OrganizationCreateResponse:
       description: An organization ID
       example:
-        organizationId: awesome-organization
+        id: awesome-organization
       properties:
-        organizationId:
+        id:
           description: The ID of the organization
           example: awesome-organization
           maxLength: 60
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: OrganizationId
           type: string
+      required:
+      - id
+      title: OrganizationCreateResponse
       type: object
     OrganizationCreateRequest:
       description: An organization
@@ -1634,38 +1669,49 @@ components:
       - $ref: '#/components/schemas/OrganizationCreateResponse'
       - $ref: '#/components/schemas/OrganizationCreateRequest'
       description: An organization
+      title: Organization
       type: object
     PageOfOrganizations:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfOrganizations_allOf'
       description: A page of Organizations
+      title: PageOfOrganizations
       type: object
     PersonFilter:
       description: An object that describes how to filter Persons
       properties:
         firstName:
           description: Keep the persons whose first name starts with this term
+          title: firstName
           type: string
         lastName:
           description: Keep the persons whose last name starts with this term
+          title: lastName
           type: string
         email:
           description: Keep the persons whose email matches this term
+          title: email
           type: string
         organization:
           description: Keep the persons who belong to this organization
+          title: organization
           type: string
+      title: PersonFilter
       type: object
     PersonCreateResponse:
       description: A person ID
       example:
-        personId: 507f1f77bcf86cd799439011
+        id: 507f1f77bcf86cd799439011
       properties:
-        personId:
+        id:
           description: The ID of the person
           example: 507f1f77bcf86cd799439011
+          title: PersonId
           type: string
+      required:
+      - id
+      title: PersonCreateResponse
       type: object
     Email:
       description: An email address
@@ -1678,7 +1724,7 @@ components:
         firstName: John
         lastName: Smith
         email: john.smith@example.com
-        organizations:
+        organizationIds:
         - awesome-organization
       properties:
         firstName:
@@ -1692,7 +1738,7 @@ components:
           example: john.smith@example.com
           format: email
           type: string
-        organizations:
+        organizationIds:
           description: The organizations the person belongs to
           items:
             $ref: '#/components/schemas/OrganizationId'
@@ -1700,38 +1746,47 @@ components:
       required:
       - firstName
       - lastName
+      - organizationIds
       type: object
     Person:
       allOf:
       - $ref: '#/components/schemas/PersonCreateResponse'
       - $ref: '#/components/schemas/PersonCreateRequest'
       description: A person
+      title: Person
       type: object
     PageOfPersons:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfPersons_allOf'
       description: A page of Persons
+      title: PageOfPersons
       type: object
     TagFilter:
       description: An object that describes how to filter Tags
       properties:
-        tagId:
-          description: Keep the tags whose tagId starts with this term
+        id:
+          description: Keep the tags whose ID starts with this term
+          title: id
           type: string
+      title: TagFilter
       type: object
     TagCreateResponse:
       description: A tag ID
       example:
-        tagId: awesome-tag
+        id: awesome-tag
       properties:
-        tagId:
+        id:
           description: The ID of the tag
           example: awesome-tag
           maxLength: 60
           minLength: 1
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: TagId
           type: string
+      required:
+      - id
+      title: TagCreateResponse
       type: object
     TagCreateRequest:
       description: A tag that can be assigned to a resource
@@ -1741,18 +1796,22 @@ components:
         description:
           description: A short description of the tag
           type: string
+      required:
+      - description
       type: object
     Tag:
       allOf:
       - $ref: '#/components/schemas/TagCreateResponse'
       - $ref: '#/components/schemas/TagCreateRequest'
       description: A tag that can be assigned to a resource
+      title: Tag
       type: object
     PageOfTags:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfTags_allOf'
       description: A page of Tags
+      title: PageOfTags
       type: object
     Username:
       description: The username of the user
@@ -1781,6 +1840,7 @@ components:
           - user
           - admin
           type: string
+      title: UserCreateResponse
       type: object
     UserCreateRequest:
       allOf:
@@ -1798,12 +1858,14 @@ components:
       - $ref: '#/components/schemas/UserCreateResponse'
       - $ref: '#/components/schemas/UserCreateRequest'
       description: A user of the portal
+      title: User
       type: object
     PageOfUsers:
       allOf:
       - $ref: '#/components/schemas/ResponsePageMetadata'
       - $ref: '#/components/schemas/PageOfUsers_allOf'
       description: A page of Users
+      title: PageOfUsers
       type: object
     HealthCheck:
       description: Represents the health of a service
@@ -1816,9 +1878,11 @@ components:
           - pass
           - fail
           - warn
+          title: status
           type: string
       required:
       - status
+      title: HealthCheck
       type: object
     ResponsePageMetadata_paging:
       description: Links to navigate to different pages of results
@@ -1826,7 +1890,9 @@ components:
         next:
           description: Link to the next page of results
           format: uri
+          title: next
           type: string
+      title: ResponsePageMetadata_paging
       type: object
     PageOfChallenges_allOf:
       properties:

@@ -15,7 +15,7 @@ class PersonCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, first_name=None, last_name=None, email=None, organizations=None):  # noqa: E501
+    def __init__(self, first_name=None, last_name=None, email=None, organization_ids=None):  # noqa: E501
         """PersonCreateRequest - a model defined in OpenAPI
 
         :param first_name: The first_name of this PersonCreateRequest.  # noqa: E501
@@ -24,27 +24,27 @@ class PersonCreateRequest(Model):
         :type last_name: str
         :param email: The email of this PersonCreateRequest.  # noqa: E501
         :type email: str
-        :param organizations: The organizations of this PersonCreateRequest.  # noqa: E501
-        :type organizations: List[str]
+        :param organization_ids: The organization_ids of this PersonCreateRequest.  # noqa: E501
+        :type organization_ids: List[str]
         """
         self.openapi_types = {
             'first_name': str,
             'last_name': str,
             'email': str,
-            'organizations': List[str]
+            'organization_ids': List[str]
         }
 
         self.attribute_map = {
             'first_name': 'firstName',
             'last_name': 'lastName',
             'email': 'email',
-            'organizations': 'organizations'
+            'organization_ids': 'organizationIds'
         }
 
         self._first_name = first_name
         self._last_name = last_name
         self._email = email
-        self._organizations = organizations
+        self._organization_ids = organization_ids
 
     @classmethod
     def from_dict(cls, dikt) -> 'PersonCreateRequest':
@@ -131,24 +131,26 @@ class PersonCreateRequest(Model):
         self._email = email
 
     @property
-    def organizations(self):
-        """Gets the organizations of this PersonCreateRequest.
+    def organization_ids(self):
+        """Gets the organization_ids of this PersonCreateRequest.
 
         The organizations the person belongs to  # noqa: E501
 
-        :return: The organizations of this PersonCreateRequest.
+        :return: The organization_ids of this PersonCreateRequest.
         :rtype: List[str]
         """
-        return self._organizations
+        return self._organization_ids
 
-    @organizations.setter
-    def organizations(self, organizations):
-        """Sets the organizations of this PersonCreateRequest.
+    @organization_ids.setter
+    def organization_ids(self, organization_ids):
+        """Sets the organization_ids of this PersonCreateRequest.
 
         The organizations the person belongs to  # noqa: E501
 
-        :param organizations: The organizations of this PersonCreateRequest.
-        :type organizations: List[str]
+        :param organization_ids: The organization_ids of this PersonCreateRequest.
+        :type organization_ids: List[str]
         """
+        if organization_ids is None:
+            raise ValueError("Invalid value for `organization_ids`, must not be `None`")  # noqa: E501
 
-        self._organizations = organizations
+        self._organization_ids = organization_ids
