@@ -42,12 +42,12 @@ running in detached mode, you will only need to enter `docker-compose down`.
 
 3. Start the MongoDB instance defined in `docker-compose.yml`.
 
-       docker-compose up -d db
+       docker compose up -d db
 
 4. We recommend using a Conda environment to install and run the ROCC API service.
 
-       conda create --name rocc python=3.9.1
-       conda activate rocc
+       conda create --name rocc-service python=3.9
+       conda activate rocc-service
 
 5. Install the dependancies and start the ROCC.
 
