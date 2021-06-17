@@ -294,7 +294,7 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
-        challenge = util.create_test_challenge(
+        util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)]
@@ -322,7 +322,7 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
-        challenge = util.create_test_challenge(
+        util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)]
