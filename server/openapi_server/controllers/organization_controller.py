@@ -25,12 +25,12 @@ def create_organization(organization_id):
         try:
             org = Organization.from_dict(connexion.request.get_json())
             DbOrganization(
-                organizationId=organization_id,
+                id=organization_id,
                 name=org.name,
                 shortName=org.short_name,
                 url=org.url
             ).save(force_insert=True)
-            res = OrganizationCreateResponse(organization_id=organization_id)
+            res = OrganizationCreateResponse(id=organization_id)
             status = 201
         except NotUniqueError as error:
             status = 409
@@ -41,7 +41,6 @@ def create_organization(organization_id):
     else:
         status = 400
         res = Error("Bad request", status)
-
     return res, status
 
 
@@ -58,7 +57,7 @@ def delete_organization(organization_id):
     res = None
     status = None
     try:
-        DbOrganization.objects.get(organizationId=organization_id).delete()
+        DbOrganization.objects.get(id=organization_id).delete()
         res = {}
         status = 200
     except DoesNotExist:
@@ -67,7 +66,6 @@ def delete_organization(organization_id):
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -84,7 +82,7 @@ def get_organization(organization_id):
     res = None
     status = None
     try:
-        db_org = DbOrganization.objects.get(organizationId=organization_id)
+        db_org = DbOrganization.objects.get(id=organization_id)
         res = Organization.from_dict(db_org.to_dict())
         status = 200
     except DoesNotExist:
@@ -156,10 +154,6 @@ def delete_all_organizations():
         DbOrganization.objects.delete()
         res = {}
         status = 200
-    # TODO: find an exception that will raise 400 error
-    # except DoesNotExist:
-    #     status = 400
-    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
