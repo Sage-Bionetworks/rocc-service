@@ -15,21 +15,21 @@ class GrantCreateResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, grant_id=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """GrantCreateResponse - a model defined in OpenAPI
 
-        :param grant_id: The grant_id of this GrantCreateResponse.  # noqa: E501
-        :type grant_id: str
+        :param id: The id of this GrantCreateResponse.  # noqa: E501
+        :type id: str
         """
         self.openapi_types = {
-            'grant_id': str
+            'id': str
         }
 
         self.attribute_map = {
-            'grant_id': 'grantId'
+            'id': 'id'
         }
 
-        self._grant_id = grant_id
+        self._id = id
 
     @classmethod
     def from_dict(cls, dikt) -> 'GrantCreateResponse':
@@ -43,24 +43,24 @@ class GrantCreateResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def grant_id(self):
-        """Gets the grant_id of this GrantCreateResponse.
+    def id(self):
+        """Gets the id of this GrantCreateResponse.
 
         The ID of the grant  # noqa: E501
 
-        :return: The grant_id of this GrantCreateResponse.
+        :return: The id of this GrantCreateResponse.
         :rtype: str
         """
-        return self._grant_id
+        return self._id
 
-    @grant_id.setter
-    def grant_id(self, grant_id):
-        """Sets the grant_id of this GrantCreateResponse.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this GrantCreateResponse.
 
         The ID of the grant  # noqa: E501
 
-        :param grant_id: The grant_id of this GrantCreateResponse.
-        :type grant_id: str
+        :param id: The id of this GrantCreateResponse.
+        :type id: str
         """
 
-        self._grant_id = grant_id
+        self._id = id

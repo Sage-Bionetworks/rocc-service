@@ -43,7 +43,7 @@ class TestPersonController(BaseTestCase):
         person = {
             'firstName': "Awesome",
             'lastName': "Person",
-            'organizations': ["awesome-organization"],
+            'organizationIds': ["awesome-organization"],
             'email': "awesome-person@example.org"
         }
         response = self.client.open(
@@ -66,7 +66,7 @@ class TestPersonController(BaseTestCase):
         person = {
             'firstName': "Awesome",
             'lastName': "Person",
-            'organizations': ["awesome-organization"],
+            'organizationIds': ["awesome-organization"],
             'email': "awesome-person@example.org"
         }
         response = self.client.open(
@@ -105,7 +105,7 @@ class TestPersonController(BaseTestCase):
         person = {
             'firstName': "Awesome",
             'lastName': "Person",
-            'organizations': ["foo"],
+            'organizationIds': ["foo"],
             'email': "awesome-person@example.org"
         }
         response = self.client.open(
@@ -150,7 +150,7 @@ class TestPersonController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         response = self.client.open(
-            f"/api/v1/persons/{person.personId}",
+            f"/api/v1/persons/{person.id}",
             method="DELETE",
             headers=RESPONSE_HEADERS)
         self.assert200(
@@ -180,7 +180,7 @@ class TestPersonController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         response = self.client.open(
-            f"/api/v1/persons/{person.personId}",
+            f"/api/v1/persons/{person.id}",
             method="GET",
             headers=RESPONSE_HEADERS)
         self.assert200(

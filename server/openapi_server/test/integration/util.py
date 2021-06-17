@@ -20,24 +20,24 @@ def disconnect_db():
 
 
 def create_test_tag(tag_id):
-    return Tag(tagId=tag_id).save()
+    return Tag(id=tag_id).save()
 
 
 def create_test_organization(organization_id):
     return Organization(
-        organizationId=organization_id,
+        id=organization_id,
         name="Awesome Organization",
         shortName="AO",
         url="https://awesome-organization.org"
     ).save()
 
 
-def create_test_person(organizations):
+def create_test_person(organizationIds):
     return Person(
         firstName="Awesome",
         lastName="Person",
         email="awesome-person@example.org",
-        organizations=organizations
+        organizationIds=organizationIds
     ).save()
 
 
@@ -53,7 +53,7 @@ def create_test_user(username, organizations):
 
 def create_test_grant():
     return Grant(
-        name="awesome-grant",
+        name="Awesome Grant",
         description="description",
         url="https://report.nih.gov/"
     ).save()
@@ -67,14 +67,17 @@ def create_test_challenge_results():
     )
 
 
-def create_test_challenge(organizers, tags):
+def create_test_challenge(tagIds, organizerIds, dataProviderIds):
     return Challenge(
-        name="awesome-challenge",
+        name="Awesome Challenge",
+        description="description",
+        summary="description",
         startDate=date(2020, 12, 1),
         endDate=date(2020, 12, 31),
         url="https://www.synapse.org/",
         status="upcoming",
-        organizers=organizers,
-        tags=tags,
-        challengeResults=create_test_challenge_results().to_dict()
+        tagIds=tagIds,
+        organizerIds=organizerIds,
+        dataProviderIds=dataProviderIds
+        # challengeResults=create_test_challenge_results().to_dict()
     ).save()

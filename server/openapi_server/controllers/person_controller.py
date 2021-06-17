@@ -25,9 +25,9 @@ def create_person():
             person = Person.from_dict(connexion.request.get_json())
 
             # Check that the organizations specified exist
-            for org_id in person.organizations:
+            for org_id in person.organization_ids:
                 try:
-                    DbOrganization.objects.get(organizationId=org_id)
+                    DbOrganization.objects.get(id=org_id)
                 except DoesNotExist:
                     status = 404
                     res = Error(
@@ -41,10 +41,10 @@ def create_person():
                     firstName=person.first_name,
                     lastName=person.last_name,
                     email=person.email,
-                    organizations=person.organizations
+                    organizationIds=person.organization_ids
                 ).save(force_insert=True)
-                new_id = db_person.to_dict().get("personId")
-                res = PersonCreateResponse(person_id=new_id)
+                new_id = db_person.to_dict().get("id")
+                res = PersonCreateResponse(id=new_id)
                 status = 201
             except NotUniqueError as error:
                 status = 409
@@ -55,7 +55,6 @@ def create_person():
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -72,7 +71,7 @@ def delete_person(person_id):
     res = None
     status = None
     try:
-        DbPerson.objects.get(personId=person_id).delete()
+        DbPerson.objects.get(id=person_id).delete()
         res = {}
         status = 200
     except DoesNotExist:
@@ -97,7 +96,7 @@ def get_person(person_id):
     res = None
     status = None
     try:
-        db_person = DbPerson.objects.get(personId=person_id)
+        db_person = DbPerson.objects.get(id=person_id)
         res = Person.from_dict(db_person.to_dict())
         status = 200
     except DoesNotExist:
@@ -132,7 +131,7 @@ def list_persons(limit=None, offset=None, filter_=None):
             if 'lastName' in filter_ else Q()
         email_q = Q(email=filter_['email']) \
             if 'email' in filter_ else Q()
-        organization_q = Q(organizations__contains=filter_['organization']) \
+        organization_q = Q(organizationIds__contains=filter_['organization']) \
             if 'organization' in filter_ else Q()
         db_persons = DbPerson.objects(
             first_name_q & last_name_q & email_q & organization_q
@@ -161,7 +160,6 @@ def list_persons(limit=None, offset=None, filter_=None):
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -178,10 +176,6 @@ def delete_all_persons():
         DbPerson.objects.delete()
         res = {}
         status = 200
-    # TODO: find an exception that will raise 400 error
-    # except DoesNotExist:
-    #     status = 400
-    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

@@ -4,7 +4,13 @@
     },
     "scripts": {
         "generate:server": "openapi-generator-cli generate -g python-flask -o server -i $npm_config_specification",
+        "generate:server:latest": "openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/latest/openapi.json",
+        "generate:server:edge": "openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/edge/openapi.json",
+        "generate:server:version": "openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/${npm_config_oas_version}/openapi.json",
         "lint": "cd server && flake8",
-        "test": "cd server && tox"
+        "test": "cd server && tox",
+        "install:dependencies": "npm ci && cd server && pip install -r requirements.txt",
+        "start:dev": "cd server && python -m openapi_server",
+        "start:prod": "docker compose up --build"
     }
 }

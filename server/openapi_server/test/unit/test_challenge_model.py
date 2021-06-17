@@ -12,7 +12,7 @@ class TestChallengeModel(BaseTestCase):
 
     def setUp(self):
         self.challenge = Challenge(
-            name="awesome-challenge",
+            name="Awesome Challenge",
             start_date=date(2021, 1, 1),
             end_date=date(2021, 1, 31),
             status="closed"
@@ -26,21 +26,21 @@ class TestChallengeModel(BaseTestCase):
         with self.assertRaises(ValueError):
             self.challenge.name = None
 
-    def test_missing_challenge_start(self):
-        """Test case for Challenge
+    # def test_missing_challenge_start(self):
+    #     """Test case for Challenge
 
-        Set the state date to None
-        """
-        with self.assertRaises(ValueError):
-            self.challenge.start_date = None
+    #     Set the state date to None
+    #     """
+    #     with self.assertRaises(ValueError):
+    #         self.challenge.start_date = None
 
-    def test_missing_challenge_end(self):
-        """Test case for Challenge
+    # def test_missing_challenge_end(self):
+    #     """Test case for Challenge
 
-        Set the end date to None
-        """
-        with self.assertRaises(ValueError):
-            self.challenge.end_date = None
+    #     Set the end date to None
+    #     """
+    #     with self.assertRaises(ValueError):
+    #         self.challenge.end_date = None
 
     def test_missing_challenge_status(self):
         """Test case for Challenge

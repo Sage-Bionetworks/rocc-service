@@ -5,13 +5,13 @@ from openapi_server.dbmodels.organization import Organization
 
 
 class Person(Document):
-    personId = ObjectIdField(primary_key=True, default=ObjectId)
+    id = ObjectIdField(primary_key=True, default=ObjectId)
     firstName = StringField(required=True)
     lastName = StringField(required=True)
     email = EmailField()  # TODO: maybe make unique again later?
-    organizations = ListField(ReferenceField(Organization))
+    organizationIds = ListField(ReferenceField(Organization), required=True)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        doc["personId"] = str(self.pk)
+        doc["id"] = str(self.pk)
         return doc

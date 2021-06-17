@@ -15,21 +15,21 @@ class PersonCreateResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, person_id=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """PersonCreateResponse - a model defined in OpenAPI
 
-        :param person_id: The person_id of this PersonCreateResponse.  # noqa: E501
-        :type person_id: str
+        :param id: The id of this PersonCreateResponse.  # noqa: E501
+        :type id: str
         """
         self.openapi_types = {
-            'person_id': str
+            'id': str
         }
 
         self.attribute_map = {
-            'person_id': 'personId'
+            'id': 'id'
         }
 
-        self._person_id = person_id
+        self._id = id
 
     @classmethod
     def from_dict(cls, dikt) -> 'PersonCreateResponse':
@@ -43,24 +43,26 @@ class PersonCreateResponse(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def person_id(self):
-        """Gets the person_id of this PersonCreateResponse.
+    def id(self):
+        """Gets the id of this PersonCreateResponse.
 
         The ID of the person  # noqa: E501
 
-        :return: The person_id of this PersonCreateResponse.
+        :return: The id of this PersonCreateResponse.
         :rtype: str
         """
-        return self._person_id
+        return self._id
 
-    @person_id.setter
-    def person_id(self, person_id):
-        """Sets the person_id of this PersonCreateResponse.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this PersonCreateResponse.
 
         The ID of the person  # noqa: E501
 
-        :param person_id: The person_id of this PersonCreateResponse.
-        :type person_id: str
+        :param id: The id of this PersonCreateResponse.
+        :type id: str
         """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
-        self._person_id = person_id
+        self._id = id

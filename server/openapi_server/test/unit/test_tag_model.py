@@ -11,7 +11,7 @@ class TestTagModel(BaseTestCase):
 
     def setUp(self):
         self.tag = Tag(
-            tag_id="awesome-tag"
+            id="awesome-tag"
         )
 
     def test_long_tag_id(self):
@@ -20,7 +20,7 @@ class TestTagModel(BaseTestCase):
         Set the tag ID to have >60 length
         """
         with self.assertRaises(ValueError):
-            self.tag.tag_id = "abcde" * 15
+            self.tag.id = "abcde" * 15
 
     def test_empty_tag_id(self):
         """Test case for Tag
@@ -28,7 +28,7 @@ class TestTagModel(BaseTestCase):
         Set the tag ID to have <1 length
         """
         with self.assertRaises(ValueError):
-            self.tag.tag_id = ""
+            self.tag.id = ""
 
     def test_invalid_tag_id(self):
         """Test case for Tag
@@ -37,7 +37,7 @@ class TestTagModel(BaseTestCase):
         and single-dash delimited)
         """
         with self.assertRaises(ValueError):
-            self.tag.tag_id = "Awesome-tag"
+            self.tag.id = "Awesome-tag"
 
 
 if __name__ == "__main__":

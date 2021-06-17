@@ -125,7 +125,7 @@ class TestOrganizationController(BaseTestCase):
         """
         organization = util.create_test_organization("awesome-organization")
         response = self.client.open(
-            f"/api/v1/organizations/{organization.organizationId}",
+            f"/api/v1/organizations/{organization.id}",
             method="DELETE",
             headers=RESPONSE_HEADERS
         )
@@ -157,7 +157,7 @@ class TestOrganizationController(BaseTestCase):
         """
         organization = util.create_test_organization("awesome-organization")
         response = self.client.open(
-            f"/api/v1/organizations/{organization.organizationId}",
+            f"/api/v1/organizations/{organization.id}",
             method="GET",
             headers=RESPONSE_HEADERS
         )

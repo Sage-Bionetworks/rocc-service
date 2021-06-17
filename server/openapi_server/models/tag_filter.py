@@ -15,21 +15,21 @@ class TagFilter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, tag_id=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """TagFilter - a model defined in OpenAPI
 
-        :param tag_id: The tag_id of this TagFilter.  # noqa: E501
-        :type tag_id: str
+        :param id: The id of this TagFilter.  # noqa: E501
+        :type id: str
         """
         self.openapi_types = {
-            'tag_id': str
+            'id': str
         }
 
         self.attribute_map = {
-            'tag_id': 'tagId'
+            'id': 'id'
         }
 
-        self._tag_id = tag_id
+        self._id = id
 
     @classmethod
     def from_dict(cls, dikt) -> 'TagFilter':
@@ -43,24 +43,24 @@ class TagFilter(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def tag_id(self):
-        """Gets the tag_id of this TagFilter.
+    def id(self):
+        """Gets the id of this TagFilter.
 
-        Keep the tags whose tagId starts with this term  # noqa: E501
+        Keep the tags whose ID starts with this term  # noqa: E501
 
-        :return: The tag_id of this TagFilter.
+        :return: The id of this TagFilter.
         :rtype: str
         """
-        return self._tag_id
+        return self._id
 
-    @tag_id.setter
-    def tag_id(self, tag_id):
-        """Sets the tag_id of this TagFilter.
+    @id.setter
+    def id(self, id):
+        """Sets the id of this TagFilter.
 
-        Keep the tags whose tagId starts with this term  # noqa: E501
+        Keep the tags whose ID starts with this term  # noqa: E501
 
-        :param tag_id: The tag_id of this TagFilter.
-        :type tag_id: str
+        :param id: The id of this TagFilter.
+        :type id: str
         """
 
-        self._tag_id = tag_id
+        self._id = id

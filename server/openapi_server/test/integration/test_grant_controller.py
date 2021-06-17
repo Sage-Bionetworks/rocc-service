@@ -97,15 +97,15 @@ class TestGrantController(BaseTestCase):
 
         Create a duplicate grant (409)
         """
-        util.create_test_grant()  # duplicated Grant
-        grant = {
-            'name': "awesome-grant"
+        grant = util.create_test_grant()  # duplicated grant
+        grant2 = {
+            'name': grant.name
         }
         response = self.client.open(
             "/api/v1/grants",
             method="POST",
             headers=REQUEST_HEADERS,
-            data=json.dumps(grant)
+            data=json.dumps(grant2)
         )
         self.assertStatus(
             response, 409,
@@ -119,7 +119,7 @@ class TestGrantController(BaseTestCase):
         """
         grant = util.create_test_grant()
         response = self.client.open(
-            f"/api/v1/grants/{grant.grantId}",
+            f"/api/v1/grants/{grant.id}",
             method="DELETE",
             headers=RESPONSE_HEADERS
         )
@@ -151,7 +151,7 @@ class TestGrantController(BaseTestCase):
         """
         grant = util.create_test_grant()
         response = self.client.open(
-            f"/api/v1/grants/{grant.grantId}",
+            f"/api/v1/grants/{grant.id}",
             method="GET",
             headers=RESPONSE_HEADERS
         )

@@ -26,10 +26,10 @@ def create_tag(tag_id):
         try:
             tag = Tag.from_dict(connexion.request.get_json())
             DbTag(
-                tagId=tag_id,
+                id=tag_id,
                 description=tag.description
             ).save(force_insert=True)
-            res = TagCreateResponse(tag_id=tag_id)
+            res = TagCreateResponse(id=tag_id)
             status = 201
         except NotUniqueError as error:
             status = 409
@@ -40,7 +40,6 @@ def create_tag(tag_id):
     else:
         status = 400
         res = Error("Bad request", status)
-
     return res, status
 
 
@@ -57,7 +56,7 @@ def delete_tag(tag_id):
     res = None
     status = None
     try:
-        DbTag.objects.get(tagId=tag_id).delete()
+        DbTag.objects.get(id=tag_id).delete()
         res = {}
         status = 200
     except DoesNotExist:
@@ -66,7 +65,6 @@ def delete_tag(tag_id):
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -83,7 +81,7 @@ def get_tag(tag_id):
     res = None
     status = None
     try:
-        db_tag = DbTag.objects.get(tagId=tag_id)
+        db_tag = DbTag.objects.get(id=tag_id)
         res = Tag.from_dict(db_tag.to_dict())
         status = 200
     except DoesNotExist:
@@ -92,7 +90,6 @@ def get_tag(tag_id):
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -112,8 +109,8 @@ def list_tags(limit=None, offset=None, filter_=None):
     status = None
     try:
         # Get results based on query, limit and offset.
-        tag_id_q = Q(tagId__istartswith=filter_['tagId']) \
-            if 'tagId' in filter_ else Q()
+        tag_id_q = Q(id__istartswith=filter_['id']) \
+            if 'id' in filter_ else Q()
         db_tags = DbTag.objects(tag_id_q).skip(offset).limit(limit)
         tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
         next_ = ""
@@ -139,7 +136,6 @@ def list_tags(limit=None, offset=None, filter_=None):
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
-
     return res, status
 
 
@@ -156,10 +152,6 @@ def delete_all_tags():
         DbTag.objects.delete()
         res = {}
         status = 200
-    # TODO: find an exception that will raise 400 error
-    # except DoesNotExist:
-    #     status = 400
-    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
