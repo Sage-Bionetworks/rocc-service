@@ -11,7 +11,7 @@ class TestOrganizationModel(BaseTestCase):
 
     def setUp(self):
         self.organization = Organization(
-            organization_id="awesome-organization",
+            id="awesome-organization",
             name="Awesome Organization",
             url="www.awesome-organization.org"
         )
@@ -22,7 +22,7 @@ class TestOrganizationModel(BaseTestCase):
         Set the organization ID to have >60 length
         """
         with self.assertRaises(ValueError):
-            self.organization.organization_id = "abcde" * 15
+            self.organization.id = "abcde" * 15
 
     def test_short_organization_id(self):
         """Test case for Organization
@@ -30,7 +30,7 @@ class TestOrganizationModel(BaseTestCase):
         Set the organization ID to have <3 length
         """
         with self.assertRaises(ValueError):
-            self.organization.organization_id = "x"
+            self.organization.id = "x"
 
     def test_invalid_organization_id(self):
         """Test case for Organization
@@ -39,7 +39,7 @@ class TestOrganizationModel(BaseTestCase):
         lowercase and single-dash delimited)
         """
         with self.assertRaises(ValueError):
-            self.organization.organization_id = "awesome--organization"
+            self.organization.id = "awesome--organization"
 
     def test_missing_organization_name(self):
         """Test case for Organization

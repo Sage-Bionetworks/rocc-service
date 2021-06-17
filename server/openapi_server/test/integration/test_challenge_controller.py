@@ -44,15 +44,18 @@ class TestChallengeController(BaseTestCase):
         Create a challenge (201)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = {
-            'name': "awesome-challenge",
+            'name': "Awesome Challenge",
+            'description': "description",
+            'summary': "description",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [str(person.personId)],
-            'tags': ["awesome-tag"],
-            'challengeResults': {}
+            'tagIds': ["awesome-tag"],
+            'organizerIds': [str(person.id)],
+            'dataProviderIds': [str(data_provider.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -72,15 +75,18 @@ class TestChallengeController(BaseTestCase):
         Create a (non-JSON) challenge (400)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = {
-            'name': "awesome-challenge",
+            'name': "Awesome Challenge",
+            'description': "description",
+            'summary': "description",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [str(person.personId)],
-            'tags': ["awesome-tag"],
-            'challengeResults': {}
+            'tagIds': ["awesome-tag"],
+            'organizerIds': [str(person.id)],
+            'dataProviderIds': [str(data_provider.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -116,15 +122,18 @@ class TestChallengeController(BaseTestCase):
         Create a challenge with an unknown tag (404)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = {
-            'name': "awesome-challenge",
+            'name': "Awesome Challenge",
+            'description': "description",
+            'summary': "description",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [str(person.personId)],
-            'tags': ["foo"],
-            'challengeResults': {}
+            'tagIds': ["foo"],
+            'organizerIds': [str(person.id)],
+            'dataProviderIds': [str(data_provider.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -142,16 +151,19 @@ class TestChallengeController(BaseTestCase):
 
         Create a challenge with an unknown organizer (404)
         """
-        person = ObjectId()
+        person_id = ObjectId()
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = {
-            'name': "awesome-challenge",
+            'name': "Awesome Challenge",
+            'description': "description",
+            'summary': "description",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [str(person)],
-            'tags': ["awesome-tag"],
-            'challengeResults': {}
+            'tagIds': ["awesome-tag"],
+            'organizerIds': [str(person_id)],
+            'dataProviderIds': [str(data_provider.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -170,19 +182,23 @@ class TestChallengeController(BaseTestCase):
         Create a duplicate challenge (409)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         util.create_test_challenge(
-            organizers=[person.personId],
-            tags=["awesome-tag"]
+            tagIds=["awesome-tag"],
+            organizerIds=[str(person.id)],
+            dataProviderIds=[str(data_provider.id)]
         )
         challenge = {
-            'name': "awesome-challenge",
+            'name': "Awesome Challenge",
+            'description': "description",
+            'summary': "description",
             'startDate': date(2020, 12, 1),
             'endDate': date(2020, 12, 31),
             'url': "https://www.synapse.org/",
             'status': "upcoming",
-            'organizers': [str(person.personId)],
-            'tags': ["awesome-tag"],
-            'challengeResults': {}
+            'tagIds': ["awesome-tag"],
+            'organizerIds': [str(person.id)],
+            'dataProviderIds': [str(data_provider.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -201,12 +217,14 @@ class TestChallengeController(BaseTestCase):
         Delete an existing challenge (200)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = util.create_test_challenge(
-            organizers=[person.personId],
-            tags=["awesome-tag"]
+            tagIds=["awesome-tag"],
+            organizerIds=[str(person.id)],
+            dataProviderIds=[str(data_provider.id)]
         )
         response = self.client.open(
-            f"/api/v1/challenges/{challenge.challengeId}",
+            f"/api/v1/challenges/{challenge.id}",
             method="DELETE",
             headers=RESPONSE_HEADERS
         )
@@ -237,12 +255,14 @@ class TestChallengeController(BaseTestCase):
         Get an existing challenge (200)
         """
         person = util.create_test_person(["awesome-organization"])
+        data_provider = util.create_test_organization("awesome-organization")
         challenge = util.create_test_challenge(
-            organizers=[person.personId],
-            tags=["awesome-tag"]
+            tagIds=["awesome-tag"],
+            organizerIds=[str(person.id)],
+            dataProviderIds=[str(data_provider.id)]
         )
         response = self.client.open(
-            f"/api/v1/challenges/{challenge.challengeId}",
+            f"/api/v1/challenges/{challenge.id}",
             method="GET",
             headers=RESPONSE_HEADERS
         )
@@ -273,9 +293,11 @@ class TestChallengeController(BaseTestCase):
         Get all challenges
         """
         person = util.create_test_person(["awesome-organization"])
-        util.create_test_challenge(
-            organizers=[person.personId],
-            tags=["awesome-tag"]
+        data_provider = util.create_test_organization("awesome-organization")
+        challenge = util.create_test_challenge(
+            tagIds=["awesome-tag"],
+            organizerIds=[str(person.id)],
+            dataProviderIds=[str(data_provider.id)]
         )
         query_string = [("limit", 10),
                         ("offset", 0),
@@ -299,9 +321,11 @@ class TestChallengeController(BaseTestCase):
         Get all challenges using an invalid query (400)
         """
         person = util.create_test_person(["awesome-organization"])
-        util.create_test_challenge(
-            organizers=[person.personId],
-            tags=["awesome-tag"]
+        data_provider = util.create_test_organization("awesome-organization")
+        challenge = util.create_test_challenge(
+            tagIds=["awesome-tag"],
+            organizerIds=[str(person.id)],
+            dataProviderIds=[str(data_provider.id)]
         )
         query_string = [("limit", "no-limit"),
                         ("offset", "none"),

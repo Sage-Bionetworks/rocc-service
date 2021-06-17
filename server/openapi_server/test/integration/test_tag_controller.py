@@ -99,7 +99,7 @@ class TestTagController(BaseTestCase):
         """
         tag = util.create_test_tag("awesome-tag")
         response = self.client.open(
-            f"/api/v1/tags/{tag.tagId}",
+            f"/api/v1/tags/{tag.id}",
             method="DELETE",
             headers=RESPONSE_HEADERS)
         self.assert200(
@@ -129,7 +129,7 @@ class TestTagController(BaseTestCase):
         """
         tag = util.create_test_tag("awesome-tag")
         response = self.client.open(
-            f"/api/v1/tags/{tag.tagId}",
+            f"/api/v1/tags/{tag.id}",
             method="GET",
             headers=RESPONSE_HEADERS)
         self.assert200(
