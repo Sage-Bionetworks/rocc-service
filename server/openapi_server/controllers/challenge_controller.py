@@ -4,12 +4,12 @@ from mongoengine.queryset.visitor import Q
 import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
-from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
+# from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.organization import Organization as DbOrganization
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.challenge import Challenge
-# from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_challenges import PageOfChallenges
 from openapi_server.config import Config
