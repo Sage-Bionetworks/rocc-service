@@ -27,8 +27,8 @@ def create_grant():
                 # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
-            new_id = db_grant.to_dict().get("grantId")
-            res = GrantCreateResponse(grant_id=new_id)
+            new_id = db_grant.to_dict().get("id")
+            res = GrantCreateResponse(id=new_id)
             status = 201
         except NotUniqueError as error:
             status = 409
@@ -55,7 +55,7 @@ def delete_grant(grant_id):
     res = None
     status = None
     try:
-        DbGrant.objects.get(grantId=grant_id).delete()
+        DbGrant.objects.get(id=grant_id).delete()
         res = {}
         status = 200
     except DoesNotExist:
@@ -80,7 +80,7 @@ def get_grant(grant_id):
     res = None
     status = None
     try:
-        db_grant = DbGrant.objects.get(grantId=grant_id)
+        db_grant = DbGrant.objects.get(id=grant_id)
         res = Grant.from_dict(db_grant.to_dict())
         status = 200
     except DoesNotExist:
@@ -149,10 +149,6 @@ def delete_all_grants():
         DbGrant.objects.delete()
         res = {}
         status = 200
-    # TODO: find an exception that will raise 400 error
-    # except DoesNotExist:
-    #     status = 400
-    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
