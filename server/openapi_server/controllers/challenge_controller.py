@@ -6,6 +6,7 @@ import traceback
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.person import Person as DbPerson
+from openapi_server.dbmodels.organization import Organization as DbOrganization
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.challenge import Challenge
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
@@ -27,43 +28,52 @@ def create_challenge():
         if connexion.request.is_json:
             challenge = Challenge.from_dict(connexion.request.get_json())
 
-            # Check for tags not currently in our db.
-            for tag_id in challenge.tags:
+            for tag_id in challenge.tag_ids:
                 try:
-                    DbTag.objects.get(tagId=tag_id)
+                    DbTag.objects.get(id=tag_id)
                 except DoesNotExist:
                     status = 404
-                    res = Error(f"The tag, {tag_id}, was not found", status)
+                    res = Error(f"Tag {tag_id} not found", status)
                     return res, status
 
-            # Check for persons not currently in our db.
-            for person_id in challenge.organizers:
+            for person_id in challenge.organizer_ids:
                 try:
-                    DbPerson.objects.get(personId=person_id)
+                    DbPerson.objects.get(id=person_id)
                 except DoesNotExist:
                     status = 404
                     res = Error(f"Person {person_id} not found", status)
+                    return res, status
+
+            for data_provider_id in challenge.data_provider_ids:
+                try:
+                    DbOrganization.objects.get(id=data_provider_id)
+                except DoesNotExist:
+                    status = 404
+                    res = Error(f"Data provider {data_provider_id} not found", status)  # noqa: E501
                     return res, status
 
             # Add challenge if all tags and persons are found and valid.
             try:
                 db_challenge = DbChallenge(
                     name=challenge.name,
+                    description=challenge.description,
+                    summary=challenge.summary,
                     startDate=challenge.start_date,
                     endDate=challenge.end_date,
                     url=challenge.url,
                     status=challenge.status,
+                    tagIds=challenge.tag_ids,
+                    organizerIds=challenge.organizer_ids,
+                    dataProviderIds=challenge.data_provider_ids,
+                    # challengeResults=DbChallengeResults(
+                    #     nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
+                    #     nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
+                    #     nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
+                    # ),
                     # grant=challenge.grant,
-                    organizers=challenge.organizers,
-                    tags=challenge.tags,
-                    challengeResults=DbChallengeResults(
-                        nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
-                        nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
-                        nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
-                    )
                 ).save(force_insert=True)
-                new_id = db_challenge.to_dict().get("challengeId")
-                res = ChallengeCreateResponse(challenge_id=new_id)
+                new_id = db_challenge.to_dict().get("id")
+                res = ChallengeCreateResponse(id=new_id)
                 status = 201
             except NotUniqueError as error:
                 status = 409
@@ -91,7 +101,7 @@ def delete_challenge(challenge_id):
     res = None
     status = None
     try:
-        DbChallenge.objects.get(challengeId=challenge_id).delete()
+        DbChallenge.objects.get(id=challenge_id).delete()
         res = {}
         status = 200
     except DoesNotExist:
@@ -116,7 +126,7 @@ def get_challenge(challenge_id):
     res = None
     status = None
     try:
-        db_challenge = DbChallenge.objects.get(challengeId=challenge_id)
+        db_challenge = DbChallenge.objects.get(id=challenge_id)
         res = Challenge.from_dict(db_challenge.to_dict())
         status = 200
     except DoesNotExist:
@@ -148,9 +158,9 @@ def list_challenges(limit=None, offset=None, filter_=None):
             if 'name' in filter_ else Q()
         status_q = Q(status=filter_['status']) \
             if 'status' in filter_ else Q()
-        organizer_q = Q(organizers__contains=filter_['organizer']) \
+        organizer_q = Q(organizerIds__contains=filter_['organizer']) \
             if 'organizer' in filter_ else Q()
-        tag_q = Q(tags__contains=filter_['tag']) \
+        tag_q = Q(tagIds__contains=filter_['tag']) \
             if 'tag' in filter_ else Q()
         db_challenges = DbChallenge.objects(
             name_q & status_q & organizer_q & tag_q
@@ -195,10 +205,6 @@ def delete_all_challenges():
         DbChallenge.objects.delete()
         res = {}
         status = 200
-    # TODO: find an exception that will raise 400 error
-    # except DoesNotExist:
-    #     status = 400
-    #     res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))
