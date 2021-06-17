@@ -1,4 +1,4 @@
-# Registry of Open Community Challenge (ROCC)
+# ROCC Service
 
 [![GitHub Release](https://img.shields.io/github/release/Sage-Bionetworks/rocc.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc/releases)
 [![GitHub CI](https://img.shields.io/github/workflow/status/Sage-Bionetworks/rocc/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc)
