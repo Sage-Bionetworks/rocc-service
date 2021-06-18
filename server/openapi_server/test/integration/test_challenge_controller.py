@@ -105,7 +105,7 @@ class TestChallengeController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_empty_challenge_with_status400(self):
+    def test_create_empty_challenge_with_status400_empty_challenge(self):
         """Test case for create_challenge
 
         Create an empty challenge with missing required properties (400)
@@ -122,7 +122,7 @@ class TestChallengeController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_challenge_with_status400(self):
+    def test_create_challenge_with_status400_unknown_tag(self):
         """Test case for create_challenge
 
         Create a challenge with an unknown tag (400)
@@ -154,7 +154,7 @@ class TestChallengeController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_challenge_with_status400_again(self):
+    def test_create_challenge_with_status400_again_unknown_organizer(self):
         """Test case for create_challenge
 
         Create a challenge with an unknown organizer (400)

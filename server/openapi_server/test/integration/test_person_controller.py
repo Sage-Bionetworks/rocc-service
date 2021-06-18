@@ -80,7 +80,7 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_empty_person_with_status400(self):
+    def test_create_empty_person_with_status400_empty_person(self):
         """Test case for create_person
 
         Create an empty person with missing required properties (400)
@@ -97,7 +97,7 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_person_with_status400(self):
+    def test_create_person_with_status400_unknown_organization(self):
         """Test case for create_person
 
         Create a person with an unknown organization (400)
