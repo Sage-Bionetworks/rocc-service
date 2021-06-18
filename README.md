@@ -67,6 +67,32 @@ value of `SERVER_PORT` specified in `.env`.
 - Swagger UI (default): http://localhost:8080/ui
 
 
+## Versioning
+
+### GitHub release tags
+
+This repository uses [semantic versioning] to track the releases of this tool.
+This repository uses "non-moving" GitHub tags, that is, a tag will always point
+to the same git commit once it has been created.
+
+### Docker image tags
+
+The artifact published by the [CI/CD workflow] of this GitHub repository is a
+Docker image pushed to the Docker Hub Registry. This table lists the image tags
+pushed to the registry.
+
+| Tag name                    | Moving | Description
+|-----------------------------|--------|------------
+| `latest`                    | Yes    | Latest stable release.
+| `edge`                      | Yes    | Latest commit made to the default branch.
+| `edge-<sha>`                | No     | Same as above with the reference to the git commit.
+| `<major>.<minor>.<patch>`   | No     | Stable release.
+
+You should avoid using a moving tag like `latest` when deploying containers in
+production, because this makes it hard to track which version of the image is
+running and hard to roll back.
+
+
 ## Contributing
 
 Thinking about contributing to this project? Get started by reading our
@@ -81,5 +107,7 @@ Thinking about contributing to this project? Get started by reading our
 
 [sagebionetworks/rocc-service]: https://hub.docker.com/repository/docker/sagebionetworks/rocc-service
 [ROCC OpenAPI specification]: https://github.com/Sage-Bionetworks/rocc-schemas
+[semantic versioning]: https://semver.org/
+[CI/CD workflow]: .github/workflows/ci.yml
 [contribution guide]: .github/CONTRIBUTING.md
 [Apache License 2.0]: https://github.com/Sage-Bionetworks/rocc/blob/main/LICENSE
