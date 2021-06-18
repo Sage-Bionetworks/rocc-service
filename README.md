@@ -57,14 +57,13 @@ Install and start the ROCC service.
     pip install -r requirements.txt
     cd server && python -m openapi_server
 
-### Acessing the UI
+### Acessing the Swagger UI
 
-The ROCC service provides a web interface that you can use to create and manage
-resources. The address of this interface depends on whether you run the ROCC
-service using Docker (production mode) or the Python development server.
+This API service provides a web interface (Swagger User Interface) that you can
+use to interact with the service. The address of this interface depends on the
+value of `SERVER_PORT` specified in `.env`.
 
-- Using Docker: http://localhost/ui
-- Using Python: http://localhost:8080/ui
+- Web interface: http://localhost:{SERVER_PORT}/ui
 
 
 ## Contributing
