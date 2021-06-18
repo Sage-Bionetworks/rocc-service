@@ -52,15 +52,17 @@ jobs:
             3. Review the updates made to this tool in the [ROCC schemas
                CHANGELOG].
 
-            4. Review and merge the changes. If you are using VS Code, this step
-               can be performed relatively easily using the section named
+            4. Review and stage/discard changes. If you are using VS Code, this
+               step can be performed relatively easily using the section named
                "Source Control". This section lists the files that have been
                modified by the generator. When clicking on a file, VS Code shows
                side-by-side the current and updated version of the file. Changes
                can be accepted or rejected at the level of an entire file or for
                a selection of lines.
 
+            5. Push the changes to remote, review and merge the PR.
+
             [openapi-generator]: https://github.com/OpenAPITools/openapi-generator
-            [ROCC schemas]: https://github.com/nlpsandbox/nlpsandbox-schemas
+            [ROCC schemas]: https://github.com/Sage-Bionetworks/rocc-schemas
             [ROCC schemas CHANGELOG]: https://github.com/Sage-Bionetworks/rocc-schemas/blob/main/.github/CHANGELOG.md
           delete-branch: true
