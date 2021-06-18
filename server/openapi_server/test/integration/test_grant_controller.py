@@ -99,7 +99,8 @@ class TestGrantController(BaseTestCase):
         """
         grant = util.create_test_grant()  # duplicated grant
         grant2 = {
-            'name': grant.name
+            'name': grant.name,
+            'description': grant.description
         }
         response = self.client.open(
             "/api/v1/grants",

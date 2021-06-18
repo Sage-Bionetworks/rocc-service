@@ -24,7 +24,6 @@ def create_grant():
             db_grant = DbGrant(
                 name=grant.name,
                 description=grant.description,
-                # sponsor=grant.sponsor,
                 url=grant.url
             ).save(force_insert=True)
             new_id = db_grant.to_dict().get("id")

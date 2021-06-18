@@ -8,6 +8,7 @@ from flask import json
 from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.test.integration import BaseTestCase
@@ -33,6 +34,7 @@ class TestChallengeController(BaseTestCase):
         DbChallenge.objects.delete()
         DbPerson.objects.delete()
         DbTag.objects.delete()
+        DbGrant.objects.delete()
         util.create_test_tag("awesome-tag")
 
     def tearDown(self):
@@ -45,6 +47,7 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = {
             'name': "Awesome Challenge",
             'description': "description",
@@ -55,7 +58,8 @@ class TestChallengeController(BaseTestCase):
             'status': "upcoming",
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
-            'dataProviderIds': [str(data_provider.id)]
+            'dataProviderIds': [str(data_provider.id)],
+            'grantIds': [str(grant.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -76,6 +80,7 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = {
             'name': "Awesome Challenge",
             'description': "description",
@@ -86,7 +91,8 @@ class TestChallengeController(BaseTestCase):
             'status': "upcoming",
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
-            'dataProviderIds': [str(data_provider.id)]
+            'dataProviderIds': [str(data_provider.id)],
+            'grantIds': [str(grant.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -116,13 +122,14 @@ class TestChallengeController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_challenge_with_status404(self):
+    def test_create_challenge_with_status400(self):
         """Test case for create_challenge
 
-        Create a challenge with an unknown tag (404)
+        Create a challenge with an unknown tag (400)
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = {
             'name': "Awesome Challenge",
             'description': "description",
@@ -133,7 +140,8 @@ class TestChallengeController(BaseTestCase):
             'status': "upcoming",
             'tagIds': ["foo"],
             'organizerIds': [str(person.id)],
-            'dataProviderIds': [str(data_provider.id)]
+            'dataProviderIds': [str(data_provider.id)],
+            'grantIds': [str(grant.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -141,18 +149,19 @@ class TestChallengeController(BaseTestCase):
             headers=REQUEST_HEADERS,
             data=json.dumps(challenge)
         )
-        self.assert404(
+        self.assert400(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_challenge_with_status404_again(self):
+    def test_create_challenge_with_status400_again(self):
         """Test case for create_challenge
 
-        Create a challenge with an unknown organizer (404)
+        Create a challenge with an unknown organizer (400)
         """
         person_id = ObjectId()
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = {
             'name': "Awesome Challenge",
             'description': "description",
@@ -163,7 +172,8 @@ class TestChallengeController(BaseTestCase):
             'status': "upcoming",
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person_id)],
-            'dataProviderIds': [str(data_provider.id)]
+            'dataProviderIds': [str(data_provider.id)],
+            'grantIds': [str(grant.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -171,7 +181,7 @@ class TestChallengeController(BaseTestCase):
             headers=REQUEST_HEADERS,
             data=json.dumps(challenge)
         )
-        self.assert404(
+        self.assert400(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )
@@ -183,10 +193,12 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
-            dataProviderIds=[str(data_provider.id)]
+            dataProviderIds=[str(data_provider.id)],
+            grantIds=[str(grant.id)]
         )
         challenge = {
             'name': "Awesome Challenge",
@@ -198,7 +210,8 @@ class TestChallengeController(BaseTestCase):
             'status': "upcoming",
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
-            'dataProviderIds': [str(data_provider.id)]
+            'dataProviderIds': [str(data_provider.id)],
+            'grantIds': [str(grant.id)]
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -218,10 +231,12 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
-            dataProviderIds=[str(data_provider.id)]
+            dataProviderIds=[str(data_provider.id)],
+            grantIds=[str(grant.id)]
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -256,10 +271,12 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         challenge = util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
-            dataProviderIds=[str(data_provider.id)]
+            dataProviderIds=[str(data_provider.id)],
+            grantIds=[str(grant.id)]
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -294,10 +311,12 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
-            dataProviderIds=[str(data_provider.id)]
+            dataProviderIds=[str(data_provider.id)],
+            grantIds=[str(grant.id)]
         )
         query_string = [("limit", 10),
                         ("offset", 0),
@@ -322,10 +341,12 @@ class TestChallengeController(BaseTestCase):
         """
         person = util.create_test_person(["awesome-organization"])
         data_provider = util.create_test_organization("awesome-organization")
+        grant = util.create_test_grant()
         util.create_test_challenge(
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
-            dataProviderIds=[str(data_provider.id)]
+            dataProviderIds=[str(data_provider.id)],
+            grantIds=[str(grant.id)]
         )
         query_string = [("limit", "no-limit"),
                         ("offset", "none"),
