@@ -1,63 +1,85 @@
 # ROCC Service
 
-[![GitHub Release](https://img.shields.io/github/release/Sage-Bionetworks/rocc.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc/releases)
-[![GitHub CI](https://img.shields.io/github/workflow/status/Sage-Bionetworks/rocc/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc)
-[![GitHub License](https://img.shields.io/github/license/Sage-Bionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc)
-[![Docker Pulls](https://img.shields.io/docker/pulls/sagebionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/repository/docker/sagebionetworks/rocc)
-[![Coverage Status](https://img.shields.io/coveralls/github/Sage-Bionetworks/rocc.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=coverage&logo=Coveralls)](https://coveralls.io/github/Sage-Bionetworks/rocc?branch=)
+[![GitHub Release](https://img.shields.io/github/release/Sage-Bionetworks/rocc-service.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-service/releases)
+[![GitHub CI](https://img.shields.io/github/workflow/status/Sage-Bionetworks/rocc-service/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-service)
+[![GitHub License](https://img.shields.io/github/license/Sage-Bionetworks/rocc-service.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/Sage-Bionetworks/rocc-service)
+[![Docker Pulls](https://img.shields.io/docker/pulls/sagebionetworks/rocc-service.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/repository/docker/sagebionetworks/rocc-service)
+[![Coverage Status](https://img.shields.io/coveralls/github/Sage-Bionetworks/rocc-service.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=coverage&logo=Coveralls)](https://coveralls.io/github/Sage-Bionetworks/rocc-service?branch=)
 
-API service and web client of the Registry of Open Community Challenges
+## Introduction
+
+This GitHub repository includes the code of the REST API service of the Registry
+of Open Community Challenges (ROCC). This service implements the [ROCC OpenAPI
+specification] (schemas).
+
 
 ## Specification
 
-- Implements the [ROCC OpenAPI specification]
+- ROCC schemas version: 0.1.6
+- ROCC service version: 1.1.2
+- Docker image: [sagebionetworks/rocc-service]
 
-## Deploying using Docker
 
-1. Create the file that contains the future environment variables. You can
-   initially start the service using this configuration as-is.
+## Usage
 
-       cp .env.example .env
+### Running with Docker
 
-2. Start the ROCC API service. Add the option `-d` or `--detach`to run in the
-   background.
+Create the configuration file.
 
-       docker-compose up --build
+    cp .env.example .env
 
-3. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
-   to check that the API service is successfully running.
+The command below starts the ROCC service locally.
 
-To stop the API service, enter `Ctrl+C` followed by `docker-compose down`.  If
-running in detached mode, you will only need to enter `docker-compose down`.
+    docker compose up --build
 
-## Development environment
+You can stop the container run with `Ctrl+C`, followed by `docker compose down`.
 
-1. Create the file that contains the future environment variables.
+### Running with Python
 
-       cp .env.example .env
+We recommend using a Conda environment to install and run the ROCC service.
 
-2. Export the variables defined in *.env* to environment variables.
+    conda create --name rocc-service python=3.9.4
+    conda activate rocc-service
 
-       export $(grep -v '^#' .env | xargs -d '\n')
+Create the configuration file and export its parameters to environment
+variables.
 
-3. Start the MongoDB instance defined in `docker-compose.yml`.
+    cp .env.example .env
+    export $(grep -v '^#' .env | xargs -d '\n')
 
-       docker compose up -d db
+Start the MongoDB instance.
 
-4. We recommend using a Conda environment to install and run the ROCC API service.
+    docker compose up -d db
 
-       conda create --name rocc-service python=3.9
-       conda activate rocc-service
+Install and start the ROCC service.
 
-5. Install the dependancies and start the ROCC.
+    cd server/
+    pip install -r requirements.txt
+    cd server && python -m openapi_server
 
-       cd server
-       pip install -r requirements.txt
-       python -m openapi_server
+### Acessing the UI
 
-6. Go to the API service documentation page <http://localhost:8080/api/v1/ui/>
-   to check that the API service is successfully running.
+The ROCC service provides a web interface that you can use to create and manage
+resources. The address of this interface depends on whether you run the ROCC
+service using Docker (production mode) or the Python development server.
 
-<!-- Definitions -->
+- Using Docker: http://localhost/ui
+- Using Python: http://localhost:8080/ui
 
+
+## Contributing
+
+Thinking about contributing to this project? Get started by reading our
+[contribution guide].
+
+
+## License
+
+[Apache License 2.0]
+
+<!-- Links -->
+
+[sagebionetworks/rocc-service]: https://hub.docker.com/repository/docker/sagebionetworks/rocc-service
 [ROCC OpenAPI specification]: https://github.com/Sage-Bionetworks/rocc-schemas
+[contribution guide]: .github/CONTRIBUTING.md
+[Apache License 2.0]: https://github.com/Sage-Bionetworks/rocc/blob/main/LICENSE
