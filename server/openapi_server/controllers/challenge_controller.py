@@ -5,6 +5,7 @@ import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 # from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
+from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.organization import Organization as DbOrganization
 from openapi_server.dbmodels.tag import Tag as DbTag
@@ -32,27 +33,34 @@ def create_challenge():
                 try:
                     DbTag.objects.get(id=tag_id)
                 except DoesNotExist:
-                    status = 404
-                    res = Error(f"Tag {tag_id} not found", status)
+                    status = 400
+                    res = Error(f"The tag {tag_id} was not found", status)
                     return res, status
 
             for person_id in challenge.organizer_ids:
                 try:
                     DbPerson.objects.get(id=person_id)
                 except DoesNotExist:
-                    status = 404
-                    res = Error(f"Person {person_id} not found", status)
+                    status = 400
+                    res = Error(f"The person {person_id} was not found", status)  # noqa: E501
                     return res, status
 
             for data_provider_id in challenge.data_provider_ids:
                 try:
                     DbOrganization.objects.get(id=data_provider_id)
                 except DoesNotExist:
-                    status = 404
-                    res = Error(f"Data provider {data_provider_id} not found", status)  # noqa: E501
+                    status = 400
+                    res = Error(f"The data provider {data_provider_id} was not found", status)  # noqa: E501
                     return res, status
 
-            # Add challenge if all tags and persons are found and valid.
+            for grant_id in challenge.grant_ids:
+                try:
+                    DbGrant.objects.get(id=grant_id)
+                except DoesNotExist:
+                    status = 400
+                    res = Error(f"The grant {grant_id} was not found", status)
+                    return res, status
+
             try:
                 db_challenge = DbChallenge(
                     name=challenge.name,
@@ -64,13 +72,13 @@ def create_challenge():
                     status=challenge.status,
                     tagIds=challenge.tag_ids,
                     organizerIds=challenge.organizer_ids,
-                    dataProviderIds=challenge.data_provider_ids
+                    dataProviderIds=challenge.data_provider_ids,
+                    grantIds=challenge.grant_ids
                     # challengeResults=DbChallengeResults(
                     #     nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
                     #     nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
                     #     nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
                     # ),
-                    # grant=challenge.grant,
                 ).save(force_insert=True)
                 new_id = db_challenge.to_dict().get("id")
                 res = ChallengeCreateResponse(id=new_id)

@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.5
+  version: 0.1.6
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -50,12 +50,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
         "500":
           content:
             application/json:
@@ -252,12 +246,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
         "500":
           content:
             application/json:
@@ -468,12 +456,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
         "500":
           content:
             application/json:
@@ -671,12 +653,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
         "500":
           content:
             application/json:
@@ -873,12 +849,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmptyObject'
           description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
         "500":
           content:
             application/json:
@@ -1425,10 +1395,7 @@ components:
       type: object
     ChallengeId:
       description: The ID of the challenge
-      example: awesome-challenge
-      maxLength: 60
-      minLength: 3
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      example: 507f1f77bcf86cd799439011
       type: string
     ChallengeCreateResponse:
       description: A challenge ID
@@ -1437,10 +1404,7 @@ components:
       properties:
         id:
           description: The ID of the challenge
-          example: awesome-challenge
-          maxLength: 60
-          minLength: 3
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          example: 507f1f77bcf86cd799439011
           type: string
       required:
       - id
@@ -1467,6 +1431,11 @@ components:
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: OrganizationId
       type: string
+    GrantId:
+      description: The ID of the grant
+      example: 507f1f77bcf86cd799439011
+      title: GrantId
+      type: string
     ChallengeCreateRequest:
       description: A challenge
       example:
@@ -1484,6 +1453,8 @@ components:
         - 507f1f77bcf86cd799439011
         dataProviderIds:
         - awesome-organization
+        grantIds:
+        - 507f1f77bcf86cd799439011
       properties:
         name:
           description: The challenge name
@@ -1526,9 +1497,15 @@ components:
           items:
             $ref: '#/components/schemas/OrganizationId'
           type: array
+        grantIds:
+          description: The grants supporting this challenge
+          items:
+            $ref: '#/components/schemas/GrantId'
+          type: array
       required:
       - dataProviderIds
       - description
+      - grantIds
       - name
       - organizerIds
       - status
@@ -1577,10 +1554,6 @@ components:
     EmptyObject:
       description: Empty JSON object
       type: object
-    GrantId:
-      description: The ID of the grant
-      example: 507f1f77bcf86cd799439011
-      type: string
     GrantCreateResponse:
       description: A grant ID
       example:
@@ -1589,7 +1562,10 @@ components:
         id:
           description: The ID of the grant
           example: 507f1f77bcf86cd799439011
+          title: GrantId
           type: string
+      required:
+      - id
       title: GrantCreateResponse
       type: object
     GrantCreateRequest:
@@ -1610,6 +1586,7 @@ components:
           format: uri
           type: string
       required:
+      - description
       - name
       type: object
     Grant:

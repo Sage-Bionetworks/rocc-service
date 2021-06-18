@@ -67,7 +67,7 @@ def create_test_challenge_results():
     )
 
 
-def create_test_challenge(tagIds, organizerIds, dataProviderIds):
+def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds):
     return Challenge(
         name="Awesome Challenge",
         description="description",
@@ -78,6 +78,7 @@ def create_test_challenge(tagIds, organizerIds, dataProviderIds):
         status="upcoming",
         tagIds=tagIds,
         organizerIds=organizerIds,
-        dataProviderIds=dataProviderIds
+        dataProviderIds=dataProviderIds,
+        grantIds=grantIds
         # challengeResults=create_test_challenge_results().to_dict()
     ).save()

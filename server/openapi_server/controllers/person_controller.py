@@ -29,7 +29,7 @@ def create_person():
                 try:
                     DbOrganization.objects.get(id=org_id)
                 except DoesNotExist:
-                    status = 404
+                    status = 400
                     res = Error(
                         f"The organization {org_id} was not found",
                         status)

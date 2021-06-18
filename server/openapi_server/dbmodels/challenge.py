@@ -5,7 +5,7 @@ from mongoengine import Document, DateTimeField, ListField, ReferenceField, Stri
 from openapi_server.dbmodels.tag import Tag
 from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.organization import Organization
-# from openapi_server.dbmodels.grant import Grant
+from openapi_server.dbmodels.grant import Grant
 
 
 class Challenge(Document):
@@ -23,7 +23,7 @@ class Challenge(Document):
     tagIds = ListField(ReferenceField(Tag), required=True)
     organizerIds = ListField(ReferenceField(Person), required=True)
     dataProviderIds = ListField(ReferenceField(Organization), required=True)
-    # grant = ListField(ReferenceField(Grant))
+    grantIds = ListField(ReferenceField(Grant), required=True)
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
 
     def to_dict(self):

@@ -80,7 +80,7 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_empty_person_with_status400(self):
+    def test_create_empty_person_with_status400_empty_person(self):
         """Test case for create_person
 
         Create an empty person with missing required properties (400)
@@ -97,10 +97,10 @@ class TestPersonController(BaseTestCase):
             f"Response body is: {response.data.decode('utf-8')}"
         )
 
-    def test_create_person_with_status404(self):
+    def test_create_person_with_status400_unknown_organization(self):
         """Test case for create_person
 
-        Create a person with an unknown organization (404)
+        Create a person with an unknown organization (400)
         """
         person = {
             'firstName': "Awesome",
@@ -114,7 +114,7 @@ class TestPersonController(BaseTestCase):
             headers=REQUEST_HEADERS,
             data=json.dumps(person)
         )
-        self.assert404(
+        self.assert400(
             response,
             f"Response body is: {response.data.decode('utf-8')}"
         )

@@ -81,6 +81,8 @@ class Grant(Model):
         :param id: The id of this Grant.
         :type id: str
         """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
 
@@ -129,6 +131,8 @@ class Grant(Model):
         :param description: The description of this Grant.
         :type description: str
         """
+        if description is None:
+            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
 
         self._description = description
 
