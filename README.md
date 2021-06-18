@@ -63,7 +63,8 @@ This API service provides a web interface (Swagger User Interface) that you can
 use to interact with the service. The address of this interface depends on the
 value of `SERVER_PORT` specified in `.env`.
 
-- Swagger UI: http://localhost:{SERVER_PORT}/ui
+- Swagger UI: `http://localhost:{SERVER_PORT}/ui`
+- Swagger UI (default): http://localhost:8080/ui
 
 
 ## Contributing
