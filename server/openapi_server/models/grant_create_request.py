@@ -97,6 +97,8 @@ class GrantCreateRequest(Model):
         :param description: The description of this GrantCreateRequest.
         :type description: str
         """
+        if description is None:
+            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
 
         self._description = description
 

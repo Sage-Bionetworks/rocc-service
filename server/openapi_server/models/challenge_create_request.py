@@ -17,7 +17,7 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None):  # noqa: E501
+    def __init__(self, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
@@ -40,6 +40,8 @@ class ChallengeCreateRequest(Model):
         :type organizer_ids: List[str]
         :param data_provider_ids: The data_provider_ids of this ChallengeCreateRequest.  # noqa: E501
         :type data_provider_ids: List[str]
+        :param grant_ids: The grant_ids of this ChallengeCreateRequest.  # noqa: E501
+        :type grant_ids: List[str]
         """
         self.openapi_types = {
             'name': str,
@@ -51,7 +53,8 @@ class ChallengeCreateRequest(Model):
             'status': ChallengeStatus,
             'tag_ids': List[str],
             'organizer_ids': List[str],
-            'data_provider_ids': List[str]
+            'data_provider_ids': List[str],
+            'grant_ids': List[str]
         }
 
         self.attribute_map = {
@@ -64,7 +67,8 @@ class ChallengeCreateRequest(Model):
             'status': 'status',
             'tag_ids': 'tagIds',
             'organizer_ids': 'organizerIds',
-            'data_provider_ids': 'dataProviderIds'
+            'data_provider_ids': 'dataProviderIds',
+            'grant_ids': 'grantIds'
         }
 
         self._name = name
@@ -77,6 +81,7 @@ class ChallengeCreateRequest(Model):
         self._tag_ids = tag_ids
         self._organizer_ids = organizer_ids
         self._data_provider_ids = data_provider_ids
+        self._grant_ids = grant_ids
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeCreateRequest':
@@ -336,3 +341,28 @@ class ChallengeCreateRequest(Model):
             raise ValueError("Invalid value for `data_provider_ids`, must not be `None`")  # noqa: E501
 
         self._data_provider_ids = data_provider_ids
+
+    @property
+    def grant_ids(self):
+        """Gets the grant_ids of this ChallengeCreateRequest.
+
+        The grants supporting this challenge  # noqa: E501
+
+        :return: The grant_ids of this ChallengeCreateRequest.
+        :rtype: List[str]
+        """
+        return self._grant_ids
+
+    @grant_ids.setter
+    def grant_ids(self, grant_ids):
+        """Sets the grant_ids of this ChallengeCreateRequest.
+
+        The grants supporting this challenge  # noqa: E501
+
+        :param grant_ids: The grant_ids of this ChallengeCreateRequest.
+        :type grant_ids: List[str]
+        """
+        if grant_ids is None:
+            raise ValueError("Invalid value for `grant_ids`, must not be `None`")  # noqa: E501
+
+        self._grant_ids = grant_ids
