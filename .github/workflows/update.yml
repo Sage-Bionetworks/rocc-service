@@ -1,0 +1,68 @@
+name: Update to latest ROCC version
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # everyday at 10am
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get latest ROCC schemas version
+        uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/{owner}/{repo}/releases/latest
+          owner: Sage-Bionetworks
+          repo: rocc-schemas
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push new version to $GITHUB_ENV
+        run: |
+          new_version=${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}
+          echo "NEW_VERSION=$(echo $new_version)" >> $GITHUB_ENV
+
+      - name: Start updating this project
+        run: |
+          current_version=$(cat .rocc-version)
+          echo "${{ env.NEW_VERSION }}" > .rocc-version
+
+      - name: Send pull request to update to new version
+        uses: peter-evans/create-pull-request@v3
+        with:
+          title: Update to ROCC schemas ${{ env.NEW_VERSION }}
+          commit-message: Update to ROCC schemas ${{ env.NEW_VERSION }}
+          body: |
+            A new version of the [ROCC schemas] is available.
+
+            1. Checkout the branch behind this Pull Request.
+
+                  `git fetch`
+                  `git checkout <branch_name>`
+
+            2. Run the [openapi-generator] using the new ROCC OpenAPI
+               specification.
+
+                  `npm run generate:server:version --oas_version=${{
+                  env.NEW_VERSION }}`
+
+            3. Review the updates made to this tool in the [ROCC schemas
+               CHANGELOG].
+
+            4. Review and stage/discard changes. If you are using VS Code, this
+               step can be performed relatively easily using the section named
+               "Source Control". This section lists the files that have been
+               modified by the generator. When clicking on a file, VS Code shows
+               side-by-side the current and updated version of the file. Changes
+               can be accepted or rejected at the level of an entire file or for
+               a selection of lines.
+
+            5. Push the changes to remote, review and merge the PR.
+
+            [openapi-generator]: https://github.com/OpenAPITools/openapi-generator
+            [ROCC schemas]: https://github.com/Sage-Bionetworks/rocc-schemas
+            [ROCC schemas CHANGELOG]: https://github.com/Sage-Bionetworks/rocc-schemas/blob/main/.github/CHANGELOG.md
+          delete-branch: true
