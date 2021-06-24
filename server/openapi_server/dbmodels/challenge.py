@@ -20,10 +20,10 @@ class Challenge(Document):
         required=True,
         choices=["open", "upcoming", "closed"]
     )
-    tagIds = ListField(ReferenceField(Tag), required=True)
-    organizerIds = ListField(ReferenceField(Person), required=True)
-    dataProviderIds = ListField(ReferenceField(Organization), required=True)
-    grantIds = ListField(ReferenceField(Grant), required=True)
+    tagIds = ListField(ReferenceField(Tag))
+    organizerIds = ListField(ReferenceField(Person))
+    dataProviderIds = ListField(ReferenceField(Organization))
+    grantIds = ListField(ReferenceField(Grant))
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
 
     def to_dict(self):
