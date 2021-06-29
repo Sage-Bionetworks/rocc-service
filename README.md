@@ -55,7 +55,7 @@ Install and start the ROCC service.
 
     cd server/
     pip install -r requirements.txt
-    cd server && python -m openapi_server
+    python -m openapi_server
 
 ### Acessing the Swagger UI
 

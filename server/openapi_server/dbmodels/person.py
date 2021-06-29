@@ -9,7 +9,7 @@ class Person(Document):
     firstName = StringField(required=True)
     lastName = StringField(required=True)
     email = EmailField()  # TODO: maybe make unique again later?
-    organizationIds = ListField(ReferenceField(Organization), required=True)
+    organizationIds = ListField(ReferenceField(Organization))
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
