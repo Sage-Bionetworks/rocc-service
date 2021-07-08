@@ -28,7 +28,11 @@ jobs:
       - name: Start updating this project
         run: |
           current_version=$(cat .rocc-version)
-          echo "${{ env.NEW_VERSION }}" > .rocc-version
+          new_version=${{ env.new_version }}
+
+          for f in .rocc-version README.md; do
+            sed -i "s/${current_version}/${new_version}/g" "$f"
+          done
 
       - name: Send pull request to update to new version
         uses: peter-evans/create-pull-request@v3
