@@ -186,5 +186,7 @@ class PageOfOrganizations(Model):
         :param organizations: The organizations of this PageOfOrganizations.
         :type organizations: List[Organization]
         """
+        if organizations is None:
+            raise ValueError("Invalid value for `organizations`, must not be `None`")  # noqa: E501
 
         self._organizations = organizations

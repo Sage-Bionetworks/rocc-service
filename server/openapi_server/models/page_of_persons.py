@@ -186,5 +186,7 @@ class PageOfPersons(Model):
         :param persons: The persons of this PageOfPersons.
         :type persons: List[Person]
         """
+        if persons is None:
+            raise ValueError("Invalid value for `persons`, must not be `None`")  # noqa: E501
 
         self._persons = persons
