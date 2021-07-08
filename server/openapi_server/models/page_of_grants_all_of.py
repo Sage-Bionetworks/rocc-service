@@ -64,5 +64,7 @@ class PageOfGrantsAllOf(Model):
         :param grants: The grants of this PageOfGrantsAllOf.
         :type grants: List[Grant]
         """
+        if grants is None:
+            raise ValueError("Invalid value for `grants`, must not be `None`")  # noqa: E501
 
         self._grants = grants

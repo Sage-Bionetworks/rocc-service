@@ -64,5 +64,7 @@ class PageOfUsersAllOf(Model):
         :param users: The users of this PageOfUsersAllOf.
         :type users: List[User]
         """
+        if users is None:
+            raise ValueError("Invalid value for `users`, must not be `None`")  # noqa: E501
 
         self._users = users

@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.6
+  version: 0.1.7
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -1878,6 +1878,8 @@ components:
           items:
             $ref: '#/components/schemas/Challenge'
           type: array
+      required:
+      - challenges
       type: object
     PageOfGrants_allOf:
       properties:
@@ -1886,6 +1888,8 @@ components:
           items:
             $ref: '#/components/schemas/Grant'
           type: array
+      required:
+      - grants
       type: object
     PageOfOrganizations_allOf:
       properties:
@@ -1894,6 +1898,8 @@ components:
           items:
             $ref: '#/components/schemas/Organization'
           type: array
+      required:
+      - organizations
       type: object
     PageOfPersons_allOf:
       properties:
@@ -1902,6 +1908,8 @@ components:
           items:
             $ref: '#/components/schemas/Person'
           type: array
+      required:
+      - persons
       type: object
     PageOfTags_allOf:
       properties:
@@ -1910,6 +1918,8 @@ components:
           items:
             $ref: '#/components/schemas/Tag'
           type: array
+      required:
+      - tags
       type: object
     PageOfUsers_allOf:
       properties:
@@ -1918,4 +1928,6 @@ components:
           items:
             $ref: '#/components/schemas/User'
           type: array
+      required:
+      - users
       type: object

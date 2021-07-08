@@ -186,5 +186,7 @@ class PageOfChallenges(Model):
         :param challenges: The challenges of this PageOfChallenges.
         :type challenges: List[Challenge]
         """
+        if challenges is None:
+            raise ValueError("Invalid value for `challenges`, must not be `None`")  # noqa: E501
 
         self._challenges = challenges

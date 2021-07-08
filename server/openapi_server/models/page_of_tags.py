@@ -186,5 +186,7 @@ class PageOfTags(Model):
         :param tags: The tags of this PageOfTags.
         :type tags: List[Tag]
         """
+        if tags is None:
+            raise ValueError("Invalid value for `tags`, must not be `None`")  # noqa: E501
 
         self._tags = tags
