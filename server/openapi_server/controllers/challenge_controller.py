@@ -162,7 +162,7 @@ def list_challenges(limit=None, offset=None, filter_=None):
     status = None
     try:
         # Get results based on query, limit and offset.
-        name_q = Q(name__istartswith=filter_['name']) \
+        name_q = Q(name__icontains=filter_['name']) \
             if 'name' in filter_ else Q()
         status_q = Q(status=filter_['status']) \
             if 'status' in filter_ else Q()
@@ -180,7 +180,7 @@ def list_challenges(limit=None, offset=None, filter_=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbChallenge.objects.count()
+        total = db_challenges.count()
 
         res = PageOfChallenges(
             offset=offset,
