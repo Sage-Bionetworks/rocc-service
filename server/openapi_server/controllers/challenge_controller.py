@@ -171,7 +171,7 @@ def list_challenges(limit=None, offset=None, filter_=None):
         tag_q = Q(tagIds__contains=filter_['tag']) \
             if 'tag' in filter_ else Q()
         db_challenges = DbChallenge.objects(
-            name_q  & status_q & organizer_q & tag_q
+            name_q & status_q & organizer_q & tag_q
         ).skip(offset).limit(limit)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
