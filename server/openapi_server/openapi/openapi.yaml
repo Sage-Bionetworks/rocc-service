@@ -94,6 +94,28 @@ paths:
         schema:
           $ref: '#/components/schemas/ChallengeFilter'
         style: deepObject
+      - description: Property used to sort the results that must be returned
+        explode: true
+        in: query
+        name: sort
+        required: false
+        schema:
+          enum:
+          - createdAt
+          - updatedAt
+          type: string
+        style: form
+      - description: Can be either `asc` or `desc`. Ignored without `sort` parameter.
+        explode: true
+        in: query
+        name: direction
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
       responses:
         "200":
           content:
@@ -1516,6 +1538,7 @@ components:
       allOf:
       - $ref: '#/components/schemas/ChallengeCreateResponse'
       - $ref: '#/components/schemas/ChallengeCreateRequest'
+      - $ref: '#/components/schemas/Challenge_allOf'
       description: A challenge
       title: Challenge
       type: object
@@ -1870,6 +1893,20 @@ components:
           title: next
           type: string
       title: ResponsePageMetadata_paging
+      type: object
+    Challenge_allOf:
+      properties:
+        createdAt:
+          description: When this challenge has been created
+          format: date-time
+          type: string
+        updatedAt:
+          description: When this challenge has last been updated
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - updatedAt
       type: object
     PageOfChallenges_allOf:
       properties:

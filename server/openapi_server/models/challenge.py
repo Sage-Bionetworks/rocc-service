@@ -6,11 +6,13 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server import util
 
+from openapi_server.models.challenge_all_of import ChallengeAllOf  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
@@ -21,7 +23,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None):  # noqa: E501
+    def __init__(self, id=None, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -48,6 +50,10 @@ class Challenge(Model):
         :type data_provider_ids: List[str]
         :param grant_ids: The grant_ids of this Challenge.  # noqa: E501
         :type grant_ids: List[str]
+        :param created_at: The created_at of this Challenge.  # noqa: E501
+        :type created_at: datetime
+        :param updated_at: The updated_at of this Challenge.  # noqa: E501
+        :type updated_at: datetime
         """
         self.openapi_types = {
             'id': str,
@@ -61,7 +67,9 @@ class Challenge(Model):
             'tag_ids': List[str],
             'organizer_ids': List[str],
             'data_provider_ids': List[str],
-            'grant_ids': List[str]
+            'grant_ids': List[str],
+            'created_at': datetime,
+            'updated_at': datetime
         }
 
         self.attribute_map = {
@@ -76,7 +84,9 @@ class Challenge(Model):
             'tag_ids': 'tagIds',
             'organizer_ids': 'organizerIds',
             'data_provider_ids': 'dataProviderIds',
-            'grant_ids': 'grantIds'
+            'grant_ids': 'grantIds',
+            'created_at': 'createdAt',
+            'updated_at': 'updatedAt'
         }
 
         self._id = id
@@ -91,6 +101,8 @@ class Challenge(Model):
         self._organizer_ids = organizer_ids
         self._data_provider_ids = data_provider_ids
         self._grant_ids = grant_ids
+        self._created_at = created_at
+        self._updated_at = updated_at
 
     @classmethod
     def from_dict(cls, dikt) -> 'Challenge':
@@ -400,3 +412,53 @@ class Challenge(Model):
             raise ValueError("Invalid value for `grant_ids`, must not be `None`")  # noqa: E501
 
         self._grant_ids = grant_ids
+
+    @property
+    def created_at(self):
+        """Gets the created_at of this Challenge.
+
+        When this challenge has been created  # noqa: E501
+
+        :return: The created_at of this Challenge.
+        :rtype: datetime
+        """
+        return self._created_at
+
+    @created_at.setter
+    def created_at(self, created_at):
+        """Sets the created_at of this Challenge.
+
+        When this challenge has been created  # noqa: E501
+
+        :param created_at: The created_at of this Challenge.
+        :type created_at: datetime
+        """
+        if created_at is None:
+            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
+
+        self._created_at = created_at
+
+    @property
+    def updated_at(self):
+        """Gets the updated_at of this Challenge.
+
+        When this challenge has last been updated  # noqa: E501
+
+        :return: The updated_at of this Challenge.
+        :rtype: datetime
+        """
+        return self._updated_at
+
+    @updated_at.setter
+    def updated_at(self, updated_at):
+        """Sets the updated_at of this Challenge.
+
+        When this challenge has last been updated  # noqa: E501
+
+        :param updated_at: The updated_at of this Challenge.
+        :type updated_at: datetime
+        """
+        if updated_at is None:
+            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
+
+        self._updated_at = updated_at

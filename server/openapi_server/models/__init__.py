@@ -4,6 +4,7 @@
 from __future__ import absolute_import
 # import models into model package
 from openapi_server.models.challenge import Challenge
+from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
 from openapi_server.models.challenge_filter import ChallengeFilter
