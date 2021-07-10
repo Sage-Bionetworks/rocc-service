@@ -146,7 +146,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, filter_=None):
+def list_challenges(limit=None, offset=None, filter_=None, sort=None, direction=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges
@@ -170,9 +170,14 @@ def list_challenges(limit=None, offset=None, filter_=None):
             if 'organizer' in filter_ else Q()
         tag_q = Q(tagIds__contains=filter_['tag']) \
             if 'tag' in filter_ else Q()
+
+        order_by = 'createdAt'  # TODO: what is the best default behavior?
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+
         db_challenges = DbChallenge.objects(
             name_q & status_q & organizer_q & tag_q
-        ).skip(offset).limit(limit)
+        ).skip(offset).limit(limit).order_by(order_by)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
