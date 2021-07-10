@@ -1,4 +1,5 @@
 from bson import ObjectId
+import datetime
 from mongoengine import Document, DateTimeField, ListField, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
 
 # from openapi_server.dbmodels.challenge_results import ChallengeResults
@@ -24,6 +25,8 @@ class Challenge(Document):
     organizerIds = ListField(ReferenceField(Person))
     dataProviderIds = ListField(ReferenceField(Organization))
     grantIds = ListField(ReferenceField(Grant))
+    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
+    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
 
     def to_dict(self):
