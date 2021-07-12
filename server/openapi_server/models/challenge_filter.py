@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.challenge_platform_id import ChallengePlatformId
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server import util
 
+from openapi_server.models.challenge_platform_id import ChallengePlatformId  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 
 class ChallengeFilter(Model):
@@ -17,7 +19,7 @@ class ChallengeFilter(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, status=None, organizer=None, tag=None):  # noqa: E501
+    def __init__(self, name=None, status=None, organizer=None, tag_ids=None, platform_ids=None):  # noqa: E501
         """ChallengeFilter - a model defined in OpenAPI
 
         :param name: The name of this ChallengeFilter.  # noqa: E501
@@ -26,27 +28,32 @@ class ChallengeFilter(Model):
         :type status: ChallengeStatus
         :param organizer: The organizer of this ChallengeFilter.  # noqa: E501
         :type organizer: str
-        :param tag: The tag of this ChallengeFilter.  # noqa: E501
-        :type tag: str
+        :param tag_ids: The tag_ids of this ChallengeFilter.  # noqa: E501
+        :type tag_ids: List[str]
+        :param platform_ids: The platform_ids of this ChallengeFilter.  # noqa: E501
+        :type platform_ids: List[ChallengePlatformId]
         """
         self.openapi_types = {
             'name': str,
             'status': ChallengeStatus,
             'organizer': str,
-            'tag': str
+            'tag_ids': List[str],
+            'platform_ids': List[ChallengePlatformId]
         }
 
         self.attribute_map = {
             'name': 'name',
             'status': 'status',
             'organizer': 'organizer',
-            'tag': 'tag'
+            'tag_ids': 'tagIds',
+            'platform_ids': 'platformIds'
         }
 
         self._name = name
         self._status = status
         self._organizer = organizer
-        self._tag = tag
+        self._tag_ids = tag_ids
+        self._platform_ids = platform_ids
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeFilter':
@@ -127,24 +134,47 @@ class ChallengeFilter(Model):
         self._organizer = organizer
 
     @property
-    def tag(self):
-        """Gets the tag of this ChallengeFilter.
+    def tag_ids(self):
+        """Gets the tag_ids of this ChallengeFilter.
 
-        Keep the challenges associated to this tag  # noqa: E501
+        Keep the challenges associated to these tags  # noqa: E501
 
-        :return: The tag of this ChallengeFilter.
-        :rtype: str
+        :return: The tag_ids of this ChallengeFilter.
+        :rtype: List[str]
         """
-        return self._tag
+        return self._tag_ids
 
-    @tag.setter
-    def tag(self, tag):
-        """Sets the tag of this ChallengeFilter.
+    @tag_ids.setter
+    def tag_ids(self, tag_ids):
+        """Sets the tag_ids of this ChallengeFilter.
 
-        Keep the challenges associated to this tag  # noqa: E501
+        Keep the challenges associated to these tags  # noqa: E501
 
-        :param tag: The tag of this ChallengeFilter.
-        :type tag: str
+        :param tag_ids: The tag_ids of this ChallengeFilter.
+        :type tag_ids: List[str]
         """
 
-        self._tag = tag
+        self._tag_ids = tag_ids
+
+    @property
+    def platform_ids(self):
+        """Gets the platform_ids of this ChallengeFilter.
+
+        Keep the challenges associated to these challenge platforms  # noqa: E501
+
+        :return: The platform_ids of this ChallengeFilter.
+        :rtype: List[ChallengePlatformId]
+        """
+        return self._platform_ids
+
+    @platform_ids.setter
+    def platform_ids(self, platform_ids):
+        """Sets the platform_ids of this ChallengeFilter.
+
+        Keep the challenges associated to these challenge platforms  # noqa: E501
+
+        :param platform_ids: The platform_ids of this ChallengeFilter.
+        :type platform_ids: List[ChallengePlatformId]
+        """
+
+        self._platform_ids = platform_ids

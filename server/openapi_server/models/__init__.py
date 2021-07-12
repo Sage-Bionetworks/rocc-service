@@ -8,6 +8,7 @@ from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
 from openapi_server.models.challenge_filter import ChallengeFilter
+from openapi_server.models.challenge_platform_id import ChallengePlatformId
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant

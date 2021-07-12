@@ -6,9 +6,11 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
+from openapi_server.models.challenge_platform_id import ChallengePlatformId
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server import util
 
+from openapi_server.models.challenge_platform_id import ChallengePlatformId  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 
 class ChallengeCreateRequest(Model):
@@ -17,7 +19,7 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None):  # noqa: E501
+    def __init__(self, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None, platform_id=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
@@ -42,6 +44,8 @@ class ChallengeCreateRequest(Model):
         :type data_provider_ids: List[str]
         :param grant_ids: The grant_ids of this ChallengeCreateRequest.  # noqa: E501
         :type grant_ids: List[str]
+        :param platform_id: The platform_id of this ChallengeCreateRequest.  # noqa: E501
+        :type platform_id: ChallengePlatformId
         """
         self.openapi_types = {
             'name': str,
@@ -54,7 +58,8 @@ class ChallengeCreateRequest(Model):
             'tag_ids': List[str],
             'organizer_ids': List[str],
             'data_provider_ids': List[str],
-            'grant_ids': List[str]
+            'grant_ids': List[str],
+            'platform_id': ChallengePlatformId
         }
 
         self.attribute_map = {
@@ -68,7 +73,8 @@ class ChallengeCreateRequest(Model):
             'tag_ids': 'tagIds',
             'organizer_ids': 'organizerIds',
             'data_provider_ids': 'dataProviderIds',
-            'grant_ids': 'grantIds'
+            'grant_ids': 'grantIds',
+            'platform_id': 'platformId'
         }
 
         self._name = name
@@ -82,6 +88,7 @@ class ChallengeCreateRequest(Model):
         self._organizer_ids = organizer_ids
         self._data_provider_ids = data_provider_ids
         self._grant_ids = grant_ids
+        self._platform_id = platform_id
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeCreateRequest':
@@ -366,3 +373,26 @@ class ChallengeCreateRequest(Model):
             raise ValueError("Invalid value for `grant_ids`, must not be `None`")  # noqa: E501
 
         self._grant_ids = grant_ids
+
+    @property
+    def platform_id(self):
+        """Gets the platform_id of this ChallengeCreateRequest.
+
+
+        :return: The platform_id of this ChallengeCreateRequest.
+        :rtype: ChallengePlatformId
+        """
+        return self._platform_id
+
+    @platform_id.setter
+    def platform_id(self, platform_id):
+        """Sets the platform_id of this ChallengeCreateRequest.
+
+
+        :param platform_id: The platform_id of this ChallengeCreateRequest.
+        :type platform_id: ChallengePlatformId
+        """
+        if platform_id is None:
+            raise ValueError("Invalid value for `platform_id`, must not be `None`")  # noqa: E501
+
+        self._platform_id = platform_id

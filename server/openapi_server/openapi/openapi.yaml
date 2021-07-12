@@ -1377,6 +1377,22 @@ components:
       example: open
       title: ChallengeStatus
       type: string
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: TagId
+      type: string
+    ChallengePlatformId:
+      description: The ID of the challenge platform
+      enum:
+      - synapse
+      - kaggle
+      example: synapse
+      title: ChallengePlatformId
+      type: string
     ChallengeFilter:
       description: An object that describes how to filter Challenges
       properties:
@@ -1390,10 +1406,18 @@ components:
           description: Keep the challenges organized by this person
           title: organizer
           type: string
-        tag:
-          description: Keep the challenges associated to this tag
-          title: tag
-          type: string
+        tagIds:
+          description: Keep the challenges associated to these tags
+          items:
+            $ref: '#/components/schemas/TagId'
+          title: tagIds
+          type: array
+        platformIds:
+          description: Keep the challenges associated to these challenge platforms
+          items:
+            $ref: '#/components/schemas/ChallengePlatformId'
+          title: platformIds
+          type: array
       title: ChallengeFilter
       type: object
     ResponsePageMetadata:
@@ -1432,14 +1456,6 @@ components:
       - id
       title: ChallengeCreateResponse
       type: object
-    TagId:
-      description: The ID of the tag
-      example: awesome-tag
-      maxLength: 60
-      minLength: 1
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: TagId
-      type: string
     PersonId:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
@@ -1477,6 +1493,7 @@ components:
         - awesome-organization
         grantIds:
         - 507f1f77bcf86cd799439011
+        platformId: synapse
       properties:
         name:
           description: The challenge name
@@ -1524,12 +1541,15 @@ components:
           items:
             $ref: '#/components/schemas/GrantId'
           type: array
+        platformId:
+          $ref: '#/components/schemas/ChallengePlatformId'
       required:
       - dataProviderIds
       - description
       - grantIds
       - name
       - organizerIds
+      - platformId
       - status
       - tagIds
       - url

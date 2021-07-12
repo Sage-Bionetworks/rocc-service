@@ -149,12 +149,18 @@ def get_challenge(challenge_id):
 def list_challenges(limit=None, offset=None, filter_=None, sort=None, direction=None):  # noqa: E501
     """List all the challenges
 
-    Returns all the challenges
+    Returns all the challenges # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
+    :param filter: Object that describes how to filter the results
+    :type filter: dict | bytes
+    :param sort: Property used to sort the results that must be returned
+    :type sort: str
+    :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
+    :type direction: str
 
     :rtype: PageOfChallenges
     """

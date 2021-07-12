@@ -9,12 +9,14 @@ from openapi_server.models.base_model_ import Model
 from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
+from openapi_server.models.challenge_platform_id import ChallengePlatformId
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server import util
 
 from openapi_server.models.challenge_all_of import ChallengeAllOf  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_platform_id import ChallengePlatformId  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 
 class Challenge(Model):
@@ -23,7 +25,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None, platform_id=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -50,6 +52,8 @@ class Challenge(Model):
         :type data_provider_ids: List[str]
         :param grant_ids: The grant_ids of this Challenge.  # noqa: E501
         :type grant_ids: List[str]
+        :param platform_id: The platform_id of this Challenge.  # noqa: E501
+        :type platform_id: ChallengePlatformId
         :param created_at: The created_at of this Challenge.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this Challenge.  # noqa: E501
@@ -68,6 +72,7 @@ class Challenge(Model):
             'organizer_ids': List[str],
             'data_provider_ids': List[str],
             'grant_ids': List[str],
+            'platform_id': ChallengePlatformId,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -85,6 +90,7 @@ class Challenge(Model):
             'organizer_ids': 'organizerIds',
             'data_provider_ids': 'dataProviderIds',
             'grant_ids': 'grantIds',
+            'platform_id': 'platformId',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
@@ -101,6 +107,7 @@ class Challenge(Model):
         self._organizer_ids = organizer_ids
         self._data_provider_ids = data_provider_ids
         self._grant_ids = grant_ids
+        self._platform_id = platform_id
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -412,6 +419,29 @@ class Challenge(Model):
             raise ValueError("Invalid value for `grant_ids`, must not be `None`")  # noqa: E501
 
         self._grant_ids = grant_ids
+
+    @property
+    def platform_id(self):
+        """Gets the platform_id of this Challenge.
+
+
+        :return: The platform_id of this Challenge.
+        :rtype: ChallengePlatformId
+        """
+        return self._platform_id
+
+    @platform_id.setter
+    def platform_id(self, platform_id):
+        """Sets the platform_id of this Challenge.
+
+
+        :param platform_id: The platform_id of this Challenge.
+        :type platform_id: ChallengePlatformId
+        """
+        if platform_id is None:
+            raise ValueError("Invalid value for `platform_id`, must not be `None`")  # noqa: E501
+
+        self._platform_id = platform_id
 
     @property
     def created_at(self):
