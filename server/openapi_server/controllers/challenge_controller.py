@@ -73,7 +73,8 @@ def create_challenge():
                     tagIds=challenge.tag_ids,
                     organizerIds=challenge.organizer_ids,
                     dataProviderIds=challenge.data_provider_ids,
-                    grantIds=challenge.grant_ids
+                    grantIds=challenge.grant_ids,
+                    platformId=challenge.platform_id
                     # challengeResults=DbChallengeResults(
                     #     nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
                     #     nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501

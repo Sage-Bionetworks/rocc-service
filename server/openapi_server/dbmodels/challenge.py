@@ -3,10 +3,11 @@ import datetime
 from mongoengine import Document, DateTimeField, ListField, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
 
 # from openapi_server.dbmodels.challenge_results import ChallengeResults
-from openapi_server.dbmodels.tag import Tag
-from openapi_server.dbmodels.person import Person
-from openapi_server.dbmodels.organization import Organization
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform
 from openapi_server.dbmodels.grant import Grant
+from openapi_server.dbmodels.organization import Organization
+from openapi_server.dbmodels.person import Person
+from openapi_server.dbmodels.tag import Tag
 
 
 class Challenge(Document):
@@ -25,6 +26,7 @@ class Challenge(Document):
     organizerIds = ListField(ReferenceField(Person))
     dataProviderIds = ListField(ReferenceField(Organization))
     grantIds = ListField(ReferenceField(Grant))
+    platformId = ListField(ReferenceField(ChallengePlatform))
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     # challengeResults = EmbeddedDocumentField(ChallengeResults)

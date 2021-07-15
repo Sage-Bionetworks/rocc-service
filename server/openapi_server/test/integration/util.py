@@ -67,7 +67,7 @@ def create_test_challenge_results():
     )
 
 
-def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds):
+def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds, platformId):  # noqa: E501
     return Challenge(
         name="Awesome Challenge",
         description="description",
@@ -79,6 +79,7 @@ def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds):
         tagIds=tagIds,
         organizerIds=organizerIds,
         dataProviderIds=dataProviderIds,
-        grantIds=grantIds
+        grantIds=grantIds,
+        platformId=platformId
         # challengeResults=create_test_challenge_results().to_dict()
     ).save()

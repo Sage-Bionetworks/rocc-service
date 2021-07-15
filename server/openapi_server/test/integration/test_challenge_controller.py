@@ -59,7 +59,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "synapse"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -92,7 +93,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "synapse"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -141,7 +143,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["foo"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "synapse"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -173,7 +176,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person_id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "synapse"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -198,7 +202,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="synapse"
         )
         challenge = {
             'name': "Awesome Challenge",
@@ -211,7 +216,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "synapse"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -236,7 +242,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="synapse"
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -276,7 +283,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="synapse"
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -316,7 +324,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="synapse"
         )
         query_string = [("limit", 10),
                         ("offset", 0),
@@ -346,7 +355,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="synapse"
         )
         query_string = [("limit", "no-limit"),
                         ("offset", "none"),
