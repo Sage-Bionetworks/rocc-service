@@ -52,7 +52,16 @@ def delete_all_challenge_platforms():  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        DbChallengePlatform.objects.delete()
+        res = {}
+        status = 200
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def delete_challenge_platform(challenge_platform_id):  # noqa: E501
@@ -65,7 +74,19 @@ def delete_challenge_platform(challenge_platform_id):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        DbChallengePlatform.objects.get(id=challenge_platform_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def get_challenge_platform(challenge_platform_id):  # noqa: E501
@@ -78,7 +99,19 @@ def get_challenge_platform(challenge_platform_id):  # noqa: E501
 
     :rtype: ChallengePlatform
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_platform = DbChallengePlatform.objects.get(id=challenge_platform_id)
+        res = ChallengePlatform.from_dict(db_platform.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
@@ -93,4 +126,32 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfChallengePlatforms
     """
-    return 'do some magic!'
+    res = None
+    status = None
+    try:
+        db_platforms = DbChallengePlatform.objects().skip(offset).limit(limit)
+        platforms = [ChallengePlatform.from_dict(d.to_dict()) for d in db_platforms]
+        next_ = ""
+        if len(platforms) == limit:
+            next_ = "%s/challengePlatforms?limit=%s&offset=%s" % \
+                (Config().server_api_url, limit, offset + limit)
+
+        # Get total results count.
+        total = db_platforms.count()
+
+        res = PageOfChallengePlatforms(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            challenge_platforms=platforms)
+        status = 200
+    except TypeError:  # TODO: may need different exception
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
