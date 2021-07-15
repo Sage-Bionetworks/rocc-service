@@ -26,7 +26,7 @@ class Challenge(Document):
     organizerIds = ListField(ReferenceField(Person))
     dataProviderIds = ListField(ReferenceField(Organization))
     grantIds = ListField(ReferenceField(Grant))
-    platformId = ListField(ReferenceField(ChallengePlatform))
+    platformId = ReferenceField(ChallengePlatform)
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
