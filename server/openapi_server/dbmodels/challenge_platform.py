@@ -1,4 +1,5 @@
-from mongoengine import Document, StringField
+import datetime
+from mongoengine import DateTimeField, Document, StringField, URLField
 
 
 class ChallengePlatform(Document):

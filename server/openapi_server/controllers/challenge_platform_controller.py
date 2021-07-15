@@ -1,29 +1,47 @@
 import connexion
-import six
+from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
 
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform
 from openapi_server.models.challenge_platform import ChallengePlatform  # noqa: E501
 from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
 from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms  # noqa: E501
-from openapi_server import util
+from openapi_server.config import Config
 
-
-def create_challenge_platform(challenge_platform_id, challenge_platform_create_request):  # noqa: E501
+def create_challenge_platform(challenge_platform_id):  # noqa: E501
     """Create a challenge platform
 
     Create a challenge platform with the specified ID # noqa: E501
 
     :param challenge_platform_id: The ID of the challenge platform that is being created
     :type challenge_platform_id: str
-    :param challenge_platform_create_request: 
-    :type challenge_platform_create_request: dict | bytes
 
     :rtype: ChallengePlatformCreateResponse
     """
+    res = None
+    status = None
     if connexion.request.is_json:
-        challenge_platform_create_request = ChallengePlatformCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+        try:
+            platform = ChallengePlatform.from_dict(connexion.request.get_json())
+            DbChallengePlatform(
+                id=challenge_platform_id,
+                name=platform.name,
+                url=platform.url
+            ).save(force_insert=True)
+            res = ChallengePlatformCreateResponse(id=challenge_platform_id)
+            status = 201
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status)
+    return res, status
 
 
 def delete_all_challenge_platforms():  # noqa: E501
