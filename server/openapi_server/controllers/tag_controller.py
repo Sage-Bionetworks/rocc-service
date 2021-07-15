@@ -119,7 +119,7 @@ def list_tags(limit=None, offset=None, filter_=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbTag.objects.count()
+        total = db_tags.count()
 
         res = PageOfTags(
             offset=offset,

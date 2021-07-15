@@ -115,7 +115,7 @@ def list_grants(limit=None, offset=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbGrant.objects.count()
+        total = db_grants.count()
 
         res = PageOfGrants(
             offset=offset,

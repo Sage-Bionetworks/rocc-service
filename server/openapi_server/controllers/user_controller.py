@@ -138,7 +138,7 @@ def list_users(limit=None, offset=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbUser.objects.count()
+        total = db_users.count()
 
         res = PageOfUsers(
             offset=offset,

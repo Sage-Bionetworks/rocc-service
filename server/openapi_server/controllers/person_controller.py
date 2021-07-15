@@ -143,7 +143,7 @@ def list_persons(limit=None, offset=None, filter_=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbPerson.objects.count()
+        total = db_persons.count()
 
         res = PageOfPersons(
             offset=offset,
