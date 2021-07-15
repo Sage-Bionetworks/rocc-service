@@ -26,6 +26,8 @@ servers:
 tags:
 - description: Operations about challenges
   name: Challenge
+- description: Operations about challenge platforms
+  name: ChallengePlatform
 - description: Operations about grants
   name: Grant
 - description: Operations about organizations
@@ -39,6 +41,203 @@ tags:
 - description: Operations about health checks
   name: HealthCheck
 paths:
+  /challengePlatforms:
+    delete:
+      description: Delete all challenge platforms
+      operationId: delete_all_challenge_platforms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all challenge platforms
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    get:
+      description: Returns the challenge platforms
+      operationId: list_challenge_platforms
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfChallengePlatforms'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get all challenge platforms
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    post:
+      description: Create a challenge platform with the specified ID
+      operationId: create_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform that is being created
+        explode: true
+        in: query
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePlatformCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePlatformCreateResponse'
+          description: Success
+          links:
+            GetChallengePlatformById:
+              $ref: '#/components/links/GetChallengePlatformById'
+            DeleteTagById:
+              $ref: '#/components/links/DeleteChallengePlatformById'
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+  /challengePlatforms/{challengePlatformId}:
+    delete:
+      description: Deletes the challenge platform specified
+      operationId: delete_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform
+        explode: false
+        in: path
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    get:
+      description: Returns the challenge platform specified
+      operationId: get_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform
+        explode: false
+        in: path
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePlatform'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
   /challenges:
     delete:
       description: Delete all challenges
@@ -1282,6 +1481,18 @@ components:
       operationId: deleteChallenge
       parameters:
         challengeId: $response.body#/challengeId
+    GetChallengePlatformById:
+      description: |
+        The `id` value returned in the response can be used as the `challengePlatformId` parameter in `GET /challengePlatforms/{challengePlatformId}`
+      operationId: getChallengePlatform
+      parameters:
+        challengePlatformId: $response.body#/challengeId
+    DeleteChallengePlatformById:
+      description: |
+        The `id` value returned in the response can be used as the `challengePlatformId` parameter in `DELETE /challengePlatforms/{challengePlatformId}`
+      operationId: deleteChallengePlatform
+      parameters:
+        challengePlatformId: $response.body#/challengePlatformId
     GetGrantById:
       description: |
         The `id` value returned in the response can be used as the `grantId` parameter in `GET /grants/{grantId}`
@@ -1387,10 +1598,10 @@ components:
       type: string
     ChallengePlatformId:
       description: The ID of the challenge platform
-      enum:
-      - synapse
-      - kaggle
-      example: synapse
+      example: awesome-challenge-platform
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: ChallengePlatformId
       type: string
     ChallengeFilter:
@@ -1493,7 +1704,7 @@ components:
         - awesome-organization
         grantIds:
         - 507f1f77bcf86cd799439011
-        platformId: synapse
+        platformId: awesome-challenge-platform
       properties:
         name:
           description: The challenge name
@@ -1542,7 +1753,13 @@ components:
             $ref: '#/components/schemas/GrantId'
           type: array
         platformId:
-          $ref: '#/components/schemas/ChallengePlatformId'
+          description: The ID of the challenge platform
+          example: awesome-challenge-platform
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: ChallengePlatformId
+          type: string
       required:
       - dataProviderIds
       - description
@@ -1596,6 +1813,55 @@ components:
       type: object
     EmptyObject:
       description: Empty JSON object
+      type: object
+    ChallengePlatformCreateResponse:
+      description: A challenge platform ID
+      example:
+        id: awesome-challenge-platform
+      properties:
+        id:
+          description: The ID of the challenge platform
+          example: awesome-challenge-platform
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: ChallengePlatformId
+          type: string
+      required:
+      - id
+      title: ChallengePlatformCreateResponse
+      type: object
+    ChallengePlatformCreateRequest:
+      description: A challenge platform
+      example:
+        name: Awesome Challenge Platform
+        url: https://awesome-challenge-platform.io
+      properties:
+        name:
+          description: The name of the challenge platform
+          type: string
+        url:
+          description: The URL to the homepage of the challenge platform
+          format: uri
+          type: string
+      required:
+      - name
+      - url
+      type: object
+    ChallengePlatform:
+      allOf:
+      - $ref: '#/components/schemas/ChallengePlatformCreateResponse'
+      - $ref: '#/components/schemas/ChallengePlatformCreateRequest'
+      - $ref: '#/components/schemas/ChallengePlatform_allOf'
+      description: A challenge platform
+      title: ChallengePlatform
+      type: object
+    PageOfChallengePlatforms:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfChallengePlatforms_allOf'
+      description: A page of ChallengePlatforms
+      title: PageOfChallengePlatforms
       type: object
     GrantCreateResponse:
       description: A grant ID
@@ -1937,6 +2203,30 @@ components:
           type: array
       required:
       - challenges
+      type: object
+    ChallengePlatform_allOf:
+      properties:
+        createdAt:
+          description: When this challenge platform has been created
+          format: date-time
+          type: string
+        updatedAt:
+          description: When this challenge platform has last been updated
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - updatedAt
+      type: object
+    PageOfChallengePlatforms_allOf:
+      properties:
+        challengePlatforms:
+          description: An array of ChallengePlatforms
+          items:
+            $ref: '#/components/schemas/ChallengePlatform'
+          type: array
+      required:
+      - challengePlatforms
       type: object
     PageOfGrants_allOf:
       properties:

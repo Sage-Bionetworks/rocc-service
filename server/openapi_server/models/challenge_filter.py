@@ -6,11 +6,9 @@ from datetime import date, datetime  # noqa: F401
 from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
-from openapi_server.models.challenge_platform_id import ChallengePlatformId
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server import util
 
-from openapi_server.models.challenge_platform_id import ChallengePlatformId  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 
 class ChallengeFilter(Model):
@@ -31,14 +29,14 @@ class ChallengeFilter(Model):
         :param tag_ids: The tag_ids of this ChallengeFilter.  # noqa: E501
         :type tag_ids: List[str]
         :param platform_ids: The platform_ids of this ChallengeFilter.  # noqa: E501
-        :type platform_ids: List[ChallengePlatformId]
+        :type platform_ids: List[str]
         """
         self.openapi_types = {
             'name': str,
             'status': ChallengeStatus,
             'organizer': str,
             'tag_ids': List[str],
-            'platform_ids': List[ChallengePlatformId]
+            'platform_ids': List[str]
         }
 
         self.attribute_map = {
@@ -163,7 +161,7 @@ class ChallengeFilter(Model):
         Keep the challenges associated to these challenge platforms  # noqa: E501
 
         :return: The platform_ids of this ChallengeFilter.
-        :rtype: List[ChallengePlatformId]
+        :rtype: List[str]
         """
         return self._platform_ids
 
@@ -174,7 +172,7 @@ class ChallengeFilter(Model):
         Keep the challenges associated to these challenge platforms  # noqa: E501
 
         :param platform_ids: The platform_ids of this ChallengeFilter.
-        :type platform_ids: List[ChallengePlatformId]
+        :type platform_ids: List[str]
         """
 
         self._platform_ids = platform_ids

@@ -8,7 +8,10 @@ from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
 from openapi_server.models.challenge_filter import ChallengeFilter
-from openapi_server.models.challenge_platform_id import ChallengePlatformId
+from openapi_server.models.challenge_platform import ChallengePlatform
+from openapi_server.models.challenge_platform_all_of import ChallengePlatformAllOf
+from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest
+from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
@@ -18,6 +21,8 @@ from openapi_server.models.health_check import HealthCheck
 from openapi_server.models.organization import Organization
 from openapi_server.models.organization_create_request import OrganizationCreateRequest
 from openapi_server.models.organization_create_response import OrganizationCreateResponse
+from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms
+from openapi_server.models.page_of_challenge_platforms_all_of import PageOfChallengePlatformsAllOf
 from openapi_server.models.page_of_challenges import PageOfChallenges
 from openapi_server.models.page_of_challenges_all_of import PageOfChallengesAllOf
 from openapi_server.models.page_of_grants import PageOfGrants
