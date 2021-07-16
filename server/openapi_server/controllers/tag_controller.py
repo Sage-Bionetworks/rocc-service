@@ -93,7 +93,7 @@ def get_tag(tag_id):
     return res, status
 
 
-def list_tags(limit=None, offset=None, filter_=None):
+def list_tags(limit=None, offset=None):
     """Get all tags
 
     Returns the tags
@@ -109,9 +109,9 @@ def list_tags(limit=None, offset=None, filter_=None):
     status = None
     try:
         # Get results based on query, limit and offset.
-        tag_id_q = Q(id__istartswith=filter_['id']) \
-            if 'id' in filter_ else Q()
-        db_tags = DbTag.objects(tag_id_q).skip(offset).limit(limit)
+        # tag_id_q = Q(id__istartswith=filter_['id']) \
+        #     if 'id' in filter_ else Q()
+        db_tags = DbTag.objects().skip(offset).limit(limit)
         tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
         next_ = ""
         if len(tags) == limit:
