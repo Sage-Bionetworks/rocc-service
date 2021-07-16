@@ -7,7 +7,6 @@ from openapi_server.models.challenge import Challenge
 from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
-from openapi_server.models.challenge_filter import ChallengeFilter
 from openapi_server.models.challenge_platform import ChallengePlatform
 from openapi_server.models.challenge_platform_all_of import ChallengePlatformAllOf
 from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest
@@ -38,13 +37,11 @@ from openapi_server.models.page_of_users_all_of import PageOfUsersAllOf
 from openapi_server.models.person import Person
 from openapi_server.models.person_create_request import PersonCreateRequest
 from openapi_server.models.person_create_response import PersonCreateResponse
-from openapi_server.models.person_filter import PersonFilter
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
-from openapi_server.models.tag_filter import TagFilter
 from openapi_server.models.user import User
 from openapi_server.models.user_create_request import UserCreateRequest
 from openapi_server.models.user_create_response import UserCreateResponse

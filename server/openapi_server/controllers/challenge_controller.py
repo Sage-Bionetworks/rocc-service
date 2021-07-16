@@ -155,7 +155,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, filter_=None, sort=None, direction=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, name=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -164,34 +164,51 @@ def list_challenges(limit=None, offset=None, filter_=None, sort=None, direction=
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
-    :param filter: Object that describes how to filter the results
-    :type filter: dict | bytes
     :param sort: Property used to sort the results that must be returned
     :type sort: str
     :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
     :type direction: str
+    :param name: Array of names used to filter the results
+    :type name: List[str]
+    :param tag_ids: Array of tag ids used to filter the results
+    :type tag_ids: List[str]
+    :param status: Array of challenge status used to filter the results
+    :type status: list | bytes
+    :param platform_ids: Array of challenge platform ids used to filter the results
+    :type platform_ids: List[str]
 
     :rtype: PageOfChallenges
     """
     res = None
-    status = None
+    status_ = None
     try:
+
         # Get results based on query, limit and offset.
-        name_q = Q(name__icontains=filter_['name']) \
-            if 'name' in filter_ else Q()
-        status_q = Q(status=filter_['status']) \
-            if 'status' in filter_ else Q()
-        organizer_q = Q(organizerIds__contains=filter_['organizer']) \
-            if 'organizer' in filter_ else Q()
-        tag_q = Q(tagIds__contains=filter_['tag']) \
-            if 'tag' in filter_ else Q()
+        # name_q = Q(name__icontains=filter_['name']) \
+        #     if 'name' in filter_ else Q()
+        print('limit', limit)
+        print('direction', direction)
+        print('name', name)
+        print('status', status)
+        print('tag_ids', tag_ids)
+        print('platform_ids', platform_ids)
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+        tag_ids_q = Q(tagIds__in=tag_ids) \
+            if tag_ids is not None and len(tag_ids) > 0 else Q()
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
+        # organizer_q = Q(organizerIds__contains=filter_['organizer']) \
+        #     if 'organizer' in filter_ else Q()
+        # tag_q = Q(tagIds__contains=filter_['tag']) \
+        #     if 'tag' in filter_ else Q()
 
         order_by = 'createdAt'  # TODO: what is the best default behavior?
         if sort is not None:
             order_by = ('-' if direction == 'desc' else '') + sort
 
         db_challenges = DbChallenge.objects(
-            name_q & status_q & organizer_q & tag_q
+            status_q & tag_ids_q & platform_id_q
         ).skip(offset).limit(limit).order_by(order_by)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
@@ -210,14 +227,14 @@ def list_challenges(limit=None, offset=None, filter_=None, sort=None, direction=
             },
             total_results=total,
             challenges=challenges)
-        status = 200
+        status_ = 200
     except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
+        status_ = 400
+        res = Error("Bad request", status_)
     except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+        status_ = 500
+        res = Error("Internal error", status_, str(error))
+    return res, status_
 
 
 def delete_all_challenges():

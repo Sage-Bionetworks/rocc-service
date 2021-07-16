@@ -285,14 +285,6 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
-        explode: true
-        in: query
-        name: filter
-        required: false
-        schema:
-          $ref: '#/components/schemas/ChallengeFilter'
-        style: deepObject
       - description: Property used to sort the results that must be returned
         explode: true
         in: query
@@ -314,6 +306,46 @@ paths:
           - asc
           - desc
           type: string
+        style: form
+      - description: Array of names used to filter the results
+        explode: true
+        in: query
+        name: name
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: form
+      - description: Array of tag ids used to filter the results
+        explode: true
+        in: query
+        name: tagIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/TagId'
+          type: array
+        style: form
+      - description: Array of challenge status used to filter the results
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeStatus'
+          type: array
+        style: form
+      - description: Array of challenge platform ids used to filter the results
+        explode: true
+        in: query
+        name: platformIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengePlatformId'
+          type: array
         style: form
       responses:
         "200":
@@ -910,14 +942,6 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
-        explode: true
-        in: query
-        name: filter
-        required: false
-        schema:
-          $ref: '#/components/schemas/PersonFilter'
-        style: deepObject
       responses:
         "200":
           content:
@@ -1106,14 +1130,6 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
-        explode: true
-        in: query
-        name: filter
-        required: false
-        schema:
-          $ref: '#/components/schemas/TagFilter'
-        style: deepObject
       responses:
         "200":
           content:
@@ -1553,6 +1569,98 @@ components:
       operationId: deleteUser
       parameters:
         username: $response.body#/username
+  parameters:
+    limit:
+      description: Maximum number of results returned
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 10
+        maximum: 100
+        minimum: 10
+        type: integer
+      style: form
+    offset:
+      description: Index of the first result that must be returned
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 0
+        minimum: 0
+        type: integer
+      style: form
+    sort:
+      description: Property used to sort the results that must be returned
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        enum:
+        - createdAt
+        - updatedAt
+        type: string
+      style: form
+    direction:
+      description: Can be either `asc` or `desc`. Ignored without `sort` parameter.
+      explode: true
+      in: query
+      name: direction
+      required: false
+      schema:
+        enum:
+        - asc
+        - desc
+        type: string
+      style: form
+    name:
+      description: Array of names used to filter the results
+      explode: true
+      in: query
+      name: name
+      required: false
+      schema:
+        items:
+          type: string
+        type: array
+      style: form
+    tagIds:
+      description: Array of tag ids used to filter the results
+      explode: true
+      in: query
+      name: tagIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/TagId'
+        type: array
+      style: form
+    status:
+      description: Array of challenge status used to filter the results
+      explode: true
+      in: query
+      name: status
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeStatus'
+        type: array
+      style: form
+    platformIds:
+      description: Array of challenge platform ids used to filter the results
+      explode: true
+      in: query
+      name: platformIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        type: array
+      style: form
   responses:
     BadRequest:
       content:
@@ -1579,6 +1687,14 @@ components:
             $ref: '#/components/schemas/Error'
       description: The specified resource was not found
   schemas:
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: TagId
+      type: string
     ChallengeStatus:
       description: The status of the challenge
       enum:
@@ -1588,14 +1704,6 @@ components:
       example: open
       title: ChallengeStatus
       type: string
-    TagId:
-      description: The ID of the tag
-      example: awesome-tag
-      maxLength: 60
-      minLength: 1
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: TagId
-      type: string
     ChallengePlatformId:
       description: The ID of the challenge platform
       example: awesome-challenge-platform
@@ -1604,33 +1712,6 @@ components:
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: ChallengePlatformId
       type: string
-    ChallengeFilter:
-      description: An object that describes how to filter Challenges
-      properties:
-        name:
-          description: Keep the challenges whose name include this term
-          title: name
-          type: string
-        status:
-          $ref: '#/components/schemas/ChallengeStatus'
-        organizer:
-          description: Keep the challenges organized by this person
-          title: organizer
-          type: string
-        tagIds:
-          description: Keep the challenges associated to these tags
-          items:
-            $ref: '#/components/schemas/TagId'
-          title: tagIds
-          type: array
-        platformIds:
-          description: Keep the challenges associated to these challenge platforms
-          items:
-            $ref: '#/components/schemas/ChallengePlatformId'
-          title: platformIds
-          type: array
-      title: ChallengeFilter
-      type: object
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -1964,27 +2045,6 @@ components:
       description: A page of Organizations
       title: PageOfOrganizations
       type: object
-    PersonFilter:
-      description: An object that describes how to filter Persons
-      properties:
-        firstName:
-          description: Keep the persons whose first name starts with this term
-          title: firstName
-          type: string
-        lastName:
-          description: Keep the persons whose last name starts with this term
-          title: lastName
-          type: string
-        email:
-          description: Keep the persons whose email matches this term
-          title: email
-          type: string
-        organization:
-          description: Keep the persons who belong to this organization
-          title: organization
-          type: string
-      title: PersonFilter
-      type: object
     PersonCreateResponse:
       description: A person ID
       example:
@@ -2047,15 +2107,6 @@ components:
       - $ref: '#/components/schemas/PageOfPersons_allOf'
       description: A page of Persons
       title: PageOfPersons
-      type: object
-    TagFilter:
-      description: An object that describes how to filter Tags
-      properties:
-        id:
-          description: Keep the tags whose ID starts with this term
-          title: id
-          type: string
-      title: TagFilter
       type: object
     TagCreateResponse:
       description: A tag ID
