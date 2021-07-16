@@ -2,12 +2,13 @@ from datetime import date
 
 from mongoengine import connect, disconnect
 
+from openapi_server.dbmodels.challenge import Challenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform
+from openapi_server.dbmodels.challenge_results import ChallengeResults
+from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag
-from openapi_server.dbmodels.grant import Grant
-from openapi_server.dbmodels.challenge import Challenge
-from openapi_server.dbmodels.challenge_results import ChallengeResults
 from openapi_server.dbmodels.user import User
 
 
@@ -55,6 +56,14 @@ def create_test_grant():
     return Grant(
         name="Awesome Grant",
         description="description",
+        url="https://report.nih.gov/"
+    ).save()
+
+
+def create_test_challenge_platform(challenge_platform_id):
+    return ChallengePlatform(
+        id=challenge_platform_id,
+        name="Awesome Challenge Platform",
         url="https://report.nih.gov/"
     ).save()
 
