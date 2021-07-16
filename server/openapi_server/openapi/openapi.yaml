@@ -307,10 +307,10 @@ paths:
           - desc
           type: string
         style: form
-      - description: A string used to filter the results by name
+      - description: A string of search terms used to filter the results
         explode: true
         in: query
-        name: name
+        name: searchTerms
         required: false
         schema:
           type: string
@@ -1615,11 +1615,11 @@ components:
         - desc
         type: string
       style: form
-    name:
-      description: A string used to filter the results by name
+    searchTerms:
+      description: A string of search terms used to filter the results
       explode: true
       in: query
-      name: name
+      name: searchTerms
       required: false
       schema:
         type: string

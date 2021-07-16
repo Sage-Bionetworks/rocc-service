@@ -155,7 +155,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, name=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -168,8 +168,8 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, name=Non
     :type sort: str
     :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
     :type direction: str
-    :param name: Array of names used to filter the results
-    :type name: List[str]
+    :param search_terms: A string of search terms used to filter the results
+    :type search_terms: str
     :param tag_ids: Array of tag ids used to filter the results
     :type tag_ids: List[str]
     :param status: Array of challenge status used to filter the results
@@ -182,16 +182,6 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, name=Non
     res = None
     status_ = None
     try:
-
-        # Get results based on query, limit and offset.
-        # name_q = Q(name__icontains=filter_['name']) \
-        #     if 'name' in filter_ else Q()
-        print('limit', limit)
-        print('direction', direction)
-        print('name', name)
-        print('status', status)
-        print('tag_ids', tag_ids)
-        print('platform_ids', platform_ids)
         status_q = Q(status__in=status) \
             if status is not None else Q()
         tag_ids_q = Q(tagIds__in=tag_ids) \
@@ -205,7 +195,10 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, name=Non
 
         db_challenges = DbChallenge.objects(
             status_q & tag_ids_q & platform_id_q
-        ).skip(offset).limit(limit).order_by(order_by).search_text(name)
+        ).skip(offset).limit(limit).order_by(order_by)
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
