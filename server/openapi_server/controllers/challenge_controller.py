@@ -4,6 +4,7 @@ from mongoengine.queryset.visitor import Q
 import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform
 # from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson
@@ -60,6 +61,13 @@ def create_challenge():
                     status = 400
                     res = Error(f"The grant {grant_id} was not found", status)
                     return res, status
+
+            try:
+                DbChallengePlatform.objects.get(id=challenge.platform_id)
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge platform {challenge.platform_id} was not found", status)  # noqa: E501
+                return res, status
 
             try:
                 db_challenge = DbChallenge(
