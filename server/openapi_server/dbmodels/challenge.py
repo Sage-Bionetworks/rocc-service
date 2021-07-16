@@ -31,6 +31,13 @@ class Challenge(Document):
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
 
+    meta = {'indexes': [
+        {'fields': ['$name', '$description'],
+         'default_language': 'english',
+         'weights': {'title': 10, 'content': 2}
+        }
+    ]}
+
     def to_dict(self):
         doc = self.to_mongo().to_dict()
         doc["id"] = str(self.pk)

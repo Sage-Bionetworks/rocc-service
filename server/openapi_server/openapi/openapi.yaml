@@ -307,15 +307,13 @@ paths:
           - desc
           type: string
         style: form
-      - description: Array of names used to filter the results
+      - description: A string used to filter the results by name
         explode: true
         in: query
         name: name
         required: false
         schema:
-          items:
-            type: string
-          type: array
+          type: string
         style: form
       - description: Array of tag ids used to filter the results
         explode: true
@@ -1618,15 +1616,13 @@ components:
         type: string
       style: form
     name:
-      description: Array of names used to filter the results
+      description: A string used to filter the results by name
       explode: true
       in: query
       name: name
       required: false
       schema:
-        items:
-          type: string
-        type: array
+        type: string
       style: form
     tagIds:
       description: Array of tag ids used to filter the results

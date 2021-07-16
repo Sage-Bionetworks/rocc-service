@@ -198,10 +198,6 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, name=Non
             if tag_ids is not None and len(tag_ids) > 0 else Q()
         platform_id_q = Q(platformId__in=platform_ids) \
             if platform_ids is not None and len(platform_ids) > 0 else Q()
-        # organizer_q = Q(organizerIds__contains=filter_['organizer']) \
-        #     if 'organizer' in filter_ else Q()
-        # tag_q = Q(tagIds__contains=filter_['tag']) \
-        #     if 'tag' in filter_ else Q()
 
         order_by = 'createdAt'  # TODO: what is the best default behavior?
         if sort is not None:
@@ -209,7 +205,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, name=Non
 
         db_challenges = DbChallenge.objects(
             status_q & tag_ids_q & platform_id_q
-        ).skip(offset).limit(limit).order_by(order_by)
+        ).skip(offset).limit(limit).order_by(order_by).search_text(name)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
