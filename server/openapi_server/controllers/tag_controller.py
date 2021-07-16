@@ -1,6 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
-from mongoengine.queryset.visitor import Q
+# from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.models.error import Error
