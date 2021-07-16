@@ -4,7 +4,7 @@ from mongoengine.queryset.visitor import Q
 import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 # from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson

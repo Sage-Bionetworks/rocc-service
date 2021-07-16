@@ -32,9 +32,10 @@ class Challenge(Document):
     # challengeResults = EmbeddedDocumentField(ChallengeResults)
 
     meta = {'indexes': [
-        {'fields': ['$name', '$description'],
-         'default_language': 'english',
-         'weights': {'title': 10, 'content': 2}
+        {
+            'fields': ['$name', '$description'],
+            'default_language': 'english',
+            'weights': {'title': 10, 'content': 2}
         }
     ]}
 

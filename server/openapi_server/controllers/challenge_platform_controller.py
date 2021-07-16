@@ -1,14 +1,15 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
-from mongoengine.queryset.visitor import Q
+# from mongoengine.queryset.visitor import Q
 
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.models.challenge_platform import ChallengePlatform  # noqa: E501
-from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
+# from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
 from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms  # noqa: E501
 from openapi_server.config import Config
+
 
 def create_challenge_platform(challenge_platform_id):  # noqa: E501
     """Create a challenge platform
@@ -130,7 +131,7 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
     status = None
     try:
         db_platforms = DbChallengePlatform.objects().skip(offset).limit(limit)
-        platforms = [ChallengePlatform.from_dict(d.to_dict()) for d in db_platforms]
+        platforms = [ChallengePlatform.from_dict(d.to_dict()) for d in db_platforms]  # noqa: E501
         next_ = ""
         if len(platforms) == limit:
             next_ = "%s/challengePlatforms?limit=%s&offset=%s" % \
