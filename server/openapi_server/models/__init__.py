@@ -12,6 +12,7 @@ from openapi_server.models.challenge_platform_all_of import ChallengePlatformAll
 from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest
 from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse
 from openapi_server.models.challenge_status import ChallengeStatus
+from openapi_server.models.date_range import DateRange
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant
 from openapi_server.models.grant_create_request import GrantCreateRequest
@@ -39,7 +40,6 @@ from openapi_server.models.person_create_request import PersonCreateRequest
 from openapi_server.models.person_create_response import PersonCreateResponse
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
-from openapi_server.models.start_date_range import StartDateRange
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse

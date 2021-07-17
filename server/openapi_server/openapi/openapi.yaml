@@ -345,23 +345,13 @@ paths:
             $ref: '#/components/schemas/ChallengePlatformId'
           type: array
         style: form
-      - $ref: '#/components/parameters/startDateRange'
-        description: Return challenges that start during the date range specified
+      - description: Return challenges that start during the date range specified
         explode: true
         in: query
         name: startDateRange
         required: false
         schema:
-          properties:
-            startDate:
-              description: Start date of the date range
-              format: date
-              type: string
-            endDate:
-              description: End date of the date range
-              format: date
-              type: string
-          type: object
+          $ref: '#/components/schemas/DateRange'
         style: form
       responses:
         "200":
@@ -1676,23 +1666,13 @@ components:
         type: array
       style: form
     startDateRange:
-      $ref: '#/components/parameters/startDateRange'
       description: Return challenges that start during the date range specified
       explode: true
       in: query
       name: startDateRange
       required: false
       schema:
-        properties:
-          startDate:
-            description: Start date of the date range
-            format: date
-            type: string
-          endDate:
-            description: End date of the date range
-            format: date
-            type: string
-        type: object
+        $ref: '#/components/schemas/DateRange'
       style: form
   responses:
     BadRequest:
@@ -1745,6 +1725,24 @@ components:
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: ChallengePlatformId
       type: string
+    DateRange:
+      example:
+        startDate: 2021-07-17
+        endDate: 2021-07-17
+      properties:
+        startDate:
+          description: Start date of the date range
+          format: date
+          type: string
+        endDate:
+          description: End date of the date range
+          format: date
+          type: string
+      required:
+      - endDate
+      - startDate
+      title: DateRange
+      type: object
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -2253,17 +2251,6 @@ components:
       required:
       - status
       title: HealthCheck
-      type: object
-    startDateRange:
-      properties:
-        startDate:
-          description: Start date of the date range
-          format: date
-          type: string
-        endDate:
-          description: End date of the date range
-          format: date
-          type: string
       type: object
     ResponsePageMetadata_paging:
       description: Links to navigate to different pages of results
