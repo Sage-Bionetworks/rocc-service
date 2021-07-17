@@ -2,6 +2,7 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from mongoengine.queryset.visitor import Q
 import traceback
+import datetime
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
@@ -155,7 +156,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -176,28 +177,42 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results
     :type platform_ids: List[str]
+    :param start_date_range: Return challenges that start during the date range specified
+    :type start_date_range: dict | bytes
 
     :rtype: PageOfChallenges
     """
     res = None
     status_ = None
     try:
+        start_date_start = None
+        start_date_end = None
+        if start_date_range is not None and 'startDate' in start_date_range:
+            start_date_start = datetime.datetime.strptime(start_date_range['startDate'], "%Y-%m-%d")  # noqa: E501
+        if start_date_range is not None and 'endDate' in start_date_range:
+            start_date_end = datetime.datetime.strptime(start_date_range['endDate'], "%Y-%m-%d")  # noqa: E501
+
         status_q = Q(status__in=status) \
             if status is not None else Q()
         tag_ids_q = Q(tagIds__in=tag_ids) \
             if tag_ids is not None and len(tag_ids) > 0 else Q()
         platform_id_q = Q(platformId__in=platform_ids) \
             if platform_ids is not None and len(platform_ids) > 0 else Q()
-
-        order_by = 'createdAt'  # TODO: what is the best default behavior?
-        if sort is not None:
-            order_by = ('-' if direction == 'desc' else '') + sort
+        startDate_start_q = Q(startDate__gte=start_date_start) \
+            if start_date_start is not None else Q()
+        startDate_end_q = Q(startDate__lte=start_date_end) \
+            if start_date_end is not None else Q()
 
         db_challenges = DbChallenge.objects(
-            status_q & tag_ids_q & platform_id_q
-        ).skip(offset).limit(limit).order_by(order_by)
+            status_q & tag_ids_q & platform_id_q & startDate_start_q & startDate_end_q  # noqa: E501
+        ).skip(offset).limit(limit)
+
         if search_terms is not None:
             db_challenges = db_challenges.search_text(search_terms)
+
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+            db_challenges = db_challenges.order_by(order_by)
 
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""

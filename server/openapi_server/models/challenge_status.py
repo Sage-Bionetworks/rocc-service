@@ -19,8 +19,8 @@ class ChallengeStatus(Model):
     allowed enum values
     """
     UPCOMING = "upcoming"
-    OPEN = "open"
-    CLOSED = "closed"
+    ACTIVE = "active"
+    COMPLETED = "completed"
     def __init__(self):  # noqa: E501
         """ChallengeStatus - a model defined in OpenAPI
 

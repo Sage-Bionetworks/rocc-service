@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.7
+  version: 0.2.0
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -345,6 +345,14 @@ paths:
             $ref: '#/components/schemas/ChallengePlatformId'
           type: array
         style: form
+      - description: Return challenges that start during the date range specified
+        explode: true
+        in: query
+        name: startDateRange
+        required: false
+        schema:
+          $ref: '#/components/schemas/DateRange'
+        style: deepObject
       responses:
         "200":
           content:
@@ -1657,6 +1665,15 @@ components:
           $ref: '#/components/schemas/ChallengePlatformId'
         type: array
       style: form
+    startDateRange:
+      description: Return challenges that start during the date range specified
+      explode: true
+      in: query
+      name: startDateRange
+      required: false
+      schema:
+        $ref: '#/components/schemas/DateRange'
+      style: deepObject
   responses:
     BadRequest:
       content:
@@ -1695,9 +1712,9 @@ components:
       description: The status of the challenge
       enum:
       - upcoming
-      - open
-      - closed
-      example: open
+      - active
+      - completed
+      example: active
       title: ChallengeStatus
       type: string
     ChallengePlatformId:
@@ -1708,6 +1725,24 @@ components:
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: ChallengePlatformId
       type: string
+    DateRange:
+      example:
+        startDate: 2021-07-17
+        endDate: 2021-07-17
+      properties:
+        startDate:
+          description: Start date of the date range
+          format: date
+          type: string
+        endDate:
+          description: End date of the date range
+          format: date
+          type: string
+      required:
+      - endDate
+      - startDate
+      title: DateRange
+      type: object
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -1771,7 +1806,7 @@ components:
         startDate: 2020-11-10
         endDate: 2020-12-31
         url: https://synapse.org/awesome-challenge
-        status: open
+        status: active
         tagIds:
         - awesome-tag1
         - awesome-tag2
