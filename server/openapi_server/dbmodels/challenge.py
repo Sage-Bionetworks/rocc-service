@@ -20,7 +20,7 @@ class Challenge(Document):
     url = URLField(required=True)
     status = StringField(
         required=True,
-        choices=["open", "upcoming", "closed"]
+        choices=["active", "upcoming", "completed"]  # TODO: DRY
     )
     tagIds = ListField(ReferenceField(Tag))
     organizerIds = ListField(ReferenceField(Person))
