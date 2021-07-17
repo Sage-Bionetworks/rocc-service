@@ -12,7 +12,7 @@ info:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
   title: Registry of Open Community Challenge API
-  version: 0.1.7
+  version: 0.2.0
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
 servers:
@@ -344,6 +344,24 @@ paths:
           items:
             $ref: '#/components/schemas/ChallengePlatformId'
           type: array
+        style: form
+      - $ref: '#/components/parameters/startDateRange'
+        description: Return challenges that start during the date range specified
+        explode: true
+        in: query
+        name: startDateRange
+        required: false
+        schema:
+          properties:
+            startDate:
+              description: Start date of the date range
+              format: date
+              type: string
+            endDate:
+              description: End date of the date range
+              format: date
+              type: string
+          type: object
         style: form
       responses:
         "200":
@@ -1657,6 +1675,25 @@ components:
           $ref: '#/components/schemas/ChallengePlatformId'
         type: array
       style: form
+    startDateRange:
+      $ref: '#/components/parameters/startDateRange'
+      description: Return challenges that start during the date range specified
+      explode: true
+      in: query
+      name: startDateRange
+      required: false
+      schema:
+        properties:
+          startDate:
+            description: Start date of the date range
+            format: date
+            type: string
+          endDate:
+            description: End date of the date range
+            format: date
+            type: string
+        type: object
+      style: form
   responses:
     BadRequest:
       content:
@@ -1695,9 +1732,9 @@ components:
       description: The status of the challenge
       enum:
       - upcoming
-      - open
-      - closed
-      example: open
+      - active
+      - completed
+      example: active
       title: ChallengeStatus
       type: string
     ChallengePlatformId:
@@ -1771,7 +1808,7 @@ components:
         startDate: 2020-11-10
         endDate: 2020-12-31
         url: https://synapse.org/awesome-challenge
-        status: open
+        status: active
         tagIds:
         - awesome-tag1
         - awesome-tag2
@@ -2216,6 +2253,17 @@ components:
       required:
       - status
       title: HealthCheck
+      type: object
+    startDateRange:
+      properties:
+        startDate:
+          description: Start date of the date range
+          format: date
+          type: string
+        endDate:
+          description: End date of the date range
+          format: date
+          type: string
       type: object
     ResponsePageMetadata_paging:
       description: Links to navigate to different pages of results

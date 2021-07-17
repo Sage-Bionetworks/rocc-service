@@ -39,6 +39,7 @@ from openapi_server.models.person_create_request import PersonCreateRequest
 from openapi_server.models.person_create_response import PersonCreateResponse
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
+from openapi_server.models.start_date_range import StartDateRange
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse

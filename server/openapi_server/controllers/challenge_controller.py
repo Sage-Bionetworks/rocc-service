@@ -155,7 +155,7 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -176,6 +176,8 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results
     :type platform_ids: List[str]
+    :param start_date_range: Return challenges that start during the date range specified
+    :type start_date_range: dict | bytes
 
     :rtype: PageOfChallenges
     """
