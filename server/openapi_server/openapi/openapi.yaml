@@ -352,7 +352,7 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/DateRange'
-        style: form
+        style: deepObject
       responses:
         "200":
           content:
