@@ -210,10 +210,7 @@ class TestPersonController(BaseTestCase):
         """
         util.create_test_person(["awesome-organization"])
         query_string = [("limit", 10),
-                        ("offset", 0),
-                        ("filter_", {
-                            # TODO: add values to increase coverage
-                        })]
+                        ("offset", 0)]
         response = self.client.open(
             "/api/v1/persons",
             method="GET",
@@ -231,10 +228,7 @@ class TestPersonController(BaseTestCase):
         """
         util.create_test_person(["awesome-organization"])
         query_string = [("limit", "no-limit"),
-                        ("offset", "none"),
-                        ("filter_", {
-                            # TODO: add values to increase coverage
-                        })]
+                        ("offset", "none")]
         response = self.client.open(
             "/api/v1/persons",
             method="GET",

@@ -8,6 +8,7 @@ from flask import json
 from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
@@ -35,7 +36,9 @@ class TestChallengeController(BaseTestCase):
         DbPerson.objects.delete()
         DbTag.objects.delete()
         DbGrant.objects.delete()
+        DbChallengePlatform.objects.delete()
         util.create_test_tag("awesome-tag")
+        util.create_test_challenge_platform("awesome-challenge-platform")
 
     def tearDown(self):
         util.disconnect_db()
@@ -59,7 +62,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "awesome-challenge-platform"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -92,7 +96,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "awesome-challenge-platform"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -141,7 +146,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["foo"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "awesome-challenge-platform"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -173,7 +179,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person_id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "awesome-challenge-platform"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -198,7 +205,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="awesome-challenge-platform"
         )
         challenge = {
             'name': "Awesome Challenge",
@@ -211,7 +219,8 @@ class TestChallengeController(BaseTestCase):
             'tagIds': ["awesome-tag"],
             'organizerIds': [str(person.id)],
             'dataProviderIds': [str(data_provider.id)],
-            'grantIds': [str(grant.id)]
+            'grantIds': [str(grant.id)],
+            'platformId': "awesome-challenge-platform"
         }
         response = self.client.open(
             "/api/v1/challenges",
@@ -236,7 +245,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="awesome-challenge-platform"
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -276,7 +286,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="awesome-challenge-platform"
         )
         response = self.client.open(
             f"/api/v1/challenges/{challenge.id}",
@@ -316,7 +327,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="awesome-challenge-platform"
         )
         query_string = [("limit", 10),
                         ("offset", 0),
@@ -346,7 +358,8 @@ class TestChallengeController(BaseTestCase):
             tagIds=["awesome-tag"],
             organizerIds=[str(person.id)],
             dataProviderIds=[str(data_provider.id)],
-            grantIds=[str(grant.id)]
+            grantIds=[str(grant.id)],
+            platformId="awesome-challenge-platform"
         )
         query_string = [("limit", "no-limit"),
                         ("offset", "none"),

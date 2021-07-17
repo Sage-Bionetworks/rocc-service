@@ -26,6 +26,8 @@ servers:
 tags:
 - description: Operations about challenges
   name: Challenge
+- description: Operations about challenge platforms
+  name: ChallengePlatform
 - description: Operations about grants
   name: Grant
 - description: Operations about organizations
@@ -39,6 +41,203 @@ tags:
 - description: Operations about health checks
   name: HealthCheck
 paths:
+  /challengePlatforms:
+    delete:
+      description: Delete all challenge platforms
+      operationId: delete_all_challenge_platforms
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all challenge platforms
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    get:
+      description: Returns the challenge platforms
+      operationId: list_challenge_platforms
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfChallengePlatforms'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get all challenge platforms
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    post:
+      description: Create a challenge platform with the specified ID
+      operationId: create_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform that is being created
+        explode: true
+        in: query
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: form
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengePlatformCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePlatformCreateResponse'
+          description: Success
+          links:
+            GetChallengePlatformById:
+              $ref: '#/components/links/GetChallengePlatformById'
+            DeleteTagById:
+              $ref: '#/components/links/DeleteChallengePlatformById'
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+  /challengePlatforms/{challengePlatformId}:
+    delete:
+      description: Deletes the challenge platform specified
+      operationId: delete_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform
+        explode: false
+        in: path
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
+    get:
+      description: Returns the challenge platform specified
+      operationId: get_challenge_platform
+      parameters:
+      - description: The ID of the challenge platform
+        explode: false
+        in: path
+        name: challengePlatformId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengePlatform'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get a challenge platform
+      tags:
+      - ChallengePlatform
+      x-openapi-router-controller: openapi_server.controllers.challenge_platform_controller
   /challenges:
     delete:
       description: Delete all challenges
@@ -86,14 +285,66 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
+      - description: Property used to sort the results that must be returned
         explode: true
         in: query
-        name: filter
+        name: sort
         required: false
         schema:
-          $ref: '#/components/schemas/ChallengeFilter'
-        style: deepObject
+          enum:
+          - createdAt
+          - updatedAt
+          type: string
+        style: form
+      - description: Can be either `asc` or `desc`. Ignored without `sort` parameter.
+        explode: true
+        in: query
+        name: direction
+        required: false
+        schema:
+          enum:
+          - asc
+          - desc
+          type: string
+        style: form
+      - description: A string of search terms used to filter the results
+        explode: true
+        in: query
+        name: searchTerms
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: Array of tag ids used to filter the results
+        explode: true
+        in: query
+        name: tagIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/TagId'
+          type: array
+        style: form
+      - description: Array of challenge status used to filter the results
+        explode: true
+        in: query
+        name: status
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeStatus'
+          type: array
+        style: form
+      - description: Array of challenge platform ids used to filter the results
+        explode: true
+        in: query
+        name: platformIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengePlatformId'
+          type: array
+        style: form
       responses:
         "200":
           content:
@@ -689,14 +940,6 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
-        explode: true
-        in: query
-        name: filter
-        required: false
-        schema:
-          $ref: '#/components/schemas/PersonFilter'
-        style: deepObject
       responses:
         "200":
           content:
@@ -885,14 +1128,6 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Object that describes how to filter the results
-        explode: true
-        in: query
-        name: filter
-        required: false
-        schema:
-          $ref: '#/components/schemas/TagFilter'
-        style: deepObject
       responses:
         "200":
           content:
@@ -1260,6 +1495,18 @@ components:
       operationId: deleteChallenge
       parameters:
         challengeId: $response.body#/challengeId
+    GetChallengePlatformById:
+      description: |
+        The `id` value returned in the response can be used as the `challengePlatformId` parameter in `GET /challengePlatforms/{challengePlatformId}`
+      operationId: getChallengePlatform
+      parameters:
+        challengePlatformId: $response.body#/challengeId
+    DeleteChallengePlatformById:
+      description: |
+        The `id` value returned in the response can be used as the `challengePlatformId` parameter in `DELETE /challengePlatforms/{challengePlatformId}`
+      operationId: deleteChallengePlatform
+      parameters:
+        challengePlatformId: $response.body#/challengePlatformId
     GetGrantById:
       description: |
         The `id` value returned in the response can be used as the `grantId` parameter in `GET /grants/{grantId}`
@@ -1320,6 +1567,96 @@ components:
       operationId: deleteUser
       parameters:
         username: $response.body#/username
+  parameters:
+    limit:
+      description: Maximum number of results returned
+      explode: true
+      in: query
+      name: limit
+      required: false
+      schema:
+        default: 10
+        maximum: 100
+        minimum: 10
+        type: integer
+      style: form
+    offset:
+      description: Index of the first result that must be returned
+      explode: true
+      in: query
+      name: offset
+      required: false
+      schema:
+        default: 0
+        minimum: 0
+        type: integer
+      style: form
+    sort:
+      description: Property used to sort the results that must be returned
+      explode: true
+      in: query
+      name: sort
+      required: false
+      schema:
+        enum:
+        - createdAt
+        - updatedAt
+        type: string
+      style: form
+    direction:
+      description: Can be either `asc` or `desc`. Ignored without `sort` parameter.
+      explode: true
+      in: query
+      name: direction
+      required: false
+      schema:
+        enum:
+        - asc
+        - desc
+        type: string
+      style: form
+    searchTerms:
+      description: A string of search terms used to filter the results
+      explode: true
+      in: query
+      name: searchTerms
+      required: false
+      schema:
+        type: string
+      style: form
+    tagIds:
+      description: Array of tag ids used to filter the results
+      explode: true
+      in: query
+      name: tagIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/TagId'
+        type: array
+      style: form
+    status:
+      description: Array of challenge status used to filter the results
+      explode: true
+      in: query
+      name: status
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeStatus'
+        type: array
+      style: form
+    platformIds:
+      description: Array of challenge platform ids used to filter the results
+      explode: true
+      in: query
+      name: platformIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengePlatformId'
+        type: array
+      style: form
   responses:
     BadRequest:
       content:
@@ -1346,6 +1683,14 @@ components:
             $ref: '#/components/schemas/Error'
       description: The specified resource was not found
   schemas:
+    TagId:
+      description: The ID of the tag
+      example: awesome-tag
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: TagId
+      type: string
     ChallengeStatus:
       description: The status of the challenge
       enum:
@@ -1355,25 +1700,14 @@ components:
       example: open
       title: ChallengeStatus
       type: string
-    ChallengeFilter:
-      description: An object that describes how to filter Challenges
-      properties:
-        name:
-          description: Keep the challenges whose name include this term
-          title: name
-          type: string
-        status:
-          $ref: '#/components/schemas/ChallengeStatus'
-        organizer:
-          description: Keep the challenges organized by this person
-          title: organizer
-          type: string
-        tag:
-          description: Keep the challenges associated to this tag
-          title: tag
-          type: string
-      title: ChallengeFilter
-      type: object
+    ChallengePlatformId:
+      description: The ID of the challenge platform
+      example: awesome-challenge-platform
+      maxLength: 60
+      minLength: 1
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: ChallengePlatformId
+      type: string
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -1410,14 +1744,6 @@ components:
       - id
       title: ChallengeCreateResponse
       type: object
-    TagId:
-      description: The ID of the tag
-      example: awesome-tag
-      maxLength: 60
-      minLength: 1
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: TagId
-      type: string
     PersonId:
       description: The ID of the person
       example: 507f1f77bcf86cd799439011
@@ -1455,6 +1781,7 @@ components:
         - awesome-organization
         grantIds:
         - 507f1f77bcf86cd799439011
+        platformId: awesome-challenge-platform
       properties:
         name:
           description: The challenge name
@@ -1502,12 +1829,21 @@ components:
           items:
             $ref: '#/components/schemas/GrantId'
           type: array
+        platformId:
+          description: The ID of the challenge platform
+          example: awesome-challenge-platform
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: ChallengePlatformId
+          type: string
       required:
       - dataProviderIds
       - description
       - grantIds
       - name
       - organizerIds
+      - platformId
       - status
       - tagIds
       - url
@@ -1516,6 +1852,7 @@ components:
       allOf:
       - $ref: '#/components/schemas/ChallengeCreateResponse'
       - $ref: '#/components/schemas/ChallengeCreateRequest'
+      - $ref: '#/components/schemas/Challenge_allOf'
       description: A challenge
       title: Challenge
       type: object
@@ -1553,6 +1890,55 @@ components:
       type: object
     EmptyObject:
       description: Empty JSON object
+      type: object
+    ChallengePlatformCreateResponse:
+      description: A challenge platform ID
+      example:
+        id: awesome-challenge-platform
+      properties:
+        id:
+          description: The ID of the challenge platform
+          example: awesome-challenge-platform
+          maxLength: 60
+          minLength: 1
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: ChallengePlatformId
+          type: string
+      required:
+      - id
+      title: ChallengePlatformCreateResponse
+      type: object
+    ChallengePlatformCreateRequest:
+      description: A challenge platform
+      example:
+        name: Awesome Challenge Platform
+        url: https://awesome-challenge-platform.io
+      properties:
+        name:
+          description: The name of the challenge platform
+          type: string
+        url:
+          description: The URL to the homepage of the challenge platform
+          format: uri
+          type: string
+      required:
+      - name
+      - url
+      type: object
+    ChallengePlatform:
+      allOf:
+      - $ref: '#/components/schemas/ChallengePlatformCreateResponse'
+      - $ref: '#/components/schemas/ChallengePlatformCreateRequest'
+      - $ref: '#/components/schemas/ChallengePlatform_allOf'
+      description: A challenge platform
+      title: ChallengePlatform
+      type: object
+    PageOfChallengePlatforms:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfChallengePlatforms_allOf'
+      description: A page of ChallengePlatforms
+      title: PageOfChallengePlatforms
       type: object
     GrantCreateResponse:
       description: A grant ID
@@ -1655,27 +2041,6 @@ components:
       description: A page of Organizations
       title: PageOfOrganizations
       type: object
-    PersonFilter:
-      description: An object that describes how to filter Persons
-      properties:
-        firstName:
-          description: Keep the persons whose first name starts with this term
-          title: firstName
-          type: string
-        lastName:
-          description: Keep the persons whose last name starts with this term
-          title: lastName
-          type: string
-        email:
-          description: Keep the persons whose email matches this term
-          title: email
-          type: string
-        organization:
-          description: Keep the persons who belong to this organization
-          title: organization
-          type: string
-      title: PersonFilter
-      type: object
     PersonCreateResponse:
       description: A person ID
       example:
@@ -1738,15 +2103,6 @@ components:
       - $ref: '#/components/schemas/PageOfPersons_allOf'
       description: A page of Persons
       title: PageOfPersons
-      type: object
-    TagFilter:
-      description: An object that describes how to filter Tags
-      properties:
-        id:
-          description: Keep the tags whose ID starts with this term
-          title: id
-          type: string
-      title: TagFilter
       type: object
     TagCreateResponse:
       description: A tag ID
@@ -1871,6 +2227,20 @@ components:
           type: string
       title: ResponsePageMetadata_paging
       type: object
+    Challenge_allOf:
+      properties:
+        createdAt:
+          description: When this challenge has been created
+          format: date-time
+          type: string
+        updatedAt:
+          description: When this challenge has last been updated
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - updatedAt
+      type: object
     PageOfChallenges_allOf:
       properties:
         challenges:
@@ -1880,6 +2250,30 @@ components:
           type: array
       required:
       - challenges
+      type: object
+    ChallengePlatform_allOf:
+      properties:
+        createdAt:
+          description: When this challenge platform has been created
+          format: date-time
+          type: string
+        updatedAt:
+          description: When this challenge platform has last been updated
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - updatedAt
+      type: object
+    PageOfChallengePlatforms_allOf:
+      properties:
+        challengePlatforms:
+          description: An array of ChallengePlatforms
+          items:
+            $ref: '#/components/schemas/ChallengePlatform'
+          type: array
+      required:
+      - challengePlatforms
       type: object
     PageOfGrants_allOf:
       properties:

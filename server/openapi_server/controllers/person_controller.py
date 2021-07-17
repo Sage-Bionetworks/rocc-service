@@ -1,6 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
-from mongoengine.queryset.visitor import Q
+# from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
@@ -109,7 +109,7 @@ def get_person(person_id):
     return res, status
 
 
-def list_persons(limit=None, offset=None, filter_=None):
+def list_persons(limit=None, offset=None):
     """Get all persons
 
     Returns the persons
@@ -125,16 +125,16 @@ def list_persons(limit=None, offset=None, filter_=None):
     status = None
     try:
         # Get results based on query, limit and offset.
-        first_name_q = Q(firstName__istartswith=filter_['firstName']) \
-            if 'firstName' in filter_ else Q()
-        last_name_q = Q(lastName__istartswith=filter_['lastName']) \
-            if 'lastName' in filter_ else Q()
-        email_q = Q(email=filter_['email']) \
-            if 'email' in filter_ else Q()
-        organization_q = Q(organizationIds__contains=filter_['organization']) \
-            if 'organization' in filter_ else Q()
+        # first_name_q = Q(firstName__istartswith=filter_['firstName']) \
+        #     if 'firstName' in filter_ else Q()
+        # last_name_q = Q(lastName__istartswith=filter_['lastName']) \
+        #     if 'lastName' in filter_ else Q()
+        # email_q = Q(email=filter_['email']) \
+        #     if 'email' in filter_ else Q()
+        # organization_q = Q(organizationIds__contains=filter_['organization']) \  # noqa: E501
+        #     if 'organization' in filter_ else Q()
         db_persons = DbPerson.objects(
-            first_name_q & last_name_q & email_q & organization_q
+            # first_name_q & last_name_q & email_q & organization_q
         ).skip(offset).limit(limit)
         persons = [Person.from_dict(d.to_dict()) for d in db_persons]
         next_ = ""
@@ -143,7 +143,7 @@ def list_persons(limit=None, offset=None, filter_=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbPerson.objects.count()
+        total = db_persons.count()
 
         res = PageOfPersons(
             offset=offset,

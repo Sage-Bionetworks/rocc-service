@@ -4,6 +4,7 @@ from mongoengine.queryset.visitor import Q
 import traceback
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 # from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
 from openapi_server.dbmodels.grant import Grant as DbGrant
 from openapi_server.dbmodels.person import Person as DbPerson
@@ -62,6 +63,13 @@ def create_challenge():
                     return res, status
 
             try:
+                DbChallengePlatform.objects.get(id=challenge.platform_id)
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge platform {challenge.platform_id} was not found", status)  # noqa: E501
+                return res, status
+
+            try:
                 db_challenge = DbChallenge(
                     name=challenge.name,
                     description=challenge.description,
@@ -73,7 +81,8 @@ def create_challenge():
                     tagIds=challenge.tag_ids,
                     organizerIds=challenge.organizer_ids,
                     dataProviderIds=challenge.data_provider_ids,
-                    grantIds=challenge.grant_ids
+                    grantIds=challenge.grant_ids,
+                    platformId=challenge.platform_id
                     # challengeResults=DbChallengeResults(
                     #     nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
                     #     nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
@@ -146,33 +155,50 @@ def get_challenge(challenge_id):
     return res, status
 
 
-def list_challenges(limit=None, offset=None, filter_=None):
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None):  # noqa: E501
     """List all the challenges
 
-    Returns all the challenges
+    Returns all the challenges # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
+    :param sort: Property used to sort the results that must be returned
+    :type sort: str
+    :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
+    :type direction: str
+    :param search_terms: A string of search terms used to filter the results
+    :type search_terms: str
+    :param tag_ids: Array of tag ids used to filter the results
+    :type tag_ids: List[str]
+    :param status: Array of challenge status used to filter the results
+    :type status: list | bytes
+    :param platform_ids: Array of challenge platform ids used to filter the results
+    :type platform_ids: List[str]
 
     :rtype: PageOfChallenges
     """
     res = None
-    status = None
+    status_ = None
     try:
-        # Get results based on query, limit and offset.
-        name_q = Q(name__icontains=filter_['name']) \
-            if 'name' in filter_ else Q()
-        status_q = Q(status=filter_['status']) \
-            if 'status' in filter_ else Q()
-        organizer_q = Q(organizerIds__contains=filter_['organizer']) \
-            if 'organizer' in filter_ else Q()
-        tag_q = Q(tagIds__contains=filter_['tag']) \
-            if 'tag' in filter_ else Q()
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+        tag_ids_q = Q(tagIds__in=tag_ids) \
+            if tag_ids is not None and len(tag_ids) > 0 else Q()
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
+
+        order_by = 'createdAt'  # TODO: what is the best default behavior?
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+
         db_challenges = DbChallenge.objects(
-            name_q & status_q & organizer_q & tag_q
-        ).skip(offset).limit(limit)
+            status_q & tag_ids_q & platform_id_q
+        ).skip(offset).limit(limit).order_by(order_by)
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
@@ -190,14 +216,14 @@ def list_challenges(limit=None, offset=None, filter_=None):
             },
             total_results=total,
             challenges=challenges)
-        status = 200
+        status_ = 200
     except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
+        status_ = 400
+        res = Error("Bad request", status_)
     except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+        status_ = 500
+        res = Error("Internal error", status_, str(error))
+    return res, status_
 
 
 def delete_all_challenges():
