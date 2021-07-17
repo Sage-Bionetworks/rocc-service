@@ -188,9 +188,9 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         start_date_start = None
         start_date_end = None
         if start_date_range is not None and 'startDate' in start_date_range:
-            start_date_start = datetime.datetime.strptime(start_date_range['startDate'],"%Y-%m-%d")  # noqa: E501
+            start_date_start = datetime.datetime.strptime(start_date_range['startDate'], "%Y-%m-%d")  # noqa: E501
         if start_date_range is not None and 'endDate' in start_date_range:
-            start_date_end = datetime.datetime.strptime(start_date_range['endDate'],"%Y-%m-%d")  # noqa: E501
+            start_date_end = datetime.datetime.strptime(start_date_range['endDate'], "%Y-%m-%d")  # noqa: E501
 
         status_q = Q(status__in=status) \
             if status is not None else Q()
