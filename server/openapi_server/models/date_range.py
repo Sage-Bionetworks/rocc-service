@@ -15,26 +15,26 @@ class DateRange(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, start_date=None, end_date=None):  # noqa: E501
+    def __init__(self, start=None, end=None):  # noqa: E501
         """DateRange - a model defined in OpenAPI
 
-        :param start_date: The start_date of this DateRange.  # noqa: E501
-        :type start_date: date
-        :param end_date: The end_date of this DateRange.  # noqa: E501
-        :type end_date: date
+        :param start: The start of this DateRange.  # noqa: E501
+        :type start: date
+        :param end: The end of this DateRange.  # noqa: E501
+        :type end: date
         """
         self.openapi_types = {
-            'start_date': date,
-            'end_date': date
+            'start': date,
+            'end': date
         }
 
         self.attribute_map = {
-            'start_date': 'startDate',
-            'end_date': 'endDate'
+            'start': 'start',
+            'end': 'end'
         }
 
-        self._start_date = start_date
-        self._end_date = end_date
+        self._start = start
+        self._end = end
 
     @classmethod
     def from_dict(cls, dikt) -> 'DateRange':
@@ -48,51 +48,51 @@ class DateRange(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def start_date(self):
-        """Gets the start_date of this DateRange.
+    def start(self):
+        """Gets the start of this DateRange.
 
         Start date of the date range  # noqa: E501
 
-        :return: The start_date of this DateRange.
+        :return: The start of this DateRange.
         :rtype: date
         """
-        return self._start_date
+        return self._start
 
-    @start_date.setter
-    def start_date(self, start_date):
-        """Sets the start_date of this DateRange.
+    @start.setter
+    def start(self, start):
+        """Sets the start of this DateRange.
 
         Start date of the date range  # noqa: E501
 
-        :param start_date: The start_date of this DateRange.
-        :type start_date: date
+        :param start: The start of this DateRange.
+        :type start: date
         """
-        if start_date is None:
-            raise ValueError("Invalid value for `start_date`, must not be `None`")  # noqa: E501
+        if start is None:
+            raise ValueError("Invalid value for `start`, must not be `None`")  # noqa: E501
 
-        self._start_date = start_date
+        self._start = start
 
     @property
-    def end_date(self):
-        """Gets the end_date of this DateRange.
+    def end(self):
+        """Gets the end of this DateRange.
 
         End date of the date range  # noqa: E501
 
-        :return: The end_date of this DateRange.
+        :return: The end of this DateRange.
         :rtype: date
         """
-        return self._end_date
+        return self._end
 
-    @end_date.setter
-    def end_date(self, end_date):
-        """Sets the end_date of this DateRange.
+    @end.setter
+    def end(self, end):
+        """Sets the end of this DateRange.
 
         End date of the date range  # noqa: E501
 
-        :param end_date: The end_date of this DateRange.
-        :type end_date: date
+        :param end: The end of this DateRange.
+        :type end: date
         """
-        if end_date is None:
-            raise ValueError("Invalid value for `end_date`, must not be `None`")  # noqa: E501
+        if end is None:
+            raise ValueError("Invalid value for `end`, must not be `None`")  # noqa: E501
 
-        self._end_date = end_date
+        self._end = end

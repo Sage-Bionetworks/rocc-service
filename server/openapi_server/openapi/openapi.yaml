@@ -1727,20 +1727,20 @@ components:
       type: string
     DateRange:
       example:
-        startDate: 2021-07-17
-        endDate: 2021-07-17
+        start: 2021-07-17
+        end: 2021-07-17
       properties:
-        startDate:
+        start:
           description: Start date of the date range
           format: date
           type: string
-        endDate:
+        end:
           description: End date of the date range
           format: date
           type: string
       required:
-      - endDate
-      - startDate
+      - end
+      - start
       title: DateRange
       type: object
     ResponsePageMetadata:
