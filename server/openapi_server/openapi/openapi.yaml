@@ -1738,9 +1738,6 @@ components:
           description: End date of the date range
           format: date
           type: string
-      required:
-      - end
-      - start
       title: DateRange
       type: object
     ResponsePageMetadata:
