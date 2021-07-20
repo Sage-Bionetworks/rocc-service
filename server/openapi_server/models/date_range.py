@@ -67,8 +67,6 @@ class DateRange(Model):
         :param start: The start of this DateRange.
         :type start: date
         """
-        if start is None:
-            raise ValueError("Invalid value for `start`, must not be `None`")  # noqa: E501
 
         self._start = start
 
@@ -92,7 +90,5 @@ class DateRange(Model):
         :param end: The end of this DateRange.
         :type end: date
         """
-        if end is None:
-            raise ValueError("Invalid value for `end`, must not be `None`")  # noqa: E501
 
         self._end = end
