@@ -185,17 +185,12 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     res = None
     status_ = None
     try:
-        print('date range:', start_date_range)
         start_date_start = None
         start_date_end = None
         if start_date_range is not None and 'start' in start_date_range:
-            print('start', start_date_range['start'])
             start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
-            print('start result', start_date_start)
         if start_date_range is not None and 'end' in start_date_range:
             start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
-
-        print('past bed time')
 
         status_q = Q(status__in=status) \
             if status is not None else Q()
