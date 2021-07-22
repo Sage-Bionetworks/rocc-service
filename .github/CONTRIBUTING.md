@@ -100,14 +100,29 @@ install the required development tools.
 
 ### Testing
 
-TBA
+    npm test
 
 ## Release Procedure
 
 Maintainers are required to follow the procedure below when creating a new
-release.
+release. Releases are created with the npm package [release-it].
 
-TBA
+1. [Identify whether the release is a major, minor or patch release.]
+1. Obtain a [personal access token] (release-it only needs "repo" access; no
+   "admin" or other scopes).
+2. Make sure the token is [available as an environment variable].
+3. Preview the release information using one of the commands listed below. These
+   commands will not modify any local or remote files.
+    - `npm run release -- major --ci --dry-run`
+    - `npm run release -- minor --ci --dry-run`
+    - `npm run release -- patch --ci --dry-run`
+4. Create the release using one of the commands listed below.
+    - `npm run release -- major --ci`
+    - `npm run release -- minor --ci`
+    - `npm run release -- patch --ci`
+5. Check that the release has been successfully created on GitHub along with any
+   release artifacts that may have been created (GitHub Pages, Docker image
+   pushed to Docker registry, Python package published to PyPi, etc.).
 
 ## Getting Help
 
@@ -121,3 +136,7 @@ channel that best matches the topic of your request.
 [reaction]: https://github.blog/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/
 [Forking Workflow]: https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow
 [package.json]: ../package.json
+[release-it]: https://github.com/release-it/release-it
+[Identify whether the release is a major, minor or patch release.]: https://semver.org/#summary
+[personal access token]: https://github.com/settings/tokens/new?scopes=repo&description=release-it
+[available as an environment variable]: https://github.com/release-it/release-it/blob/master/docs/environment-variables.md
