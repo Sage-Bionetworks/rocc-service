@@ -2,12 +2,13 @@ from datetime import date
 
 from mongoengine import connect, disconnect
 
+from openapi_server.dbmodels.challenge import Challenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform
+from openapi_server.dbmodels.challenge_results import ChallengeResults
+from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag
-from openapi_server.dbmodels.grant import Grant
-from openapi_server.dbmodels.challenge import Challenge
-from openapi_server.dbmodels.challenge_results import ChallengeResults
 from openapi_server.dbmodels.user import User
 
 
@@ -59,6 +60,14 @@ def create_test_grant():
     ).save()
 
 
+def create_test_challenge_platform(challenge_platform_id):
+    return ChallengePlatform(
+        id=challenge_platform_id,
+        name="Awesome Challenge Platform",
+        url="https://report.nih.gov/"
+    ).save()
+
+
 def create_test_challenge_results():
     return ChallengeResults(
         nSubmissions=0,
@@ -67,7 +76,7 @@ def create_test_challenge_results():
     )
 
 
-def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds):
+def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds, platformId):  # noqa: E501
     return Challenge(
         name="Awesome Challenge",
         description="description",
@@ -79,6 +88,7 @@ def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds):
         tagIds=tagIds,
         organizerIds=organizerIds,
         dataProviderIds=dataProviderIds,
-        grantIds=grantIds
+        grantIds=grantIds,
+        platformId=platformId
         # challengeResults=create_test_challenge_results().to_dict()
     ).save()

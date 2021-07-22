@@ -50,7 +50,7 @@ jobs:
             2. Run the [openapi-generator] using the new ROCC OpenAPI
                specification.
 
-                  `npm run generate:server:version --oas_version=${{
+                  `npm run generate:server:version --schemas-version=${{
                   env.NEW_VERSION }}`
 
             3. Review the updates made to this tool in the [ROCC schemas

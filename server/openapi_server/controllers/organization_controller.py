@@ -119,7 +119,7 @@ def list_organizations(limit=None, offset=None):
                 (Config().server_api_url, limit, offset + limit)
 
         # Get total results count.
-        total = DbOrganization.objects.count()
+        total = db_orgs.count()
 
         res = PageOfOrganizations(
             offset=offset,

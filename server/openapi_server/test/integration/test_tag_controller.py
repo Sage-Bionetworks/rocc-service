@@ -159,10 +159,7 @@ class TestTagController(BaseTestCase):
         """
         util.create_test_tag("awesome-tag")
         query_string = [("limit", 10),
-                        ("offset", 0),
-                        ("filter_", {
-                            # TODO: add values to increase coverage
-                        })]
+                        ("offset", 0)]
         response = self.client.open(
             "/api/v1/tags",
             method="GET",
@@ -180,10 +177,7 @@ class TestTagController(BaseTestCase):
         """
         util.create_test_tag("awesome-tag")
         query_string = [("limit", "no-limit"),
-                        ("offset", "none"),
-                        ("filter_", {
-                            # TODO: add values to increase coverage
-                        })]
+                        ("offset", "none")]
         response = self.client.open(
             "/api/v1/tags",
             method="GET",
