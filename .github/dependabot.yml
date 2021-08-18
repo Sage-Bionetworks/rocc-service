@@ -9,6 +9,7 @@ updates:
     labels:
       - docker
       - dependencies
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "docker"
     directory: "/server"
@@ -18,6 +19,7 @@ updates:
     labels:
       - docker
       - dependencies
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -27,6 +29,7 @@ updates:
     labels:
       - docker
       - gh-actions
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "npm"
     directory: "/"
@@ -36,6 +39,7 @@ updates:
     labels:
       - docker
       - npm
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "pip"
     directory: "/server"
@@ -45,3 +49,4 @@ updates:
     labels:
       - docker
       - python
+    open-pull-requests-limit: 0

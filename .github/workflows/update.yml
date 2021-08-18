@@ -23,7 +23,7 @@ jobs:
       - name: Push new version to $GITHUB_ENV
         run: |
           new_version=${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}
-          echo "NEW_VERSION=$(echo $new_version)" >> $GITHUB_ENV
+          echo "new_version=$(echo $new_version)" >> $GITHUB_ENV
 
       - name: Start updating this project
         run: |
@@ -37,8 +37,8 @@ jobs:
       - name: Send pull request to update to new version
         uses: peter-evans/create-pull-request@v3
         with:
-          title: Update to ROCC schemas ${{ env.NEW_VERSION }}
-          commit-message: Update to ROCC schemas ${{ env.NEW_VERSION }}
+          title: Update to ROCC schemas ${{ env.new_version }}
+          commit-message: Update to ROCC schemas ${{ env.new_version }}
           body: |
             A new version of the [ROCC schemas] is available.
 
@@ -51,7 +51,7 @@ jobs:
                specification.
 
                   `npm run generate:server:version --schemas-version=${{
-                  env.NEW_VERSION }}`
+                  env.new_version }}`
 
             3. Review the updates made to this tool in the [ROCC schemas
                CHANGELOG].
