@@ -1,104 +1,75 @@
 import connexion
-from mongoengine.errors import DoesNotExist, NotUniqueError
+import six
 
-from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
-from openapi_server.models.error import Error
-from openapi_server.models.organization import Organization
+from openapi_server.models.error import Error  # noqa: E501
+from openapi_server.models.one_ofstringstring import OneOfstringstring  # noqa: E501
+from openapi_server.models.organization import Organization  # noqa: E501
+from openapi_server.models.organization_create_request import OrganizationCreateRequest  # noqa: E501
 from openapi_server.models.organization_create_response import OrganizationCreateResponse  # noqa: E501
 from openapi_server.models.page_of_organizations import PageOfOrganizations  # noqa: E501
-from openapi_server.config import Config
+from openapi_server import util
 
 
-def create_organization(organization_id):
+def create_organization(organization_create_request):  # noqa: E501
     """Create an organization
 
-    Create an organization with the specified name
+    Create an organization with the specified account name # noqa: E501
 
-    :param organization_id: The ID of the organization that is being created
-    :type organization_id: str
+    :param organization_create_request: 
+    :type organization_create_request: dict | bytes
 
-    :rtype: Organization
+    :rtype: OrganizationCreateResponse
     """
-    res = None
-    status = None
     if connexion.request.is_json:
-        try:
-            org = Organization.from_dict(connexion.request.get_json())
-            DbOrganization(
-                id=organization_id,
-                name=org.name,
-                shortName=org.short_name,
-                url=org.url
-            ).save(force_insert=True)
-            res = OrganizationCreateResponse(id=organization_id)
-            status = 201
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    else:
-        status = 400
-        res = Error("Bad request", status)
-    return res, status
+        organization_create_request = OrganizationCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
-def delete_organization(organization_id):
+def delete_all_organizations():  # noqa: E501
+    """Delete all organizations
+
+    Delete all organizations # noqa: E501
+
+
+    :rtype: object
+    """
+    return 'do some magic!'
+
+
+def delete_organization(organization_id):  # noqa: E501
     """Delete an organization
 
-    Deletes the organization specified
+    Deletes the organization specified # noqa: E501
 
-    :param organization_id: The ID of the organization
-    :type organization_id: str
+    :param organization_id: The unique identifier of the organization, either the user ID or account name
+    :type organization_id: dict | bytes
 
-    :rtype: Organization
+    :rtype: object
     """
-    res = None
-    status = None
-    try:
-        DbOrganization.objects.get(id=organization_id).delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    if connexion.request.is_json:
+        organization_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
-def get_organization(organization_id):
+def get_organization(organization_id):  # noqa: E501
     """Get an organization
 
-    Returns the organization specified
+    Returns the organization specified # noqa: E501
 
-    :param organization_id: The ID of the organization
-    :type organization_id: str
+    :param organization_id: The unique identifier of the organization, either the user ID or account name
+    :type organization_id: dict | bytes
 
     :rtype: Organization
     """
-    res = None
-    status = None
-    try:
-        db_org = DbOrganization.objects.get(id=organization_id)
-        res = Organization.from_dict(db_org.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-
-    return res, status
+    if connexion.request.is_json:
+        organization_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
-def list_organizations(limit=None, offset=None):
+def list_organizations(limit=None, offset=None):  # noqa: E501
     """Get all organizations
 
-    Returns the organizations
+    Returns the organizations # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -107,54 +78,4 @@ def list_organizations(limit=None, offset=None):
 
     :rtype: PageOfOrganizations
     """
-    res = None
-    status = None
-    try:
-        # Get results based on limit and offset.
-        db_orgs = DbOrganization.objects.skip(offset).limit(limit)
-        orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
-        next_ = ""
-        if len(orgs) == limit:
-            next_ = "%s/orgs?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
-
-        # Get total results count.
-        total = db_orgs.count()
-
-        res = PageOfOrganizations(
-            offset=offset,
-            limit=limit,
-            paging={
-                "next": next_
-            },
-            total_results=total,
-            organizations=orgs)
-        status = 200
-    except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-
-    return res, status
-
-
-def delete_all_organizations():
-    """Delete all organizations
-
-    Delete all organizations # noqa: E501
-
-
-    :rtype: object
-    """
-    res = None
-    status = None
-    try:
-        DbOrganization.objects.delete()
-        res = {}
-        status = 200
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'

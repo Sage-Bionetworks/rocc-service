@@ -19,36 +19,26 @@ class Grant(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, description=None, url=None):  # noqa: E501
+    def __init__(self, id=None, name=None):  # noqa: E501
         """Grant - a model defined in OpenAPI
 
         :param id: The id of this Grant.  # noqa: E501
         :type id: str
         :param name: The name of this Grant.  # noqa: E501
         :type name: str
-        :param description: The description of this Grant.  # noqa: E501
-        :type description: str
-        :param url: The url of this Grant.  # noqa: E501
-        :type url: str
         """
         self.openapi_types = {
             'id': str,
-            'name': str,
-            'description': str,
-            'url': str
+            'name': str
         }
 
         self.attribute_map = {
             'id': 'id',
-            'name': 'name',
-            'description': 'description',
-            'url': 'url'
+            'name': 'name'
         }
 
         self._id = id
         self._name = name
-        self._description = description
-        self._url = url
 
     @classmethod
     def from_dict(cls, dikt) -> 'Grant':
@@ -65,7 +55,7 @@ class Grant(Model):
     def id(self):
         """Gets the id of this Grant.
 
-        The ID of the grant  # noqa: E501
+        The unique identifier of a grant  # noqa: E501
 
         :return: The id of this Grant.
         :rtype: str
@@ -76,7 +66,7 @@ class Grant(Model):
     def id(self, id):
         """Sets the id of this Grant.
 
-        The ID of the grant  # noqa: E501
+        The unique identifier of a grant  # noqa: E501
 
         :param id: The id of this Grant.
         :type id: str
@@ -90,7 +80,7 @@ class Grant(Model):
     def name(self):
         """Gets the name of this Grant.
 
-        The grant name  # noqa: E501
+        The name of the grant  # noqa: E501
 
         :return: The name of this Grant.
         :rtype: str
@@ -101,7 +91,7 @@ class Grant(Model):
     def name(self, name):
         """Sets the name of this Grant.
 
-        The grant name  # noqa: E501
+        The name of the grant  # noqa: E501
 
         :param name: The name of this Grant.
         :type name: str
@@ -110,51 +100,3 @@ class Grant(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
-
-    @property
-    def description(self):
-        """Gets the description of this Grant.
-
-        A description of the grant  # noqa: E501
-
-        :return: The description of this Grant.
-        :rtype: str
-        """
-        return self._description
-
-    @description.setter
-    def description(self, description):
-        """Sets the description of this Grant.
-
-        A description of the grant  # noqa: E501
-
-        :param description: The description of this Grant.
-        :type description: str
-        """
-        if description is None:
-            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
-
-        self._description = description
-
-    @property
-    def url(self):
-        """Gets the url of this Grant.
-
-        The URL to the grant  # noqa: E501
-
-        :return: The url of this Grant.
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this Grant.
-
-        The URL to the grant  # noqa: E501
-
-        :param url: The url of this Grant.
-        :type url: str
-        """
-
-        self._url = url

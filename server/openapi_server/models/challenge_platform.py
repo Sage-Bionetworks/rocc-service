@@ -23,15 +23,19 @@ class ChallengePlatform(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, url=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, website_url=None, avatar_url=None, created_at=None, updated_at=None):  # noqa: E501
         """ChallengePlatform - a model defined in OpenAPI
 
         :param id: The id of this ChallengePlatform.  # noqa: E501
         :type id: str
         :param name: The name of this ChallengePlatform.  # noqa: E501
         :type name: str
-        :param url: The url of this ChallengePlatform.  # noqa: E501
-        :type url: str
+        :param display_name: The display_name of this ChallengePlatform.  # noqa: E501
+        :type display_name: str
+        :param website_url: The website_url of this ChallengePlatform.  # noqa: E501
+        :type website_url: str
+        :param avatar_url: The avatar_url of this ChallengePlatform.  # noqa: E501
+        :type avatar_url: str
         :param created_at: The created_at of this ChallengePlatform.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this ChallengePlatform.  # noqa: E501
@@ -40,7 +44,9 @@ class ChallengePlatform(Model):
         self.openapi_types = {
             'id': str,
             'name': str,
-            'url': str,
+            'display_name': str,
+            'website_url': str,
+            'avatar_url': str,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -48,14 +54,18 @@ class ChallengePlatform(Model):
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
-            'url': 'url',
+            'display_name': 'displayName',
+            'website_url': 'websiteUrl',
+            'avatar_url': 'avatarUrl',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
 
         self._id = id
         self._name = name
-        self._url = url
+        self._display_name = display_name
+        self._website_url = website_url
+        self._avatar_url = avatar_url
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -74,7 +84,7 @@ class ChallengePlatform(Model):
     def id(self):
         """Gets the id of this ChallengePlatform.
 
-        The ID of the challenge platform  # noqa: E501
+        The unique identifier of a challenge platform  # noqa: E501
 
         :return: The id of this ChallengePlatform.
         :rtype: str
@@ -85,19 +95,13 @@ class ChallengePlatform(Model):
     def id(self, id):
         """Sets the id of this ChallengePlatform.
 
-        The ID of the challenge platform  # noqa: E501
+        The unique identifier of a challenge platform  # noqa: E501
 
         :param id: The id of this ChallengePlatform.
         :type id: str
         """
         if id is None:
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
-        if id is not None and len(id) > 60:
-            raise ValueError("Invalid value for `id`, length must be less than or equal to `60`")  # noqa: E501
-        if id is not None and len(id) < 1:
-            raise ValueError("Invalid value for `id`, length must be greater than or equal to `1`")  # noqa: E501
-        if id is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', id):  # noqa: E501
-            raise ValueError("Invalid value for `id`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._id = id
 
@@ -123,39 +127,88 @@ class ChallengePlatform(Model):
         """
         if name is None:
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+        if name is not None and len(name) > 30:
+            raise ValueError("Invalid value for `name`, length must be less than or equal to `30`")  # noqa: E501
+        if name is not None and len(name) < 3:
+            raise ValueError("Invalid value for `name`, length must be greater than or equal to `3`")  # noqa: E501
+        if name is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', name):  # noqa: E501
+            raise ValueError("Invalid value for `name`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._name = name
 
     @property
-    def url(self):
-        """Gets the url of this ChallengePlatform.
+    def display_name(self):
+        """Gets the display_name of this ChallengePlatform.
 
-        The URL to the homepage of the challenge platform  # noqa: E501
 
-        :return: The url of this ChallengePlatform.
+        :return: The display_name of this ChallengePlatform.
         :rtype: str
         """
-        return self._url
+        return self._display_name
 
-    @url.setter
-    def url(self, url):
-        """Sets the url of this ChallengePlatform.
+    @display_name.setter
+    def display_name(self, display_name):
+        """Sets the display_name of this ChallengePlatform.
 
-        The URL to the homepage of the challenge platform  # noqa: E501
 
-        :param url: The url of this ChallengePlatform.
-        :type url: str
+        :param display_name: The display_name of this ChallengePlatform.
+        :type display_name: str
         """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
+        if display_name is None:
+            raise ValueError("Invalid value for `display_name`, must not be `None`")  # noqa: E501
 
-        self._url = url
+        self._display_name = display_name
+
+    @property
+    def website_url(self):
+        """Gets the website_url of this ChallengePlatform.
+
+
+        :return: The website_url of this ChallengePlatform.
+        :rtype: str
+        """
+        return self._website_url
+
+    @website_url.setter
+    def website_url(self, website_url):
+        """Sets the website_url of this ChallengePlatform.
+
+
+        :param website_url: The website_url of this ChallengePlatform.
+        :type website_url: str
+        """
+        if website_url is None:
+            raise ValueError("Invalid value for `website_url`, must not be `None`")  # noqa: E501
+
+        self._website_url = website_url
+
+    @property
+    def avatar_url(self):
+        """Gets the avatar_url of this ChallengePlatform.
+
+
+        :return: The avatar_url of this ChallengePlatform.
+        :rtype: str
+        """
+        return self._avatar_url
+
+    @avatar_url.setter
+    def avatar_url(self, avatar_url):
+        """Sets the avatar_url of this ChallengePlatform.
+
+
+        :param avatar_url: The avatar_url of this ChallengePlatform.
+        :type avatar_url: str
+        """
+        if avatar_url is None:
+            raise ValueError("Invalid value for `avatar_url`, must not be `None`")  # noqa: E501
+
+        self._avatar_url = avatar_url
 
     @property
     def created_at(self):
         """Gets the created_at of this ChallengePlatform.
 
-        When this challenge platform has been created  # noqa: E501
 
         :return: The created_at of this ChallengePlatform.
         :rtype: datetime
@@ -166,7 +219,6 @@ class ChallengePlatform(Model):
     def created_at(self, created_at):
         """Sets the created_at of this ChallengePlatform.
 
-        When this challenge platform has been created  # noqa: E501
 
         :param created_at: The created_at of this ChallengePlatform.
         :type created_at: datetime
@@ -180,7 +232,6 @@ class ChallengePlatform(Model):
     def updated_at(self):
         """Gets the updated_at of this ChallengePlatform.
 
-        When this challenge platform has last been updated  # noqa: E501
 
         :return: The updated_at of this ChallengePlatform.
         :rtype: datetime
@@ -191,7 +242,6 @@ class ChallengePlatform(Model):
     def updated_at(self, updated_at):
         """Sets the updated_at of this ChallengePlatform.
 
-        When this challenge platform has last been updated  # noqa: E501
 
         :param updated_at: The updated_at of this ChallengePlatform.
         :type updated_at: datetime

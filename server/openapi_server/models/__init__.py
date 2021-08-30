@@ -19,6 +19,7 @@ from openapi_server.models.grant_create_request import GrantCreateRequest
 from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.health_check import HealthCheck
 from openapi_server.models.organization import Organization
+from openapi_server.models.organization_all_of import OrganizationAllOf
 from openapi_server.models.organization_create_request import OrganizationCreateRequest
 from openapi_server.models.organization_create_response import OrganizationCreateResponse
 from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms
@@ -44,5 +45,6 @@ from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.user import User
+from openapi_server.models.user_all_of import UserAllOf
 from openapi_server.models.user_create_request import UserCreateRequest
 from openapi_server.models.user_create_response import UserCreateResponse

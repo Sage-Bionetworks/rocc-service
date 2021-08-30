@@ -1,48 +1,27 @@
 import connexion
-from mongoengine.errors import DoesNotExist, NotUniqueError
-# from mongoengine.queryset.visitor import Q
+import six
 
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.models.challenge_platform import ChallengePlatform  # noqa: E501
-# from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
+from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
 from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms  # noqa: E501
-from openapi_server.config import Config
+from openapi_server import util
 
 
-def create_challenge_platform(challenge_platform_id):  # noqa: E501
+def create_challenge_platform(challenge_platform_create_request):  # noqa: E501
     """Create a challenge platform
 
     Create a challenge platform with the specified ID # noqa: E501
 
-    :param challenge_platform_id: The ID of the challenge platform that is being created
-    :type challenge_platform_id: str
+    :param challenge_platform_create_request: 
+    :type challenge_platform_create_request: dict | bytes
 
     :rtype: ChallengePlatformCreateResponse
     """
-    res = None
-    status = None
     if connexion.request.is_json:
-        try:
-            platform = ChallengePlatform.from_dict(connexion.request.get_json())
-            DbChallengePlatform(
-                id=challenge_platform_id,
-                name=platform.name,
-                url=platform.url
-            ).save(force_insert=True)
-            res = ChallengePlatformCreateResponse(id=challenge_platform_id)
-            status = 201
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    else:
-        status = 400
-        res = Error("Bad request", status)
-    return res, status
+        challenge_platform_create_request = ChallengePlatformCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
 def delete_all_challenge_platforms():  # noqa: E501
@@ -53,16 +32,7 @@ def delete_all_challenge_platforms():  # noqa: E501
 
     :rtype: object
     """
-    res = None
-    status = None
-    try:
-        DbChallengePlatform.objects.delete()
-        res = {}
-        status = 200
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
 def delete_challenge_platform(challenge_platform_id):  # noqa: E501
@@ -70,24 +40,12 @@ def delete_challenge_platform(challenge_platform_id):  # noqa: E501
 
     Deletes the challenge platform specified # noqa: E501
 
-    :param challenge_platform_id: The ID of the challenge platform
+    :param challenge_platform_id: The unique identifier of the challenge platform
     :type challenge_platform_id: str
 
     :rtype: object
     """
-    res = None
-    status = None
-    try:
-        DbChallengePlatform.objects.get(id=challenge_platform_id).delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
 def get_challenge_platform(challenge_platform_id):  # noqa: E501
@@ -95,24 +53,12 @@ def get_challenge_platform(challenge_platform_id):  # noqa: E501
 
     Returns the challenge platform specified # noqa: E501
 
-    :param challenge_platform_id: The ID of the challenge platform
+    :param challenge_platform_id: The unique identifier of the challenge platform
     :type challenge_platform_id: str
 
     :rtype: ChallengePlatform
     """
-    res = None
-    status = None
-    try:
-        db_platform = DbChallengePlatform.objects.get(id=challenge_platform_id)
-        res = ChallengePlatform.from_dict(db_platform.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
 def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
@@ -127,32 +73,4 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfChallengePlatforms
     """
-    res = None
-    status = None
-    try:
-        db_platforms = DbChallengePlatform.objects().skip(offset).limit(limit)
-        platforms = [ChallengePlatform.from_dict(d.to_dict()) for d in db_platforms]  # noqa: E501
-        next_ = ""
-        if len(platforms) == limit:
-            next_ = "%s/challengePlatforms?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
-
-        # Get total results count.
-        total = db_platforms.count()
-
-        res = PageOfChallengePlatforms(
-            offset=offset,
-            limit=limit,
-            paging={
-                "next": next_
-            },
-            total_results=total,
-            challenge_platforms=platforms)
-        status = 200
-    except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'

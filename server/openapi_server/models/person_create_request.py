@@ -15,34 +15,29 @@ class PersonCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, first_name=None, last_name=None, email=None, organization_ids=None):  # noqa: E501
+    def __init__(self, name=None, email=None, organization_ids=None):  # noqa: E501
         """PersonCreateRequest - a model defined in OpenAPI
 
-        :param first_name: The first_name of this PersonCreateRequest.  # noqa: E501
-        :type first_name: str
-        :param last_name: The last_name of this PersonCreateRequest.  # noqa: E501
-        :type last_name: str
+        :param name: The name of this PersonCreateRequest.  # noqa: E501
+        :type name: str
         :param email: The email of this PersonCreateRequest.  # noqa: E501
         :type email: str
         :param organization_ids: The organization_ids of this PersonCreateRequest.  # noqa: E501
         :type organization_ids: List[str]
         """
         self.openapi_types = {
-            'first_name': str,
-            'last_name': str,
+            'name': str,
             'email': str,
             'organization_ids': List[str]
         }
 
         self.attribute_map = {
-            'first_name': 'firstName',
-            'last_name': 'lastName',
+            'name': 'name',
             'email': 'email',
             'organization_ids': 'organizationIds'
         }
 
-        self._first_name = first_name
-        self._last_name = last_name
+        self._name = name
         self._email = email
         self._organization_ids = organization_ids
 
@@ -58,54 +53,27 @@ class PersonCreateRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def first_name(self):
-        """Gets the first_name of this PersonCreateRequest.
+    def name(self):
+        """Gets the name of this PersonCreateRequest.
 
-        The first name of the person  # noqa: E501
 
-        :return: The first_name of this PersonCreateRequest.
+        :return: The name of this PersonCreateRequest.
         :rtype: str
         """
-        return self._first_name
+        return self._name
 
-    @first_name.setter
-    def first_name(self, first_name):
-        """Sets the first_name of this PersonCreateRequest.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this PersonCreateRequest.
 
-        The first name of the person  # noqa: E501
 
-        :param first_name: The first_name of this PersonCreateRequest.
-        :type first_name: str
+        :param name: The name of this PersonCreateRequest.
+        :type name: str
         """
-        if first_name is None:
-            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._first_name = first_name
-
-    @property
-    def last_name(self):
-        """Gets the last_name of this PersonCreateRequest.
-
-        The last name of the person  # noqa: E501
-
-        :return: The last_name of this PersonCreateRequest.
-        :rtype: str
-        """
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name):
-        """Sets the last_name of this PersonCreateRequest.
-
-        The last name of the person  # noqa: E501
-
-        :param last_name: The last_name of this PersonCreateRequest.
-        :type last_name: str
-        """
-        if last_name is None:
-            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
-
-        self._last_name = last_name
+        self._name = name
 
     @property
     def email(self):
@@ -134,7 +102,6 @@ class PersonCreateRequest(Model):
     def organization_ids(self):
         """Gets the organization_ids of this PersonCreateRequest.
 
-        The organizations the person belongs to  # noqa: E501
 
         :return: The organization_ids of this PersonCreateRequest.
         :rtype: List[str]
@@ -145,7 +112,6 @@ class PersonCreateRequest(Model):
     def organization_ids(self, organization_ids):
         """Sets the organization_ids of this PersonCreateRequest.
 
-        The organizations the person belongs to  # noqa: E501
 
         :param organization_ids: The organization_ids of this PersonCreateRequest.
         :type organization_ids: List[str]

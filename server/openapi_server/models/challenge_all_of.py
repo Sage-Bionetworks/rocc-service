@@ -15,24 +15,34 @@ class ChallengeAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
         """ChallengeAllOf - a model defined in OpenAPI
 
+        :param full_name: The full_name of this ChallengeAllOf.  # noqa: E501
+        :type full_name: str
+        :param owner_id: The owner_id of this ChallengeAllOf.  # noqa: E501
+        :type owner_id: str
         :param created_at: The created_at of this ChallengeAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this ChallengeAllOf.  # noqa: E501
         :type updated_at: datetime
         """
         self.openapi_types = {
+            'full_name': str,
+            'owner_id': str,
             'created_at': datetime,
             'updated_at': datetime
         }
 
         self.attribute_map = {
+            'full_name': 'fullName',
+            'owner_id': 'ownerId',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
 
+        self._full_name = full_name
+        self._owner_id = owner_id
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -48,10 +58,53 @@ class ChallengeAllOf(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
+    def full_name(self):
+        """Gets the full_name of this ChallengeAllOf.
+
+
+        :return: The full_name of this ChallengeAllOf.
+        :rtype: str
+        """
+        return self._full_name
+
+    @full_name.setter
+    def full_name(self, full_name):
+        """Sets the full_name of this ChallengeAllOf.
+
+
+        :param full_name: The full_name of this ChallengeAllOf.
+        :type full_name: str
+        """
+
+        self._full_name = full_name
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this ChallengeAllOf.
+
+        The unique identifier of an account  # noqa: E501
+
+        :return: The owner_id of this ChallengeAllOf.
+        :rtype: str
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this ChallengeAllOf.
+
+        The unique identifier of an account  # noqa: E501
+
+        :param owner_id: The owner_id of this ChallengeAllOf.
+        :type owner_id: str
+        """
+
+        self._owner_id = owner_id
+
+    @property
     def created_at(self):
         """Gets the created_at of this ChallengeAllOf.
 
-        When this challenge has been created  # noqa: E501
 
         :return: The created_at of this ChallengeAllOf.
         :rtype: datetime
@@ -62,13 +115,10 @@ class ChallengeAllOf(Model):
     def created_at(self, created_at):
         """Sets the created_at of this ChallengeAllOf.
 
-        When this challenge has been created  # noqa: E501
 
         :param created_at: The created_at of this ChallengeAllOf.
         :type created_at: datetime
         """
-        if created_at is None:
-            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -76,7 +126,6 @@ class ChallengeAllOf(Model):
     def updated_at(self):
         """Gets the updated_at of this ChallengeAllOf.
 
-        When this challenge has last been updated  # noqa: E501
 
         :return: The updated_at of this ChallengeAllOf.
         :rtype: datetime
@@ -87,12 +136,9 @@ class ChallengeAllOf(Model):
     def updated_at(self, updated_at):
         """Sets the updated_at of this ChallengeAllOf.
 
-        When this challenge has last been updated  # noqa: E501
 
         :param updated_at: The updated_at of this ChallengeAllOf.
         :type updated_at: datetime
         """
-        if updated_at is None:
-            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at

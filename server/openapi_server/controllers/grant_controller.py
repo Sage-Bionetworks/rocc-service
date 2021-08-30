@@ -1,100 +1,70 @@
 import connexion
-from mongoengine.errors import DoesNotExist, NotUniqueError
+import six
 
-from openapi_server.dbmodels.grant import Grant as DbGrant
-from openapi_server.models.error import Error
-from openapi_server.models.grant import Grant
-from openapi_server.models.grant_create_response import GrantCreateResponse
-from openapi_server.models.page_of_grants import PageOfGrants
-from openapi_server.config import Config
+from openapi_server.models.error import Error  # noqa: E501
+from openapi_server.models.grant import Grant  # noqa: E501
+from openapi_server.models.grant_create_request import GrantCreateRequest  # noqa: E501
+from openapi_server.models.grant_create_response import GrantCreateResponse  # noqa: E501
+from openapi_server.models.page_of_grants import PageOfGrants  # noqa: E501
+from openapi_server import util
 
 
-def create_grant():
+def create_grant(grant_create_request):  # noqa: E501
     """Create a grant
 
-    Create a grant with the specified name
+    Create a grant with the specified name # noqa: E501
 
-    :rtype: Grant
+    :param grant_create_request: 
+    :type grant_create_request: dict | bytes
+
+    :rtype: GrantCreateResponse
     """
-    res = None
-    status = None
     if connexion.request.is_json:
-        try:
-            grant = Grant.from_dict(connexion.request.get_json())
-            db_grant = DbGrant(
-                name=grant.name,
-                description=grant.description,
-                url=grant.url
-            ).save(force_insert=True)
-            new_id = db_grant.to_dict().get("id")
-            res = GrantCreateResponse(id=new_id)
-            status = 201
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    else:
-        status = 400
-        res = Error("Bad request", status)
-    return res, status
+        grant_create_request = GrantCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
 
 
-def delete_grant(grant_id):
+def delete_all_grants():  # noqa: E501
+    """Delete all grants
+
+    Delete all grants # noqa: E501
+
+
+    :rtype: object
+    """
+    return 'do some magic!'
+
+
+def delete_grant(grant_id):  # noqa: E501
     """Delete a grant
 
-    Deletes the grant specified
+    Deletes the grant specified # noqa: E501
 
     :param grant_id: The ID of the grant that is being created
     :type grant_id: str
 
-    :rtype: Grant
+    :rtype: object
     """
-    res = None
-    status = None
-    try:
-        DbGrant.objects.get(id=grant_id).delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def get_grant(grant_id):
+def get_grant(grant_id):  # noqa: E501
     """Get a grant
 
-    Returns the grant specified
+    Returns the grant specified # noqa: E501
 
     :param grant_id: The ID of the grant that is being created
     :type grant_id: str
 
     :rtype: Grant
     """
-    res = None
-    status = None
-    try:
-        db_grant = DbGrant.objects.get(id=grant_id)
-        res = Grant.from_dict(db_grant.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def list_grants(limit=None, offset=None):
+def list_grants(limit=None, offset=None):  # noqa: E501
     """Get all grants
 
-    Returns the grants
+    Returns the grants # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -103,52 +73,4 @@ def list_grants(limit=None, offset=None):
 
     :rtype: PageOfGrants
     """
-    res = None
-    status = None
-    try:
-        # Get results based on limit and offset.
-        db_grants = DbGrant.objects.skip(offset).limit(limit)
-        grants = [Grant.from_dict(d.to_dict()) for d in db_grants]
-        next_ = ""
-        if len(grants) == limit:
-            next_ = "%s/grants?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
-
-        # Get total results count.
-        total = db_grants.count()
-
-        res = PageOfGrants(
-            offset=offset,
-            limit=limit,
-            paging={
-                "next": next_
-            },
-            total_results=total,
-            grants=grants)
-        status = 200
-    except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
-
-
-def delete_all_grants():
-    """Delete all grants
-
-    Delete all grants # noqa: E501
-
-    :rtype: object
-    """
-    res = None
-    status = None
-    try:
-        DbGrant.objects.delete()
-        res = {}
-        status = 200
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'

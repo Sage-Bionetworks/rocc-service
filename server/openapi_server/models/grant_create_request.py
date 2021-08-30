@@ -15,31 +15,21 @@ class GrantCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, url=None):  # noqa: E501
+    def __init__(self, name=None):  # noqa: E501
         """GrantCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this GrantCreateRequest.  # noqa: E501
         :type name: str
-        :param description: The description of this GrantCreateRequest.  # noqa: E501
-        :type description: str
-        :param url: The url of this GrantCreateRequest.  # noqa: E501
-        :type url: str
         """
         self.openapi_types = {
-            'name': str,
-            'description': str,
-            'url': str
+            'name': str
         }
 
         self.attribute_map = {
-            'name': 'name',
-            'description': 'description',
-            'url': 'url'
+            'name': 'name'
         }
 
         self._name = name
-        self._description = description
-        self._url = url
 
     @classmethod
     def from_dict(cls, dikt) -> 'GrantCreateRequest':
@@ -56,7 +46,7 @@ class GrantCreateRequest(Model):
     def name(self):
         """Gets the name of this GrantCreateRequest.
 
-        The grant name  # noqa: E501
+        The name of the grant  # noqa: E501
 
         :return: The name of this GrantCreateRequest.
         :rtype: str
@@ -67,7 +57,7 @@ class GrantCreateRequest(Model):
     def name(self, name):
         """Sets the name of this GrantCreateRequest.
 
-        The grant name  # noqa: E501
+        The name of the grant  # noqa: E501
 
         :param name: The name of this GrantCreateRequest.
         :type name: str
@@ -76,51 +66,3 @@ class GrantCreateRequest(Model):
             raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
         self._name = name
-
-    @property
-    def description(self):
-        """Gets the description of this GrantCreateRequest.
-
-        A description of the grant  # noqa: E501
-
-        :return: The description of this GrantCreateRequest.
-        :rtype: str
-        """
-        return self._description
-
-    @description.setter
-    def description(self, description):
-        """Sets the description of this GrantCreateRequest.
-
-        A description of the grant  # noqa: E501
-
-        :param description: The description of this GrantCreateRequest.
-        :type description: str
-        """
-        if description is None:
-            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
-
-        self._description = description
-
-    @property
-    def url(self):
-        """Gets the url of this GrantCreateRequest.
-
-        The URL to the grant  # noqa: E501
-
-        :return: The url of this GrantCreateRequest.
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this GrantCreateRequest.
-
-        The URL to the grant  # noqa: E501
-
-        :param url: The url of this GrantCreateRequest.
-        :type url: str
-        """
-
-        self._url = url

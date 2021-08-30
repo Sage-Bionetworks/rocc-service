@@ -15,31 +15,21 @@ class OrganizationCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, short_name=None, url=None):  # noqa: E501
+    def __init__(self, login=None):  # noqa: E501
         """OrganizationCreateRequest - a model defined in OpenAPI
 
-        :param name: The name of this OrganizationCreateRequest.  # noqa: E501
-        :type name: str
-        :param short_name: The short_name of this OrganizationCreateRequest.  # noqa: E501
-        :type short_name: str
-        :param url: The url of this OrganizationCreateRequest.  # noqa: E501
-        :type url: str
+        :param login: The login of this OrganizationCreateRequest.  # noqa: E501
+        :type login: str
         """
         self.openapi_types = {
-            'name': str,
-            'short_name': str,
-            'url': str
+            'login': str
         }
 
         self.attribute_map = {
-            'name': 'name',
-            'short_name': 'shortName',
-            'url': 'url'
+            'login': 'login'
         }
 
-        self._name = name
-        self._short_name = short_name
-        self._url = url
+        self._login = login
 
     @classmethod
     def from_dict(cls, dikt) -> 'OrganizationCreateRequest':
@@ -53,74 +43,24 @@ class OrganizationCreateRequest(Model):
         return util.deserialize_model(dikt, cls)
 
     @property
-    def name(self):
-        """Gets the name of this OrganizationCreateRequest.
+    def login(self):
+        """Gets the login of this OrganizationCreateRequest.
 
-        The organization name  # noqa: E501
 
-        :return: The name of this OrganizationCreateRequest.
+        :return: The login of this OrganizationCreateRequest.
         :rtype: str
         """
-        return self._name
+        return self._login
 
-    @name.setter
-    def name(self, name):
-        """Sets the name of this OrganizationCreateRequest.
+    @login.setter
+    def login(self, login):
+        """Sets the login of this OrganizationCreateRequest.
 
-        The organization name  # noqa: E501
 
-        :param name: The name of this OrganizationCreateRequest.
-        :type name: str
+        :param login: The login of this OrganizationCreateRequest.
+        :type login: str
         """
-        if name is None:
-            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+        if login is None:
+            raise ValueError("Invalid value for `login`, must not be `None`")  # noqa: E501
 
-        self._name = name
-
-    @property
-    def short_name(self):
-        """Gets the short_name of this OrganizationCreateRequest.
-
-        The organization short name  # noqa: E501
-
-        :return: The short_name of this OrganizationCreateRequest.
-        :rtype: str
-        """
-        return self._short_name
-
-    @short_name.setter
-    def short_name(self, short_name):
-        """Sets the short_name of this OrganizationCreateRequest.
-
-        The organization short name  # noqa: E501
-
-        :param short_name: The short_name of this OrganizationCreateRequest.
-        :type short_name: str
-        """
-
-        self._short_name = short_name
-
-    @property
-    def url(self):
-        """Gets the url of this OrganizationCreateRequest.
-
-        The URL to the homepage of the organization  # noqa: E501
-
-        :return: The url of this OrganizationCreateRequest.
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this OrganizationCreateRequest.
-
-        The URL to the homepage of the organization  # noqa: E501
-
-        :param url: The url of this OrganizationCreateRequest.
-        :type url: str
-        """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
-
-        self._url = url
+        self._login = login
