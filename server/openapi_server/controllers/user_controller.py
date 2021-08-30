@@ -1,9 +1,7 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.user import User as DbUser
-from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.user import User
@@ -17,15 +15,11 @@ def create_user():  # noqa: E501
 
     Create a user with the specified account name # noqa: E501
 
-    :param user_create_request:
-    :type user_create_request: dict | bytes
-
     :rtype: UserCreateResponse
     """
     if connexion.request.is_json:
         try:
             user_create_request = UserCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-            print(user_create_request)
             user = DbUser(
                 login=user_create_request.login,
                 email=user_create_request.email,
