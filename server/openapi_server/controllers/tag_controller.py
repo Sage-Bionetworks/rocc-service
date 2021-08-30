@@ -2,7 +2,6 @@ import connexion
 import six
 
 from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.one_ofstringstring import OneOfstringstring  # noqa: E501
 from openapi_server.models.page_of_tags import PageOfTags  # noqa: E501
 from openapi_server.models.tag import Tag  # noqa: E501
 from openapi_server.models.tag_create_request import TagCreateRequest  # noqa: E501
@@ -42,12 +41,10 @@ def delete_tag(tag_id):  # noqa: E501
     Deletes the tag specified # noqa: E501
 
     :param tag_id: The unique identifier of the tag
-    :type tag_id: dict | bytes
+    :type tag_id: str
 
     :rtype: object
     """
-    if connexion.request.is_json:
-        tag_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -57,12 +54,10 @@ def get_tag(tag_id):  # noqa: E501
     Returns the tag specified # noqa: E501
 
     :param tag_id: The unique identifier of the tag
-    :type tag_id: dict | bytes
+    :type tag_id: str
 
     :rtype: Tag
     """
-    if connexion.request.is_json:
-        tag_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

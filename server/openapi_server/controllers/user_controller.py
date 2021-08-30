@@ -2,7 +2,6 @@ import connexion
 import six
 
 from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.one_ofstringstring import OneOfstringstring  # noqa: E501
 from openapi_server.models.page_of_users import PageOfUsers  # noqa: E501
 from openapi_server.models.user import User  # noqa: E501
 from openapi_server.models.user_create_request import UserCreateRequest  # noqa: E501
@@ -42,12 +41,10 @@ def delete_user(user_id):  # noqa: E501
     Deletes the user specified # noqa: E501
 
     :param user_id: The unique identifier of the user, either the user account ID or login
-    :type user_id: dict | bytes
+    :type user_id: str
 
     :rtype: object
     """
-    if connexion.request.is_json:
-        user_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -57,12 +54,10 @@ def get_user(user_id):  # noqa: E501
     Returns the user specified # noqa: E501
 
     :param user_id: The unique identifier of the user, either the user account ID or login
-    :type user_id: dict | bytes
+    :type user_id: str
 
     :rtype: User
     """
-    if connexion.request.is_json:
-        user_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

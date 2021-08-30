@@ -2,7 +2,6 @@ import connexion
 import six
 
 from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.one_ofstringstring import OneOfstringstring  # noqa: E501
 from openapi_server.models.organization import Organization  # noqa: E501
 from openapi_server.models.organization_create_request import OrganizationCreateRequest  # noqa: E501
 from openapi_server.models.organization_create_response import OrganizationCreateResponse  # noqa: E501
@@ -42,12 +41,10 @@ def delete_organization(organization_id):  # noqa: E501
     Deletes the organization specified # noqa: E501
 
     :param organization_id: The unique identifier of the organization, either the user ID or account name
-    :type organization_id: dict | bytes
+    :type organization_id: str
 
     :rtype: object
     """
-    if connexion.request.is_json:
-        organization_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 
@@ -57,12 +54,10 @@ def get_organization(organization_id):  # noqa: E501
     Returns the organization specified # noqa: E501
 
     :param organization_id: The unique identifier of the organization, either the user ID or account name
-    :type organization_id: dict | bytes
+    :type organization_id: str
 
     :rtype: Organization
     """
-    if connexion.request.is_json:
-        organization_id =  OneOfstringstring.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

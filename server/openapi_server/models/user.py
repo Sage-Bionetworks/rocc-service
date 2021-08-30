@@ -195,8 +195,6 @@ class User(Model):
         :param avatar_url: The avatar_url of this User.
         :type avatar_url: str
         """
-        if avatar_url is None:
-            raise ValueError("Invalid value for `avatar_url`, must not be `None`")  # noqa: E501
 
         self._avatar_url = avatar_url
 

@@ -65,6 +65,8 @@ class ChallengePlatformAllOf(Model):
         :param created_at: The created_at of this ChallengePlatformAllOf.
         :type created_at: datetime
         """
+        if created_at is None:
+            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -86,5 +88,7 @@ class ChallengePlatformAllOf(Model):
         :param updated_at: The updated_at of this ChallengePlatformAllOf.
         :type updated_at: datetime
         """
+        if updated_at is None:
+            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at

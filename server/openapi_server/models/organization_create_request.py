@@ -15,21 +15,26 @@ class OrganizationCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None):  # noqa: E501
+    def __init__(self, login=None, email=None):  # noqa: E501
         """OrganizationCreateRequest - a model defined in OpenAPI
 
         :param login: The login of this OrganizationCreateRequest.  # noqa: E501
         :type login: str
+        :param email: The email of this OrganizationCreateRequest.  # noqa: E501
+        :type email: str
         """
         self.openapi_types = {
-            'login': str
+            'login': str,
+            'email': str
         }
 
         self.attribute_map = {
-            'login': 'login'
+            'login': 'login',
+            'email': 'email'
         }
 
         self._login = login
+        self._email = email
 
     @classmethod
     def from_dict(cls, dikt) -> 'OrganizationCreateRequest':
@@ -64,3 +69,28 @@ class OrganizationCreateRequest(Model):
             raise ValueError("Invalid value for `login`, must not be `None`")  # noqa: E501
 
         self._login = login
+
+    @property
+    def email(self):
+        """Gets the email of this OrganizationCreateRequest.
+
+        An email address  # noqa: E501
+
+        :return: The email of this OrganizationCreateRequest.
+        :rtype: str
+        """
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        """Sets the email of this OrganizationCreateRequest.
+
+        An email address  # noqa: E501
+
+        :param email: The email of this OrganizationCreateRequest.
+        :type email: str
+        """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
+
+        self._email = email

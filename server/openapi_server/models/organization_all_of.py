@@ -15,13 +15,11 @@ class OrganizationAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, email=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, name=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
         """OrganizationAllOf - a model defined in OpenAPI
 
         :param name: The name of this OrganizationAllOf.  # noqa: E501
         :type name: str
-        :param email: The email of this OrganizationAllOf.  # noqa: E501
-        :type email: str
         :param avatar_url: The avatar_url of this OrganizationAllOf.  # noqa: E501
         :type avatar_url: str
         :param description: The description of this OrganizationAllOf.  # noqa: E501
@@ -35,7 +33,6 @@ class OrganizationAllOf(Model):
         """
         self.openapi_types = {
             'name': str,
-            'email': str,
             'avatar_url': str,
             'description': str,
             'created_at': datetime,
@@ -45,7 +42,6 @@ class OrganizationAllOf(Model):
 
         self.attribute_map = {
             'name': 'name',
-            'email': 'email',
             'avatar_url': 'avatarUrl',
             'description': 'description',
             'created_at': 'createdAt',
@@ -54,7 +50,6 @@ class OrganizationAllOf(Model):
         }
 
         self._name = name
-        self._email = email
         self._avatar_url = avatar_url
         self._description = description
         self._created_at = created_at
@@ -92,29 +87,6 @@ class OrganizationAllOf(Model):
         """
 
         self._name = name
-
-    @property
-    def email(self):
-        """Gets the email of this OrganizationAllOf.
-
-        An email address  # noqa: E501
-
-        :return: The email of this OrganizationAllOf.
-        :rtype: str
-        """
-        return self._email
-
-    @email.setter
-    def email(self, email):
-        """Sets the email of this OrganizationAllOf.
-
-        An email address  # noqa: E501
-
-        :param email: The email of this OrganizationAllOf.
-        :type email: str
-        """
-
-        self._email = email
 
     @property
     def avatar_url(self):
@@ -176,6 +148,8 @@ class OrganizationAllOf(Model):
         :param created_at: The created_at of this OrganizationAllOf.
         :type created_at: datetime
         """
+        if created_at is None:
+            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -197,6 +171,8 @@ class OrganizationAllOf(Model):
         :param updated_at: The updated_at of this OrganizationAllOf.
         :type updated_at: datetime
         """
+        if updated_at is None:
+            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at
 
@@ -218,5 +194,7 @@ class OrganizationAllOf(Model):
         :param type: The type of this OrganizationAllOf.
         :type type: str
         """
+        if type is None:
+            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type

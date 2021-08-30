@@ -75,6 +75,8 @@ class ChallengeAllOf(Model):
         :param full_name: The full_name of this ChallengeAllOf.
         :type full_name: str
         """
+        if full_name is None:
+            raise ValueError("Invalid value for `full_name`, must not be `None`")  # noqa: E501
 
         self._full_name = full_name
 
@@ -98,6 +100,8 @@ class ChallengeAllOf(Model):
         :param owner_id: The owner_id of this ChallengeAllOf.
         :type owner_id: str
         """
+        if owner_id is None:
+            raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
 
         self._owner_id = owner_id
 
@@ -119,6 +123,8 @@ class ChallengeAllOf(Model):
         :param created_at: The created_at of this ChallengeAllOf.
         :type created_at: datetime
         """
+        if created_at is None:
+            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -140,5 +146,7 @@ class ChallengeAllOf(Model):
         :param updated_at: The updated_at of this ChallengeAllOf.
         :type updated_at: datetime
         """
+        if updated_at is None:
+            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at

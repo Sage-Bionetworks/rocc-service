@@ -21,17 +21,17 @@ class Organization(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, login=None, name=None, email=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, id=None, login=None, email=None, name=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
         """Organization - a model defined in OpenAPI
 
         :param id: The id of this Organization.  # noqa: E501
         :type id: str
         :param login: The login of this Organization.  # noqa: E501
         :type login: str
-        :param name: The name of this Organization.  # noqa: E501
-        :type name: str
         :param email: The email of this Organization.  # noqa: E501
         :type email: str
+        :param name: The name of this Organization.  # noqa: E501
+        :type name: str
         :param avatar_url: The avatar_url of this Organization.  # noqa: E501
         :type avatar_url: str
         :param description: The description of this Organization.  # noqa: E501
@@ -46,8 +46,8 @@ class Organization(Model):
         self.openapi_types = {
             'id': str,
             'login': str,
-            'name': str,
             'email': str,
+            'name': str,
             'avatar_url': str,
             'description': str,
             'created_at': datetime,
@@ -58,8 +58,8 @@ class Organization(Model):
         self.attribute_map = {
             'id': 'id',
             'login': 'login',
-            'name': 'name',
             'email': 'email',
+            'name': 'name',
             'avatar_url': 'avatarUrl',
             'description': 'description',
             'created_at': 'createdAt',
@@ -69,8 +69,8 @@ class Organization(Model):
 
         self._id = id
         self._login = login
-        self._name = name
         self._email = email
+        self._name = name
         self._avatar_url = avatar_url
         self._description = description
         self._created_at = created_at
@@ -137,6 +137,31 @@ class Organization(Model):
         self._login = login
 
     @property
+    def email(self):
+        """Gets the email of this Organization.
+
+        An email address  # noqa: E501
+
+        :return: The email of this Organization.
+        :rtype: str
+        """
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        """Sets the email of this Organization.
+
+        An email address  # noqa: E501
+
+        :param email: The email of this Organization.
+        :type email: str
+        """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
+
+        self._email = email
+
+    @property
     def name(self):
         """Gets the name of this Organization.
 
@@ -158,29 +183,6 @@ class Organization(Model):
         self._name = name
 
     @property
-    def email(self):
-        """Gets the email of this Organization.
-
-        An email address  # noqa: E501
-
-        :return: The email of this Organization.
-        :rtype: str
-        """
-        return self._email
-
-    @email.setter
-    def email(self, email):
-        """Sets the email of this Organization.
-
-        An email address  # noqa: E501
-
-        :param email: The email of this Organization.
-        :type email: str
-        """
-
-        self._email = email
-
-    @property
     def avatar_url(self):
         """Gets the avatar_url of this Organization.
 
@@ -198,8 +200,6 @@ class Organization(Model):
         :param avatar_url: The avatar_url of this Organization.
         :type avatar_url: str
         """
-        if avatar_url is None:
-            raise ValueError("Invalid value for `avatar_url`, must not be `None`")  # noqa: E501
 
         self._avatar_url = avatar_url
 
@@ -242,6 +242,8 @@ class Organization(Model):
         :param created_at: The created_at of this Organization.
         :type created_at: datetime
         """
+        if created_at is None:
+            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -263,6 +265,8 @@ class Organization(Model):
         :param updated_at: The updated_at of this Organization.
         :type updated_at: datetime
         """
+        if updated_at is None:
+            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at
 
