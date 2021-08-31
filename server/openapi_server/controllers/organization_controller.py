@@ -117,7 +117,6 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
     :rtype: PageOfOrganizations
     """
     try:
-        # Get results based on limit and offset.
         db_orgs = DbOrganization.objects.skip(offset).limit(limit)
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""

@@ -114,7 +114,6 @@ def list_tags(limit=None, offset=None):  # noqa: E501
     :rtype: PageOfTags
     """
     try:
-        # Get results based on limit and offset.
         db_tags = DbTag.objects.skip(offset).limit(limit)
         tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
         next_ = ""

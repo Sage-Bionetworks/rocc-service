@@ -1,16 +1,18 @@
 import datetime
-from mongoengine import DateTimeField, Document, StringField, URLField
+from bson import ObjectId
+from mongoengine import DateTimeField, Document, ObjectIdField, StringField, URLField  # noqa: E501
 
 
 class ChallengePlatform(Document):
-    id = StringField(primary_key=True)
+    id = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True, unique=True)
-    url = URLField(required=True)
+    displayName = StringField(required=True, unique=True)
+    websiteUrl = URLField(required=True)
+    avatarUrl = URLField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
         doc['id'] = str(self.pk)
-        doc.pop('_id', None)
         return doc

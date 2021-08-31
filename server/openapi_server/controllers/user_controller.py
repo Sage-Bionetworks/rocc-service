@@ -116,7 +116,6 @@ def list_users(limit=None, offset=None):  # noqa: E501
     :rtype: PageOfUsers
     """
     try:
-        # Get results based on limit and offset.
         db_users = DbUser.objects.skip(offset).limit(limit)
         users = [User.from_dict(d.to_dict()) for d in db_users]
         next_ = ""
