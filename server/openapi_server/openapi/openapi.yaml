@@ -24,6 +24,8 @@ servers:
       - http
       - https
 tags:
+- description: Operations about accounts
+  name: Account
 - description: Operations about challenges
   name: Challenge
 - description: Operations about challenge platforms
@@ -41,6 +43,43 @@ tags:
 - description: Operations about health checks
   name: HealthCheck
 paths:
+  /accounts/{login}:
+    get:
+      description: Returns the user or org account
+      operationId: get_account
+      parameters:
+      - description: The login of an account
+        explode: false
+        in: path
+        name: login
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get an account
+      tags:
+      - Account
+      x-openapi-router-controller: openapi_server.controllers.account_controller
   /challengePlatforms:
     delete:
       description: Delete all challenge platforms
@@ -1626,31 +1665,97 @@ components:
         $ref: '#/components/schemas/DateRange'
       style: deepObject
   responses:
-    BadRequest:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: Invalid request
-    InternalServerError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: The request cannot be fulfilled due to an unexpected server error
-    Conflict:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-      description: The request conflicts with current state of the target resource
     NotFound:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
       description: The specified resource was not found
+    InternalServerError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The request cannot be fulfilled due to an unexpected server error
+    BadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Invalid request
+    Conflict:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: The request conflicts with current state of the target resource
   schemas:
+    AccountLogin:
+      description: The user or organization account name
+      example: awesome-user
+      maxLength: 25
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: login
+      type: string
+    AccountId:
+      description: The unique identifier of an account
+      example: 507f1f77bcf86cd799439011
+      title: AccountId
+      type: string
+    Account:
+      description: A user or organization account
+      example:
+        id: 507f1f77bcf86cd799439011
+        login: awesome-user
+        type: User
+      properties:
+        id:
+          description: The unique identifier of an account
+          example: 507f1f77bcf86cd799439011
+          title: AccountId
+          type: string
+        login:
+          description: The user or organization account name
+          example: awesome-user
+          maxLength: 25
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          title: login
+          type: string
+        type:
+          enum:
+          - User
+          - Organization
+          title: type
+          type: string
+      title: Account
+      type: object
+    Error:
+      description: Problem details (tools.ietf.org/html/rfc7807)
+      properties:
+        title:
+          description: A human readable documentation for the problem type
+          title: title
+          type: string
+        status:
+          description: The HTTP status code
+          title: status
+          type: integer
+        detail:
+          description: A human readable explanation specific to this occurrence of
+            the problem
+          title: detail
+          type: string
+        type:
+          description: An absolute URI that identifies the problem type
+          title: type
+          type: string
+      required:
+      - status
+      - title
+      title: Error
+      type: object
     TagId:
       description: The unique identifier of a tag
       example: 507f1f77bcf86cd799439011
@@ -1769,16 +1874,8 @@ components:
           type: string
       required:
       - description
-      - displayName
       - name
-      - status
-      - websiteUrl
       type: object
-    AccountId:
-      description: The unique identifier of an account
-      example: 507f1f77bcf86cd799439011
-      title: AccountId
-      type: string
     Challenge:
       allOf:
       - $ref: '#/components/schemas/ChallengeCreateResponse'
@@ -1793,31 +1890,6 @@ components:
       - $ref: '#/components/schemas/PageOfChallenges_allOf'
       description: A page of Challenges
       title: PageOfChallenges
-      type: object
-    Error:
-      description: Problem details (tools.ietf.org/html/rfc7807)
-      properties:
-        title:
-          description: A human readable documentation for the problem type
-          title: title
-          type: string
-        status:
-          description: The HTTP status code
-          title: status
-          type: integer
-        detail:
-          description: A human readable explanation specific to this occurrence of
-            the problem
-          title: detail
-          type: string
-        type:
-          description: An absolute URI that identifies the problem type
-          title: type
-          type: string
-      required:
-      - status
-      - title
-      title: Error
       type: object
     EmptyObject:
       description: Empty JSON object

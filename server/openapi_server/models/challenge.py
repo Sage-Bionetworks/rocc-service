@@ -186,8 +186,6 @@ class Challenge(Model):
         :param display_name: The display_name of this Challenge.
         :type display_name: str
         """
-        if display_name is None:
-            raise ValueError("Invalid value for `display_name`, must not be `None`")  # noqa: E501
         if display_name is not None and len(display_name) > 60:
             raise ValueError("Invalid value for `display_name`, length must be less than or equal to `60`")  # noqa: E501
         if display_name is not None and len(display_name) < 3:
@@ -240,8 +238,6 @@ class Challenge(Model):
         :param website_url: The website_url of this Challenge.
         :type website_url: str
         """
-        if website_url is None:
-            raise ValueError("Invalid value for `website_url`, must not be `None`")  # noqa: E501
 
         self._website_url = website_url
 
@@ -263,8 +259,6 @@ class Challenge(Model):
         :param status: The status of this Challenge.
         :type status: ChallengeStatus
         """
-        if status is None:
-            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
 
         self._status = status
 
