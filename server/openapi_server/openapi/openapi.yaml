@@ -1696,7 +1696,6 @@ components:
       maxLength: 25
       minLength: 3
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: login
       type: string
     AccountId:
       description: The unique identifier of an account
@@ -1721,14 +1720,16 @@ components:
           maxLength: 25
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          title: login
           type: string
         type:
           enum:
           - User
           - Organization
-          title: type
           type: string
+      required:
+      - id
+      - login
+      - type
       title: Account
       type: object
     Error:

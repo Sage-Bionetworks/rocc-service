@@ -74,6 +74,8 @@ class Account(Model):
         :param id: The id of this Account.
         :type id: str
         """
+        if id is None:
+            raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
 
@@ -97,6 +99,8 @@ class Account(Model):
         :param login: The login of this Account.
         :type login: str
         """
+        if login is None:
+            raise ValueError("Invalid value for `login`, must not be `None`")  # noqa: E501
         if login is not None and len(login) > 25:
             raise ValueError("Invalid value for `login`, length must be less than or equal to `25`")  # noqa: E501
         if login is not None and len(login) < 3:
