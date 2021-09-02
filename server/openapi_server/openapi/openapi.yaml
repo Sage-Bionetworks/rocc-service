@@ -402,9 +402,19 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}:
     post:
       description: Adds a challenge
       operationId: create_challenge
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
       requestBody:
         content:
           application/json:
