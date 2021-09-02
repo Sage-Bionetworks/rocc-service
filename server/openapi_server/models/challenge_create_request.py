@@ -85,7 +85,7 @@ class ChallengeCreateRequest(Model):
     def name(self):
         """Gets the name of this ChallengeCreateRequest.
 
-        The name of the challenge  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :return: The name of this ChallengeCreateRequest.
         :rtype: str
@@ -96,7 +96,7 @@ class ChallengeCreateRequest(Model):
     def name(self, name):
         """Sets the name of this ChallengeCreateRequest.
 
-        The name of the challenge  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :param name: The name of this ChallengeCreateRequest.
         :type name: str

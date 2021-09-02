@@ -446,18 +446,26 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-  /challenges/{challengeId}:
+  /challenges/{accountName}/{challengeName}:
     delete:
       description: Deletes the challenge specified
       operationId: delete_challenge
       parameters:
-      - description: The ID of the challenge
+      - description: The name of the account that owns the challenge
         explode: false
         in: path
-        name: challengeId
+        name: accountName
         required: true
         schema:
-          $ref: '#/components/schemas/ChallengeId'
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
         style: simple
       responses:
         "200":
@@ -487,13 +495,21 @@ paths:
       description: Returns the challenge specified
       operationId: get_challenge
       parameters:
-      - description: The ID of the challenge
+      - description: The name of the account that owns the challenge
         explode: false
         in: path
-        name: challengeId
+        name: accountName
         required: true
         schema:
-          $ref: '#/components/schemas/ChallengeId'
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
         style: simple
       responses:
         "200":
@@ -1828,6 +1844,13 @@ components:
       - id
       title: ChallengeCreateResponse
       type: object
+    ChallengeName:
+      description: The name of the a challenge
+      example: awesome-challenge
+      maxLength: 60
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      type: string
     ChallengeCreateRequest:
       description: The information used to create a challenge
       example:
@@ -1841,7 +1864,8 @@ components:
         platformId: 507f1f77bcf86cd799439011
       properties:
         name:
-          description: The name of the challenge
+          description: The name of the a challenge
+          example: awesome-challenge
           maxLength: 60
           minLength: 3
           pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$

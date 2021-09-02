@@ -37,26 +37,30 @@ def delete_all_challenges():  # noqa: E501
     return 'do some magic!'
 
 
-def delete_challenge(challenge_id):  # noqa: E501
+def delete_challenge(account_name, challenge_name):  # noqa: E501
     """Delete a challenge
 
     Deletes the challenge specified # noqa: E501
 
-    :param challenge_id: The ID of the challenge
-    :type challenge_id: str
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
 
     :rtype: object
     """
     return 'do some magic!'
 
 
-def get_challenge(challenge_id):  # noqa: E501
+def get_challenge(account_name, challenge_name):  # noqa: E501
     """Get a challenge
 
     Returns the challenge specified # noqa: E501
 
-    :param challenge_id: The ID of the challenge
-    :type challenge_id: str
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
 
     :rtype: Challenge
     """

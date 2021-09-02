@@ -141,7 +141,7 @@ class Challenge(Model):
     def name(self):
         """Gets the name of this Challenge.
 
-        The name of the challenge  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :return: The name of this Challenge.
         :rtype: str
@@ -152,7 +152,7 @@ class Challenge(Model):
     def name(self, name):
         """Sets the name of this Challenge.
 
-        The name of the challenge  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :param name: The name of this Challenge.
         :type name: str
