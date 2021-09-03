@@ -2,9 +2,15 @@ from bson import ObjectId
 from mongoengine import Document, ObjectIdField, StringField
 
 
-class Tag(Document):
+class Account(Document):
     id = ObjectIdField(primary_key=True, default=ObjectId)
-    name = StringField(required=True, unique=True)
+    login = StringField(required=True, unique=True)
+    type = StringField(
+        required=True,
+        choices=["User", "Organization"]
+    )
+
+    meta = {'allow_inheritance': True}
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()

@@ -19,15 +19,13 @@ class Person(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, first_name=None, last_name=None, email=None, organization_ids=None):  # noqa: E501
+    def __init__(self, id=None, name=None, email=None, organization_ids=None):  # noqa: E501
         """Person - a model defined in OpenAPI
 
         :param id: The id of this Person.  # noqa: E501
         :type id: str
-        :param first_name: The first_name of this Person.  # noqa: E501
-        :type first_name: str
-        :param last_name: The last_name of this Person.  # noqa: E501
-        :type last_name: str
+        :param name: The name of this Person.  # noqa: E501
+        :type name: str
         :param email: The email of this Person.  # noqa: E501
         :type email: str
         :param organization_ids: The organization_ids of this Person.  # noqa: E501
@@ -35,23 +33,20 @@ class Person(Model):
         """
         self.openapi_types = {
             'id': str,
-            'first_name': str,
-            'last_name': str,
+            'name': str,
             'email': str,
             'organization_ids': List[str]
         }
 
         self.attribute_map = {
             'id': 'id',
-            'first_name': 'firstName',
-            'last_name': 'lastName',
+            'name': 'name',
             'email': 'email',
             'organization_ids': 'organizationIds'
         }
 
         self._id = id
-        self._first_name = first_name
-        self._last_name = last_name
+        self._name = name
         self._email = email
         self._organization_ids = organization_ids
 
@@ -70,7 +65,7 @@ class Person(Model):
     def id(self):
         """Gets the id of this Person.
 
-        The ID of the person  # noqa: E501
+        The unique identifier of a person  # noqa: E501
 
         :return: The id of this Person.
         :rtype: str
@@ -81,7 +76,7 @@ class Person(Model):
     def id(self, id):
         """Sets the id of this Person.
 
-        The ID of the person  # noqa: E501
+        The unique identifier of a person  # noqa: E501
 
         :param id: The id of this Person.
         :type id: str
@@ -92,54 +87,27 @@ class Person(Model):
         self._id = id
 
     @property
-    def first_name(self):
-        """Gets the first_name of this Person.
+    def name(self):
+        """Gets the name of this Person.
 
-        The first name of the person  # noqa: E501
 
-        :return: The first_name of this Person.
+        :return: The name of this Person.
         :rtype: str
         """
-        return self._first_name
+        return self._name
 
-    @first_name.setter
-    def first_name(self, first_name):
-        """Sets the first_name of this Person.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Person.
 
-        The first name of the person  # noqa: E501
 
-        :param first_name: The first_name of this Person.
-        :type first_name: str
+        :param name: The name of this Person.
+        :type name: str
         """
-        if first_name is None:
-            raise ValueError("Invalid value for `first_name`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
 
-        self._first_name = first_name
-
-    @property
-    def last_name(self):
-        """Gets the last_name of this Person.
-
-        The last name of the person  # noqa: E501
-
-        :return: The last_name of this Person.
-        :rtype: str
-        """
-        return self._last_name
-
-    @last_name.setter
-    def last_name(self, last_name):
-        """Sets the last_name of this Person.
-
-        The last name of the person  # noqa: E501
-
-        :param last_name: The last_name of this Person.
-        :type last_name: str
-        """
-        if last_name is None:
-            raise ValueError("Invalid value for `last_name`, must not be `None`")  # noqa: E501
-
-        self._last_name = last_name
+        self._name = name
 
     @property
     def email(self):
@@ -168,7 +136,6 @@ class Person(Model):
     def organization_ids(self):
         """Gets the organization_ids of this Person.
 
-        The organizations the person belongs to  # noqa: E501
 
         :return: The organization_ids of this Person.
         :rtype: List[str]
@@ -179,7 +146,6 @@ class Person(Model):
     def organization_ids(self, organization_ids):
         """Sets the organization_ids of this Person.
 
-        The organizations the person belongs to  # noqa: E501
 
         :param organization_ids: The organization_ids of this Person.
         :type organization_ids: List[str]

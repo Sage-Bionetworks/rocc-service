@@ -46,7 +46,7 @@ class ChallengeCreateResponse(Model):
     def id(self):
         """Gets the id of this ChallengeCreateResponse.
 
-        The ID of the challenge  # noqa: E501
+        The unique identifier of the challenge  # noqa: E501
 
         :return: The id of this ChallengeCreateResponse.
         :rtype: str
@@ -57,7 +57,7 @@ class ChallengeCreateResponse(Model):
     def id(self, id):
         """Sets the id of this ChallengeCreateResponse.
 
-        The ID of the challenge  # noqa: E501
+        The unique identifier of the challenge  # noqa: E501
 
         :param id: The id of this ChallengeCreateResponse.
         :type id: str

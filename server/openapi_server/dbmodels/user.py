@@ -1,20 +1,17 @@
-from mongoengine import Document, StringField, EmailField, ListField, ReferenceField  # noqa: E501
+import datetime
+from mongoengine import DateTimeField, EmailField, StringField, URLField  # noqa: E501
 
-from openapi_server.dbmodels.organization import Organization
+from openapi_server.dbmodels.account import Account
 
 
-class User(Document):
-    username = StringField(primary_key=True)
-    # password = StringField(required=True)
-    role = StringField(choices=["user", "admin"], default="user")
-    firstName = StringField(required=True)
-    lastName = StringField(required=True)
-    email = EmailField()  # TODO: maybe make unique again later?
-    organizations = ListField(ReferenceField(Organization))
+class User(Account):
+    email = EmailField()
+    name = StringField()
+    avatarUrl = URLField()
+    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
+    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        doc['username'] = str(self.pk)
-        doc.pop('_id', None)
-        # doc.pop('password', None)
+        doc['id'] = str(self.pk)
         return doc

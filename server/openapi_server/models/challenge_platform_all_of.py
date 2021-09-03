@@ -51,7 +51,6 @@ class ChallengePlatformAllOf(Model):
     def created_at(self):
         """Gets the created_at of this ChallengePlatformAllOf.
 
-        When this challenge platform has been created  # noqa: E501
 
         :return: The created_at of this ChallengePlatformAllOf.
         :rtype: datetime
@@ -62,7 +61,6 @@ class ChallengePlatformAllOf(Model):
     def created_at(self, created_at):
         """Sets the created_at of this ChallengePlatformAllOf.
 
-        When this challenge platform has been created  # noqa: E501
 
         :param created_at: The created_at of this ChallengePlatformAllOf.
         :type created_at: datetime
@@ -76,7 +74,6 @@ class ChallengePlatformAllOf(Model):
     def updated_at(self):
         """Gets the updated_at of this ChallengePlatformAllOf.
 
-        When this challenge platform has last been updated  # noqa: E501
 
         :return: The updated_at of this ChallengePlatformAllOf.
         :rtype: datetime
@@ -87,7 +84,6 @@ class ChallengePlatformAllOf(Model):
     def updated_at(self, updated_at):
         """Sets the updated_at of this ChallengePlatformAllOf.
 
-        When this challenge platform has last been updated  # noqa: E501
 
         :param updated_at: The updated_at of this ChallengePlatformAllOf.
         :type updated_at: datetime

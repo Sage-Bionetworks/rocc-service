@@ -1,125 +1,92 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
-from mongoengine.queryset.visitor import Q
-import traceback
-import datetime
 
+from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
-# from openapi_server.dbmodels.challenge_results import ChallengeResults as DbChallengeResults  # noqa: E501
-from openapi_server.dbmodels.grant import Grant as DbGrant
-from openapi_server.dbmodels.person import Person as DbPerson
-from openapi_server.dbmodels.organization import Organization as DbOrganization
-from openapi_server.dbmodels.tag import Tag as DbTag
-from openapi_server.models.challenge import Challenge
+from openapi_server.models.challenge import Challenge  # noqa: E501
+from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
-from openapi_server.models.error import Error
-from openapi_server.models.page_of_challenges import PageOfChallenges
+# from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
+# from openapi_server.models.date_range import DateRange  # noqa: E501
+from openapi_server.models.error import Error  # noqa: E501
+from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
 from openapi_server.config import Config
 
 
-def create_challenge():
+def create_challenge(account_name):  # noqa: E501
     """Add a challenge
 
-    Adds a challenge
+    Adds a challenge # noqa: E501
 
-    :rtype: Challenge
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+
+    :rtype: ChallengeCreateResponse
     """
-    res = None
-    status = None
+    if connexion.request.is_json:
+        try:
+            # TODO Catch case where account is not found
+            account = DbAccount.objects.get(login=account_name)
+            account_id = account.to_dict().get("id")
+
+            challenge_create_request = ChallengeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            challenge = DbChallenge(
+              name=challenge_create_request.name,
+              description=challenge_create_request.description,
+              fullName="%s/%s" % (account_name, challenge_create_request.name),
+              ownerId=account_id
+            ).save()
+            challenge_id = challenge.to_dict().get("id")
+            res = ChallengeCreateResponse(id=challenge_id)
+            status = 201
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status, "Missing body")
+    return res, status
+
+
+def delete_all_challenges():  # noqa: E501
+    """Delete all challenges
+
+    Delete all challenges # noqa: E501
+
+
+    :rtype: object
+    """
     try:
-        if connexion.request.is_json:
-            challenge = Challenge.from_dict(connexion.request.get_json())
-
-            for tag_id in challenge.tag_ids:
-                try:
-                    DbTag.objects.get(id=tag_id)
-                except DoesNotExist:
-                    status = 400
-                    res = Error(f"The tag {tag_id} was not found", status)
-                    return res, status
-
-            for person_id in challenge.organizer_ids:
-                try:
-                    DbPerson.objects.get(id=person_id)
-                except DoesNotExist:
-                    status = 400
-                    res = Error(f"The person {person_id} was not found", status)  # noqa: E501
-                    return res, status
-
-            for data_provider_id in challenge.data_provider_ids:
-                try:
-                    DbOrganization.objects.get(id=data_provider_id)
-                except DoesNotExist:
-                    status = 400
-                    res = Error(f"The data provider {data_provider_id} was not found", status)  # noqa: E501
-                    return res, status
-
-            for grant_id in challenge.grant_ids:
-                try:
-                    DbGrant.objects.get(id=grant_id)
-                except DoesNotExist:
-                    status = 400
-                    res = Error(f"The grant {grant_id} was not found", status)
-                    return res, status
-
-            try:
-                DbChallengePlatform.objects.get(id=challenge.platform_id)
-            except DoesNotExist:
-                status = 400
-                res = Error(f"The challenge platform {challenge.platform_id} was not found", status)  # noqa: E501
-                return res, status
-
-            try:
-                db_challenge = DbChallenge(
-                    name=challenge.name,
-                    description=challenge.description,
-                    summary=challenge.summary,
-                    startDate=challenge.start_date,
-                    endDate=challenge.end_date,
-                    url=challenge.url,
-                    status=challenge.status,
-                    tagIds=challenge.tag_ids,
-                    organizerIds=challenge.organizer_ids,
-                    dataProviderIds=challenge.data_provider_ids,
-                    grantIds=challenge.grant_ids,
-                    platformId=challenge.platform_id
-                    # challengeResults=DbChallengeResults(
-                    #     nSubmissions=challenge.challenge_results.n_submissions,  # noqa: E501
-                    #     nFinalSubmissions=challenge.challenge_results.n_final_submissions,  # noqa: E501
-                    #     nRegisteredParticipants=challenge.challenge_results.n_registered_participants,  # noqa: E501
-                    # ),
-                ).save(force_insert=True)
-                new_id = db_challenge.to_dict().get("id")
-                res = ChallengeCreateResponse(id=new_id)
-                status = 201
-            except NotUniqueError as error:
-                status = 409
-                res = Error("Conflict", status, str(error))
-        else:
-            status = 400
-            res = Error("Bad request", status)
+        DbChallenge.objects.delete()
+        res = {}
+        status = 200
     except Exception as error:
-        traceback.print_exc()
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
 
 
-def delete_challenge(challenge_id):
+def delete_challenge(account_name, challenge_name):  # noqa: E501
     """Delete a challenge
 
-    Deletes the challenge specified
+    Deletes the challenge specified # noqa: E501
 
-    :param challenge_id: The ID of the challenge
-    :type challenge_id: str
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
 
-    :rtype: Challenge
+    :rtype: object
     """
-    res = None
-    status = None
     try:
-        DbChallenge.objects.get(id=challenge_id).delete()
+        # TODO Catch case where account is not found
+        account = DbAccount.objects.get(login=account_name)
+        account_id = account.to_dict().get("id")
+
+        DbChallenge.objects.get(ownerId=account_id, name=challenge_name).delete()  # noqa: E501
         res = {}
         status = 200
     except DoesNotExist:
@@ -131,21 +98,25 @@ def delete_challenge(challenge_id):
     return res, status
 
 
-def get_challenge(challenge_id):
+def get_challenge(account_name, challenge_name):  # noqa: E501
     """Get a challenge
 
-    Returns the challenge specified
+    Returns the challenge specified # noqa: E501
 
-    :param challenge_id: The ID of the challenge
-    :type challenge_id: str
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
 
     :rtype: Challenge
     """
-    res = None
-    status = None
     try:
-        db_challenge = DbChallenge.objects.get(id=challenge_id)
-        res = Challenge.from_dict(db_challenge.to_dict())
+        # TODO Catch case where account is not found
+        account = DbAccount.objects.get(login=account_name)
+        account_id = account.to_dict().get("id")
+
+        db_user = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        res = Challenge.from_dict(db_user.to_dict())
         status = 200
     except DoesNotExist:
         status = 404
@@ -182,47 +153,15 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
 
     :rtype: PageOfChallenges
     """
-    res = None
-    status_ = None
     try:
-        start_date_start = None
-        start_date_end = None
-        if start_date_range is not None and 'start' in start_date_range:
-            start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
-        if start_date_range is not None and 'end' in start_date_range:
-            start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
-
-        status_q = Q(status__in=status) \
-            if status is not None else Q()
-        tag_ids_q = Q(tagIds__in=tag_ids) \
-            if tag_ids is not None and len(tag_ids) > 0 else Q()
-        platform_id_q = Q(platformId__in=platform_ids) \
-            if platform_ids is not None and len(platform_ids) > 0 else Q()
-        startDate_start_q = Q(startDate__gte=start_date_start) \
-            if start_date_start is not None else Q()
-        startDate_end_q = Q(startDate__lte=start_date_end) \
-            if start_date_end is not None else Q()
-
-        db_challenges = DbChallenge.objects(
-            status_q & tag_ids_q & platform_id_q & startDate_start_q & startDate_end_q  # noqa: E501
-        ).skip(offset).limit(limit)
-
-        if search_terms is not None:
-            db_challenges = db_challenges.search_text(search_terms)
-
-        if sort is not None:
-            order_by = ('-' if direction == 'desc' else '') + sort
-            db_challenges = db_challenges.order_by(order_by)
-
+        db_challenges = DbChallenge.objects.skip(offset).limit(limit)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
-            next_ = "%s/challenges?limit=%s&offset=%s" % \
+            next_ = "%s/users?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
 
-        # Get total results count.
         total = db_challenges.count()
-
         res = PageOfChallenges(
             offset=offset,
             limit=limit,
@@ -231,29 +170,10 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
             },
             total_results=total,
             challenges=challenges)
-        status_ = 200
-    except TypeError:  # TODO: may need different exception
-        status_ = 400
-        res = Error("Bad request", status_)
-    except Exception as error:
-        status_ = 500
-        res = Error("Internal error", status_, str(error))
-    return res, status_
-
-
-def delete_all_challenges():
-    """Delete all challenges
-
-    Delete all challenges
-
-    :rtype: object
-    """
-    res = None
-    status = None
-    try:
-        DbChallenge.objects.delete()
-        res = {}
         status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
     except Exception as error:
         status = 500
         res = Error("Internal error", status, str(error))

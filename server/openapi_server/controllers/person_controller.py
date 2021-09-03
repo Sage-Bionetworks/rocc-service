@@ -1,118 +1,67 @@
-import connexion
-from mongoengine.errors import DoesNotExist, NotUniqueError
-# from mongoengine.queryset.visitor import Q
+# import connexion
 
-from openapi_server.dbmodels.person import Person as DbPerson
-from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
-from openapi_server.models.error import Error
-from openapi_server.models.page_of_persons import PageOfPersons
-from openapi_server.models.person import Person
-from openapi_server.models.person_create_response import PersonCreateResponse
-from openapi_server.config import Config
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_persons import PageOfPersons  # noqa: E501
+# from openapi_server.models.person import Person  # noqa: E501
+# from openapi_server.models.person_create_request import PersonCreateRequest  # noqa: E501
+# from openapi_server.models.person_create_response import PersonCreateResponse  # noqa: E501
+# from openapi_server import util
 
 
-def create_person():
+def create_person(person_create_request):  # noqa: E501
     """Create a person
 
-    Create a person with the specified name
+    Create a person with the specified name # noqa: E501
 
-    :rtype: Person
+    :param person_create_request:
+    :type person_create_request: dict | bytes
+
+    :rtype: PersonCreateResponse
     """
-    res = None
-    status = None
-    try:
-        if connexion.request.is_json:
-            person = Person.from_dict(connexion.request.get_json())
-
-            # Check that the organizations specified exist
-            for org_id in person.organization_ids:
-                try:
-                    DbOrganization.objects.get(id=org_id)
-                except DoesNotExist:
-                    status = 400
-                    res = Error(
-                        f"The organization {org_id} was not found",
-                        status)
-                    return res, status
-
-            # Create the person
-            try:
-                db_person = DbPerson(
-                    firstName=person.first_name,
-                    lastName=person.last_name,
-                    email=person.email,
-                    organizationIds=person.organization_ids
-                ).save(force_insert=True)
-                new_id = db_person.to_dict().get("id")
-                res = PersonCreateResponse(id=new_id)
-                status = 201
-            except NotUniqueError as error:
-                status = 409
-                res = Error("Conflict", status, str(error))
-        else:
-            status = 400
-            res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def delete_person(person_id):
+def delete_all_persons():  # noqa: E501
+    """Delete all persons
+
+    Delete all persons # noqa: E501
+
+
+    :rtype: object
+    """
+    return 'do some magic!'
+
+
+def delete_person(person_id):  # noqa: E501
     """Delete a person
 
-    Deletes the person specified
+    Deletes the person specified # noqa: E501
 
-    :param person_id: The ID of the person
+    :param person_id: The unique identifier of the person
     :type person_id: str
 
-    :rtype: Person
+    :rtype: object
     """
-    res = None
-    status = None
-    try:
-        DbPerson.objects.get(id=person_id).delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'
 
 
-def get_person(person_id):
+def get_person(person_id):  # noqa: E501
     """Get a person
 
-    Returns the person specified
+    Returns the person specified # noqa: E501
 
-    :param person_id: The ID of the person
+    :param person_id: The unique identifier of the person
     :type person_id: str
 
     :rtype: Person
     """
-    res = None
-    status = None
-    try:
-        db_person = DbPerson.objects.get(id=person_id)
-        res = Person.from_dict(db_person.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-
-    return res, status
+    return 'do some magic!'
 
 
-def list_persons(limit=None, offset=None):
+def list_persons(limit=None, offset=None):  # noqa: E501
     """Get all persons
 
-    Returns the persons
+    Returns the persons # noqa: E501
 
     :param limit: Maximum number of results returned
     :type limit: int
@@ -121,62 +70,4 @@ def list_persons(limit=None, offset=None):
 
     :rtype: PageOfPersons
     """
-    res = None
-    status = None
-    try:
-        # Get results based on query, limit and offset.
-        # first_name_q = Q(firstName__istartswith=filter_['firstName']) \
-        #     if 'firstName' in filter_ else Q()
-        # last_name_q = Q(lastName__istartswith=filter_['lastName']) \
-        #     if 'lastName' in filter_ else Q()
-        # email_q = Q(email=filter_['email']) \
-        #     if 'email' in filter_ else Q()
-        # organization_q = Q(organizationIds__contains=filter_['organization']) \  # noqa: E501
-        #     if 'organization' in filter_ else Q()
-        db_persons = DbPerson.objects(
-            # first_name_q & last_name_q & email_q & organization_q
-        ).skip(offset).limit(limit)
-        persons = [Person.from_dict(d.to_dict()) for d in db_persons]
-        next_ = ""
-        if len(persons) == limit:
-            next_ = "%s/persons?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
-
-        # Get total results count.
-        total = db_persons.count()
-
-        res = PageOfPersons(
-            offset=offset,
-            limit=limit,
-            paging={
-                "next": next_
-            },
-            total_results=total,
-            persons=persons)
-        status = 200
-    except TypeError:  # TODO: may need different exception
-        status = 400
-        res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
-
-
-def delete_all_persons():
-    """Delete all persons
-
-    Delete all persons # noqa: E501
-
-    :rtype: object
-    """
-    res = None
-    status = None
-    try:
-        DbPerson.objects.delete()
-        res = {}
-        status = 200
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
+    return 'do some magic!'

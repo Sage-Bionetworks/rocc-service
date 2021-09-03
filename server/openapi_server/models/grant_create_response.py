@@ -46,7 +46,7 @@ class GrantCreateResponse(Model):
     def id(self):
         """Gets the id of this GrantCreateResponse.
 
-        The ID of the grant  # noqa: E501
+        The unique identifier of a grant  # noqa: E501
 
         :return: The id of this GrantCreateResponse.
         :rtype: str
@@ -57,7 +57,7 @@ class GrantCreateResponse(Model):
     def id(self, id):
         """Sets the id of this GrantCreateResponse.
 
-        The ID of the grant  # noqa: E501
+        The unique identifier of a grant  # noqa: E501
 
         :param id: The id of this GrantCreateResponse.
         :type id: str

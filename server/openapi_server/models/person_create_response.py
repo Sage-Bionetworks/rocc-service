@@ -46,7 +46,7 @@ class PersonCreateResponse(Model):
     def id(self):
         """Gets the id of this PersonCreateResponse.
 
-        The ID of the person  # noqa: E501
+        The unique identifier of a person  # noqa: E501
 
         :return: The id of this PersonCreateResponse.
         :rtype: str
@@ -57,7 +57,7 @@ class PersonCreateResponse(Model):
     def id(self, id):
         """Sets the id of this PersonCreateResponse.
 
-        The ID of the person  # noqa: E501
+        The unique identifier of a person  # noqa: E501
 
         :param id: The id of this PersonCreateResponse.
         :type id: str

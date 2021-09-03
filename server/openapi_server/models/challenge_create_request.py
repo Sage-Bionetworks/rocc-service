@@ -19,75 +19,55 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, description=None, summary=None, start_date=None, end_date=None, url=None, status=None, tag_ids=None, organizer_ids=None, data_provider_ids=None, grant_ids=None, platform_id=None):  # noqa: E501
+    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
         :type name: str
+        :param display_name: The display_name of this ChallengeCreateRequest.  # noqa: E501
+        :type display_name: str
         :param description: The description of this ChallengeCreateRequest.  # noqa: E501
         :type description: str
-        :param summary: The summary of this ChallengeCreateRequest.  # noqa: E501
-        :type summary: str
+        :param website_url: The website_url of this ChallengeCreateRequest.  # noqa: E501
+        :type website_url: str
+        :param status: The status of this ChallengeCreateRequest.  # noqa: E501
+        :type status: ChallengeStatus
         :param start_date: The start_date of this ChallengeCreateRequest.  # noqa: E501
         :type start_date: date
         :param end_date: The end_date of this ChallengeCreateRequest.  # noqa: E501
         :type end_date: date
-        :param url: The url of this ChallengeCreateRequest.  # noqa: E501
-        :type url: str
-        :param status: The status of this ChallengeCreateRequest.  # noqa: E501
-        :type status: ChallengeStatus
-        :param tag_ids: The tag_ids of this ChallengeCreateRequest.  # noqa: E501
-        :type tag_ids: List[str]
-        :param organizer_ids: The organizer_ids of this ChallengeCreateRequest.  # noqa: E501
-        :type organizer_ids: List[str]
-        :param data_provider_ids: The data_provider_ids of this ChallengeCreateRequest.  # noqa: E501
-        :type data_provider_ids: List[str]
-        :param grant_ids: The grant_ids of this ChallengeCreateRequest.  # noqa: E501
-        :type grant_ids: List[str]
         :param platform_id: The platform_id of this ChallengeCreateRequest.  # noqa: E501
         :type platform_id: str
         """
         self.openapi_types = {
             'name': str,
+            'display_name': str,
             'description': str,
-            'summary': str,
+            'website_url': str,
+            'status': ChallengeStatus,
             'start_date': date,
             'end_date': date,
-            'url': str,
-            'status': ChallengeStatus,
-            'tag_ids': List[str],
-            'organizer_ids': List[str],
-            'data_provider_ids': List[str],
-            'grant_ids': List[str],
             'platform_id': str
         }
 
         self.attribute_map = {
             'name': 'name',
+            'display_name': 'displayName',
             'description': 'description',
-            'summary': 'summary',
+            'website_url': 'websiteUrl',
+            'status': 'status',
             'start_date': 'startDate',
             'end_date': 'endDate',
-            'url': 'url',
-            'status': 'status',
-            'tag_ids': 'tagIds',
-            'organizer_ids': 'organizerIds',
-            'data_provider_ids': 'dataProviderIds',
-            'grant_ids': 'grantIds',
             'platform_id': 'platformId'
         }
 
         self._name = name
+        self._display_name = display_name
         self._description = description
-        self._summary = summary
+        self._website_url = website_url
+        self._status = status
         self._start_date = start_date
         self._end_date = end_date
-        self._url = url
-        self._status = status
-        self._tag_ids = tag_ids
-        self._organizer_ids = organizer_ids
-        self._data_provider_ids = data_provider_ids
-        self._grant_ids = grant_ids
         self._platform_id = platform_id
 
     @classmethod
@@ -105,7 +85,7 @@ class ChallengeCreateRequest(Model):
     def name(self):
         """Gets the name of this ChallengeCreateRequest.
 
-        The challenge name  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :return: The name of this ChallengeCreateRequest.
         :rtype: str
@@ -116,7 +96,7 @@ class ChallengeCreateRequest(Model):
     def name(self, name):
         """Sets the name of this ChallengeCreateRequest.
 
-        The challenge name  # noqa: E501
+        The name of the a challenge  # noqa: E501
 
         :param name: The name of this ChallengeCreateRequest.
         :type name: str
@@ -127,8 +107,35 @@ class ChallengeCreateRequest(Model):
             raise ValueError("Invalid value for `name`, length must be less than or equal to `60`")  # noqa: E501
         if name is not None and len(name) < 3:
             raise ValueError("Invalid value for `name`, length must be greater than or equal to `3`")  # noqa: E501
+        if name is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', name):  # noqa: E501
+            raise ValueError("Invalid value for `name`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._name = name
+
+    @property
+    def display_name(self):
+        """Gets the display_name of this ChallengeCreateRequest.
+
+
+        :return: The display_name of this ChallengeCreateRequest.
+        :rtype: str
+        """
+        return self._display_name
+
+    @display_name.setter
+    def display_name(self, display_name):
+        """Sets the display_name of this ChallengeCreateRequest.
+
+
+        :param display_name: The display_name of this ChallengeCreateRequest.
+        :type display_name: str
+        """
+        if display_name is not None and len(display_name) > 60:
+            raise ValueError("Invalid value for `display_name`, length must be less than or equal to `60`")  # noqa: E501
+        if display_name is not None and len(display_name) < 3:
+            raise ValueError("Invalid value for `display_name`, length must be greater than or equal to `3`")  # noqa: E501
+
+        self._display_name = display_name
 
     @property
     def description(self):
@@ -158,98 +165,25 @@ class ChallengeCreateRequest(Model):
         self._description = description
 
     @property
-    def summary(self):
-        """Gets the summary of this ChallengeCreateRequest.
+    def website_url(self):
+        """Gets the website_url of this ChallengeCreateRequest.
 
-        The summary of challenge  # noqa: E501
 
-        :return: The summary of this ChallengeCreateRequest.
+        :return: The website_url of this ChallengeCreateRequest.
         :rtype: str
         """
-        return self._summary
+        return self._website_url
 
-    @summary.setter
-    def summary(self, summary):
-        """Sets the summary of this ChallengeCreateRequest.
+    @website_url.setter
+    def website_url(self, website_url):
+        """Sets the website_url of this ChallengeCreateRequest.
 
-        The summary of challenge  # noqa: E501
 
-        :param summary: The summary of this ChallengeCreateRequest.
-        :type summary: str
+        :param website_url: The website_url of this ChallengeCreateRequest.
+        :type website_url: str
         """
 
-        self._summary = summary
-
-    @property
-    def start_date(self):
-        """Gets the start_date of this ChallengeCreateRequest.
-
-        When the challenge started  # noqa: E501
-
-        :return: The start_date of this ChallengeCreateRequest.
-        :rtype: date
-        """
-        return self._start_date
-
-    @start_date.setter
-    def start_date(self, start_date):
-        """Sets the start_date of this ChallengeCreateRequest.
-
-        When the challenge started  # noqa: E501
-
-        :param start_date: The start_date of this ChallengeCreateRequest.
-        :type start_date: date
-        """
-
-        self._start_date = start_date
-
-    @property
-    def end_date(self):
-        """Gets the end_date of this ChallengeCreateRequest.
-
-        When the challenge ended  # noqa: E501
-
-        :return: The end_date of this ChallengeCreateRequest.
-        :rtype: date
-        """
-        return self._end_date
-
-    @end_date.setter
-    def end_date(self, end_date):
-        """Sets the end_date of this ChallengeCreateRequest.
-
-        When the challenge ended  # noqa: E501
-
-        :param end_date: The end_date of this ChallengeCreateRequest.
-        :type end_date: date
-        """
-
-        self._end_date = end_date
-
-    @property
-    def url(self):
-        """Gets the url of this ChallengeCreateRequest.
-
-        The URL to the challenge website  # noqa: E501
-
-        :return: The url of this ChallengeCreateRequest.
-        :rtype: str
-        """
-        return self._url
-
-    @url.setter
-    def url(self, url):
-        """Sets the url of this ChallengeCreateRequest.
-
-        The URL to the challenge website  # noqa: E501
-
-        :param url: The url of this ChallengeCreateRequest.
-        :type url: str
-        """
-        if url is None:
-            raise ValueError("Invalid value for `url`, must not be `None`")  # noqa: E501
-
-        self._url = url
+        self._website_url = website_url
 
     @property
     def status(self):
@@ -269,116 +203,56 @@ class ChallengeCreateRequest(Model):
         :param status: The status of this ChallengeCreateRequest.
         :type status: ChallengeStatus
         """
-        if status is None:
-            raise ValueError("Invalid value for `status`, must not be `None`")  # noqa: E501
 
         self._status = status
 
     @property
-    def tag_ids(self):
-        """Gets the tag_ids of this ChallengeCreateRequest.
+    def start_date(self):
+        """Gets the start_date of this ChallengeCreateRequest.
 
-        The tags associated to the challenge  # noqa: E501
 
-        :return: The tag_ids of this ChallengeCreateRequest.
-        :rtype: List[str]
+        :return: The start_date of this ChallengeCreateRequest.
+        :rtype: date
         """
-        return self._tag_ids
+        return self._start_date
 
-    @tag_ids.setter
-    def tag_ids(self, tag_ids):
-        """Sets the tag_ids of this ChallengeCreateRequest.
+    @start_date.setter
+    def start_date(self, start_date):
+        """Sets the start_date of this ChallengeCreateRequest.
 
-        The tags associated to the challenge  # noqa: E501
 
-        :param tag_ids: The tag_ids of this ChallengeCreateRequest.
-        :type tag_ids: List[str]
+        :param start_date: The start_date of this ChallengeCreateRequest.
+        :type start_date: date
         """
-        if tag_ids is None:
-            raise ValueError("Invalid value for `tag_ids`, must not be `None`")  # noqa: E501
 
-        self._tag_ids = tag_ids
+        self._start_date = start_date
 
     @property
-    def organizer_ids(self):
-        """Gets the organizer_ids of this ChallengeCreateRequest.
+    def end_date(self):
+        """Gets the end_date of this ChallengeCreateRequest.
 
-        The organizers of the challenge  # noqa: E501
 
-        :return: The organizer_ids of this ChallengeCreateRequest.
-        :rtype: List[str]
+        :return: The end_date of this ChallengeCreateRequest.
+        :rtype: date
         """
-        return self._organizer_ids
+        return self._end_date
 
-    @organizer_ids.setter
-    def organizer_ids(self, organizer_ids):
-        """Sets the organizer_ids of this ChallengeCreateRequest.
+    @end_date.setter
+    def end_date(self, end_date):
+        """Sets the end_date of this ChallengeCreateRequest.
 
-        The organizers of the challenge  # noqa: E501
 
-        :param organizer_ids: The organizer_ids of this ChallengeCreateRequest.
-        :type organizer_ids: List[str]
+        :param end_date: The end_date of this ChallengeCreateRequest.
+        :type end_date: date
         """
-        if organizer_ids is None:
-            raise ValueError("Invalid value for `organizer_ids`, must not be `None`")  # noqa: E501
 
-        self._organizer_ids = organizer_ids
-
-    @property
-    def data_provider_ids(self):
-        """Gets the data_provider_ids of this ChallengeCreateRequest.
-
-        The organizations contributing the data  # noqa: E501
-
-        :return: The data_provider_ids of this ChallengeCreateRequest.
-        :rtype: List[str]
-        """
-        return self._data_provider_ids
-
-    @data_provider_ids.setter
-    def data_provider_ids(self, data_provider_ids):
-        """Sets the data_provider_ids of this ChallengeCreateRequest.
-
-        The organizations contributing the data  # noqa: E501
-
-        :param data_provider_ids: The data_provider_ids of this ChallengeCreateRequest.
-        :type data_provider_ids: List[str]
-        """
-        if data_provider_ids is None:
-            raise ValueError("Invalid value for `data_provider_ids`, must not be `None`")  # noqa: E501
-
-        self._data_provider_ids = data_provider_ids
-
-    @property
-    def grant_ids(self):
-        """Gets the grant_ids of this ChallengeCreateRequest.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :return: The grant_ids of this ChallengeCreateRequest.
-        :rtype: List[str]
-        """
-        return self._grant_ids
-
-    @grant_ids.setter
-    def grant_ids(self, grant_ids):
-        """Sets the grant_ids of this ChallengeCreateRequest.
-
-        The grants supporting this challenge  # noqa: E501
-
-        :param grant_ids: The grant_ids of this ChallengeCreateRequest.
-        :type grant_ids: List[str]
-        """
-        if grant_ids is None:
-            raise ValueError("Invalid value for `grant_ids`, must not be `None`")  # noqa: E501
-
-        self._grant_ids = grant_ids
+        self._end_date = end_date
 
     @property
     def platform_id(self):
         """Gets the platform_id of this ChallengeCreateRequest.
 
-        The ID of the challenge platform  # noqa: E501
+        The unique identifier of a challenge platform  # noqa: E501
 
         :return: The platform_id of this ChallengeCreateRequest.
         :rtype: str
@@ -389,18 +263,10 @@ class ChallengeCreateRequest(Model):
     def platform_id(self, platform_id):
         """Sets the platform_id of this ChallengeCreateRequest.
 
-        The ID of the challenge platform  # noqa: E501
+        The unique identifier of a challenge platform  # noqa: E501
 
         :param platform_id: The platform_id of this ChallengeCreateRequest.
         :type platform_id: str
         """
-        if platform_id is None:
-            raise ValueError("Invalid value for `platform_id`, must not be `None`")  # noqa: E501
-        if platform_id is not None and len(platform_id) > 60:
-            raise ValueError("Invalid value for `platform_id`, length must be less than or equal to `60`")  # noqa: E501
-        if platform_id is not None and len(platform_id) < 1:
-            raise ValueError("Invalid value for `platform_id`, length must be greater than or equal to `1`")  # noqa: E501
-        if platform_id is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', platform_id):  # noqa: E501
-            raise ValueError("Invalid value for `platform_id`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._platform_id = platform_id

@@ -21,26 +21,26 @@ class Tag(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, description=None):  # noqa: E501
+    def __init__(self, id=None, name=None):  # noqa: E501
         """Tag - a model defined in OpenAPI
 
         :param id: The id of this Tag.  # noqa: E501
         :type id: str
-        :param description: The description of this Tag.  # noqa: E501
-        :type description: str
+        :param name: The name of this Tag.  # noqa: E501
+        :type name: str
         """
         self.openapi_types = {
             'id': str,
-            'description': str
+            'name': str
         }
 
         self.attribute_map = {
             'id': 'id',
-            'description': 'description'
+            'name': 'name'
         }
 
         self._id = id
-        self._description = description
+        self._name = name
 
     @classmethod
     def from_dict(cls, dikt) -> 'Tag':
@@ -57,7 +57,7 @@ class Tag(Model):
     def id(self):
         """Gets the id of this Tag.
 
-        The ID of the tag  # noqa: E501
+        The unique identifier of a tag  # noqa: E501
 
         :return: The id of this Tag.
         :rtype: str
@@ -68,43 +68,43 @@ class Tag(Model):
     def id(self, id):
         """Sets the id of this Tag.
 
-        The ID of the tag  # noqa: E501
+        The unique identifier of a tag  # noqa: E501
 
         :param id: The id of this Tag.
         :type id: str
         """
         if id is None:
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
-        if id is not None and len(id) > 60:
-            raise ValueError("Invalid value for `id`, length must be less than or equal to `60`")  # noqa: E501
-        if id is not None and len(id) < 1:
-            raise ValueError("Invalid value for `id`, length must be greater than or equal to `1`")  # noqa: E501
-        if id is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', id):  # noqa: E501
-            raise ValueError("Invalid value for `id`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
         self._id = id
 
     @property
-    def description(self):
-        """Gets the description of this Tag.
+    def name(self):
+        """Gets the name of this Tag.
 
-        A short description of the tag  # noqa: E501
+        The name of a tag  # noqa: E501
 
-        :return: The description of this Tag.
+        :return: The name of this Tag.
         :rtype: str
         """
-        return self._description
+        return self._name
 
-    @description.setter
-    def description(self, description):
-        """Sets the description of this Tag.
+    @name.setter
+    def name(self, name):
+        """Sets the name of this Tag.
 
-        A short description of the tag  # noqa: E501
+        The name of a tag  # noqa: E501
 
-        :param description: The description of this Tag.
-        :type description: str
+        :param name: The name of this Tag.
+        :type name: str
         """
-        if description is None:
-            raise ValueError("Invalid value for `description`, must not be `None`")  # noqa: E501
+        if name is None:
+            raise ValueError("Invalid value for `name`, must not be `None`")  # noqa: E501
+        if name is not None and len(name) > 30:
+            raise ValueError("Invalid value for `name`, length must be less than or equal to `30`")  # noqa: E501
+        if name is not None and len(name) < 3:
+            raise ValueError("Invalid value for `name`, length must be greater than or equal to `3`")  # noqa: E501
+        if name is not None and not re.search(r'^[a-z0-9]+(?:-[a-z0-9]+)*$', name):  # noqa: E501
+            raise ValueError("Invalid value for `name`, must be a follow pattern or equal to `/^[a-z0-9]+(?:-[a-z0-9]+)*$/`")  # noqa: E501
 
-        self._description = description
+        self._name = name
