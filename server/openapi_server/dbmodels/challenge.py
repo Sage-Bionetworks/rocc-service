@@ -1,13 +1,14 @@
 from bson import ObjectId
-import datetime
-from mongoengine import Document, DateTimeField, ListField, ReferenceField, StringField, URLField, ObjectIdField  # noqa: E501
+# import datetime
+from mongoengine import Document, ReferenceField, StringField,  ObjectIdField  # noqa: E501
+# DateTimeField, ListField, URLField,
 
 from openapi_server.dbmodels.account import Account
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform
-from openapi_server.dbmodels.grant import Grant
-from openapi_server.dbmodels.organization import Organization
-from openapi_server.dbmodels.person import Person
-from openapi_server.dbmodels.tag import Tag
+# from openapi_server.dbmodels.challenge_platform import ChallengePlatform
+# from openapi_server.dbmodels.grant import Grant
+# from openapi_server.dbmodels.organization import Organization
+# from openapi_server.dbmodels.person import Person
+# from openapi_server.dbmodels.tag import Tag
 
 
 class Challenge(Document):

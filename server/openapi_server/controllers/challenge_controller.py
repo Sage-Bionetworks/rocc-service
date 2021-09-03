@@ -6,11 +6,10 @@ from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
-from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
-from openapi_server.models.date_range import DateRange  # noqa: E501
+# from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
+# from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
-from openapi_server import util
 from openapi_server.config import Config
 
 

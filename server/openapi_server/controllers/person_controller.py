@@ -1,12 +1,11 @@
-import connexion
-import six
+# import connexion
 
-from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.page_of_persons import PageOfPersons  # noqa: E501
-from openapi_server.models.person import Person  # noqa: E501
-from openapi_server.models.person_create_request import PersonCreateRequest  # noqa: E501
-from openapi_server.models.person_create_response import PersonCreateResponse  # noqa: E501
-from openapi_server import util
+# from openapi_server.models.error import Error  # noqa: E501
+# from openapi_server.models.page_of_persons import PageOfPersons  # noqa: E501
+# from openapi_server.models.person import Person  # noqa: E501
+# from openapi_server.models.person_create_request import PersonCreateRequest  # noqa: E501
+# from openapi_server.models.person_create_response import PersonCreateResponse  # noqa: E501
+# from openapi_server import util
 
 
 def create_person(person_create_request):  # noqa: E501
@@ -14,13 +13,11 @@ def create_person(person_create_request):  # noqa: E501
 
     Create a person with the specified name # noqa: E501
 
-    :param person_create_request: 
+    :param person_create_request:
     :type person_create_request: dict | bytes
 
     :rtype: PersonCreateResponse
     """
-    if connexion.request.is_json:
-        person_create_request = PersonCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
     return 'do some magic!'
 
 

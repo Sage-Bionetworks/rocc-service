@@ -1,12 +1,12 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.models.error import Error
-from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms
+from openapi_server.models.page_of_challenge_platforms import PageOfChallengePlatforms  # noqa: E501
 from openapi_server.models.challenge_platform import ChallengePlatform
-from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse
-from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest
+from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse  # noqa: E501
+from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
 from openapi_server.config import Config
 
 
