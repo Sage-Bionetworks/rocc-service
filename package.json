@@ -1,8 +1,9 @@
 {
     "devDependencies": {
-        "@openapitools/openapi-generator-cli": "2.3.9",
+        "@openapitools/openapi-generator-cli": "^2.3.9",
         "release-it": "^14.10.1"
     },
+    "private": true,
     "scripts": {
         "generate:server": "openapi-generator-cli generate -g python-flask -o server -i $npm_config_specification",
         "generate:server:latest": "openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/latest/openapi.json",
@@ -14,6 +15,5 @@
         "start:dev": "cd server && python -m openapi_server",
         "start:prod": "docker compose up --build",
         "release": "release-it"
-    },
-    "version": "0.4.0"
+    }
 }

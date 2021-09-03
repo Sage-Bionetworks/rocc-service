@@ -117,13 +117,13 @@ release. Releases are created with the npm package [release-it].
 4. Make sure the token is [available as an environment variable].
 5. Preview the release information using one of the commands listed below. These
    commands will not modify any local or remote files.
-    - `npm run release -- major --ci --dry-run`
-    - `npm run release -- minor --ci --dry-run`
-    - `npm run release -- patch --ci --dry-run`
+    - `npm run release -- major --ci --no-npm --dry-run`
+    - `npm run release -- minor --ci --no-npm --dry-run`
+    - `npm run release -- patch --ci --no-npm --dry-run`
 6. Create the release using one of the commands listed below.
-    - `npm run release -- major --ci`
-    - `npm run release -- minor --ci`
-    - `npm run release -- patch --ci`
+    - `npm run release -- major --no-npm --ci`
+    - `npm run release -- minor --no-npm --ci`
+    - `npm run release -- patch --no-npm --ci`
 7. Check that the release has been successfully created on GitHub along with any
    release artifacts that may have been created (GitHub Pages, Docker image
    pushed to Docker registry, Python package published to PyPi, etc.).
