@@ -1,10 +1,10 @@
 from bson import ObjectId
 # import datetime
-from mongoengine import Document, ReferenceField, StringField,  ObjectIdField  # noqa: E501
-# DateTimeField, ListField, URLField,
+from mongoengine import DateTimeField, Document, ReferenceField, StringField, ObjectIdField, URLField  # noqa: E501
+# , ListField
 
 from openapi_server.dbmodels.account import Account
-# from openapi_server.dbmodels.challenge_platform import ChallengePlatform
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform
 # from openapi_server.dbmodels.grant import Grant
 # from openapi_server.dbmodels.organization import Organization
 # from openapi_server.dbmodels.person import Person
@@ -14,9 +14,18 @@ from openapi_server.dbmodels.account import Account
 class Challenge(Document):
     id = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True)
+    displayName = StringField(min_length=3, max_length=60)
     description = StringField(required=True)
     fullName = StringField(required=True, unique=True)
     ownerId = ReferenceField(Account)
+    websiteUrl = URLField()
+    status = StringField(
+        required=True,
+        choices=["active", "upcoming", "completed"]  # TODO: DRY
+    )
+    startDate = DateTimeField()
+    endDate = DateTimeField()
+    platformId = ReferenceField(ChallengePlatform)
 
     # summary = StringField()
     # startDate = DateTimeField()
