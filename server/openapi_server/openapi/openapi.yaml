@@ -2211,6 +2211,8 @@ components:
       example:
         login: awesome-user
         email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
       properties:
         login:
           type: string
@@ -2218,6 +2220,14 @@ components:
           description: An email address
           example: john.smith@example.com
           format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
           type: string
       required:
       - email
@@ -2402,20 +2412,10 @@ components:
       type: object
     User_allOf:
       example:
-        name: Awesome User
-        avatarUrl: https://example.com/awesome-avatar.png
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
         type: User
       properties:
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
         createdAt:
           format: date-time
           type: string

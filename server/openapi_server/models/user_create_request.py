@@ -15,26 +15,36 @@ class UserCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, email=None):  # noqa: E501
+    def __init__(self, login=None, email=None, name=None, avatar_url=None):  # noqa: E501
         """UserCreateRequest - a model defined in OpenAPI
 
         :param login: The login of this UserCreateRequest.  # noqa: E501
         :type login: str
         :param email: The email of this UserCreateRequest.  # noqa: E501
         :type email: str
+        :param name: The name of this UserCreateRequest.  # noqa: E501
+        :type name: str
+        :param avatar_url: The avatar_url of this UserCreateRequest.  # noqa: E501
+        :type avatar_url: str
         """
         self.openapi_types = {
             'login': str,
-            'email': str
+            'email': str,
+            'name': str,
+            'avatar_url': str
         }
 
         self.attribute_map = {
             'login': 'login',
-            'email': 'email'
+            'email': 'email',
+            'name': 'name',
+            'avatar_url': 'avatarUrl'
         }
 
         self._login = login
         self._email = email
+        self._name = name
+        self._avatar_url = avatar_url
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCreateRequest':
@@ -94,3 +104,45 @@ class UserCreateRequest(Model):
             raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
+
+    @property
+    def name(self):
+        """Gets the name of this UserCreateRequest.
+
+
+        :return: The name of this UserCreateRequest.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this UserCreateRequest.
+
+
+        :param name: The name of this UserCreateRequest.
+        :type name: str
+        """
+
+        self._name = name
+
+    @property
+    def avatar_url(self):
+        """Gets the avatar_url of this UserCreateRequest.
+
+
+        :return: The avatar_url of this UserCreateRequest.
+        :rtype: str
+        """
+        return self._avatar_url
+
+    @avatar_url.setter
+    def avatar_url(self, avatar_url):
+        """Sets the avatar_url of this UserCreateRequest.
+
+
+        :param avatar_url: The avatar_url of this UserCreateRequest.
+        :type avatar_url: str
+        """
+
+        self._avatar_url = avatar_url
