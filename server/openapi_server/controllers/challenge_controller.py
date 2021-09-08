@@ -32,7 +32,11 @@ def create_challenge(account_name):  # noqa: E501
             challenge_create_request = ChallengeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
             challenge = DbChallenge(
               name=challenge_create_request.name,
+              displayName=challenge_create_request.display_name,
               description=challenge_create_request.description,
+              status=challenge_create_request.status,
+              startDate=challenge_create_request.start_date,
+              endDate=challenge_create_request.end_date,
               fullName="%s/%s" % (account_name, challenge_create_request.name),
               ownerId=account_id
             ).save()
