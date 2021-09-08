@@ -45,7 +45,7 @@ Create the configuration file and export its parameters to environment
 variables.
 
     cp .env.example .env
-    export $(grep -v '^#' .env | xargs -d '\n')
+    export $(grep -v '^#' .env | xargs)
 
 Start the MongoDB instance.
 
