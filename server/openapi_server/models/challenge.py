@@ -350,8 +350,6 @@ class Challenge(Model):
         :param doi: The doi of this Challenge.
         :type doi: str
         """
-        if doi is not None and not re.search(r'^10.\d{4,9}/[-._;()/:A-Z0-9]+$', doi, flags=re.IGNORECASE):  # noqa: E501
-            raise ValueError("Invalid value for `doi`, must be a follow pattern or equal to `/^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i`")  # noqa: E501
 
         self._doi = doi
 

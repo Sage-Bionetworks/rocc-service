@@ -1910,7 +1910,6 @@ components:
           type: string
         doi:
           nullable: true
-          pattern: /^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i
           type: string
       required:
       - description
