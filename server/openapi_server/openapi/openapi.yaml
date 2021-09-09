@@ -1872,6 +1872,7 @@ components:
         startDate: 2020-11-10
         endDate: 2020-12-31
         platformId: 507f1f77bcf86cd799439011
+        doi: http://doi.org/10.5281/zenodo.3714971
       properties:
         name:
           description: The name of the a challenge
@@ -1906,6 +1907,10 @@ components:
           description: The unique identifier of a challenge platform
           example: 507f1f77bcf86cd799439011
           title: ChallengePlatformId
+          type: string
+        doi:
+          nullable: true
+          pattern: /^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i
           type: string
       required:
       - description

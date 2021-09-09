@@ -25,7 +25,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -46,6 +46,8 @@ class Challenge(Model):
         :type end_date: date
         :param platform_id: The platform_id of this Challenge.  # noqa: E501
         :type platform_id: str
+        :param doi: The doi of this Challenge.  # noqa: E501
+        :type doi: str
         :param full_name: The full_name of this Challenge.  # noqa: E501
         :type full_name: str
         :param owner_id: The owner_id of this Challenge.  # noqa: E501
@@ -65,6 +67,7 @@ class Challenge(Model):
             'start_date': date,
             'end_date': date,
             'platform_id': str,
+            'doi': str,
             'full_name': str,
             'owner_id': str,
             'created_at': datetime,
@@ -81,6 +84,7 @@ class Challenge(Model):
             'start_date': 'startDate',
             'end_date': 'endDate',
             'platform_id': 'platformId',
+            'doi': 'doi',
             'full_name': 'fullName',
             'owner_id': 'ownerId',
             'created_at': 'createdAt',
@@ -96,6 +100,7 @@ class Challenge(Model):
         self._start_date = start_date
         self._end_date = end_date
         self._platform_id = platform_id
+        self._doi = doi
         self._full_name = full_name
         self._owner_id = owner_id
         self._created_at = created_at
@@ -326,6 +331,29 @@ class Challenge(Model):
         """
 
         self._platform_id = platform_id
+
+    @property
+    def doi(self):
+        """Gets the doi of this Challenge.
+
+
+        :return: The doi of this Challenge.
+        :rtype: str
+        """
+        return self._doi
+
+    @doi.setter
+    def doi(self, doi):
+        """Sets the doi of this Challenge.
+
+
+        :param doi: The doi of this Challenge.
+        :type doi: str
+        """
+        if doi is not None and not re.search(r'^10.\d{4,9}/[-._;()/:A-Z0-9]+$', doi, flags=re.IGNORECASE):  # noqa: E501
+            raise ValueError("Invalid value for `doi`, must be a follow pattern or equal to `/^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i`")  # noqa: E501
+
+        self._doi = doi
 
     @property
     def full_name(self):

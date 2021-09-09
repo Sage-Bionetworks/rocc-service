@@ -19,7 +19,7 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None):  # noqa: E501
+    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
@@ -38,6 +38,8 @@ class ChallengeCreateRequest(Model):
         :type end_date: date
         :param platform_id: The platform_id of this ChallengeCreateRequest.  # noqa: E501
         :type platform_id: str
+        :param doi: The doi of this ChallengeCreateRequest.  # noqa: E501
+        :type doi: str
         """
         self.openapi_types = {
             'name': str,
@@ -47,7 +49,8 @@ class ChallengeCreateRequest(Model):
             'status': ChallengeStatus,
             'start_date': date,
             'end_date': date,
-            'platform_id': str
+            'platform_id': str,
+            'doi': str
         }
 
         self.attribute_map = {
@@ -58,7 +61,8 @@ class ChallengeCreateRequest(Model):
             'status': 'status',
             'start_date': 'startDate',
             'end_date': 'endDate',
-            'platform_id': 'platformId'
+            'platform_id': 'platformId',
+            'doi': 'doi'
         }
 
         self._name = name
@@ -69,6 +73,7 @@ class ChallengeCreateRequest(Model):
         self._start_date = start_date
         self._end_date = end_date
         self._platform_id = platform_id
+        self._doi = doi
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeCreateRequest':
@@ -270,3 +275,26 @@ class ChallengeCreateRequest(Model):
         """
 
         self._platform_id = platform_id
+
+    @property
+    def doi(self):
+        """Gets the doi of this ChallengeCreateRequest.
+
+
+        :return: The doi of this ChallengeCreateRequest.
+        :rtype: str
+        """
+        return self._doi
+
+    @doi.setter
+    def doi(self, doi):
+        """Sets the doi of this ChallengeCreateRequest.
+
+
+        :param doi: The doi of this ChallengeCreateRequest.
+        :type doi: str
+        """
+        if doi is not None and not re.search(r'^10.\d{4,9}/[-._;()/:A-Z0-9]+$', doi, flags=re.IGNORECASE):  # noqa: E501
+            raise ValueError("Invalid value for `doi`, must be a follow pattern or equal to `/^10.\d{4,9}/[-._;()/:A-Z0-9]+$/i`")  # noqa: E501
+
+        self._doi = doi
