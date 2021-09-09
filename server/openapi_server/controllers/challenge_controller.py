@@ -165,7 +165,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
-            next_ = "%s/users?limit=%s&offset=%s" % \
+            next_ = "%s/challenges?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
 
         total = db_challenges.count()
