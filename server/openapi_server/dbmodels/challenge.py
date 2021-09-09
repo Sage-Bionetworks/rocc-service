@@ -26,6 +26,7 @@ class Challenge(Document):
     startDate = DateTimeField()
     endDate = DateTimeField()
     platformId = ReferenceField(ChallengePlatform)
+    doi = StringField()
 
     # summary = StringField()
     # startDate = DateTimeField()
