@@ -34,9 +34,11 @@ def create_challenge(account_name):  # noqa: E501
               name=challenge_create_request.name,
               displayName=challenge_create_request.display_name,
               description=challenge_create_request.description,
+              websiteUrl=challenge_create_request.website_url,
               status=challenge_create_request.status,
               startDate=challenge_create_request.start_date,
               endDate=challenge_create_request.end_date,
+              platformId=challenge_create_request.platform_id,
               fullName="%s/%s" % (account_name, challenge_create_request.name),
               ownerId=account_id
             ).save()
