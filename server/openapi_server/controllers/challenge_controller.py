@@ -32,16 +32,16 @@ def create_challenge(account_name):  # noqa: E501
             challenge_create_request = ChallengeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
             challenge = DbChallenge(
               name=challenge_create_request.name,
-              displayName=challenge_create_request.display_name,
+              display_name=challenge_create_request.display_name,
               description=challenge_create_request.description,
-              websiteUrl=challenge_create_request.website_url,
+              website_url=challenge_create_request.website_url,
               status=challenge_create_request.status,
-              startDate=challenge_create_request.start_date,
-              endDate=challenge_create_request.end_date,
-              platformId=challenge_create_request.platform_id,
+              start_date=challenge_create_request.start_date,
+              end_date=challenge_create_request.end_date,
+              platform_id=challenge_create_request.platform_id,
               doi=challenge_create_request.doi,
-              fullName="%s/%s" % (account_name, challenge_create_request.name),
-              ownerId=account_id
+              full_name="%s/%s" % (account_name, challenge_create_request.name),
+              owner_id=account_id
             ).save()
             challenge_id = challenge.to_dict().get("id")
             res = ChallengeCreateResponse(id=challenge_id)
@@ -93,7 +93,7 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
 
-        DbChallenge.objects.get(ownerId=account_id, name=challenge_name).delete()  # noqa: E501
+        DbChallenge.objects.get(owner_id=account_id, name=challenge_name).delete()  # noqa: E501
         res = {}
         status = 200
     except DoesNotExist:
@@ -122,7 +122,7 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
 
-        db_user = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        db_user = DbChallenge.objects.get(owner_id=account_id, name=challenge_name)  # noqa: E501
         res = Challenge.from_dict(db_user.to_dict())
         status = 200
     except DoesNotExist:
