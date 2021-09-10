@@ -6,11 +6,11 @@ from mongoengine import DateTimeField, Document, ObjectIdField, StringField, URL
 class ChallengePlatform(Document):
     id = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True, unique=True)
-    display_name = StringField(required=True, unique=True)
-    website_url = URLField(required=True)
-    avatar_url = URLField()
-    created_at = DateTimeField(required=True, default=datetime.datetime.now)
-    updated_at = DateTimeField(required=True, default=datetime.datetime.now)
+    displayName = StringField(required=True, unique=True)
+    websiteUrl = URLField(required=True)
+    avatarUrl = URLField()
+    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
+    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()

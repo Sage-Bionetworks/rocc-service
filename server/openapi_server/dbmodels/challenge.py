@@ -14,18 +14,18 @@ from openapi_server.dbmodels.challenge_platform import ChallengePlatform
 class Challenge(Document):
     id = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True)
-    display_name = StringField(min_length=3, max_length=60)
+    displayName = StringField(min_length=3, max_length=60)
     description = StringField(required=True)
-    full_name = StringField(required=True, unique=True)
-    owner_id = ReferenceField(Account)
-    website_url = URLField()
+    fullName = StringField(required=True, unique=True)
+    ownerId = ReferenceField(Account)
+    websiteUrl = URLField()
     status = StringField(
         required=True,
         choices=["active", "upcoming", "completed"]  # TODO: DRY
     )
-    start_date = DateTimeField()
-    end_date = DateTimeField()
-    platform_id = ReferenceField(ChallengePlatform)
+    startDate = DateTimeField()
+    endDate = DateTimeField()
+    platformId = ReferenceField(ChallengePlatform)
     doi = StringField()
 
     # summary = StringField()

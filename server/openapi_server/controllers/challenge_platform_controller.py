@@ -22,9 +22,9 @@ def create_challenge_platform():  # noqa: E501
             challenge_platform_create_request = ChallengePlatformCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
             challenge_platform = DbChallengePlatform(
                 name=challenge_platform_create_request.name,
-                display_name=challenge_platform_create_request.display_name,
-                website_url=challenge_platform_create_request.website_url,
-                avatar_url=challenge_platform_create_request.avatar_url
+                displayName=challenge_platform_create_request.display_name,
+                websiteUrl=challenge_platform_create_request.website_url,
+                avatarUrl=challenge_platform_create_request.avatar_url
             ).save()
             challenge_platform_id = challenge_platform.to_dict().get("id")
             res = ChallengePlatformCreateResponse(id=challenge_platform_id)
