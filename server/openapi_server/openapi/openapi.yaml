@@ -34,6 +34,8 @@ tags:
   name: Grant
 - description: Operations about organizations
   name: Organization
+- description: Operations about org memberships
+  name: OrgMembership
 - description: Operations about persons
   name: Person
 - description: Operations about tags
@@ -755,6 +757,205 @@ paths:
       tags:
       - HealthCheck
       x-openapi-router-controller: openapi_server.controllers.health_check_controller
+  /orgMemberships:
+    delete:
+      description: Delete all org memberships
+      operationId: delete_all_org_memberships
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete all org memberships
+      tags:
+      - OrgMembership
+      x-openapi-router-controller: openapi_server.controllers.org_membership_controller
+    get:
+      description: Returns the org memberships
+      operationId: list_org_memberships
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      - description: An organization identifier used to filter the results
+        explode: true
+        in: query
+        name: orgId
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrgId'
+        style: form
+      - description: A user identifier used to filter the results
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfOrgMemberships'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List all the org memberships
+      tags:
+      - OrgMembership
+      x-openapi-router-controller: openapi_server.controllers.org_membership_controller
+    post:
+      description: Create an org membership
+      operationId: create_org_membership
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrgMembershipCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgMembershipCreateResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create an org membership
+      tags:
+      - OrgMembership
+      x-openapi-router-controller: openapi_server.controllers.org_membership_controller
+  /orgMemberships/{orgMembershipId}:
+    delete:
+      description: Deletes the org membership specified
+      operationId: delete_org_membership
+      parameters:
+      - description: The unique identifier of the org membership
+        explode: false
+        in: path
+        name: orgMembershipId
+        required: true
+        schema:
+          $ref: '#/components/schemas/OrgMembershipId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete an org membership
+      tags:
+      - OrgMembership
+      x-openapi-router-controller: openapi_server.controllers.org_membership_controller
+    get:
+      description: Returns the org membership specified
+      operationId: get_org_membership
+      parameters:
+      - description: The unique identifier of the org membership
+        explode: false
+        in: path
+        name: orgMembershipId
+        required: true
+        schema:
+          $ref: '#/components/schemas/OrgMembershipId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrgMembership'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get an org membership
+      tags:
+      - OrgMembership
+      x-openapi-router-controller: openapi_server.controllers.org_membership_controller
   /organizations:
     delete:
       description: Delete all organizations
@@ -1690,6 +1891,24 @@ components:
       schema:
         $ref: '#/components/schemas/DateRange'
       style: deepObject
+    orgId:
+      description: An organization identifier used to filter the results
+      explode: true
+      in: query
+      name: orgId
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrgId'
+      style: form
+    userId:
+      description: A user identifier used to filter the results
+      explode: true
+      in: query
+      name: userId
+      required: false
+      schema:
+        $ref: '#/components/schemas/UserId'
+      style: form
   responses:
     NotFound:
       content:
@@ -2091,6 +2310,81 @@ components:
       description: A page of Organizations
       title: PageOfOrganizations
       type: object
+    OrgId:
+      description: The unique identifier of an organization
+      example: 507f1f77bcf86cd799439011
+      type: string
+    UserId:
+      description: The unique identifier of a user
+      example: 507f1f77bcf86cd799439011
+      type: string
+    OrgMembershipId:
+      description: The unique identifier of the org membership
+      example: 507f1f77bcf86cd799439011
+      type: string
+    OrgMembershipCreateResponse:
+      description: The unique identifier of the org membership
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of the org membership
+          example: 507f1f77bcf86cd799439011
+          type: string
+      required:
+      - id
+      title: OrgMembershipCreateResponse
+      type: object
+    OrgMembershipCreateRequest:
+      description: The information used to create an org membership
+      example:
+        state: active
+        role: admin
+        organizationId: 507f1f77bcf86cd799439011
+        userId: 507f1f77bcf86cd799439012
+      properties:
+        state:
+          description: The state of the member in the organization. The `pending`
+            state indicates the user has not yet accepted an invitation.
+          enum:
+          - active
+          - pending
+          example: active
+          type: string
+        role:
+          description: The user's membership type in the organization.
+          enum:
+          - admin
+          - member
+          type: string
+        organizationId:
+          description: The unique identifier of an organization
+          example: 507f1f77bcf86cd799439011
+          type: string
+        userId:
+          description: The unique identifier of a user
+          example: 507f1f77bcf86cd799439011
+          type: string
+      required:
+      - organizationId
+      - role
+      - state
+      - userId
+      type: object
+    OrgMembership:
+      allOf:
+      - $ref: '#/components/schemas/OrgMembershipCreateResponse'
+      - $ref: '#/components/schemas/OrgMembershipCreateRequest'
+      description: Information about an org membership
+      title: OrgMembership
+      type: object
+    PageOfOrgMemberships:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfOrgMemberships_allOf'
+      description: A page of org memberships
+      title: PageOfOrgMemberships
+      type: object
     PersonId:
       description: The unique identifier of a person
       example: 507f1f77bcf86cd799439011
@@ -2393,6 +2687,16 @@ components:
           type: array
       required:
       - organizations
+      type: object
+    PageOfOrgMemberships_allOf:
+      properties:
+        orgMemberships:
+          description: An array of org memberships
+          items:
+            $ref: '#/components/schemas/OrgMembership'
+          type: array
+      required:
+      - orgMemberships
       type: object
     PageOfPersons_allOf:
       properties:

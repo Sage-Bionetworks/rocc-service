@@ -121,7 +121,7 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
         challenge_platforms = [ChallengePlatform.from_dict(d.to_dict()) for d in db_challenge_platforms]  # noqa: E501
         next_ = ""
         if len(challenge_platforms) == limit:
-            next_ = "%s/challenge_platforms?limit=%s&offset=%s" % \
+            next_ = "%s/challengePlatforms?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
 
         total = db_challenge_platforms.count()

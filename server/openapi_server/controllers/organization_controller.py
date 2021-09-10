@@ -121,7 +121,7 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""
         if len(orgs) == limit:
-            next_ = "%s/users?limit=%s&offset=%s" % \
+            next_ = "%s/organizations?limit=%s&offset=%s" % \
                 (Config().server_api_url, limit, offset + limit)
 
         total = db_orgs.count()
