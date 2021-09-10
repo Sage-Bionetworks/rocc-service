@@ -1,5 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.org_membership import OrgMembership as DbOrgMembership  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
@@ -108,8 +109,8 @@ def get_org_membership(org_membership_id):  # noqa: E501
     return res, status
 
 
-def list_org_memberships(limit=None, offset=None):  # noqa: E501
-    """Get all org memberships
+def list_org_memberships(limit=None, offset=None, org_id=None, user_id=None):  # noqa: E501
+    """List all the org memberships
 
     Returns the org memberships # noqa: E501
 
@@ -117,11 +118,22 @@ def list_org_memberships(limit=None, offset=None):  # noqa: E501
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
+    :param org_id: An organization identifier used to filter the results
+    :type org_id: str
+    :param user_id: A user identifier used to filter the results
+    :type user_id: str
 
     :rtype: PageOfOrgMemberships
     """
     try:
-        db_org_memberships = DbOrgMembership.objects.skip(offset).limit(limit)
+        org_id_q = Q(organizationId=org_id) \
+            if org_id is not None else Q()
+        user_id_q = Q(userId=user_id) \
+            if user_id is not None else Q()
+
+        db_org_memberships = DbOrgMembership.objects(
+            org_id_q & user_id_q
+        ).skip(offset).limit(limit)
         org_memberships = [OrgMembership.from_dict(d.to_dict()) for d in db_org_memberships]  # noqa: E501
         next_ = ""
         if len(org_memberships) == limit:
