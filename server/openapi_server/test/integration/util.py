@@ -4,7 +4,6 @@ from mongoengine import connect, disconnect
 
 from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform
-from openapi_server.dbmodels.challenge_results import ChallengeResults
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
 from openapi_server.dbmodels.person import Person

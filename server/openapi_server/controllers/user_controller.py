@@ -24,7 +24,7 @@ def create_user():  # noqa: E501
                 login=user_create_request.login,
                 email=user_create_request.email,
                 name=user_create_request.name,
-                avatarUrl=user_create_request.avatar_url,
+                avatar_url=user_create_request.avatar_url,
                 type="User"  # TODO: Use enum value
             ).save()
             user_id = user.to_dict().get("id")
