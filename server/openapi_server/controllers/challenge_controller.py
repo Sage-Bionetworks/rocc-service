@@ -3,6 +3,7 @@ from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
+from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
@@ -25,11 +26,24 @@ def create_challenge(account_name):  # noqa: E501
     """
     if connexion.request.is_json:
         try:
-            # TODO Catch case where account is not found
-            account = DbAccount.objects.get(login=account_name)
-            account_id = account.to_dict().get("id")
+            try:
+                account = DbAccount.objects.get(login=account_name)
+                account_id = account.to_dict().get("id")
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The account {account_name} was not found", status)  # noqa: E501
+                return res, status
 
             challenge_create_request = ChallengeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            platform_id = challenge_create_request.platform_id
+
+            try:
+                DbChallengePlatform.objects.get(id=platform_id)
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge platform {platform_id} was not found", status)  # noqa: E501
+                return res, status
+
             challenge = DbChallenge(
               name=challenge_create_request.name,
               display_name=challenge_create_request.display_name,
