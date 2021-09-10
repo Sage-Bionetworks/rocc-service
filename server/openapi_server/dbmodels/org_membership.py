@@ -14,7 +14,7 @@ class OrgMembership(Document):
         choices=["admin", "member"]  # TODO: DRY
     )
     organizationId = ReferenceField(Organization)
-    userId = ReferenceField(User)
+    userId = ReferenceField(User, unique_with='organizationId')
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
