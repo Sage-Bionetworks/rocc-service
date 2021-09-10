@@ -7,9 +7,9 @@ from openapi_server.dbmodels.account import Account
 class User(Account):
     email = EmailField()
     name = StringField()
-    avatar_url = URLField()
-    created_at = DateTimeField(required=True, default=datetime.datetime.now)
-    updated_at = DateTimeField(required=True, default=datetime.datetime.now)
+    avatarUrl = URLField()
+    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
+    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()

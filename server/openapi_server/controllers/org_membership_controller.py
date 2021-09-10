@@ -27,8 +27,8 @@ def create_org_membership():  # noqa: E501
             org = DbOrgMembership(
                 state=org_membership_request.state,
                 role=org_membership_request.role,
-                organization_id=org_membership_request.organization_id,
-                user_id=org_membership_request.user_id
+                organizationId=org_membership_request.organization_id,
+                userId=org_membership_request.user_id
             ).save()
             org_id = org.to_dict().get("id")
             res = OrgMembershipCreateResponse(id=org_id)
@@ -126,9 +126,9 @@ def list_org_memberships(limit=None, offset=None, org_id=None, user_id=None):  #
     :rtype: PageOfOrgMemberships
     """
     try:
-        org_id_q = Q(organization_id=org_id) \
+        org_id_q = Q(organizationId=org_id) \
             if org_id is not None else Q()
-        user_id_q = Q(user_id=user_id) \
+        user_id_q = Q(userId=user_id) \
             if user_id is not None else Q()
 
         db_org_memberships = DbOrgMembership.objects(
