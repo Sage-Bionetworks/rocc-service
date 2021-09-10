@@ -804,6 +804,22 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: An organization identifier used to filter the results
+        explode: true
+        in: query
+        name: orgId
+        required: false
+        schema:
+          $ref: '#/components/schemas/OrgId'
+        style: form
+      - description: A user identifier used to filter the results
+        explode: true
+        in: query
+        name: userId
+        required: false
+        schema:
+          $ref: '#/components/schemas/UserId'
+        style: form
       responses:
         "200":
           content:
@@ -824,7 +840,7 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
-      summary: Get all org memberships
+      summary: List all the org memberships
       tags:
       - OrgMembership
       x-openapi-router-controller: openapi_server.controllers.org_membership_controller
@@ -1875,6 +1891,24 @@ components:
       schema:
         $ref: '#/components/schemas/DateRange'
       style: deepObject
+    orgId:
+      description: An organization identifier used to filter the results
+      explode: true
+      in: query
+      name: orgId
+      required: false
+      schema:
+        $ref: '#/components/schemas/OrgId'
+      style: form
+    userId:
+      description: A user identifier used to filter the results
+      explode: true
+      in: query
+      name: userId
+      required: false
+      schema:
+        $ref: '#/components/schemas/UserId'
+      style: form
   responses:
     NotFound:
       content:
@@ -2276,6 +2310,14 @@ components:
       description: A page of Organizations
       title: PageOfOrganizations
       type: object
+    OrgId:
+      description: The unique identifier of an organization
+      example: 507f1f77bcf86cd799439011
+      type: string
+    UserId:
+      description: The unique identifier of a user
+      example: 507f1f77bcf86cd799439011
+      type: string
     OrgMembershipId:
       description: The unique identifier of the org membership
       example: 507f1f77bcf86cd799439011
@@ -2293,14 +2335,6 @@ components:
       - id
       title: OrgMembershipCreateResponse
       type: object
-    OrgId:
-      description: The unique identifier of an organization
-      example: 507f1f77bcf86cd799439011
-      type: string
-    UserId:
-      description: The unique identifier of a user
-      example: 507f1f77bcf86cd799439011
-      type: string
     OrgMembershipCreateRequest:
       description: The information used to create an org membership
       example:
