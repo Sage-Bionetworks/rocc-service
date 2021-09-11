@@ -23,6 +23,8 @@ servers:
       enum:
       - http
       - https
+security:
+- ApiKeyAuth: []
 tags:
 - description: Operations about accounts
   name: Account
@@ -2748,3 +2750,13 @@ components:
       required:
       - users
       type: object
+  securitySchemes:
+    BearerAuth:
+      scheme: bearer
+      type: http
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_BearerAuth
+    ApiKeyAuth:
+      in: header
+      name: X-API-Key
+      type: apiKey
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_ApiKeyAuth
