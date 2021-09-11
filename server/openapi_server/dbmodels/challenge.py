@@ -20,7 +20,7 @@ class Challenge(Document):
     ownerId = ReferenceField(Account)
     websiteUrl = URLField()
     status = StringField(
-        required=True,
+        # required=True,
         choices=["active", "upcoming", "completed"]  # TODO: DRY
     )
     startDate = DateTimeField()
