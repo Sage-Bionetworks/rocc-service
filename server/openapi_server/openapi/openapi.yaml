@@ -24,7 +24,8 @@ servers:
       - http
       - https
 security:
-- ApiKeyAuth: []
+- bearerAuth: []
+- apiKeyAuth: []
 tags:
 - description: Operations about accounts
   name: Account
@@ -2751,12 +2752,13 @@ components:
       - users
       type: object
   securitySchemes:
-    BearerAuth:
+    bearerAuth:
+      bearerFormat: JWT
       scheme: bearer
       type: http
-      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_BearerAuth
-    ApiKeyAuth:
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_bearerAuth
+    apiKeyAuth:
       in: header
       name: X-API-Key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_ApiKeyAuth
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_apiKeyAuth

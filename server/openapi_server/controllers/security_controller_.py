@@ -1,7 +1,7 @@
 # from typing import List
 
 
-def info_from_ApiKeyAuth(api_key, required_scopes):
+def info_from_apiKeyAuth(api_key, required_scopes):
     """
     Check and retrieve authentication information from api_key. Returned value
     will be passed in 'token_info' parameter of your operation function, if
@@ -17,16 +17,15 @@ def info_from_ApiKeyAuth(api_key, required_scopes):
     return {'uid': 'user_id'}
 
 
-def info_from_BearerAuth(token):
+def info_from_bearerAuth(token):
     """
     Check and retrieve authentication information from custom bearer token.
     Returned value will be passed in 'token_info' parameter of your operation
     function, if there is one. 'sub' or 'uid' will be set in 'user' parameter of
     your operation function, if there is one.
 
-    :param token Token provided by Authorization header
-    :type token: str
-    :return: Decoded token information or None if token is invalid
-    :rtype: dict | None
+    :param token Token provided by Authorization header :type token: str
+    :return: Decoded token information or None if token is invalid :rtype: dict
+    | None
     """
     return {'uid': 'user_id'}
