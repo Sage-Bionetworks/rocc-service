@@ -10,8 +10,10 @@ class User(Account):
     avatarUrl = URLField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
+    passwordHash = StringField()
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
         doc['id'] = str(self.pk)
+        doc.pop('passwordHash', None)
         return doc

@@ -19,6 +19,7 @@ from openapi_server.models.grant import Grant
 from openapi_server.models.grant_create_request import GrantCreateRequest
 from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.health_check import HealthCheck
+from openapi_server.models.local_auth_request import LocalAuthRequest
 from openapi_server.models.org_membership import OrgMembership
 from openapi_server.models.org_membership_create_request import OrgMembershipCreateRequest
 from openapi_server.models.org_membership_create_response import OrgMembershipCreateResponse

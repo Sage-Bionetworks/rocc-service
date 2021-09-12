@@ -29,6 +29,8 @@ security:
 tags:
 - description: Operations about accounts
   name: Account
+- description: Operations about authentication and authorization
+  name: Auth
 - description: Operations about challenges
   name: Challenge
 - description: Operations about challenge platforms
@@ -85,6 +87,46 @@ paths:
       tags:
       - Account
       x-openapi-router-controller: openapi_server.controllers.account_controller
+  /auth/local:
+    post:
+      description: Authentify a local account with the specified credential
+      operationId: auth_local
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocalAuthRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalAuthResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Authentify a local account
+      tags:
+      - Auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
   /challengePlatforms:
     delete:
       description: Delete all challenge platforms
@@ -1931,6 +1973,12 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
       description: Invalid request
+    Unauthorized:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+      description: Unauthorized
     Conflict:
       content:
         application/json:
@@ -2004,6 +2052,28 @@ components:
       - status
       - title
       title: Error
+      type: object
+    LocalAuthRequest:
+      description: The information required to authentify a local account
+      example:
+        login: awesome-user
+        password: yourpassword
+      properties:
+        login:
+          description: The user or organization account name
+          example: awesome-user
+          maxLength: 25
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+        password:
+          type: string
+      required:
+      - login
+      - password
+      type: object
+    LocalAuthResponse:
+      description: The response to the successful authentication of a local account
       type: object
     TagId:
       description: The unique identifier of a tag
