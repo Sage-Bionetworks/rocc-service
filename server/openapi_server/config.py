@@ -4,6 +4,7 @@ defaultValues = {
     "SERVER_PROTOCOL": "http://",
     "SERVER_DOMAIN": "localhost",
     "SERVER_PORT": "8080",
+    "SERVER_SECRET_KEY": "roccsecretkey",
     "DB_PROTOCOL": "mongodb://",
     "DB_DOMAIN": "localhost",
     "DB_PORT": "27017",
@@ -60,6 +61,10 @@ class Config(AbstractConfig):
         )
 
     @property
+    def secret_key(self):
+        return self.get_property('SERVER_SECRET_KEY')
+
+    @property
     def db_protocol(self):
         return self.get_property('DB_PROTOCOL')
 
@@ -87,3 +92,6 @@ class Config(AbstractConfig):
     def db_host(self):
         return "%s%s:%s" % (
             self.db_protocol, self.db_domain, self.db_port)
+
+
+config = Config()

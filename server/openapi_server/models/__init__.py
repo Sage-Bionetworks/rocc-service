@@ -51,7 +51,6 @@ from openapi_server.models.response_page_metadata_paging import ResponsePageMeta
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
+from openapi_server.models.token_response import TokenResponse
 from openapi_server.models.user import User
-from openapi_server.models.user_all_of import UserAllOf
 from openapi_server.models.user_create_request import UserCreateRequest
-from openapi_server.models.user_create_response import UserCreateResponse

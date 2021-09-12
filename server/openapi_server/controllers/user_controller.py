@@ -1,14 +1,16 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 from werkzeug.security import generate_password_hash
+import jwt
 
 from openapi_server.dbmodels.user import User as DbUser
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.user import User
+from openapi_server.models.token_response import TokenResponse
 from openapi_server.models.user_create_response import UserCreateResponse
 from openapi_server.models.user_create_request import UserCreateRequest
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_user():  # noqa: E501
@@ -16,7 +18,7 @@ def create_user():  # noqa: E501
 
     Create a user with the specified account name # noqa: E501
 
-    :rtype: UserCreateResponse
+    :rtype: TokenResponse
     """
     if connexion.request.is_json:
         try:
@@ -29,8 +31,20 @@ def create_user():  # noqa: E501
                 avatarUrl=user_create_request.avatar_url,
                 type="User"  # TODO: Use enum value
             ).save()
+
+            # Returns a JWT signed by the app secret.
             user_id = user.to_dict().get("id")
-            res = UserCreateResponse(id=user_id)
+            payload = {
+                "userId": user_id
+            }
+            # jwt.encode(
+            #     payload,
+            #     app.config.get('SECRET_KEY'),
+            #     algorithm='HS256'
+            # )
+            token = jwt.encode(payload, config.secret_key, algorithm="HS256")
+
+            res = TokenResponse(token=token, expires_in=3)
             status = 201
         except NotUniqueError as error:
             status = 409
@@ -125,7 +139,7 @@ def list_users(limit=None, offset=None):  # noqa: E501
         next_ = ""
         if len(users) == limit:
             next_ = "%s/users?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_users.count()
         res = PageOfUsers(

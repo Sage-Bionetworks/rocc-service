@@ -11,7 +11,7 @@ from openapi_server.models.challenge_create_response import ChallengeCreateRespo
 # from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_challenge(account_name):  # noqa: E501
@@ -180,7 +180,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         next_ = ""
         if len(challenges) == limit:
             next_ = "%s/challenges?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_challenges.count()
         res = PageOfChallenges(

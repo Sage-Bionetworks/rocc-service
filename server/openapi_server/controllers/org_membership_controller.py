@@ -8,7 +8,7 @@ from openapi_server.models.org_membership import OrgMembership  # noqa: E501
 from openapi_server.models.org_membership_create_request import OrgMembershipCreateRequest  # noqa: E501
 from openapi_server.models.org_membership_create_response import OrgMembershipCreateResponse  # noqa: E501
 from openapi_server.models.page_of_org_memberships import PageOfOrgMemberships  # noqa: E501
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_org_membership():  # noqa: E501
@@ -138,7 +138,7 @@ def list_org_memberships(limit=None, offset=None, org_id=None, user_id=None):  #
         next_ = ""
         if len(org_memberships) == limit:
             next_ = "%s/orgMemberships?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_org_memberships.count()
         res = PageOfOrgMemberships(

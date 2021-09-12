@@ -1658,7 +1658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserCreateResponse'
+                $ref: '#/components/schemas/TokenResponse'
           description: Success
           links:
             GetUserById:
@@ -2563,25 +2563,54 @@ components:
       description: A page of Tags
       title: PageOfTags
       type: object
-    UserCreateResponse:
-      description: The unique identifier of the user created
+    User:
+      description: A simple user
       example:
         id: 507f1f77bcf86cd799439011
+        login: awesome-user
+        email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
+        createdAt: 2017-07-08T16:18:44-04:00
+        updatedAt: 2017-07-08T16:18:44-04:00
+        type: User
       properties:
         id:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
           title: AccountId
           type: string
+        login:
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        type:
+          example: User
+          type: string
       required:
+      - createdAt
+      - email
       - id
-      title: UserCreateResponse
-      type: object
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserCreateResponse'
-      - $ref: '#/components/schemas/User_allOf'
-      description: A simple user
+      - login
+      - type
+      - updatedAt
       title: User
       type: object
     PageOfUsers:
@@ -2608,6 +2637,7 @@ components:
           format: email
           type: string
         password:
+          format: password
           type: string
         name:
           nullable: true
@@ -2621,6 +2651,21 @@ components:
       - email
       - login
       - password
+      type: object
+    TokenResponse:
+      description: A token response
+      example:
+        expiresIn: 2000-01-23T04:56:07.000+00:00
+        token: token
+      properties:
+        token:
+          title: token
+          type: string
+        expiresIn:
+          format: date-time
+          title: expiresIn
+          type: string
+      title: TokenResponse
       type: object
     HealthCheck:
       description: Represents the health of a service
@@ -2793,47 +2838,6 @@ components:
           type: array
       required:
       - tags
-      type: object
-    User_allOf:
-      example:
-        login: awesome-user
-        email: awesome-user@example.org
-        name: Awesome User
-        avatarUrl: https://example.com/awesome-avatar.png
-        createdAt: 2017-07-08T16:18:44-04:00
-        updatedAt: 2017-07-08T16:18:44-04:00
-        type: User
-      properties:
-        login:
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        type:
-          example: User
-          type: string
-      required:
-      - createdAt
-      - email
-      - login
-      - type
-      - updatedAt
       type: object
     PageOfUsers_allOf:
       properties:
