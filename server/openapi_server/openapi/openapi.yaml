@@ -2577,11 +2577,26 @@ components:
       - id
       title: UserCreateResponse
       type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/User_allOf'
+      description: A simple user
+      title: User
+      type: object
+    PageOfUsers:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfUsers_allOf'
+      description: A page of Users
+      title: PageOfUsers
+      type: object
     UserCreateRequest:
       description: The information required to create a user account
       example:
         login: awesome-user
         email: awesome-user@example.org
+        password: yourpassword
         name: Awesome User
         avatarUrl: https://example.com/awesome-avatar.png
       properties:
@@ -2591,6 +2606,8 @@ components:
           description: An email address
           example: john.smith@example.com
           format: email
+          type: string
+        password:
           type: string
         name:
           nullable: true
@@ -2603,21 +2620,7 @@ components:
       required:
       - email
       - login
-      type: object
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserCreateResponse'
-      - $ref: '#/components/schemas/UserCreateRequest'
-      - $ref: '#/components/schemas/User_allOf'
-      description: A simple user
-      title: User
-      type: object
-    PageOfUsers:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfUsers_allOf'
-      description: A page of Users
-      title: PageOfUsers
+      - password
       type: object
     HealthCheck:
       description: Represents the health of a service
@@ -2793,10 +2796,29 @@ components:
       type: object
     User_allOf:
       example:
+        login: awesome-user
+        email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
         type: User
       properties:
+        login:
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
         createdAt:
           format: date-time
           type: string
@@ -2808,6 +2830,8 @@ components:
           type: string
       required:
       - createdAt
+      - email
+      - login
       - type
       - updatedAt
       type: object
