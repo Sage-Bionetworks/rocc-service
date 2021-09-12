@@ -2589,20 +2589,6 @@ components:
       - $ref: '#/components/schemas/UserCreateResponse'
       - $ref: '#/components/schemas/User_allOf'
       description: A simple user
-      example:
-        login: awesome-user
-        email: awesome-user@example.org
-        name: Awesome User
-        avatarUrl: https://example.com/awesome-avatar.png
-        createdAt: 2017-07-08T16:18:44-04:00
-        updatedAt: 2017-07-08T16:18:44-04:00
-        type: User
-      required:
-      - createdAt
-      - email
-      - login
-      - type
-      - updatedAt
       title: User
       type: object
     PageOfUsers:
@@ -2817,6 +2803,14 @@ components:
       - tags
       type: object
     User_allOf:
+      example:
+        login: awesome-user
+        email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
+        createdAt: 2017-07-08T16:18:44-04:00
+        updatedAt: 2017-07-08T16:18:44-04:00
+        type: User
       properties:
         login:
           type: string
@@ -2842,6 +2836,12 @@ components:
         type:
           example: User
           type: string
+      required:
+      - createdAt
+      - email
+      - login
+      - type
+      - updatedAt
       type: object
     PageOfUsers_allOf:
       properties:

@@ -21,13 +21,14 @@ def auth_local():  # noqa: E501
         try:
             local_auth_request = LocalAuthRequest.from_dict(connexion.request.get_json())  # noqa: E501
             user = DbUser.objects.get(login=local_auth_request.login)
+            print(f"user: {user}")
             if user.verify_password(local_auth_request.password):
                 # Returns a JWT (RFC 7519) signed by the app secret.
                 user_id = user.to_dict().get("id")
                 payload = {
                     "sub": user_id,
                     "iat": datetime.datetime.utcnow(),
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30)  # noqa: E501
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=300)  # noqa: E501
                 }
                 token = jwt.encode(payload, config.secret_key, algorithm="HS256")  # noqa: E501
                 res = LocalAuthResponse(token=token)

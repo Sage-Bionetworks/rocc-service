@@ -23,6 +23,7 @@ def create_user():  # noqa: E501
             user = DbUser(
                 login=user_create_request.login,
                 email=user_create_request.email,
+                passwordHash=DbUser.generate_password_hash(user_create_request.password),  # noqa: E501
                 name=user_create_request.name,
                 avatarUrl=user_create_request.avatar_url,
                 type="User"  # TODO: Use enum value

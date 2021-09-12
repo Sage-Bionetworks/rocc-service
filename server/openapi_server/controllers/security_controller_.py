@@ -17,8 +17,8 @@ def info_from_ApiKeyAuth(api_key, required_scopes):
     :rtype: dict | None
     """
     print("API key", api_key)
-    # return {'uid': 'user_id'}
-    return None
+    return {'uid': 'user_id'}
+    # return None
 
 
 def info_from_BearerAuth(token):
