@@ -11,7 +11,7 @@ info:
   license:
     name: Apache 2.0
     url: https://Sage-Bionetworks.github.io/rocc-schemas
-  title: Registry of Open Community Challenge API
+  title: Registry of Open Community Challenges API
   version: 0.4.0
   x-logo:
     url: https://Sage-Bionetworks.github.io/rocc-schemas/logo.png
@@ -24,8 +24,7 @@ servers:
       - http
       - https
 security:
-- bearerAuth: []
-- apiKeyAuth: []
+- ApiKeyAuth: []
 tags:
 - description: Operations about accounts
   name: Account
@@ -2656,7 +2655,7 @@ components:
       description: The response returned after the creation of the user
       example:
         id: 507f1f77bcf86cd799439011
-        token: atoken
+        token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MTNlM2RiNWNhYzdjZDcwNmNjZDBjNDEiLCJpYXQiOjE2MzE0Njg5ODEsImV4cCI6MTYzMTQ2ODk4Nn0.shJH6Tp19nzjU8Bnlov55hqtkwwu6E_5ZTrhOZu8dyQ
       properties:
         id:
           description: The unique identifier of an account
@@ -2853,13 +2852,13 @@ components:
       - users
       type: object
   securitySchemes:
-    bearerAuth:
+    BearerAuth:
       bearerFormat: JWT
       scheme: bearer
       type: http
-      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_bearerAuth
-    apiKeyAuth:
+      x-bearerInfoFunc: openapi_server.controllers.security_controller_.info_from_BearerAuth
+    ApiKeyAuth:
       in: header
       name: X-API-Key
       type: apiKey
-      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_apiKeyAuth
+      x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_ApiKeyAuth
