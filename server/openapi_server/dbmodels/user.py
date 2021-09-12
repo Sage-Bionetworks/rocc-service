@@ -1,5 +1,6 @@
 import datetime
 from mongoengine import DateTimeField, EmailField, StringField, URLField  # noqa: E501
+from werkzeug.security import check_password_hash
 
 from openapi_server.dbmodels.account import Account
 
@@ -17,3 +18,6 @@ class User(Account):
         doc['id'] = str(self.pk)
         doc.pop('passwordHash', None)
         return doc
+
+    def verify_password(self, password):
+        return check_password_hash(self.passwordHash, password)
