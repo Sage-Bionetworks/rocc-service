@@ -20,6 +20,7 @@ from openapi_server.models.grant_create_request import GrantCreateRequest
 from openapi_server.models.grant_create_response import GrantCreateResponse
 from openapi_server.models.health_check import HealthCheck
 from openapi_server.models.local_auth_request import LocalAuthRequest
+from openapi_server.models.local_auth_response import LocalAuthResponse
 from openapi_server.models.org_membership import OrgMembership
 from openapi_server.models.org_membership_create_request import OrgMembershipCreateRequest
 from openapi_server.models.org_membership_create_response import OrgMembershipCreateResponse
@@ -52,5 +53,6 @@ from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_request import TagCreateRequest
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.user import User
+from openapi_server.models.user_all_of import UserAllOf
 from openapi_server.models.user_create_request import UserCreateRequest
 from openapi_server.models.user_create_response import UserCreateResponse

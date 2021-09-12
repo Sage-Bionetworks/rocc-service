@@ -2072,7 +2072,15 @@ components:
       - password
       type: object
     LocalAuthResponse:
-      description: The response to the successful authentication of a local account
+      description: The token returned after the authentication of a local account
+      example:
+        token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MTNlM2RiNWNhYzdjZDcwNmNjZDBjNDEiLCJpYXQiOjE2MzE0Njg5ODEsImV4cCI6MTYzMTQ2ODk4Nn0.shJH6Tp19nzjU8Bnlov55hqtkwwu6E_5ZTrhOZu8dyQ
+      properties:
+        token:
+          type: string
+      required:
+      - token
+      title: LocalAuthResponse
       type: object
     TagId:
       description: The unique identifier of a tag
@@ -2562,10 +2570,26 @@ components:
       description: A page of Tags
       title: PageOfTags
       type: object
-    User:
-      description: A simple user
+    UserCreateResponse:
+      description: The response returned after the creation of the user
       example:
         id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of an account
+          example: 507f1f77bcf86cd799439011
+          title: AccountId
+          type: string
+      required:
+      - id
+      title: UserCreateResponse
+      type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/User_allOf'
+      description: A simple user
+      example:
         login: awesome-user
         email: awesome-user@example.org
         name: Awesome User
@@ -2573,40 +2597,9 @@ components:
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
         type: User
-      properties:
-        id:
-          description: The unique identifier of an account
-          example: 507f1f77bcf86cd799439011
-          title: AccountId
-          type: string
-        login:
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        type:
-          example: User
-          type: string
       required:
       - createdAt
       - email
-      - id
       - login
       - type
       - updatedAt
@@ -2650,24 +2643,6 @@ components:
       - email
       - login
       - password
-      type: object
-    UserCreateResponse:
-      description: The response returned after the creation of the user
-      example:
-        id: 507f1f77bcf86cd799439011
-        token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MTNlM2RiNWNhYzdjZDcwNmNjZDBjNDEiLCJpYXQiOjE2MzE0Njg5ODEsImV4cCI6MTYzMTQ2ODk4Nn0.shJH6Tp19nzjU8Bnlov55hqtkwwu6E_5ZTrhOZu8dyQ
-      properties:
-        id:
-          description: The unique identifier of an account
-          example: 507f1f77bcf86cd799439011
-          title: AccountId
-          type: string
-        token:
-          type: string
-      required:
-      - id
-      - token
-      title: UserCreateResponse
       type: object
     HealthCheck:
       description: Represents the health of a service
@@ -2840,6 +2815,33 @@ components:
           type: array
       required:
       - tags
+      type: object
+    User_allOf:
+      properties:
+        login:
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        type:
+          example: User
+          type: string
       type: object
     PageOfUsers_allOf:
       properties:

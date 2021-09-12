@@ -15,26 +15,21 @@ class UserCreateResponse(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, token=None):  # noqa: E501
+    def __init__(self, id=None):  # noqa: E501
         """UserCreateResponse - a model defined in OpenAPI
 
         :param id: The id of this UserCreateResponse.  # noqa: E501
         :type id: str
-        :param token: The token of this UserCreateResponse.  # noqa: E501
-        :type token: str
         """
         self.openapi_types = {
-            'id': str,
-            'token': str
+            'id': str
         }
 
         self.attribute_map = {
-            'id': 'id',
-            'token': 'token'
+            'id': 'id'
         }
 
         self._id = id
-        self._token = token
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCreateResponse':
@@ -71,26 +66,3 @@ class UserCreateResponse(Model):
             raise ValueError("Invalid value for `id`, must not be `None`")  # noqa: E501
 
         self._id = id
-
-    @property
-    def token(self):
-        """Gets the token of this UserCreateResponse.
-
-
-        :return: The token of this UserCreateResponse.
-        :rtype: str
-        """
-        return self._token
-
-    @token.setter
-    def token(self, token):
-        """Sets the token of this UserCreateResponse.
-
-
-        :param token: The token of this UserCreateResponse.
-        :type token: str
-        """
-        if token is None:
-            raise ValueError("Invalid value for `token`, must not be `None`")  # noqa: E501
-
-        self._token = token

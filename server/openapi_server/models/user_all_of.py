@@ -90,8 +90,6 @@ class UserAllOf(Model):
         :param login: The login of this UserAllOf.
         :type login: str
         """
-        if login is None:
-            raise ValueError("Invalid value for `login`, must not be `None`")  # noqa: E501
 
         self._login = login
 
@@ -115,8 +113,6 @@ class UserAllOf(Model):
         :param email: The email of this UserAllOf.
         :type email: str
         """
-        if email is None:
-            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
 
@@ -180,8 +176,6 @@ class UserAllOf(Model):
         :param created_at: The created_at of this UserAllOf.
         :type created_at: datetime
         """
-        if created_at is None:
-            raise ValueError("Invalid value for `created_at`, must not be `None`")  # noqa: E501
 
         self._created_at = created_at
 
@@ -203,8 +197,6 @@ class UserAllOf(Model):
         :param updated_at: The updated_at of this UserAllOf.
         :type updated_at: datetime
         """
-        if updated_at is None:
-            raise ValueError("Invalid value for `updated_at`, must not be `None`")  # noqa: E501
 
         self._updated_at = updated_at
 
@@ -226,7 +218,5 @@ class UserAllOf(Model):
         :param type: The type of this UserAllOf.
         :type type: str
         """
-        if type is None:
-            raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
