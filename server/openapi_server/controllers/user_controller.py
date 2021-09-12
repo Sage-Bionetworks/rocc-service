@@ -1,5 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from werkzeug.security import generate_password_hash
 
 from openapi_server.dbmodels.user import User as DbUser
 from openapi_server.models.error import Error
@@ -23,6 +24,7 @@ def create_user():  # noqa: E501
             user = DbUser(
                 login=user_create_request.login,
                 email=user_create_request.email,
+                passwordHash=generate_password_hash(user_create_request.password),  # noqa: E501
                 name=user_create_request.name,
                 avatarUrl=user_create_request.avatar_url,
                 type="User"  # TODO: Use enum value
