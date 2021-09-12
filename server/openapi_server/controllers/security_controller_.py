@@ -3,7 +3,7 @@ import jwt
 from openapi_server.config import config
 
 
-def info_from_apiKeyAuth(api_key, required_scopes):
+def info_from_ApiKeyAuth(api_key, required_scopes):
     """
     Check and retrieve authentication information from api_key. Returned value
     will be passed in 'token_info' parameter of your operation function, if
@@ -21,7 +21,7 @@ def info_from_apiKeyAuth(api_key, required_scopes):
     return None
 
 
-def info_from_bearerAuth(token):
+def info_from_BearerAuth(token):
     """
     Check and retrieve authentication information from custom bearer token.
     Returned value will be passed in 'token_info' parameter of your operation
