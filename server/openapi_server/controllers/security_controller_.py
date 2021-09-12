@@ -1,4 +1,6 @@
-# from typing import List
+import jwt
+
+from openapi_server.config import config
 
 
 def info_from_apiKeyAuth(api_key, required_scopes):
@@ -14,7 +16,9 @@ def info_from_apiKeyAuth(api_key, required_scopes):
     api_key or None if api_key is invalid or does not allow access to called API
     :rtype: dict | None
     """
-    return {'uid': 'user_id'}
+    print("API key", api_key)
+    # return {'uid': 'user_id'}
+    return None
 
 
 def info_from_bearerAuth(token):
@@ -28,4 +32,12 @@ def info_from_bearerAuth(token):
     :return: Decoded token information or None if token is invalid :rtype: dict
     | None
     """
-    return {'uid': 'user_id'}
+    print("bearer token", token)
+    return None
+    # try:
+    #     payload = jwt.decode(token, config.secret_key)
+    #     return {"userId": payload["sub"]}
+    # except jwt.ExpiredSignatureError:
+    #     return "Signature expired. Please log in again."
+    # except jwt.InvalidTokenError:
+    #     return "Invalid token. Please log in again."

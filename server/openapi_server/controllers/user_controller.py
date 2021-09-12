@@ -37,7 +37,7 @@ def create_user():  # noqa: E501
             payload = {
                 "sub": user_id,
                 "iat": datetime.datetime.utcnow(),
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5)  # noqa: E501
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30)  # noqa: E501
             }
             token = jwt.encode(payload, config.secret_key, algorithm="HS256")
             res = UserCreateResponse(id=user_id, token=token)
