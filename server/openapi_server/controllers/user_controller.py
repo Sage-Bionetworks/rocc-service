@@ -1,8 +1,5 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
-from werkzeug.security import generate_password_hash
-import jwt
-import datetime
 
 from openapi_server.dbmodels.user import User as DbUser
 from openapi_server.models.error import Error
@@ -18,7 +15,7 @@ def create_user():  # noqa: E501
 
     Create a user with the specified account name # noqa: E501
 
-    :rtype: TokenResponse
+    :rtype: UserCreateResponse
     """
     if connexion.request.is_json:
         try:
@@ -26,21 +23,12 @@ def create_user():  # noqa: E501
             user = DbUser(
                 login=user_create_request.login,
                 email=user_create_request.email,
-                passwordHash=generate_password_hash(user_create_request.password),  # noqa: E501
                 name=user_create_request.name,
                 avatarUrl=user_create_request.avatar_url,
                 type="User"  # TODO: Use enum value
             ).save()
-
-            # Returns a JWT (RFC 7519) signed by the app secret.
             user_id = user.to_dict().get("id")
-            payload = {
-                "sub": user_id,
-                "iat": datetime.datetime.utcnow(),
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=30)  # noqa: E501
-            }
-            token = jwt.encode(payload, config.secret_key, algorithm="HS256")
-            res = UserCreateResponse(id=user_id, token=token)
+            res = UserCreateResponse(id=user_id)
             status = 201
         except NotUniqueError as error:
             status = 409

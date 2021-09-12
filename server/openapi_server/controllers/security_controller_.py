@@ -33,11 +33,10 @@ def info_from_BearerAuth(token):
     | None
     """
     print("bearer token", token)
-    return None
-    # try:
-    #     payload = jwt.decode(token, config.secret_key)
-    #     return {"userId": payload["sub"]}
-    # except jwt.ExpiredSignatureError:
-    #     return "Signature expired. Please log in again."
-    # except jwt.InvalidTokenError:
-    #     return "Invalid token. Please log in again."
+    try:
+        payload = jwt.decode(token, config.secret_key)
+        return {"uid": payload["sub"]}
+    except jwt.ExpiredSignatureError:
+        return "Signature expired. Please log in again."
+    except jwt.InvalidTokenError:
+        return "Invalid token. Please log in again."
