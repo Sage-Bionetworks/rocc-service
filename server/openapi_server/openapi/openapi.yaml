@@ -23,8 +23,6 @@ servers:
       enum:
       - http
       - https
-security:
-- ApiKeyAuth: []
 tags:
 - description: Operations about accounts
   name: Account
@@ -797,6 +795,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Get health check information
       tags:
       - HealthCheck

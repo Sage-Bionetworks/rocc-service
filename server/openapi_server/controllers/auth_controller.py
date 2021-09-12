@@ -34,8 +34,8 @@ def auth_local():  # noqa: E501
                 res = LocalAuthResponse(token=token)
                 status = 200
             else:
-                res = Error("Invalid login or password")
                 status = 401
+                res = Error("Invalid login or password", status)
         except DoesNotExist:
             status = 404
             res = Error("The specified resource was not found", status)

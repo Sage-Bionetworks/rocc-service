@@ -32,11 +32,12 @@ def info_from_BearerAuth(token):
     :return: Decoded token information or None if token is invalid :rtype: dict
     | None
     """
-    print("bearer token", token)
     try:
-        payload = jwt.decode(token, config.secret_key)
-        return {"uid": payload["sub"]}
-    except jwt.ExpiredSignatureError:
-        return "Signature expired. Please log in again."
-    except jwt.InvalidTokenError:
-        return "Invalid token. Please log in again."
+        payload = jwt.decode(token, config.secret_key, algorithms=["HS256"])
+        return {"sub": payload["sub"]}
+    except jwt.ExpiredSignatureError as error:
+        print("Signature expired. Please log in again.", error)
+        return None
+    except jwt.InvalidTokenError as error:
+        print("Invalid token. Please log in again.", error)
+        return None
