@@ -26,5 +26,6 @@ class User(Account):
         print(f"validity: {valid}")
         return check_password_hash(self.passwordHash, password)
 
+    @staticmethod
     def generate_password_hash(password) -> None:
         return generate_password_hash(password)
