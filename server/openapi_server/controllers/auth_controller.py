@@ -28,7 +28,7 @@ def auth_local():  # noqa: E501
                 payload = {
                     "sub": user_id,
                     "iat": datetime.datetime.utcnow(),
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=300)  # noqa: E501
+                    "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)  # noqa: E501
                 }
                 token = jwt.encode(payload, config.secret_key, algorithm="HS256")  # noqa: E501
                 res = LocalAuthResponse(token=token)

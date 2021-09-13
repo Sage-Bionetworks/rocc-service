@@ -20,10 +20,6 @@ class User(Account):
         return doc
 
     def verify_password(self, password) -> bool:
-        print(f"verify password: {password}")
-        print(f"hash: {self.passwordHash}")
-        valid = check_password_hash(self.passwordHash, password)
-        print(f"validity: {valid}")
         return check_password_hash(self.passwordHash, password)
 
     @staticmethod
