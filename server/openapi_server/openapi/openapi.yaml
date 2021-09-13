@@ -547,6 +547,51 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/stargazers:
+    get:
+      description: Lists the people that have starred the repository.
+      operationId: list_challenge_stargazers
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfUsers'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List stargazers
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /grants:
     delete:
       description: Delete all grants
@@ -2152,6 +2197,67 @@ components:
     EmptyObject:
       description: Empty JSON object
       type: object
+    UserCreateResponse:
+      description: The unique identifier of the user created
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of an account
+          example: 507f1f77bcf86cd799439011
+          title: AccountId
+          type: string
+      required:
+      - id
+      title: UserCreateResponse
+      type: object
+    Email:
+      description: An email address
+      example: john.smith@example.com
+      format: email
+      type: string
+    UserCreateRequest:
+      description: The information required to create a user account
+      example:
+        login: awesome-user
+        email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
+      properties:
+        login:
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+      required:
+      - email
+      - login
+      type: object
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/UserCreateRequest'
+      - $ref: '#/components/schemas/User_allOf'
+      description: A simple user
+      title: User
+      type: object
+    PageOfUsers:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfUsers_allOf'
+      description: A page of Users
+      title: PageOfUsers
+      type: object
     ChallengePlatformCreateResponse:
       description: The unique identifier of the challenge platform created
       example:
@@ -2273,11 +2379,6 @@ components:
       - id
       title: OrganizationCreateResponse
       type: object
-    Email:
-      description: An email address
-      example: john.smith@example.com
-      format: email
-      type: string
     OrganizationCreateRequest:
       description: The information required to create an org account
       example:
@@ -2490,62 +2591,6 @@ components:
       description: A page of Tags
       title: PageOfTags
       type: object
-    UserCreateResponse:
-      description: The unique identifier of the user created
-      example:
-        id: 507f1f77bcf86cd799439011
-      properties:
-        id:
-          description: The unique identifier of an account
-          example: 507f1f77bcf86cd799439011
-          title: AccountId
-          type: string
-      required:
-      - id
-      title: UserCreateResponse
-      type: object
-    UserCreateRequest:
-      description: The information required to create a user account
-      example:
-        login: awesome-user
-        email: awesome-user@example.org
-        name: Awesome User
-        avatarUrl: https://example.com/awesome-avatar.png
-      properties:
-        login:
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
-      required:
-      - email
-      - login
-      type: object
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserCreateResponse'
-      - $ref: '#/components/schemas/UserCreateRequest'
-      - $ref: '#/components/schemas/User_allOf'
-      description: A simple user
-      title: User
-      type: object
-    PageOfUsers:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfUsers_allOf'
-      description: A page of Users
-      title: PageOfUsers
-      type: object
     HealthCheck:
       description: Represents the health of a service
       example:
@@ -2608,6 +2653,36 @@ components:
           type: array
       required:
       - challenges
+      type: object
+    User_allOf:
+      example:
+        createdAt: 2017-07-08T16:18:44-04:00
+        updatedAt: 2017-07-08T16:18:44-04:00
+        type: User
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        type:
+          example: User
+          type: string
+      required:
+      - createdAt
+      - type
+      - updatedAt
+      type: object
+    PageOfUsers_allOf:
+      properties:
+        users:
+          description: An array of Users
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+      required:
+      - users
       type: object
     ChallengePlatform_allOf:
       example:
@@ -2717,34 +2792,4 @@ components:
           type: array
       required:
       - tags
-      type: object
-    User_allOf:
-      example:
-        createdAt: 2017-07-08T16:18:44-04:00
-        updatedAt: 2017-07-08T16:18:44-04:00
-        type: User
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        type:
-          example: User
-          type: string
-      required:
-      - createdAt
-      - type
-      - updatedAt
-      type: object
-    PageOfUsers_allOf:
-      properties:
-        users:
-          description: An array of Users
-          items:
-            $ref: '#/components/schemas/User'
-          type: array
-      required:
-      - users
       type: object
