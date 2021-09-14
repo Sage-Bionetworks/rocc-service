@@ -15,9 +15,17 @@ class UserAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, login=None, email=None, name=None, avatar_url=None, created_at=None, updated_at=None, type=None):  # noqa: E501
         """UserAllOf - a model defined in OpenAPI
 
+        :param login: The login of this UserAllOf.  # noqa: E501
+        :type login: str
+        :param email: The email of this UserAllOf.  # noqa: E501
+        :type email: str
+        :param name: The name of this UserAllOf.  # noqa: E501
+        :type name: str
+        :param avatar_url: The avatar_url of this UserAllOf.  # noqa: E501
+        :type avatar_url: str
         :param created_at: The created_at of this UserAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this UserAllOf.  # noqa: E501
@@ -26,17 +34,29 @@ class UserAllOf(Model):
         :type type: str
         """
         self.openapi_types = {
+            'login': str,
+            'email': str,
+            'name': str,
+            'avatar_url': str,
             'created_at': datetime,
             'updated_at': datetime,
             'type': str
         }
 
         self.attribute_map = {
+            'login': 'login',
+            'email': 'email',
+            'name': 'name',
+            'avatar_url': 'avatarUrl',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt',
             'type': 'type'
         }
 
+        self._login = login
+        self._email = email
+        self._name = name
+        self._avatar_url = avatar_url
         self._created_at = created_at
         self._updated_at = updated_at
         self._type = type
@@ -51,6 +71,96 @@ class UserAllOf(Model):
         :rtype: UserAllOf
         """
         return util.deserialize_model(dikt, cls)
+
+    @property
+    def login(self):
+        """Gets the login of this UserAllOf.
+
+
+        :return: The login of this UserAllOf.
+        :rtype: str
+        """
+        return self._login
+
+    @login.setter
+    def login(self, login):
+        """Sets the login of this UserAllOf.
+
+
+        :param login: The login of this UserAllOf.
+        :type login: str
+        """
+        if login is None:
+            raise ValueError("Invalid value for `login`, must not be `None`")  # noqa: E501
+
+        self._login = login
+
+    @property
+    def email(self):
+        """Gets the email of this UserAllOf.
+
+        An email address  # noqa: E501
+
+        :return: The email of this UserAllOf.
+        :rtype: str
+        """
+        return self._email
+
+    @email.setter
+    def email(self, email):
+        """Sets the email of this UserAllOf.
+
+        An email address  # noqa: E501
+
+        :param email: The email of this UserAllOf.
+        :type email: str
+        """
+        if email is None:
+            raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
+
+        self._email = email
+
+    @property
+    def name(self):
+        """Gets the name of this UserAllOf.
+
+
+        :return: The name of this UserAllOf.
+        :rtype: str
+        """
+        return self._name
+
+    @name.setter
+    def name(self, name):
+        """Sets the name of this UserAllOf.
+
+
+        :param name: The name of this UserAllOf.
+        :type name: str
+        """
+
+        self._name = name
+
+    @property
+    def avatar_url(self):
+        """Gets the avatar_url of this UserAllOf.
+
+
+        :return: The avatar_url of this UserAllOf.
+        :rtype: str
+        """
+        return self._avatar_url
+
+    @avatar_url.setter
+    def avatar_url(self, avatar_url):
+        """Sets the avatar_url of this UserAllOf.
+
+
+        :param avatar_url: The avatar_url of this UserAllOf.
+        :type avatar_url: str
+        """
+
+        self._avatar_url = avatar_url
 
     @property
     def created_at(self):

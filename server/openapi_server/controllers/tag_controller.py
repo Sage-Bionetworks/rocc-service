@@ -7,7 +7,7 @@ from openapi_server.models.page_of_tags import PageOfTags
 from openapi_server.models.tag import Tag
 from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.tag_create_request import TagCreateRequest
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_tag():  # noqa: E501
@@ -119,7 +119,7 @@ def list_tags(limit=None, offset=None):  # noqa: E501
         next_ = ""
         if len(tags) == limit:
             next_ = "%s/tags?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_tags.count()
         res = PageOfTags(

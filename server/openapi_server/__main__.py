@@ -5,7 +5,7 @@ import flask
 from mongoengine import connect
 
 from openapi_server import encoder
-from openapi_server.config import Config
+from openapi_server.config import config
 
 app = connexion.App(__name__, specification_dir='./openapi/')
 app.app.json_encoder = encoder.JSONEncoder
@@ -14,10 +14,10 @@ app.add_api('openapi.yaml', pythonic_params=True)
 app.add_url_rule('/ui', 'ui', lambda: flask.redirect('/api/v1/ui'))
 
 connect(
-    db=Config().db_database,
-    username=Config().db_username,
-    password=Config().db_password,
-    host=Config().db_host
+    db=config.db_database,
+    username=config.db_username,
+    password=config.db_password,
+    host=config.db_host
 )
 
 
