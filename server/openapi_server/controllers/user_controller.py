@@ -143,3 +143,24 @@ def list_users(limit=None, offset=None):  # noqa: E501
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def get_authenticated_user(token_info):  # noqa: E501
+    """Get the authenticated user
+
+    Get the authenticated user # noqa: E501
+
+    :rtype: User
+    """
+    try:
+        user_id = token_info['sub']
+        db_user = DbUser.objects.get(id=user_id)
+        res = User.from_dict(db_user.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status

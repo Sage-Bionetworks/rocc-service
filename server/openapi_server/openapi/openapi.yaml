@@ -1566,6 +1566,42 @@ paths:
       tags:
       - Tag
       x-openapi-router-controller: openapi_server.controllers.tag_controller
+  /user:
+    get:
+      description: Get the authenticated user
+      operationId: get_authenticated_user
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: Get the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /users:
     delete:
       description: Delete all users
