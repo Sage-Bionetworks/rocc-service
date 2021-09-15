@@ -80,8 +80,6 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
-      security:
-      - BearerAuth: []
       summary: Get an account
       tags:
       - Account
