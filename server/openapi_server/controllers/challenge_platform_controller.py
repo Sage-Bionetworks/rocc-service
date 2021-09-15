@@ -7,7 +7,7 @@ from openapi_server.models.page_of_challenge_platforms import PageOfChallengePla
 from openapi_server.models.challenge_platform import ChallengePlatform
 from openapi_server.models.challenge_platform_create_response import ChallengePlatformCreateResponse  # noqa: E501
 from openapi_server.models.challenge_platform_create_request import ChallengePlatformCreateRequest  # noqa: E501
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_challenge_platform():  # noqa: E501
@@ -122,7 +122,7 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
         next_ = ""
         if len(challenge_platforms) == limit:
             next_ = "%s/challengePlatforms?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_challenge_platforms.count()
         res = PageOfChallengePlatforms(

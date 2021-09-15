@@ -15,13 +15,15 @@ class UserCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, email=None, name=None, avatar_url=None):  # noqa: E501
+    def __init__(self, login=None, email=None, password=None, name=None, avatar_url=None):  # noqa: E501
         """UserCreateRequest - a model defined in OpenAPI
 
         :param login: The login of this UserCreateRequest.  # noqa: E501
         :type login: str
         :param email: The email of this UserCreateRequest.  # noqa: E501
         :type email: str
+        :param password: The password of this UserCreateRequest.  # noqa: E501
+        :type password: str
         :param name: The name of this UserCreateRequest.  # noqa: E501
         :type name: str
         :param avatar_url: The avatar_url of this UserCreateRequest.  # noqa: E501
@@ -30,6 +32,7 @@ class UserCreateRequest(Model):
         self.openapi_types = {
             'login': str,
             'email': str,
+            'password': str,
             'name': str,
             'avatar_url': str
         }
@@ -37,12 +40,14 @@ class UserCreateRequest(Model):
         self.attribute_map = {
             'login': 'login',
             'email': 'email',
+            'password': 'password',
             'name': 'name',
             'avatar_url': 'avatarUrl'
         }
 
         self._login = login
         self._email = email
+        self._password = password
         self._name = name
         self._avatar_url = avatar_url
 
@@ -104,6 +109,29 @@ class UserCreateRequest(Model):
             raise ValueError("Invalid value for `email`, must not be `None`")  # noqa: E501
 
         self._email = email
+
+    @property
+    def password(self):
+        """Gets the password of this UserCreateRequest.
+
+
+        :return: The password of this UserCreateRequest.
+        :rtype: str
+        """
+        return self._password
+
+    @password.setter
+    def password(self, password):
+        """Sets the password of this UserCreateRequest.
+
+
+        :param password: The password of this UserCreateRequest.
+        :type password: str
+        """
+        if password is None:
+            raise ValueError("Invalid value for `password`, must not be `None`")  # noqa: E501
+
+        self._password = password
 
     @property
     def name(self):

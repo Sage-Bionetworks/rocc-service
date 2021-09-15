@@ -7,7 +7,7 @@ from openapi_server.models.organization import Organization  # noqa: E501
 from openapi_server.models.organization_create_request import OrganizationCreateRequest  # noqa: E501
 from openapi_server.models.organization_create_response import OrganizationCreateResponse  # noqa: E501
 from openapi_server.models.page_of_organizations import PageOfOrganizations  # noqa: E501
-from openapi_server.config import Config
+from openapi_server.config import config
 
 
 def create_organization():  # noqa: E501
@@ -122,7 +122,7 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
         next_ = ""
         if len(orgs) == limit:
             next_ = "%s/organizations?limit=%s&offset=%s" % \
-                (Config().server_api_url, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_orgs.count()
         res = PageOfOrganizations(

@@ -7,12 +7,10 @@ from typing import List, Dict  # noqa: F401
 
 from openapi_server.models.base_model_ import Model
 from openapi_server.models.user_all_of import UserAllOf
-from openapi_server.models.user_create_request import UserCreateRequest
 from openapi_server.models.user_create_response import UserCreateResponse
 from openapi_server import util
 
 from openapi_server.models.user_all_of import UserAllOf  # noqa: E501
-from openapi_server.models.user_create_request import UserCreateRequest  # noqa: E501
 from openapi_server.models.user_create_response import UserCreateResponse  # noqa: E501
 
 class User(Model):
