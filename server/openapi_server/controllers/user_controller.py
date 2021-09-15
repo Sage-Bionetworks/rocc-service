@@ -153,7 +153,7 @@ def get_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
     return res, status
 
 
-def is_starred_challenge(account_name, challenge_name):  # noqa: E501
+def is_starred_challenge(account_name, challenge_name, token_info):  # noqa: E501
     """Check if a repository is starred by the authenticated user
 
     Check if a repository is starred by the authenticated user # noqa: E501
@@ -165,7 +165,20 @@ def is_starred_challenge(account_name, challenge_name):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    try:
+        user_id = token_info['sub']
+        db_challenge = DbChallenge.objects.get(fullName=f"{account_name}/{challenge_name}")  # noqa: E501
+        challenge_id = Challenge.from_dict(db_challenge.to_dict()).id
+        DbStarredChallenge.objects.get(userId=user_id, challengeId=challenge_id)  # noqa: E501
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_starred_challenges(limit=None, offset=None):  # noqa: E501

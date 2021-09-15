@@ -21,7 +21,6 @@ def auth_local():  # noqa: E501
         try:
             local_auth_request = LocalAuthRequest.from_dict(connexion.request.get_json())  # noqa: E501
             user = DbUser.objects.get(login=local_auth_request.login)
-            print(f"user: {user}")
             if user.verify_password(local_auth_request.password):
                 # Returns a JWT (RFC 7519) signed by the app secret.
                 user_id = user.to_dict().get("id")
