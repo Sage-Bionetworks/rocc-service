@@ -1,10 +1,13 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from openapi_server.dbmodels.user import User as DbUser
+from openapi_server.dbmodels.challenge import Challenge as DbChallenge  # noqa: E501
 from openapi_server.dbmodels.starred_challenge import StarredChallenge as DbStarredChallenge  # noqa: E501
+from openapi_server.dbmodels.user import User as DbUser
+from openapi_server.models.challenge import Challenge
 from openapi_server.models.error import Error
 from openapi_server.models.page_of_users import PageOfUsers
+from openapi_server.models.page_of_challenges import PageOfChallenges
 from openapi_server.models.user import User
 from openapi_server.models.user_create_response import UserCreateResponse
 from openapi_server.models.user_create_request import UserCreateRequest
@@ -121,36 +124,33 @@ def get_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfChallenges
     """
-    # try:
-    #     DbStarredChallenge.objects(userId=user_id).skip(offset).limit(limit)
+    try:
+        db_starred_challenges = DbStarredChallenge.objects(userId=user_id)  # noqa: E501
+        starred_challenges_ids = [d.to_dict()["id"] for d in db_starred_challenges]  # noqa: E501
+        db_challenges = DbChallenge.objects(id__in=starred_challenges_ids).skip(offset).limit(limit)  # noqa: E501
+        challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
+        next_ = ""
+        if len(challenges) == limit:
+            next_ = "%s/users/%s/starred?limit=%s&offset=%s" % \
+                (config.server_api_url, user_id, limit, offset + limit)
 
-    #     db_users = DbUser.objects.skip(offset).limit(limit)
-    #     users = [User.from_dict(d.to_dict()) for d in db_users]
-    #     next_ = ""
-    #     if len(users) == limit:
-    #         next_ = "%s/users?limit=%s&offset=%s" % \
-    #             (config.server_api_url, limit, offset + limit)
-
-    #     total = db_users.count()
-    #     res = PageOfUsers(
-    #         offset=offset,
-    #         limit=limit,
-    #         paging={
-    #             "next": next_
-    #         },
-    #         total_results=total,
-    #         users=users)
-    #     status = 200
-    # except TypeError:  # TODO: may need include different exceptions for 400
-    #     status = 400
-    #     res = Error("Bad request", status)
-    # except Exception as error:
-    #     status = 500
-    #     res = Error("Internal error", status, str(error))
-    # return res, status
-
-
-
+        total = db_challenges.count()
+        res = PageOfChallenges(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            challenges=challenges)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def is_starred_challenge(account_name, challenge_name):  # noqa: E501
