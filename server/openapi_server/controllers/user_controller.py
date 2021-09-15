@@ -126,7 +126,7 @@ def get_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
     """
     try:
         db_starred_challenges = DbStarredChallenge.objects(userId=user_id)  # noqa: E501
-        starred_challenges_ids = [d.to_dict()["id"] for d in db_starred_challenges]  # noqa: E501
+        starred_challenges_ids = [d.to_dict()["challengeId"] for d in db_starred_challenges]  # noqa: E501
         db_challenges = DbChallenge.objects(id__in=starred_challenges_ids).skip(offset).limit(limit)  # noqa: E501
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
