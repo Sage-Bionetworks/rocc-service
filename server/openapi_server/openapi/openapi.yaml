@@ -2517,6 +2517,7 @@ components:
       - limit
       - offset
       - paging
+      - totalResults
       type: object
     ChallengeId:
       description: The unique identifier of the challenge
