@@ -107,13 +107,17 @@ def get_user(user_id):  # noqa: E501
     return res, status
 
 
-def get_user_starred_challenges(user_id):  # noqa: E501
+def get_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
     """List repositories starred by a user
 
     Lists repositories a user has starred. # noqa: E501
 
     :param user_id: The unique identifier of the user, either the user account ID or login
     :type user_id: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
 
     :rtype: PageOfChallenges
     """
@@ -164,11 +168,15 @@ def is_starred_challenge(account_name, challenge_name):  # noqa: E501
     return 'do some magic!'
 
 
-def list_starred_challenges():  # noqa: E501
+def list_starred_challenges(limit=None, offset=None):  # noqa: E501
     """List challenges starred by the authenticated user
 
     Lists repositories the authenticated user has starred. # noqa: E501
 
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
 
     :rtype: PageOfChallenges
     """
