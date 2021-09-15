@@ -197,8 +197,8 @@ def list_starred_challenges(token_info, limit=None, offset=None):  # noqa: E501
     try:
         user_id = token_info['sub']
         db_starred_challenges = DbStarredChallenge.objects(userId=user_id)  # noqa: E501
-        starred_challenges_ids = [d.to_dict()["id"] for d in db_starred_challenges]  # noqa: E501
-        db_challenges = DbChallenge.objects(id__in=starred_challenges_ids).skip(offset).limit(limit)  # noqa: E501
+        challenges_ids = [d.to_dict()["challengeId"] for d in db_starred_challenges]  # noqa: E501
+        db_challenges = DbChallenge.objects(id__in=challenges_ids).skip(offset).limit(limit)  # noqa: E501
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
@@ -283,6 +283,37 @@ def star_challenge(token_info, account_name, challenge_name):  # noqa: E501
             challengeId=challenge_id,
             userId=user_id
         ).save()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except NotUniqueError as error:
+        status = 409
+        res = Error("Conflict", status, str(error))
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
+def unstar_challenge(token_info, account_name, challenge_name):  # noqa: E501
+    """Unstar a repository for the authenticated user
+
+    Unstar a repository for the authenticated user # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: object
+    """
+    try:
+        user_id = token_info['sub']
+        db_challenge = DbChallenge.objects.get(fullName=f"{account_name}/{challenge_name}")  # noqa: E501
+        challenge_id = Challenge.from_dict(db_challenge.to_dict()).id
+        DbStarredChallenge.objects.get(challengeId=challenge_id, userId=user_id).delete()  # noqa: E501
         res = {}
         status = 200
     except DoesNotExist:

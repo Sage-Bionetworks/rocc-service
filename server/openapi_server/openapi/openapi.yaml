@@ -1727,6 +1727,58 @@ paths:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/starred/{accountName}/{challengeName}:
+    delete:
+      description: Unstar a repository for the authenticated user
+      operationId: unstar_challenge
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: Unstar a repository for the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
       description: Check if a repository is starred by the authenticated user
       operationId: is_starred_challenge
