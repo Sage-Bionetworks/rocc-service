@@ -591,6 +591,72 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/stargazers:
+    get:
+      description: Lists the people that have starred the repository.
+      operationId: list_challenge_stargazers
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfUsers'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List stargazers
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /grants:
     delete:
       description: Delete all grants
@@ -1602,6 +1668,227 @@ paths:
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
+  /user/starred:
+    get:
+      description: Lists repositories the authenticated user has starred.
+      operationId: list_starred_challenges
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfChallenges'
+          description: Success
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: List challenges starred by the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+  /user/starred/{accountName}/{challengeName}:
+    delete:
+      description: Unstar a repository for the authenticated user
+      operationId: unstar_challenge
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: Unstar a repository for the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    get:
+      description: Check if a repository is starred by the authenticated user
+      operationId: is_starred_challenge
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Response if this challenge is starred by you
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: Check if a repository is starred by the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+    put:
+      description: Star a repository for the authenticated user
+      operationId: star_challenge
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: Star a repository for the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /users:
     delete:
       description: Delete all users
@@ -1795,6 +2082,65 @@ paths:
           description: The request cannot be fulfilled due to an unexpected server
             error
       summary: Get a user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
+  /users/{userId}/starred:
+    get:
+      description: Lists repositories a user has starred.
+      operationId: get_user_starred_challenges
+      parameters:
+      - description: The unique identifier of the user, either the user account ID
+          or login
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountId'
+        style: simple
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfChallenges'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List repositories starred by a user
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
@@ -2171,6 +2517,7 @@ components:
       - limit
       - offset
       - paging
+      - totalResults
       type: object
     ChallengeId:
       description: The unique identifier of the challenge
@@ -2267,6 +2614,39 @@ components:
       type: object
     EmptyObject:
       description: Empty JSON object
+      type: object
+    UserCreateResponse:
+      description: The response returned after the creation of the user
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of an account
+          example: 507f1f77bcf86cd799439011
+          title: AccountId
+          type: string
+      required:
+      - id
+      title: UserCreateResponse
+      type: object
+    Email:
+      description: An email address
+      example: john.smith@example.com
+      format: email
+      type: string
+    User:
+      allOf:
+      - $ref: '#/components/schemas/UserCreateResponse'
+      - $ref: '#/components/schemas/User_allOf'
+      description: A simple user
+      title: User
+      type: object
+    PageOfUsers:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfUsers_allOf'
+      description: A page of Users
+      title: PageOfUsers
       type: object
     ChallengePlatformCreateResponse:
       description: The unique identifier of the challenge platform created
@@ -2389,11 +2769,6 @@ components:
       - id
       title: OrganizationCreateResponse
       type: object
-    Email:
-      description: An email address
-      example: john.smith@example.com
-      format: email
-      type: string
     OrganizationCreateRequest:
       description: The information required to create an org account
       example:
@@ -2606,34 +2981,6 @@ components:
       description: A page of Tags
       title: PageOfTags
       type: object
-    UserCreateResponse:
-      description: The response returned after the creation of the user
-      example:
-        id: 507f1f77bcf86cd799439011
-      properties:
-        id:
-          description: The unique identifier of an account
-          example: 507f1f77bcf86cd799439011
-          title: AccountId
-          type: string
-      required:
-      - id
-      title: UserCreateResponse
-      type: object
-    User:
-      allOf:
-      - $ref: '#/components/schemas/UserCreateResponse'
-      - $ref: '#/components/schemas/User_allOf'
-      description: A simple user
-      title: User
-      type: object
-    PageOfUsers:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfUsers_allOf'
-      description: A page of Users
-      title: PageOfUsers
-      type: object
     UserCreateRequest:
       description: The information required to create a user account
       example:
@@ -2728,6 +3075,57 @@ components:
           type: array
       required:
       - challenges
+      type: object
+    User_allOf:
+      example:
+        login: awesome-user
+        email: awesome-user@example.org
+        name: Awesome User
+        avatarUrl: https://example.com/awesome-avatar.png
+        createdAt: 2017-07-08T16:18:44-04:00
+        updatedAt: 2017-07-08T16:18:44-04:00
+        type: User
+      properties:
+        login:
+          type: string
+        email:
+          description: An email address
+          example: john.smith@example.com
+          format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        type:
+          example: User
+          type: string
+      required:
+      - createdAt
+      - email
+      - login
+      - type
+      - updatedAt
+      type: object
+    PageOfUsers_allOf:
+      properties:
+        users:
+          description: An array of Users
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+      required:
+      - users
       type: object
     ChallengePlatform_allOf:
       example:
@@ -2837,57 +3235,6 @@ components:
           type: array
       required:
       - tags
-      type: object
-    User_allOf:
-      example:
-        login: awesome-user
-        email: awesome-user@example.org
-        name: Awesome User
-        avatarUrl: https://example.com/awesome-avatar.png
-        createdAt: 2017-07-08T16:18:44-04:00
-        updatedAt: 2017-07-08T16:18:44-04:00
-        type: User
-      properties:
-        login:
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-        type:
-          example: User
-          type: string
-      required:
-      - createdAt
-      - email
-      - login
-      - type
-      - updatedAt
-      type: object
-    PageOfUsers_allOf:
-      properties:
-        users:
-          description: An array of Users
-          items:
-            $ref: '#/components/schemas/User'
-          type: array
-      required:
-      - users
       type: object
   securitySchemes:
     BearerAuth:

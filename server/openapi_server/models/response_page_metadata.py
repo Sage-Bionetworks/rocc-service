@@ -152,5 +152,7 @@ class ResponsePageMetadata(Model):
         :param total_results: The total_results of this ResponsePageMetadata.
         :type total_results: int
         """
+        if total_results is None:
+            raise ValueError("Invalid value for `total_results`, must not be `None`")  # noqa: E501
 
         self._total_results = total_results
