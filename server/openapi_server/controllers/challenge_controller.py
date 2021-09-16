@@ -4,7 +4,6 @@ from mongoengine.errors import DoesNotExist, NotUniqueError
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
-from openapi_server.models.account import Account  # noqa: E501
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
