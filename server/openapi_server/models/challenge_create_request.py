@@ -19,7 +19,7 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None):  # noqa: E501
+    def __init__(self, name=None, display_name=None, description=None, owner_id=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
@@ -28,6 +28,8 @@ class ChallengeCreateRequest(Model):
         :type display_name: str
         :param description: The description of this ChallengeCreateRequest.  # noqa: E501
         :type description: str
+        :param owner_id: The owner_id of this ChallengeCreateRequest.  # noqa: E501
+        :type owner_id: str
         :param website_url: The website_url of this ChallengeCreateRequest.  # noqa: E501
         :type website_url: str
         :param status: The status of this ChallengeCreateRequest.  # noqa: E501
@@ -45,6 +47,7 @@ class ChallengeCreateRequest(Model):
             'name': str,
             'display_name': str,
             'description': str,
+            'owner_id': str,
             'website_url': str,
             'status': ChallengeStatus,
             'start_date': date,
@@ -57,6 +60,7 @@ class ChallengeCreateRequest(Model):
             'name': 'name',
             'display_name': 'displayName',
             'description': 'description',
+            'owner_id': 'ownerId',
             'website_url': 'websiteUrl',
             'status': 'status',
             'start_date': 'startDate',
@@ -68,6 +72,7 @@ class ChallengeCreateRequest(Model):
         self._name = name
         self._display_name = display_name
         self._description = description
+        self._owner_id = owner_id
         self._website_url = website_url
         self._status = status
         self._start_date = start_date
@@ -168,6 +173,31 @@ class ChallengeCreateRequest(Model):
             raise ValueError("Invalid value for `description`, length must be less than or equal to `280`")  # noqa: E501
 
         self._description = description
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this ChallengeCreateRequest.
+
+        The unique identifier of an account  # noqa: E501
+
+        :return: The owner_id of this ChallengeCreateRequest.
+        :rtype: str
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this ChallengeCreateRequest.
+
+        The unique identifier of an account  # noqa: E501
+
+        :param owner_id: The owner_id of this ChallengeCreateRequest.
+        :type owner_id: str
+        """
+        if owner_id is None:
+            raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
+
+        self._owner_id = owner_id
 
     @property
     def website_url(self):

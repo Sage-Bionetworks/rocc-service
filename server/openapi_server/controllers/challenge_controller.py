@@ -148,16 +148,30 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
+def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E501
+    """List all the challenges owned by the specified account
+
+    List all the challenges owned by the specified account # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
+    :rtype: PageOfChallenges
+    """
+    return 'do some magic!'
+
+
 def list_challenge_stargazers(account_name, challenge_name):  # noqa: E501
     """List stargazers
-
     Lists the people that have starred the repository. # noqa: E501
-
     :param account_name: The name of the account that owns the challenge
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
-
     :rtype: PageOfUsers
     """
     return 'do some magic!'

@@ -25,7 +25,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, description=None, owner_id=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None, full_name=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -36,6 +36,8 @@ class Challenge(Model):
         :type display_name: str
         :param description: The description of this Challenge.  # noqa: E501
         :type description: str
+        :param owner_id: The owner_id of this Challenge.  # noqa: E501
+        :type owner_id: str
         :param website_url: The website_url of this Challenge.  # noqa: E501
         :type website_url: str
         :param status: The status of this Challenge.  # noqa: E501
@@ -50,8 +52,6 @@ class Challenge(Model):
         :type doi: str
         :param full_name: The full_name of this Challenge.  # noqa: E501
         :type full_name: str
-        :param owner_id: The owner_id of this Challenge.  # noqa: E501
-        :type owner_id: str
         :param created_at: The created_at of this Challenge.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this Challenge.  # noqa: E501
@@ -62,6 +62,7 @@ class Challenge(Model):
             'name': str,
             'display_name': str,
             'description': str,
+            'owner_id': str,
             'website_url': str,
             'status': ChallengeStatus,
             'start_date': date,
@@ -69,7 +70,6 @@ class Challenge(Model):
             'platform_id': str,
             'doi': str,
             'full_name': str,
-            'owner_id': str,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -79,6 +79,7 @@ class Challenge(Model):
             'name': 'name',
             'display_name': 'displayName',
             'description': 'description',
+            'owner_id': 'ownerId',
             'website_url': 'websiteUrl',
             'status': 'status',
             'start_date': 'startDate',
@@ -86,7 +87,6 @@ class Challenge(Model):
             'platform_id': 'platformId',
             'doi': 'doi',
             'full_name': 'fullName',
-            'owner_id': 'ownerId',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
@@ -95,6 +95,7 @@ class Challenge(Model):
         self._name = name
         self._display_name = display_name
         self._description = description
+        self._owner_id = owner_id
         self._website_url = website_url
         self._status = status
         self._start_date = start_date
@@ -102,7 +103,6 @@ class Challenge(Model):
         self._platform_id = platform_id
         self._doi = doi
         self._full_name = full_name
-        self._owner_id = owner_id
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -224,6 +224,31 @@ class Challenge(Model):
             raise ValueError("Invalid value for `description`, length must be less than or equal to `280`")  # noqa: E501
 
         self._description = description
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this Challenge.
+
+        The unique identifier of an account  # noqa: E501
+
+        :return: The owner_id of this Challenge.
+        :rtype: str
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this Challenge.
+
+        The unique identifier of an account  # noqa: E501
+
+        :param owner_id: The owner_id of this Challenge.
+        :type owner_id: str
+        """
+        if owner_id is None:
+            raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
+
+        self._owner_id = owner_id
 
     @property
     def website_url(self):
@@ -375,31 +400,6 @@ class Challenge(Model):
             raise ValueError("Invalid value for `full_name`, must not be `None`")  # noqa: E501
 
         self._full_name = full_name
-
-    @property
-    def owner_id(self):
-        """Gets the owner_id of this Challenge.
-
-        The unique identifier of an account  # noqa: E501
-
-        :return: The owner_id of this Challenge.
-        :rtype: str
-        """
-        return self._owner_id
-
-    @owner_id.setter
-    def owner_id(self, owner_id):
-        """Sets the owner_id of this Challenge.
-
-        The unique identifier of an account  # noqa: E501
-
-        :param owner_id: The owner_id of this Challenge.
-        :type owner_id: str
-        """
-        if owner_id is None:
-            raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
-
-        self._owner_id = owner_id
 
     @property
     def created_at(self):
