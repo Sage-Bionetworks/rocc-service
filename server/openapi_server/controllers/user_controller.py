@@ -369,7 +369,7 @@ def list_user_organizations(user_id, limit=None, offset=None):  # noqa: E501
     """
     try:
         db_org_memberships = DbOrgMembership.objects(userId=user_id)
-        orgs_ids = [d.to_dict()["id"] for d in db_org_memberships]
+        orgs_ids = [d.to_dict()["organizationId"] for d in db_org_memberships]
         db_orgs = DbOrganization.objects(id__in=orgs_ids).skip(offset).limit(limit)  # noqa: E501
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""
@@ -412,7 +412,7 @@ def list_authenticated_user_organizations(token_info, limit=None, offset=None): 
     try:
         user_id = token_info['sub']
         db_org_memberships = DbOrgMembership.objects(userId=user_id)
-        orgs_ids = [d.to_dict()["id"] for d in db_org_memberships]
+        orgs_ids = [d.to_dict()["organizationId"] for d in db_org_memberships]
         db_orgs = DbOrganization.objects(id__in=orgs_ids).skip(offset).limit(limit)  # noqa: E501
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""
