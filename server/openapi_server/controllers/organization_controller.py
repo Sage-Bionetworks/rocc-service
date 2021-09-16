@@ -23,6 +23,10 @@ def create_organization():  # noqa: E501
             org = DbOrganization(
                 login=org_create_request.login,
                 email=org_create_request.email,
+                name=org_create_request.name,
+                avatarUrl=org_create_request.avatar_url,
+                websiteUrl=org_create_request.website_url,
+                description=org_create_request.description,
                 type="Organization"  # TODO: Use enum value
             ).save()
             org_id = org.to_dict().get("id")

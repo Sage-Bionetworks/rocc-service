@@ -21,7 +21,7 @@ class Organization(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, login=None, email=None, name=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, id=None, login=None, email=None, name=None, avatar_url=None, website_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
         """Organization - a model defined in OpenAPI
 
         :param id: The id of this Organization.  # noqa: E501
@@ -34,6 +34,8 @@ class Organization(Model):
         :type name: str
         :param avatar_url: The avatar_url of this Organization.  # noqa: E501
         :type avatar_url: str
+        :param website_url: The website_url of this Organization.  # noqa: E501
+        :type website_url: str
         :param description: The description of this Organization.  # noqa: E501
         :type description: str
         :param created_at: The created_at of this Organization.  # noqa: E501
@@ -49,6 +51,7 @@ class Organization(Model):
             'email': str,
             'name': str,
             'avatar_url': str,
+            'website_url': str,
             'description': str,
             'created_at': datetime,
             'updated_at': datetime,
@@ -61,6 +64,7 @@ class Organization(Model):
             'email': 'email',
             'name': 'name',
             'avatar_url': 'avatarUrl',
+            'website_url': 'websiteUrl',
             'description': 'description',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt',
@@ -72,6 +76,7 @@ class Organization(Model):
         self._email = email
         self._name = name
         self._avatar_url = avatar_url
+        self._website_url = website_url
         self._description = description
         self._created_at = created_at
         self._updated_at = updated_at
@@ -202,6 +207,27 @@ class Organization(Model):
         """
 
         self._avatar_url = avatar_url
+
+    @property
+    def website_url(self):
+        """Gets the website_url of this Organization.
+
+
+        :return: The website_url of this Organization.
+        :rtype: str
+        """
+        return self._website_url
+
+    @website_url.setter
+    def website_url(self, website_url):
+        """Sets the website_url of this Organization.
+
+
+        :param website_url: The website_url of this Organization.
+        :type website_url: str
+        """
+
+        self._website_url = website_url
 
     @property
     def description(self):

@@ -15,15 +15,9 @@ class OrganizationAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, avatar_url=None, description=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, created_at=None, updated_at=None, type=None):  # noqa: E501
         """OrganizationAllOf - a model defined in OpenAPI
 
-        :param name: The name of this OrganizationAllOf.  # noqa: E501
-        :type name: str
-        :param avatar_url: The avatar_url of this OrganizationAllOf.  # noqa: E501
-        :type avatar_url: str
-        :param description: The description of this OrganizationAllOf.  # noqa: E501
-        :type description: str
         :param created_at: The created_at of this OrganizationAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this OrganizationAllOf.  # noqa: E501
@@ -32,26 +26,17 @@ class OrganizationAllOf(Model):
         :type type: str
         """
         self.openapi_types = {
-            'name': str,
-            'avatar_url': str,
-            'description': str,
             'created_at': datetime,
             'updated_at': datetime,
             'type': str
         }
 
         self.attribute_map = {
-            'name': 'name',
-            'avatar_url': 'avatarUrl',
-            'description': 'description',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt',
             'type': 'type'
         }
 
-        self._name = name
-        self._avatar_url = avatar_url
-        self._description = description
         self._created_at = created_at
         self._updated_at = updated_at
         self._type = type
@@ -66,69 +51,6 @@ class OrganizationAllOf(Model):
         :rtype: OrganizationAllOf
         """
         return util.deserialize_model(dikt, cls)
-
-    @property
-    def name(self):
-        """Gets the name of this OrganizationAllOf.
-
-
-        :return: The name of this OrganizationAllOf.
-        :rtype: str
-        """
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        """Sets the name of this OrganizationAllOf.
-
-
-        :param name: The name of this OrganizationAllOf.
-        :type name: str
-        """
-
-        self._name = name
-
-    @property
-    def avatar_url(self):
-        """Gets the avatar_url of this OrganizationAllOf.
-
-
-        :return: The avatar_url of this OrganizationAllOf.
-        :rtype: str
-        """
-        return self._avatar_url
-
-    @avatar_url.setter
-    def avatar_url(self, avatar_url):
-        """Sets the avatar_url of this OrganizationAllOf.
-
-
-        :param avatar_url: The avatar_url of this OrganizationAllOf.
-        :type avatar_url: str
-        """
-
-        self._avatar_url = avatar_url
-
-    @property
-    def description(self):
-        """Gets the description of this OrganizationAllOf.
-
-
-        :return: The description of this OrganizationAllOf.
-        :rtype: str
-        """
-        return self._description
-
-    @description.setter
-    def description(self, description):
-        """Sets the description of this OrganizationAllOf.
-
-
-        :param description: The description of this OrganizationAllOf.
-        :type description: str
-        """
-
-        self._description = description
 
     @property
     def created_at(self):

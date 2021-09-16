@@ -8,6 +8,7 @@ class Organization(Account):
     email = EmailField()
     name = StringField()
     avatarUrl = URLField()
+    websiteUrl = URLField()
     description = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
