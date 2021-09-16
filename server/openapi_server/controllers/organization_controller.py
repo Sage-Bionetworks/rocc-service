@@ -25,6 +25,7 @@ def create_organization():  # noqa: E501
                 email=org_create_request.email,
                 name=org_create_request.name,
                 avatarUrl=org_create_request.avatar_url,
+                websiteUrl=org_create_request.website_url,
                 description=org_create_request.description,
                 type="Organization"  # TODO: Use enum value
             ).save()

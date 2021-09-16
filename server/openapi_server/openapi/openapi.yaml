@@ -2948,6 +2948,7 @@ components:
         email: contact@example.org
         name: Awesome Org
         avatarUrl: https://example.com/awesome-avatar.png
+        websiteUrl: https://example.com
         description: A great organization
       properties:
         login:
@@ -2962,6 +2963,11 @@ components:
           type: string
         avatarUrl:
           example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+        websiteUrl:
+          example: https://example.com
           format: uri
           nullable: true
           type: string

@@ -15,7 +15,7 @@ class OrganizationCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, email=None, name=None, avatar_url=None, description=None):  # noqa: E501
+    def __init__(self, login=None, email=None, name=None, avatar_url=None, website_url=None, description=None):  # noqa: E501
         """OrganizationCreateRequest - a model defined in OpenAPI
 
         :param login: The login of this OrganizationCreateRequest.  # noqa: E501
@@ -26,6 +26,8 @@ class OrganizationCreateRequest(Model):
         :type name: str
         :param avatar_url: The avatar_url of this OrganizationCreateRequest.  # noqa: E501
         :type avatar_url: str
+        :param website_url: The website_url of this OrganizationCreateRequest.  # noqa: E501
+        :type website_url: str
         :param description: The description of this OrganizationCreateRequest.  # noqa: E501
         :type description: str
         """
@@ -34,6 +36,7 @@ class OrganizationCreateRequest(Model):
             'email': str,
             'name': str,
             'avatar_url': str,
+            'website_url': str,
             'description': str
         }
 
@@ -42,6 +45,7 @@ class OrganizationCreateRequest(Model):
             'email': 'email',
             'name': 'name',
             'avatar_url': 'avatarUrl',
+            'website_url': 'websiteUrl',
             'description': 'description'
         }
 
@@ -49,6 +53,7 @@ class OrganizationCreateRequest(Model):
         self._email = email
         self._name = name
         self._avatar_url = avatar_url
+        self._website_url = website_url
         self._description = description
 
     @classmethod
@@ -151,6 +156,27 @@ class OrganizationCreateRequest(Model):
         """
 
         self._avatar_url = avatar_url
+
+    @property
+    def website_url(self):
+        """Gets the website_url of this OrganizationCreateRequest.
+
+
+        :return: The website_url of this OrganizationCreateRequest.
+        :rtype: str
+        """
+        return self._website_url
+
+    @website_url.setter
+    def website_url(self, website_url):
+        """Sets the website_url of this OrganizationCreateRequest.
+
+
+        :param website_url: The website_url of this OrganizationCreateRequest.
+        :type website_url: str
+        """
+
+        self._website_url = website_url
 
     @property
     def description(self):
