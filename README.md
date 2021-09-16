@@ -38,7 +38,7 @@ You can stop the container run with `Ctrl+C`, followed by `docker compose down`.
 
 We recommend using a Conda environment to install and run the ROCC service.
 
-    conda create --name rocc-service python=3.9.4
+    conda create --name rocc-service python=3.9.5
     conda activate rocc-service
 
 Create the configuration file and export its parameters to environment

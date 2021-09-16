@@ -103,10 +103,8 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
     :rtype: object
     """
     try:
-        # TODO Catch case where account is not found
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-
         DbChallenge.objects.get(owner_id=account_id, name=challenge_name).delete()  # noqa: E501
         res = {}
         status = 200
@@ -132,10 +130,8 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     :rtype: Challenge
     """
     try:
-        # TODO Catch case where account is not found
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-
         db_user = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
         res = Challenge.from_dict(db_user.to_dict())
         status = 200
@@ -148,16 +144,56 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
+def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E501
+    """List all the challenges owned by the specified account
+
+    List all the challenges owned by the specified account # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
+    :rtype: PageOfChallenges
+    """
+    try:
+        account = DbAccount.objects.get(login=account_name)
+        account_id = account.to_dict().get("id")
+        db_challenges = DbChallenge.objects(ownerId=account_id).skip(offset).limit(limit)  # noqa: E501
+        challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
+        next_ = ""
+        if len(challenges) == limit:
+            next_ = "%s/challenges/%s?limit=%s&offset=%s" % \
+                (config.server_api_url, account_name, limit, offset + limit)
+
+        total = db_challenges.count()
+        res = PageOfChallenges(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            challenges=challenges)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
 def list_challenge_stargazers(account_name, challenge_name):  # noqa: E501
     """List stargazers
-
     Lists the people that have starred the repository. # noqa: E501
-
     :param account_name: The name of the account that owns the challenge
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
-
     :rtype: PageOfUsers
     """
     return 'do some magic!'
