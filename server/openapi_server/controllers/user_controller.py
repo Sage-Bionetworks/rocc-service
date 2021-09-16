@@ -2,12 +2,16 @@ import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge  # noqa: E501
+from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
+from openapi_server.dbmodels.org_membership import OrgMembership as DbOrgMembership  # noqa: E501
 from openapi_server.dbmodels.starred_challenge import StarredChallenge as DbStarredChallenge  # noqa: E501
 from openapi_server.dbmodels.user import User as DbUser
 from openapi_server.models.challenge import Challenge
 from openapi_server.models.error import Error
+from openapi_server.models.organization import Organization
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.page_of_challenges import PageOfChallenges
+from openapi_server.models.page_of_organizations import PageOfOrganizations
 from openapi_server.models.user import User
 from openapi_server.models.user_create_response import UserCreateResponse
 from openapi_server.models.user_create_request import UserCreateRequest
@@ -363,10 +367,36 @@ def list_user_organizations(user_id, limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfOrganizations
     """
-    return 'do some magic!'
+    try:
+        db_org_memberships = DbOrgMembership.objects(userId=user_id)
+        orgs_ids = [d.to_dict()["id"] for d in db_org_memberships]
+        db_orgs = DbOrganization.objects(id__in=orgs_ids).skip(offset).limit(limit)  # noqa: E501
+        orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
+        next_ = ""
+        if len(orgs) == limit:
+            next_ = "%s/users/%s/orgs?limit=%s&offset=%s" % \
+                (config.server_api_url, user_id, limit, offset + limit)
+
+        total = db_orgs.count()
+        res = PageOfOrganizations(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            organizations=orgs)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
-def list_authenticated_user_organizations(limit=None, offset=None):  # noqa: E501
+def list_authenticated_user_organizations(token_info, limit=None, offset=None):  # noqa: E501
     """List organizations of the authenticated user
 
     Lists organizations the authenticated user belongs to. # noqa: E501
@@ -378,4 +408,32 @@ def list_authenticated_user_organizations(limit=None, offset=None):  # noqa: E50
 
     :rtype: PageOfOrganizations
     """
-    return 'do some magic!'
+    # TODO Remove duplicated code shared with list_user_organizations
+    try:
+        user_id = token_info['sub']
+        db_org_memberships = DbOrgMembership.objects(userId=user_id)
+        orgs_ids = [d.to_dict()["id"] for d in db_org_memberships]
+        db_orgs = DbOrganization.objects(id__in=orgs_ids).skip(offset).limit(limit)  # noqa: E501
+        orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
+        next_ = ""
+        if len(orgs) == limit:
+            next_ = "%s/user/orgs?limit=%s&offset=%s" % \
+                (config.server_api_url, user_id, limit, offset + limit)
+
+        total = db_orgs.count()
+        res = PageOfOrganizations(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            organizations=orgs)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
