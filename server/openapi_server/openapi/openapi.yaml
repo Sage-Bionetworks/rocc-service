@@ -1723,9 +1723,67 @@ paths:
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
+  /user/orgs:
+    get:
+      description: Lists organizations the authenticated user belongs to.
+      operationId: list_authenticated_user_organizations
+      parameters:
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfOrganizations'
+          description: Success
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Unauthorized
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      security:
+      - BearerAuth: []
+      summary: List organizations of the authenticated user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/starred:
     get:
-      description: Lists repositories the authenticated user has starred.
+      description: Lists challenges the authenticated user has starred.
       operationId: list_starred_challenges
       parameters:
       - description: Maximum number of results returned
@@ -1783,7 +1841,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.user_controller
   /user/starred/{accountName}/{challengeName}:
     delete:
-      description: Unstar a repository for the authenticated user
+      description: Unstar a challenge for the authenticated user
       operationId: unstar_challenge
       parameters:
       - description: The name of the account that owns the challenge
@@ -1830,12 +1888,12 @@ paths:
             error
       security:
       - BearerAuth: []
-      summary: Unstar a repository for the authenticated user
+      summary: Unstar a challenge for the authenticated user
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
     get:
-      description: Check if a repository is starred by the authenticated user
+      description: Check if a challenge is starred by the authenticated user
       operationId: is_starred_challenge
       parameters:
       - description: The name of the account that owns the challenge
@@ -1882,12 +1940,12 @@ paths:
             error
       security:
       - BearerAuth: []
-      summary: Check if a repository is starred by the authenticated user
+      summary: Check if a challenge is starred by the authenticated user
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
     put:
-      description: Star a repository for the authenticated user
+      description: Star a challenge for the authenticated user
       operationId: star_challenge
       parameters:
       - description: The name of the account that owns the challenge
@@ -1940,7 +1998,7 @@ paths:
             error
       security:
       - BearerAuth: []
-      summary: Star a repository for the authenticated user
+      summary: Star a challenge for the authenticated user
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
@@ -2140,10 +2198,69 @@ paths:
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller
+  /users/{userId}/orgs:
+    get:
+      description: Lists organizations a user belongs to.
+      operationId: list_user_organizations
+      parameters:
+      - description: The unique identifier of the user, either the user account ID
+          or login
+        explode: false
+        in: path
+        name: userId
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountId'
+        style: simple
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfOrganizations'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List orgsnizations of a user
+      tags:
+      - User
+      x-openapi-router-controller: openapi_server.controllers.user_controller
   /users/{userId}/starred:
     get:
-      description: Lists repositories a user has starred.
-      operationId: get_user_starred_challenges
+      description: Lists challenges a user has starred.
+      operationId: list_user_starred_challenges
       parameters:
       - description: The unique identifier of the user, either the user account ID
           or login
@@ -2195,7 +2312,7 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
-      summary: List repositories starred by a user
+      summary: List challenges starred by a user
       tags:
       - User
       x-openapi-router-controller: openapi_server.controllers.user_controller

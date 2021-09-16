@@ -110,7 +110,7 @@ def get_user(user_id):  # noqa: E501
     return res, status
 
 
-def get_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
+def list_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
     """List repositories starred by a user
 
     Lists repositories a user has starred. # noqa: E501
@@ -347,3 +347,35 @@ def get_authenticated_user(token_info):  # noqa: E501
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def list_user_organizations(user_id, limit=None, offset=None):  # noqa: E501
+    """List orgsnizations of a user
+
+    Lists organizations a user belongs to. # noqa: E501
+
+    :param user_id: The unique identifier of the user, either the user account ID or login
+    :type user_id: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
+    :rtype: PageOfOrganizations
+    """
+    return 'do some magic!'
+
+
+def list_authenticated_user_organizations(limit=None, offset=None):  # noqa: E501
+    """List organizations of the authenticated user
+
+    Lists organizations the authenticated user belongs to. # noqa: E501
+
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
+    :rtype: PageOfOrganizations
+    """
+    return 'do some magic!'
