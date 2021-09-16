@@ -418,7 +418,7 @@ def list_authenticated_user_organizations(token_info, limit=None, offset=None): 
         next_ = ""
         if len(orgs) == limit:
             next_ = "%s/user/orgs?limit=%s&offset=%s" % \
-                (config.server_api_url, user_id, limit, offset + limit)
+                (config.server_api_url, limit, offset + limit)
 
         total = db_orgs.count()
         res = PageOfOrganizations(
