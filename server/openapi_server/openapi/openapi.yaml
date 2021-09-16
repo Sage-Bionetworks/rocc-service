@@ -2604,7 +2604,6 @@ components:
         name: awesome-challenge
         displayName: Awesome Challenge
         description: This challenge is awesome.
-        ownerId: 507f1f77bcf86cd799439011
         websiteUrl: https://synapse.org/awesome-challenge
         status: active
         startDate: 2020-11-10
@@ -2627,11 +2626,6 @@ components:
           description: A short description of the challenge
           maxLength: 280
           nullable: true
-          type: string
-        ownerId:
-          description: The unique identifier of an account
-          example: 507f1f77bcf86cd799439011
-          title: AccountId
           type: string
         websiteUrl:
           format: uri
@@ -2657,7 +2651,6 @@ components:
       required:
       - description
       - name
-      - ownerId
       type: object
     Challenge:
       allOf:
@@ -3105,10 +3098,16 @@ components:
     Challenge_allOf:
       example:
         fullName: dream/awesome-challenge
+        ownerId: 507f1f77bcf86cd799439011
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
       properties:
         fullName:
+          type: string
+        ownerId:
+          description: The unique identifier of an account
+          example: 507f1f77bcf86cd799439011
+          title: AccountId
           type: string
         createdAt:
           format: date-time
@@ -3119,6 +3118,7 @@ components:
       required:
       - createdAt
       - fullName
+      - ownerId
       - updatedAt
       type: object
     PageOfChallenges_allOf:

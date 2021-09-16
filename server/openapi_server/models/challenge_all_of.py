@@ -15,11 +15,13 @@ class ChallengeAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, full_name=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
         """ChallengeAllOf - a model defined in OpenAPI
 
         :param full_name: The full_name of this ChallengeAllOf.  # noqa: E501
         :type full_name: str
+        :param owner_id: The owner_id of this ChallengeAllOf.  # noqa: E501
+        :type owner_id: str
         :param created_at: The created_at of this ChallengeAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this ChallengeAllOf.  # noqa: E501
@@ -27,17 +29,20 @@ class ChallengeAllOf(Model):
         """
         self.openapi_types = {
             'full_name': str,
+            'owner_id': str,
             'created_at': datetime,
             'updated_at': datetime
         }
 
         self.attribute_map = {
             'full_name': 'fullName',
+            'owner_id': 'ownerId',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
 
         self._full_name = full_name
+        self._owner_id = owner_id
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -74,6 +79,31 @@ class ChallengeAllOf(Model):
             raise ValueError("Invalid value for `full_name`, must not be `None`")  # noqa: E501
 
         self._full_name = full_name
+
+    @property
+    def owner_id(self):
+        """Gets the owner_id of this ChallengeAllOf.
+
+        The unique identifier of an account  # noqa: E501
+
+        :return: The owner_id of this ChallengeAllOf.
+        :rtype: str
+        """
+        return self._owner_id
+
+    @owner_id.setter
+    def owner_id(self, owner_id):
+        """Sets the owner_id of this ChallengeAllOf.
+
+        The unique identifier of an account  # noqa: E501
+
+        :param owner_id: The owner_id of this ChallengeAllOf.
+        :type owner_id: str
+        """
+        if owner_id is None:
+            raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
+
+        self._owner_id = owner_id
 
     @property
     def created_at(self):
