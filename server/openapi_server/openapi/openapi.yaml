@@ -2946,6 +2946,9 @@ components:
       example:
         login: awesome-org
         email: contact@example.org
+        name: Awesome Org
+        avatarUrl: https://example.com/awesome-avatar.png
+        description: A great organization
       properties:
         login:
           type: string
@@ -2953,6 +2956,17 @@ components:
           description: An email address
           example: john.smith@example.com
           format: email
+          type: string
+        name:
+          nullable: true
+          type: string
+        avatarUrl:
+          example: https://example.com/awesome-avatar.png
+          format: uri
+          nullable: true
+          type: string
+        description:
+          nullable: true
           type: string
       required:
       - email
@@ -3336,24 +3350,10 @@ components:
       type: object
     Organization_allOf:
       example:
-        name: Awesome Org
-        avatarUrl: https://example.com/awesome-avatar.png
-        description: A great organization
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
         type: Organization
       properties:
-        name:
-          nullable: true
-          type: string
-        avatarUrl:
-          example: https://example.com/awesome-avatar.png
-          format: uri
-          nullable: true
-          type: string
-        description:
-          nullable: true
-          type: string
         createdAt:
           format: date-time
           type: string
