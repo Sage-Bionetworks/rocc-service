@@ -9,6 +9,7 @@ class User(Account):
     email = EmailField(required=True)
     name = StringField(required=True)
     avatarUrl = URLField()
+    bio = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     passwordHash = StringField(required=True)

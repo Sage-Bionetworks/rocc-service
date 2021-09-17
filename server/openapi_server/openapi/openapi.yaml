@@ -3181,6 +3181,7 @@ components:
         password: yourpassword
         name: Awesome User
         avatarUrl: https://example.com/awesome-avatar.png
+        bio: A great bio
       properties:
         login:
           type: string
@@ -3198,6 +3199,9 @@ components:
         avatarUrl:
           example: https://example.com/awesome-avatar.png
           format: uri
+          nullable: true
+          type: string
+        bio:
           nullable: true
           type: string
       required:
@@ -3274,6 +3278,7 @@ components:
         email: awesome-user@example.org
         name: Awesome User
         avatarUrl: https://example.com/awesome-avatar.png
+        bio: A great bio
         createdAt: 2017-07-08T16:18:44-04:00
         updatedAt: 2017-07-08T16:18:44-04:00
         type: User
@@ -3301,6 +3306,9 @@ components:
           type: string
         type:
           example: User
+          type: string
+        bio:
+          nullable: true
           type: string
       required:
       - createdAt

@@ -15,7 +15,7 @@ class UserAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, email=None, name=None, avatar_url=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, login=None, email=None, name=None, avatar_url=None, created_at=None, updated_at=None, type=None, bio=None):  # noqa: E501
         """UserAllOf - a model defined in OpenAPI
 
         :param login: The login of this UserAllOf.  # noqa: E501
@@ -32,6 +32,8 @@ class UserAllOf(Model):
         :type updated_at: datetime
         :param type: The type of this UserAllOf.  # noqa: E501
         :type type: str
+        :param bio: The bio of this UserAllOf.  # noqa: E501
+        :type bio: str
         """
         self.openapi_types = {
             'login': str,
@@ -40,7 +42,8 @@ class UserAllOf(Model):
             'avatar_url': str,
             'created_at': datetime,
             'updated_at': datetime,
-            'type': str
+            'type': str,
+            'bio': str
         }
 
         self.attribute_map = {
@@ -50,7 +53,8 @@ class UserAllOf(Model):
             'avatar_url': 'avatarUrl',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt',
-            'type': 'type'
+            'type': 'type',
+            'bio': 'bio'
         }
 
         self._login = login
@@ -60,6 +64,7 @@ class UserAllOf(Model):
         self._created_at = created_at
         self._updated_at = updated_at
         self._type = type
+        self._bio = bio
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserAllOf':
@@ -230,3 +235,24 @@ class UserAllOf(Model):
             raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
+
+    @property
+    def bio(self):
+        """Gets the bio of this UserAllOf.
+
+
+        :return: The bio of this UserAllOf.
+        :rtype: str
+        """
+        return self._bio
+
+    @bio.setter
+    def bio(self, bio):
+        """Sets the bio of this UserAllOf.
+
+
+        :param bio: The bio of this UserAllOf.
+        :type bio: str
+        """
+
+        self._bio = bio

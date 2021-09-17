@@ -15,7 +15,7 @@ class UserCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, login=None, email=None, password=None, name=None, avatar_url=None):  # noqa: E501
+    def __init__(self, login=None, email=None, password=None, name=None, avatar_url=None, bio=None):  # noqa: E501
         """UserCreateRequest - a model defined in OpenAPI
 
         :param login: The login of this UserCreateRequest.  # noqa: E501
@@ -28,13 +28,16 @@ class UserCreateRequest(Model):
         :type name: str
         :param avatar_url: The avatar_url of this UserCreateRequest.  # noqa: E501
         :type avatar_url: str
+        :param bio: The bio of this UserCreateRequest.  # noqa: E501
+        :type bio: str
         """
         self.openapi_types = {
             'login': str,
             'email': str,
             'password': str,
             'name': str,
-            'avatar_url': str
+            'avatar_url': str,
+            'bio': str
         }
 
         self.attribute_map = {
@@ -42,7 +45,8 @@ class UserCreateRequest(Model):
             'email': 'email',
             'password': 'password',
             'name': 'name',
-            'avatar_url': 'avatarUrl'
+            'avatar_url': 'avatarUrl',
+            'bio': 'bio'
         }
 
         self._login = login
@@ -50,6 +54,7 @@ class UserCreateRequest(Model):
         self._password = password
         self._name = name
         self._avatar_url = avatar_url
+        self._bio = bio
 
     @classmethod
     def from_dict(cls, dikt) -> 'UserCreateRequest':
@@ -174,3 +179,24 @@ class UserCreateRequest(Model):
         """
 
         self._avatar_url = avatar_url
+
+    @property
+    def bio(self):
+        """Gets the bio of this UserCreateRequest.
+
+
+        :return: The bio of this UserCreateRequest.
+        :rtype: str
+        """
+        return self._bio
+
+    @bio.setter
+    def bio(self, bio):
+        """Sets the bio of this UserCreateRequest.
+
+
+        :param bio: The bio of this UserCreateRequest.
+        :type bio: str
+        """
+
+        self._bio = bio
