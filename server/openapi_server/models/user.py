@@ -19,7 +19,7 @@ class User(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, login=None, email=None, name=None, avatar_url=None, created_at=None, updated_at=None, type=None):  # noqa: E501
+    def __init__(self, id=None, login=None, email=None, name=None, avatar_url=None, created_at=None, updated_at=None, type=None, bio=None):  # noqa: E501
         """User - a model defined in OpenAPI
 
         :param id: The id of this User.  # noqa: E501
@@ -38,6 +38,8 @@ class User(Model):
         :type updated_at: datetime
         :param type: The type of this User.  # noqa: E501
         :type type: str
+        :param bio: The bio of this User.  # noqa: E501
+        :type bio: str
         """
         self.openapi_types = {
             'id': str,
@@ -47,7 +49,8 @@ class User(Model):
             'avatar_url': str,
             'created_at': datetime,
             'updated_at': datetime,
-            'type': str
+            'type': str,
+            'bio': str
         }
 
         self.attribute_map = {
@@ -58,7 +61,8 @@ class User(Model):
             'avatar_url': 'avatarUrl',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt',
-            'type': 'type'
+            'type': 'type',
+            'bio': 'bio'
         }
 
         self._id = id
@@ -69,6 +73,7 @@ class User(Model):
         self._created_at = created_at
         self._updated_at = updated_at
         self._type = type
+        self._bio = bio
 
     @classmethod
     def from_dict(cls, dikt) -> 'User':
@@ -264,3 +269,24 @@ class User(Model):
             raise ValueError("Invalid value for `type`, must not be `None`")  # noqa: E501
 
         self._type = type
+
+    @property
+    def bio(self):
+        """Gets the bio of this User.
+
+
+        :return: The bio of this User.
+        :rtype: str
+        """
+        return self._bio
+
+    @bio.setter
+    def bio(self, bio):
+        """Sets the bio of this User.
+
+
+        :param bio: The bio of this User.
+        :type bio: str
+        """
+
+        self._bio = bio

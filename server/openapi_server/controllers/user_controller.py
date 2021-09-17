@@ -34,6 +34,7 @@ def create_user():  # noqa: E501
                 passwordHash=DbUser.generate_password_hash(user_create_request.password),  # noqa: E501
                 name=user_create_request.name,
                 avatarUrl=user_create_request.avatar_url,
+                bio=user_create_request.bio,
                 type="User"  # TODO: Use enum value
             ).save()
             user_id = user.to_dict().get("id")
