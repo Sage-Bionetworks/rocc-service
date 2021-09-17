@@ -8,6 +8,7 @@ from openapi_server.dbmodels.challenge_readme import ChallengeReadme as DbChalle
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
 # from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
@@ -264,8 +265,6 @@ def create_challenge_readme(account_name, challenge_name):  # noqa: E501
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
-    :param challenge_readme_create_request:
-    :type challenge_readme_create_request: dict | bytes
 
     :rtype: ChallengeReadmeCreateResponse
     """
@@ -314,7 +313,26 @@ def get_challenge_readme(account_name, challenge_name):  # noqa: E501
 
     :rtype: ChallengeReadme
     """
-    return 'do some magic!'
+    try:
+        try:
+            challenge_full_name = f"{account_name}/{challenge_name}"
+            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+        except DoesNotExist:
+            status = 400
+            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+            return res, status
+
+        challenge_id = db_challenge.to_dict().get("id")
+        db_readme = DbChallengeReadme.objects.get(challengeId=challenge_id)
+        res = ChallengeReadme.from_dict(db_readme.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
