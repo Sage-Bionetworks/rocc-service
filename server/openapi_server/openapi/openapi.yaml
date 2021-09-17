@@ -646,6 +646,151 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/readme:
+    delete:
+      description: Deletes the challenge README specified
+      operationId: delete_challenge_readme
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a challenge README
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    get:
+      description: Returns the challenge README specified
+      operationId: get_challenge_readme
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeReadme'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get a challenge README
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    post:
+      description: Create a challenge README
+      operationId: create_challenge_readme
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeReadmeCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeReadmeCreateResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a challenge README
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{accountName}/{challengeName}/stargazers:
     get:
       description: Lists the people that have starred the repository.
@@ -2787,6 +2932,41 @@ components:
     EmptyObject:
       description: Empty JSON object
       type: object
+    ChallengeReadmeId:
+      description: The unique identifier of a challenge README
+      example: 507f1f77bcf86cd799439011
+      type: string
+    ChallengeReadmeCreateResponse:
+      description: The unique identifier of the challenge README created
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of a challenge README
+          example: 507f1f77bcf86cd799439011
+          type: string
+      required:
+      - id
+      title: ChallengeReadmeCreateResponse
+      type: object
+    ChallengeReadmeCreateRequest:
+      description: The information used to the README of a challenge
+      example:
+        text: A great README text
+      properties:
+        text:
+          type: string
+      required:
+      - text
+      type: object
+    ChallengeReadme:
+      allOf:
+      - $ref: '#/components/schemas/ChallengeReadmeCreateResponse'
+      - $ref: '#/components/schemas/ChallengeReadmeCreateRequest'
+      - $ref: '#/components/schemas/ChallengeReadme_allOf'
+      description: A challenge README
+      title: ChallengeReadme
+      type: object
     UserCreateResponse:
       description: The response returned after the creation of the user
       example:
@@ -2874,7 +3054,7 @@ components:
       allOf:
       - $ref: '#/components/schemas/ChallengePlatformCreateResponse'
       - $ref: '#/components/schemas/ChallengePlatformCreateRequest'
-      - $ref: '#/components/schemas/ChallengePlatform_allOf'
+      - $ref: '#/components/schemas/ChallengeReadme_allOf'
       description: A challenge platform
       title: ChallengePlatform
       type: object
@@ -3272,6 +3452,21 @@ components:
       required:
       - challenges
       type: object
+    ChallengeReadme_allOf:
+      example:
+        createdAt: 2017-07-08T16:18:44-04:00
+        updatedAt: 2017-07-08T16:18:44-04:00
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+      required:
+      - createdAt
+      - updatedAt
+      type: object
     User_allOf:
       example:
         login: awesome-user
@@ -3326,21 +3521,6 @@ components:
           type: array
       required:
       - users
-      type: object
-    ChallengePlatform_allOf:
-      example:
-        createdAt: 2017-07-08T16:18:44-04:00
-        updatedAt: 2017-07-08T16:18:44-04:00
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-        updatedAt:
-          format: date-time
-          type: string
-      required:
-      - createdAt
-      - updatedAt
       type: object
     PageOfChallengePlatforms_allOf:
       properties:

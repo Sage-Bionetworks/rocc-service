@@ -7,6 +7,8 @@ from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbCh
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
+from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
 # from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 # from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
@@ -250,3 +252,52 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def create_challenge_readme(account_name, challenge_name, challenge_readme_create_request):  # noqa: E501
+    """Create a challenge README
+
+    Create a challenge README # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param challenge_readme_create_request:
+    :type challenge_readme_create_request: dict | bytes
+
+    :rtype: ChallengeReadmeCreateResponse
+    """
+    if connexion.request.is_json:
+        challenge_readme_create_request = ChallengeReadmeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def get_challenge_readme(account_name, challenge_name):  # noqa: E501
+    """Get a challenge README
+
+    Returns the challenge README specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeReadme
+    """
+    return 'do some magic!'
+
+
+def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
+    """Delete a challenge README
+
+    Deletes the challenge README specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: object
+    """
+    return 'do some magic!'
