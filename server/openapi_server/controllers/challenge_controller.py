@@ -63,10 +63,10 @@ def create_challenge(account_name):  # noqa: E501
             ).save()
             challenge_id = challenge.to_dict().get("id")
 
-            DbChallengeReadme(
-                text=challenge_create_request.name,
-                challengeId=challenge_id
-            ).save()
+            # DbChallengeReadme(
+            #     text=challenge_create_request.name,
+            #     challengeId=challenge_id
+            # ).save()
 
             res = ChallengeCreateResponse(id=challenge_id)
             status = 201
@@ -91,6 +91,7 @@ def delete_all_challenges():  # noqa: E501
     :rtype: object
     """
     try:
+        DbChallengeReadme.objects.delete()
         DbChallenge.objects.delete()
         res = {}
         status = 200
@@ -115,7 +116,10 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
     try:
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-        DbChallenge.objects.get(owner_id=account_id, name=challenge_name).delete()  # noqa: E501
+        db_challenge = DbChallenge.objects.get(owner_id=account_id, name=challenge_name)  # noqa: E501
+        challenge_id = db_challenge.to_dict().get("id")
+        DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
+        db_challenge.delete()
         res = {}
         status = 200
     except DoesNotExist:
