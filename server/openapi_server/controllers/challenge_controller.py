@@ -62,6 +62,12 @@ def create_challenge(account_name):  # noqa: E501
               ownerId=account_id
             ).save()
             challenge_id = challenge.to_dict().get("id")
+
+            DbChallengeReadme(
+                text=challenge_create_request.name,
+                challengeId=challenge_id
+            ).save()
+
             res = ChallengeCreateResponse(id=challenge_id)
             status = 201
         except NotUniqueError as error:
