@@ -15,6 +15,7 @@ from openapi_server.models.challenge_readme import ChallengeReadme
 from openapi_server.models.challenge_readme_all_of import ChallengeReadmeAllOf
 from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest
 from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse
+from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server.models.date_range import DateRange
 from openapi_server.models.error import Error

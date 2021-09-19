@@ -647,50 +647,6 @@ paths:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{accountName}/{challengeName}/readme:
-    delete:
-      description: Deletes the challenge README specified
-      operationId: delete_challenge_readme
-      parameters:
-      - description: The name of the account that owns the challenge
-        explode: false
-        in: path
-        name: accountName
-        required: true
-        schema:
-          $ref: '#/components/schemas/AccountLogin'
-        style: simple
-      - description: The name of the challenge
-        explode: false
-        in: path
-        name: challengeName
-        required: true
-        schema:
-          $ref: '#/components/schemas/ChallengeName'
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmptyObject'
-          description: Success
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Delete a challenge README
-      tags:
-      - Challenge
-      x-openapi-router-controller: openapi_server.controllers.challenge_controller
     get:
       description: Returns the challenge README specified
       operationId: get_challenge_readme
@@ -735,9 +691,9 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
-    post:
-      description: Create a challenge README
-      operationId: create_challenge_readme
+    patch:
+      description: Update a challenge README
+      operationId: update_challenge_readme
       parameters:
       - description: The name of the account that owns the challenge
         explode: false
@@ -759,14 +715,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ChallengeReadmeCreateRequest'
+              $ref: '#/components/schemas/ChallengeReadmeUpdateRequest'
         required: true
       responses:
-        "201":
+        "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChallengeReadmeCreateResponse'
+                $ref: '#/components/schemas/EmptyObject'
           description: Success
         "400":
           content:
@@ -787,7 +743,7 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
-      summary: Create a challenge README
+      summary: Update a challenge README
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
@@ -2947,7 +2903,6 @@ components:
           type: string
       required:
       - id
-      title: ChallengeReadmeCreateResponse
       type: object
     ChallengeReadmeCreateRequest:
       description: The information used to the README of a challenge
@@ -2966,6 +2921,16 @@ components:
       - $ref: '#/components/schemas/ChallengeReadme_allOf'
       description: A challenge README
       title: ChallengeReadme
+      type: object
+    ChallengeReadmeUpdateRequest:
+      description: The new README content of a challenge
+      example:
+        text: A great README text
+      properties:
+        text:
+          type: string
+      required:
+      - text
       type: object
     UserCreateResponse:
       description: The response returned after the creation of the user

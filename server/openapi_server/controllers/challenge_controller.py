@@ -9,8 +9,9 @@ from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
-from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
-from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+# from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
+# from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
 # from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
 # from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
@@ -266,49 +267,49 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     return res, status
 
 
-def create_challenge_readme(account_name, challenge_name):  # noqa: E501
-    """Create a challenge README
+# def create_challenge_readme(account_name, challenge_name):  # noqa: E501
+#     """Create a challenge README
 
-    Create a challenge README # noqa: E501
+#     Create a challenge README # noqa: E501
 
-    :param account_name: The name of the account that owns the challenge
-    :type account_name: str
-    :param challenge_name: The name of the challenge
-    :type challenge_name: str
+#     :param account_name: The name of the account that owns the challenge
+#     :type account_name: str
+#     :param challenge_name: The name of the challenge
+#     :type challenge_name: str
 
-    :rtype: ChallengeReadmeCreateResponse
-    """
-    if connexion.request.is_json:
-        try:
-            try:
-                challenge_full_name = f"{account_name}/{challenge_name}"
-                db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
-            except DoesNotExist:
-                status = 400
-                res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
-                return res, status
+#     :rtype: ChallengeReadmeCreateResponse
+#     """
+#     if connexion.request.is_json:
+#         try:
+#             try:
+#                 challenge_full_name = f"{account_name}/{challenge_name}"
+#                 db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+#             except DoesNotExist:
+#                 status = 400
+#                 res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+#                 return res, status
 
-            challenge_id = db_challenge.to_dict().get("id")
-            challenge_readme_create_request = ChallengeReadmeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+#             challenge_id = db_challenge.to_dict().get("id")
+#             challenge_readme_create_request = ChallengeReadmeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
-            readme = DbChallengeReadme(
-                text=challenge_readme_create_request.text,
-                challengeId=challenge_id
-            ).save()
+#             readme = DbChallengeReadme(
+#                 text=challenge_readme_create_request.text,
+#                 challengeId=challenge_id
+#             ).save()
 
-            readme_id = readme.to_dict().get("id")
-            res = ChallengeReadmeCreateResponse(id=readme_id)
-            status = 201
-        except NotUniqueError as error:
-            status = 409
-            res = Error("Conflict", status, str(error))
-        except Exception as error:
-            status = 500
-            res = Error("Internal error", status, str(error))
-    else:
-        status = 400
-        res = Error("Bad request", status, "Missing body")
-    return res, status
+#             readme_id = readme.to_dict().get("id")
+#             res = ChallengeReadmeCreateResponse(id=readme_id)
+#             status = 201
+#         except NotUniqueError as error:
+#             status = 409
+#             res = Error("Conflict", status, str(error))
+#         except Exception as error:
+#             status = 500
+#             res = Error("Internal error", status, str(error))
+#     else:
+#         status = 400
+#         res = Error("Bad request", status, "Missing body")
+#     return res, status
 
 
 def get_challenge_readme(account_name, challenge_name):  # noqa: E501
@@ -345,10 +346,10 @@ def get_challenge_readme(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
-def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
-    """Delete a challenge README
+def update_challenge_readme(account_name, challenge_name):  # noqa: E501
+    """Update a challenge README
 
-    Deletes the challenge README specified # noqa: E501
+    Update a challenge README # noqa: E501
 
     :param account_name: The name of the account that owns the challenge
     :type account_name: str
@@ -357,23 +358,66 @@ def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
 
     :rtype: object
     """
-    try:
+    if connexion.request.is_json:
         try:
-            challenge_full_name = f"{account_name}/{challenge_name}"
-            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
-        except DoesNotExist:
-            status = 400
-            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
-            return res, status
+            challenge_readme_update_request = ChallengeReadmeUpdateRequest.from_dict(connexion.request.get_json())  # noqa: E501
 
-        challenge_id = db_challenge.to_dict().get("id")
-        DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
-        res = {}
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
+            try:
+                challenge_full_name = f"{account_name}/{challenge_name}"
+                db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+                return res, status
+
+            challenge_id = db_challenge.to_dict().get("id")
+            db_readme = DbChallengeReadme.objects.get(challengeId=challenge_id)
+            db_readme.text = challenge_readme_update_request.text
+            db_readme.save()
+
+            res = {}
+            status = 200
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status, "Missing body")
     return res, status
+
+
+# def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
+#     """Delete a challenge README
+
+#     Deletes the challenge README specified # noqa: E501
+
+#     :param account_name: The name of the account that owns the challenge
+#     :type account_name: str
+#     :param challenge_name: The name of the challenge
+#     :type challenge_name: str
+
+#     :rtype: object
+#     """
+#     try:
+#         try:
+#             challenge_full_name = f"{account_name}/{challenge_name}"
+#             db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+#         except DoesNotExist:
+#             status = 400
+#             res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+#             return res, status
+
+#         challenge_id = db_challenge.to_dict().get("id")
+#         DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
+#         res = {}
+#         status = 200
+#     except DoesNotExist:
+#         status = 404
+#         res = Error("The specified resource was not found", status)
+#     except Exception as error:
+#         status = 500
+#         res = Error("Internal error", status, str(error))
+#     return res, status
