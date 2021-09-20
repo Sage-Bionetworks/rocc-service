@@ -834,33 +834,12 @@ paths:
         schema:
           $ref: '#/components/schemas/ChallengeName'
         style: simple
-      - description: Maximum number of results returned
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          default: 10
-          maximum: 100
-          minimum: 10
-          type: integer
-        style: form
-      - description: Index of the first result that must be returned
-        explode: true
-        in: query
-        name: offset
-        required: false
-        schema:
-          default: 0
-          minimum: 0
-          type: integer
-        style: form
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PageOfTopics'
+                $ref: '#/components/schemas/ArrayOfTopics'
           description: Success
         "404":
           content:
@@ -3043,12 +3022,21 @@ components:
       description: A page of Users
       title: PageOfUsers
       type: object
-    PageOfTopics:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfTopics_allOf'
-      description: A page of Topics
-      title: PageOfTopics
+    ArrayOfTopics:
+      description: An array of topics
+      example:
+        topics:
+        - breast-cancer
+        - ehr
+      properties:
+        topics:
+          description: An array of Topics
+          items:
+            $ref: '#/components/schemas/Topic'
+          type: array
+      required:
+      - topics
+      title: ArrayOfTopics
       type: object
     ChallengePlatformCreateResponse:
       description: The unique identifier of the challenge platform created
@@ -3574,16 +3562,6 @@ components:
           type: array
       required:
       - users
-      type: object
-    PageOfTopics_allOf:
-      properties:
-        topics:
-          description: An array of Topics
-          items:
-            $ref: '#/components/schemas/Topic'
-          type: array
-      required:
-      - topics
       type: object
     PageOfChallengePlatforms_allOf:
       properties:

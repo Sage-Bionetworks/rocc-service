@@ -148,8 +148,8 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     try:
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-        db_user = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
-        res = Challenge.from_dict(db_user.to_dict())
+        db_challenge = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        res = Challenge.from_dict(db_challenge.to_dict())
         status = 200
     except DoesNotExist:
         status = 404
@@ -222,7 +222,7 @@ def list_challenge_stargazers(account_name, challenge_name, limit=None, offset=N
     return 'do some magic!'
 
 
-def list_challenge_topics(account_name, challenge_name, limit=None, offset=None):  # noqa: E501
+def list_challenge_topics(account_name, challenge_name):  # noqa: E501
     """List stargazers
 
     Lists the challenge topics. # noqa: E501
@@ -231,12 +231,8 @@ def list_challenge_topics(account_name, challenge_name, limit=None, offset=None)
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
-    :param limit: Maximum number of results returned
-    :type limit: int
-    :param offset: Index of the first result that must be returned
-    :type offset: int
 
-    :rtype: PageOfTopics
+    :rtype: ArrayOfTopics
     """
     return 'do some magic!'
 
