@@ -1,6 +1,6 @@
 from bson import ObjectId
 # import datetime
-from mongoengine import DateTimeField, Document, ReferenceField, StringField, ObjectIdField, URLField  # noqa: E501
+from mongoengine import DateTimeField, Document, ReferenceField, StringField, ObjectIdField, URLField, ListField  # noqa: E501
 # , ListField
 
 from openapi_server.dbmodels.account import Account
@@ -26,6 +26,7 @@ class Challenge(Document):
     startDate = DateTimeField()
     endDate = DateTimeField()
     platformId = ReferenceField(ChallengePlatform)
+    topics = ListField(StringField(unique=True))
     doi = StringField()
 
     # summary = StringField()

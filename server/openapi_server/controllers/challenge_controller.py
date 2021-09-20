@@ -58,6 +58,7 @@ def create_challenge(account_name):  # noqa: E501
               startDate=challenge_create_request.start_date,
               endDate=challenge_create_request.end_date,
               platformId=challenge_create_request.platform_id,
+              topics=challenge_create_request.topics,
               doi=challenge_create_request.doi,
               fullName="%s/%s" % (account_name, challenge_create_request.name),
               ownerId=account_id
