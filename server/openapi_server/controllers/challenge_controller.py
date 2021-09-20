@@ -202,19 +202,45 @@ def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E50
     return res, status
 
 
-def list_challenge_stargazers(account_name, challenge_name):  # noqa: E501
+def list_challenge_stargazers(account_name, challenge_name, limit=None, offset=None):  # noqa: E501
     """List stargazers
+
     Lists the people that have starred the repository. # noqa: E501
+
     :param account_name: The name of the account that owns the challenge
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
     :rtype: PageOfUsers
     """
     return 'do some magic!'
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
+def list_challenge_topics(account_name, challenge_name, limit=None, offset=None):  # noqa: E501
+    """List stargazers
+
+    Lists the challenge topics. # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
+    :rtype: PageOfTopics
+    """
+    return 'do some magic!'
+
+
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -229,8 +255,8 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type direction: str
     :param search_terms: A string of search terms used to filter the results
     :type search_terms: str
-    :param tag_ids: Array of tag ids used to filter the results
-    :type tag_ids: List[str]
+    :param topics: Array of topics used to filter the results
+    :type topics: List[str]
     :param status: Array of challenge status used to filter the results
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results

@@ -384,14 +384,14 @@ paths:
         schema:
           type: string
         style: form
-      - description: Array of tag ids used to filter the results
+      - description: Array of topics used to filter the results
         explode: true
         in: query
-        name: tagIds
+        name: topics
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/TagId'
+            $ref: '#/components/schemas/Topic'
           type: array
         style: form
       - description: Array of challenge status used to filter the results
@@ -795,6 +795,72 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/PageOfUsers'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List stargazers
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/topics:
+    get:
+      description: Lists the challenge topics.
+      operationId: list_challenge_topics
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      - description: Maximum number of results returned
+        explode: true
+        in: query
+        name: limit
+        required: false
+        schema:
+          default: 10
+          maximum: 100
+          minimum: 10
+          type: integer
+        style: form
+      - description: Index of the first result that must be returned
+        explode: true
+        in: query
+        name: offset
+        required: false
+        schema:
+          default: 0
+          minimum: 0
+          type: integer
+        style: form
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfTopics'
           description: Success
         "404":
           content:
@@ -2548,15 +2614,15 @@ components:
       schema:
         type: string
       style: form
-    tagIds:
-      description: Array of tag ids used to filter the results
+    topics:
+      description: Array of topics used to filter the results
       explode: true
       in: query
-      name: tagIds
+      name: topics
       required: false
       schema:
         items:
-          $ref: '#/components/schemas/TagId'
+          $ref: '#/components/schemas/Topic'
         type: array
       style: form
     status:
@@ -2737,10 +2803,13 @@ components:
       - token
       title: LocalAuthResponse
       type: object
-    TagId:
-      description: The unique identifier of a tag
-      example: 507f1f77bcf86cd799439011
-      title: TagId
+    Topic:
+      description: The topic
+      example: '["breast-cancer","ehr"]'
+      maxLength: 30
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: Topic
       type: string
     ChallengeStatus:
       description: The status of the challenge
@@ -2827,6 +2896,9 @@ components:
         startDate: 2020-11-10
         endDate: 2020-12-31
         platformId: 507f1f77bcf86cd799439011
+        topics:
+        - breast-cancer
+        - ehr
         doi: http://doi.org/10.5281/zenodo.3714971
       properties:
         name:
@@ -2863,6 +2935,12 @@ components:
           example: 507f1f77bcf86cd799439011
           title: ChallengePlatformId
           type: string
+        topics:
+          items:
+            $ref: '#/components/schemas/Topic'
+          maxItems: 30
+          type: array
+          uniqueItems: true
         doi:
           nullable: true
           type: string
@@ -2964,6 +3042,13 @@ components:
       - $ref: '#/components/schemas/PageOfUsers_allOf'
       description: A page of Users
       title: PageOfUsers
+      type: object
+    PageOfTopics:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfTopics_allOf'
+      description: A page of Topics
+      title: PageOfTopics
       type: object
     ChallengePlatformCreateResponse:
       description: The unique identifier of the challenge platform created
@@ -3268,6 +3353,10 @@ components:
       description: A page of Persons
       title: PageOfPersons
       type: object
+    TagId:
+      description: The unique identifier of a tag
+      example: 507f1f77bcf86cd799439011
+      type: string
     TagCreateResponse:
       description: The unique identifier of the tag created
       example:
@@ -3276,7 +3365,6 @@ components:
         id:
           description: The unique identifier of a tag
           example: 507f1f77bcf86cd799439011
-          title: TagId
           type: string
       required:
       - id
@@ -3486,6 +3574,16 @@ components:
           type: array
       required:
       - users
+      type: object
+    PageOfTopics_allOf:
+      properties:
+        topics:
+          description: An array of Topics
+          items:
+            $ref: '#/components/schemas/Topic'
+          type: array
+      required:
+      - topics
       type: object
     PageOfChallengePlatforms_allOf:
       properties:

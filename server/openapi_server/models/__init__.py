@@ -46,6 +46,8 @@ from openapi_server.models.page_of_persons import PageOfPersons
 from openapi_server.models.page_of_persons_all_of import PageOfPersonsAllOf
 from openapi_server.models.page_of_tags import PageOfTags
 from openapi_server.models.page_of_tags_all_of import PageOfTagsAllOf
+from openapi_server.models.page_of_topics import PageOfTopics
+from openapi_server.models.page_of_topics_all_of import PageOfTopicsAllOf
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.page_of_users_all_of import PageOfUsersAllOf
 from openapi_server.models.person import Person
