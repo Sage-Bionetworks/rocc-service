@@ -10,6 +10,7 @@ from openapi_server.models.challenge_create_request import ChallengeCreateReques
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
 # from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
 # from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
@@ -58,6 +59,7 @@ def create_challenge(account_name):  # noqa: E501
               startDate=challenge_create_request.start_date,
               endDate=challenge_create_request.end_date,
               platformId=challenge_create_request.platform_id,
+              topics=challenge_create_request.topics,
               doi=challenge_create_request.doi,
               fullName="%s/%s" % (account_name, challenge_create_request.name),
               ownerId=account_id
@@ -147,8 +149,8 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     try:
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-        db_user = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
-        res = Challenge.from_dict(db_user.to_dict())
+        db_challenge = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        res = Challenge.from_dict(db_challenge.to_dict())
         status = 200
     except DoesNotExist:
         status = 404
@@ -202,19 +204,53 @@ def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E50
     return res, status
 
 
-def list_challenge_stargazers(account_name, challenge_name):  # noqa: E501
+def list_challenge_stargazers(account_name, challenge_name, limit=None, offset=None):  # noqa: E501
     """List stargazers
+
     Lists the people that have starred the repository. # noqa: E501
+
     :param account_name: The name of the account that owns the challenge
     :type account_name: str
     :param challenge_name: The name of the challenge
     :type challenge_name: str
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+
     :rtype: PageOfUsers
     """
     return 'do some magic!'
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, tag_ids=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
+def list_challenge_topics(account_name, challenge_name):  # noqa: E501
+    """List stargazers
+
+    Lists the challenge topics. # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ArrayOfTopics
+    """
+    try:
+        account = DbAccount.objects.get(login=account_name)
+        account_id = account.to_dict().get("id")
+        db_challenge = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        res = ArrayOfTopics(topics=db_challenge.to_dict().get("topics"))
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -229,8 +265,8 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type direction: str
     :param search_terms: A string of search terms used to filter the results
     :type search_terms: str
-    :param tag_ids: Array of tag ids used to filter the results
-    :type tag_ids: List[str]
+    :param topics: Array of topics used to filter the results
+    :type topics: List[str]
     :param status: Array of challenge status used to filter the results
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results

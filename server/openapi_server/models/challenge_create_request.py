@@ -19,7 +19,7 @@ class ChallengeCreateRequest(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None):  # noqa: E501
+    def __init__(self, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, topics=None, doi=None):  # noqa: E501
         """ChallengeCreateRequest - a model defined in OpenAPI
 
         :param name: The name of this ChallengeCreateRequest.  # noqa: E501
@@ -38,6 +38,8 @@ class ChallengeCreateRequest(Model):
         :type end_date: date
         :param platform_id: The platform_id of this ChallengeCreateRequest.  # noqa: E501
         :type platform_id: str
+        :param topics: The topics of this ChallengeCreateRequest.  # noqa: E501
+        :type topics: List[str]
         :param doi: The doi of this ChallengeCreateRequest.  # noqa: E501
         :type doi: str
         """
@@ -50,6 +52,7 @@ class ChallengeCreateRequest(Model):
             'start_date': date,
             'end_date': date,
             'platform_id': str,
+            'topics': List[str],
             'doi': str
         }
 
@@ -62,6 +65,7 @@ class ChallengeCreateRequest(Model):
             'start_date': 'startDate',
             'end_date': 'endDate',
             'platform_id': 'platformId',
+            'topics': 'topics',
             'doi': 'doi'
         }
 
@@ -73,6 +77,7 @@ class ChallengeCreateRequest(Model):
         self._start_date = start_date
         self._end_date = end_date
         self._platform_id = platform_id
+        self._topics = topics
         self._doi = doi
 
     @classmethod
@@ -275,6 +280,29 @@ class ChallengeCreateRequest(Model):
         """
 
         self._platform_id = platform_id
+
+    @property
+    def topics(self):
+        """Gets the topics of this ChallengeCreateRequest.
+
+
+        :return: The topics of this ChallengeCreateRequest.
+        :rtype: List[str]
+        """
+        return self._topics
+
+    @topics.setter
+    def topics(self, topics):
+        """Sets the topics of this ChallengeCreateRequest.
+
+
+        :param topics: The topics of this ChallengeCreateRequest.
+        :type topics: List[str]
+        """
+        if topics is not None and len(topics) > 30:
+            raise ValueError("Invalid value for `topics`, number of items must be less than or equal to `30`")  # noqa: E501
+
+        self._topics = topics
 
     @property
     def doi(self):

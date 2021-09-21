@@ -25,7 +25,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, doi=None, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, topics=None, doi=None, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -46,6 +46,8 @@ class Challenge(Model):
         :type end_date: date
         :param platform_id: The platform_id of this Challenge.  # noqa: E501
         :type platform_id: str
+        :param topics: The topics of this Challenge.  # noqa: E501
+        :type topics: List[str]
         :param doi: The doi of this Challenge.  # noqa: E501
         :type doi: str
         :param full_name: The full_name of this Challenge.  # noqa: E501
@@ -67,6 +69,7 @@ class Challenge(Model):
             'start_date': date,
             'end_date': date,
             'platform_id': str,
+            'topics': List[str],
             'doi': str,
             'full_name': str,
             'owner_id': str,
@@ -84,6 +87,7 @@ class Challenge(Model):
             'start_date': 'startDate',
             'end_date': 'endDate',
             'platform_id': 'platformId',
+            'topics': 'topics',
             'doi': 'doi',
             'full_name': 'fullName',
             'owner_id': 'ownerId',
@@ -100,6 +104,7 @@ class Challenge(Model):
         self._start_date = start_date
         self._end_date = end_date
         self._platform_id = platform_id
+        self._topics = topics
         self._doi = doi
         self._full_name = full_name
         self._owner_id = owner_id
@@ -331,6 +336,29 @@ class Challenge(Model):
         """
 
         self._platform_id = platform_id
+
+    @property
+    def topics(self):
+        """Gets the topics of this Challenge.
+
+
+        :return: The topics of this Challenge.
+        :rtype: List[str]
+        """
+        return self._topics
+
+    @topics.setter
+    def topics(self, topics):
+        """Sets the topics of this Challenge.
+
+
+        :param topics: The topics of this Challenge.
+        :type topics: List[str]
+        """
+        if topics is not None and len(topics) > 30:
+            raise ValueError("Invalid value for `topics`, number of items must be less than or equal to `30`")  # noqa: E501
+
+        self._topics = topics
 
     @property
     def doi(self):
