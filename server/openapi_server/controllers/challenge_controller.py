@@ -10,6 +10,7 @@ from openapi_server.models.challenge_create_request import ChallengeCreateReques
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
 # from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
 # from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
@@ -234,7 +235,19 @@ def list_challenge_topics(account_name, challenge_name):  # noqa: E501
 
     :rtype: ArrayOfTopics
     """
-    return 'do some magic!'
+    try:
+        account = DbAccount.objects.get(login=account_name)
+        account_id = account.to_dict().get("id")
+        db_challenge = DbChallenge.objects.get(ownerId=account_id, name=challenge_name)  # noqa: E501
+        res = ArrayOfTopics(topics=db_challenge.to_dict().get("topics"))
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501

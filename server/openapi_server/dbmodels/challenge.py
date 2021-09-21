@@ -26,7 +26,7 @@ class Challenge(Document):
     startDate = DateTimeField()
     endDate = DateTimeField()
     platformId = ReferenceField(ChallengePlatform)
-    topics = ListField(StringField(unique=True))
+    topics = ListField(StringField(unique=True), default=[])
     doi = StringField()
 
     # summary = StringField()
