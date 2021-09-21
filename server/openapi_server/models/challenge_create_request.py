@@ -39,7 +39,7 @@ class ChallengeCreateRequest(Model):
         :param platform_id: The platform_id of this ChallengeCreateRequest.  # noqa: E501
         :type platform_id: str
         :param topics: The topics of this ChallengeCreateRequest.  # noqa: E501
-        :type topics: list[str]
+        :type topics: List[str]
         :param doi: The doi of this ChallengeCreateRequest.  # noqa: E501
         :type doi: str
         """
@@ -52,7 +52,7 @@ class ChallengeCreateRequest(Model):
             'start_date': date,
             'end_date': date,
             'platform_id': str,
-            'topics': list[str],
+            'topics': List[str],
             'doi': str
         }
 
@@ -287,7 +287,7 @@ class ChallengeCreateRequest(Model):
 
 
         :return: The topics of this ChallengeCreateRequest.
-        :rtype: list[str]
+        :rtype: List[str]
         """
         return self._topics
 
@@ -297,7 +297,7 @@ class ChallengeCreateRequest(Model):
 
 
         :param topics: The topics of this ChallengeCreateRequest.
-        :type topics: list[str]
+        :type topics: List[str]
         """
         if topics is not None and len(topics) > 30:
             raise ValueError("Invalid value for `topics`, number of items must be less than or equal to `30`")  # noqa: E501

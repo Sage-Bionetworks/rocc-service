@@ -2919,7 +2919,6 @@ components:
             $ref: '#/components/schemas/Topic'
           maxItems: 30
           type: array
-          uniqueItems: true
         doi:
           nullable: true
           type: string
