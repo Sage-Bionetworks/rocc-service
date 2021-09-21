@@ -5,11 +5,14 @@ from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.dbmodels.challenge_readme import ChallengeReadme as DbChallengeReadme  # noqa: E501
+from openapi_server.dbmodels.starred_challenge import StarredChallenge as DbStarredChallenge  # noqa: E501
+from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
 from openapi_server.models.challenge import Challenge  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
 # from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
@@ -17,6 +20,7 @@ from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
+from openapi_server.models.page_of_users import PageOfUsers  # noqa: E501
 from openapi_server.config import config
 
 
@@ -220,7 +224,46 @@ def list_challenge_stargazers(account_name, challenge_name, limit=None, offset=N
 
     :rtype: PageOfUsers
     """
-    return 'do some magic!'
+    try:
+        try:
+            challenge_full_name = f"{account_name}/{challenge_name}"
+            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+        except DoesNotExist:
+            status = 400
+            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+            return res, status
+
+        challenge_id = db_challenge.to_dict().get("id")
+        db_starred_challenges = DbStarredChallenge.objects(challengeId=challenge_id).skip(offset).limit(limit)  # noqa: E501
+        stargazer_ids = [d.to_dict().get("userId") for d in db_starred_challenges]  # noqa: E501
+        db_stargazers = DbUser.objects(id__in=stargazer_ids)
+        stargazers = [User.from_dict(d.to_dict()) for d in db_stargazers]
+
+        next_ = ""
+        if len(stargazers) == limit:
+            next_ = "%s/challenges/%s/%s/stargazers?limit=%s&offset=%s" % \
+                (config.server_api_url, account_name, challenge_name, limit, offset + limit)  # noqa: E501
+
+        total = db_starred_challenges.count()
+        res = PageOfUsers(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            users=stargazers)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_challenge_topics(account_name, challenge_name):  # noqa: E501
