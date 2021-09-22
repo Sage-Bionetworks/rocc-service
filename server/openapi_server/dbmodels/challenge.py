@@ -47,9 +47,9 @@ class Challenge(Document):
 
     meta = {'indexes': [
         {
-            'fields': ['$name', '$description'],
+            'fields': ['$name', '$description', '$topics'],
             'default_language': 'english',
-            'weights': {'title': 10, 'content': 2}
+            'weights': {'name': 10, 'description': 2, 'topics': 8}
         }
     ]}
 

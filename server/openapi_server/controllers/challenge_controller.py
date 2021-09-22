@@ -1,5 +1,7 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
+import datetime
 
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
@@ -320,7 +322,34 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :rtype: PageOfChallenges
     """
     try:
-        db_challenges = DbChallenge.objects.skip(offset).limit(limit)
+        start_date_start = None
+        start_date_end = None
+        if start_date_range is not None and 'start' in start_date_range:
+            start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
+        if start_date_range is not None and 'end' in start_date_range:
+            start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
+
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+        # tag_ids_q = Q(tagIds__in=tag_ids) \
+        #     if tag_ids is not None and len(tag_ids) > 0 else Q()
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
+        startDate_start_q = Q(startDate__gte=start_date_start) \
+            if start_date_start is not None else Q()
+        startDate_end_q = Q(startDate__lte=start_date_end) \
+            if start_date_end is not None else Q()
+
+        db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q)  # noqa: E501
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+            db_challenges = db_challenges.order_by(order_by)
+
+        db_challenges = db_challenges.skip(offset).limit(limit)
+
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
