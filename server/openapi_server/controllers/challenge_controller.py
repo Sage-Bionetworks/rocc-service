@@ -333,14 +333,14 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
             if status is not None else Q()
         # tag_ids_q = Q(tagIds__in=tag_ids) \
         #     if tag_ids is not None and len(tag_ids) > 0 else Q()
-        # platform_id_q = Q(platformId__in=platform_ids) \
-        #     if platform_ids is not None and len(platform_ids) > 0 else Q()
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
         startDate_start_q = Q(startDate__gte=start_date_start) \
             if start_date_start is not None else Q()
         startDate_end_q = Q(startDate__lte=start_date_end) \
             if start_date_end is not None else Q()
 
-        db_challenges = DbChallenge.objects(status_q & startDate_start_q & startDate_end_q).skip(offset).limit(limit)  # noqa: E501
+        db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q).skip(offset).limit(limit)  # noqa: E501
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
