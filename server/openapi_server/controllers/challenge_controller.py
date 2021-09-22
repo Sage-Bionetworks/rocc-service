@@ -343,7 +343,12 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q)  # noqa: E501
         if search_terms is not None:
             db_challenges = db_challenges.search_text(search_terms)
-        db_challenges = db_challenges.skip(offset).limit(limit)  # noqa: E501
+
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+            db_challenges = db_challenges.order_by(order_by)
+
+        db_challenges = db_challenges.skip(offset).limit(limit)
 
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
