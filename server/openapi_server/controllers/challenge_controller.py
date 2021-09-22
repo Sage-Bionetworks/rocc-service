@@ -1,5 +1,6 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
+from mongoengine.queryset.visitor import Q
 
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
@@ -320,7 +321,14 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :rtype: PageOfChallenges
     """
     try:
-        db_challenges = DbChallenge.objects.skip(offset).limit(limit)
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+        # tag_ids_q = Q(tagIds__in=tag_ids) \
+        #     if tag_ids is not None and len(tag_ids) > 0 else Q()
+        # platform_id_q = Q(platformId__in=platform_ids) \
+        #     if platform_ids is not None and len(platform_ids) > 0 else Q()
+
+        db_challenges = DbChallenge.objects(status_q).skip(offset).limit(limit)
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
