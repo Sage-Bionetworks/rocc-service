@@ -112,6 +112,7 @@ release. Releases are created with the npm package [release-it].
    (updated automatically by `release-it`).
    - `README.md`
    - `docker-compose.yml`
+   - `.rocc-version`
 3. Obtain a [personal access token] (release-it only needs "repo" access; no
    "admin" or other scopes).
 4. Make sure the token is [available as an environment variable].
