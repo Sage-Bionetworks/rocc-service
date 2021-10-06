@@ -38,8 +38,6 @@ tags:
   name: Organization
 - description: Operations about org memberships
   name: OrgMembership
-- description: Operations about persons
-  name: Person
 - description: Operations about tags
   name: Tag
 - description: Operations about users
@@ -646,6 +644,160 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/organizers:
+    get:
+      description: Lists the organizers of the challenge.
+      operationId: list_challenge_organizers
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageOfChallengeOrganizers'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List organizers
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    post:
+      description: Create a challenge organizer
+      operationId: create_challenge_organizer
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeOrganizerCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeOrganizerCreateResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a challenge organizer
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/organizers/{organizerId}:
+    delete:
+      description: Deletes the challenge organizer specified
+      operationId: delete_challenge_organizer
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      - description: The identifier of the challenge organizer
+        explode: false
+        in: path
+        name: organizerId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeOrganizerId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a challenge organizer
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{accountName}/{challengeName}/readme:
     get:
       description: Returns the challenge README specified
@@ -749,7 +901,7 @@ paths:
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{accountName}/{challengeName}/stargazers:
     get:
-      description: Lists the people that have starred the repository.
+      description: Lists the people that have starred the challenge.
       operationId: list_challenge_stargazers
       parameters:
       - description: The name of the account that owns the challenge
@@ -1457,194 +1609,6 @@ paths:
       tags:
       - Organization
       x-openapi-router-controller: openapi_server.controllers.organization_controller
-  /persons:
-    delete:
-      description: Delete all persons
-      operationId: delete_all_persons
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmptyObject'
-          description: Success
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Delete all persons
-      tags:
-      - Person
-      x-openapi-router-controller: openapi_server.controllers.person_controller
-    get:
-      description: Returns the persons
-      operationId: list_persons
-      parameters:
-      - description: Maximum number of results returned
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          default: 10
-          maximum: 100
-          minimum: 10
-          type: integer
-        style: form
-      - description: Index of the first result that must be returned
-        explode: true
-        in: query
-        name: offset
-        required: false
-        schema:
-          default: 0
-          minimum: 0
-          type: integer
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageOfPersons'
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Get all persons
-      tags:
-      - Person
-      x-openapi-router-controller: openapi_server.controllers.person_controller
-    post:
-      description: Create a person with the specified name
-      operationId: create_person
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PersonCreateRequest'
-        required: true
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PersonCreateResponse'
-          description: Success
-          links:
-            GetPersonById:
-              $ref: '#/components/links/GetPersonById'
-            DeletePersonById:
-              $ref: '#/components/links/DeletePersonById'
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
-        "409":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request conflicts with current state of the target resource
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Create a person
-      tags:
-      - Person
-      x-openapi-router-controller: openapi_server.controllers.person_controller
-  /persons/{personId}:
-    delete:
-      description: Deletes the person specified
-      operationId: delete_person
-      parameters:
-      - description: The unique identifier of the person
-        explode: false
-        in: path
-        name: personId
-        required: true
-        schema:
-          $ref: '#/components/schemas/PersonId'
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmptyObject'
-          description: Success
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Delete a person
-      tags:
-      - Person
-      x-openapi-router-controller: openapi_server.controllers.person_controller
-    get:
-      description: Returns the person specified
-      operationId: get_person
-      parameters:
-      - description: The unique identifier of the person
-        explode: false
-        in: path
-        name: personId
-        required: true
-        schema:
-          $ref: '#/components/schemas/PersonId'
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Person'
-          description: Success
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Get a person
-      tags:
-      - Person
-      x-openapi-router-controller: openapi_server.controllers.person_controller
   /tags:
     delete:
       description: Delete all tags
@@ -2500,18 +2464,6 @@ components:
       operationId: deleteOrganization
       parameters:
         organizationId: $response.body#/organizationId
-    GetPersonById:
-      description: |
-        The `id` value returned in the response can be used as the `personId` parameter in `GET /persons/{personId}`
-      operationId: getPerson
-      parameters:
-        personId: $response.body#/personId
-    DeletePersonById:
-      description: |
-        The `id` value returned in the response can be used as the `personId` parameter in `DELETE /persons/{personId}`
-      operationId: deletePerson
-      parameters:
-        personId: $response.body#/personId
     GetTagById:
       description: |
         The `id` value returned in the response can be used as the `tagId` parameter in `GET /tags/{tagId}`
@@ -2695,7 +2647,6 @@ components:
     AccountId:
       description: The unique identifier of an account
       example: 507f1f77bcf86cd799439011
-      title: AccountId
       type: string
     Account:
       description: A user or organization account
@@ -2707,7 +2658,6 @@ components:
         id:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
-          title: AccountId
           type: string
         login:
           description: The user or organization account name
@@ -2944,6 +2894,70 @@ components:
     EmptyObject:
       description: Empty JSON object
       type: object
+    ChallengeOrganizerId:
+      description: The unique identifier of a challenge organizer
+      example: 507f1f77bcf86cd799439011
+      type: string
+    ChallengeOrganizerCreateResponse:
+      description: The unique identifier of the challenge organizer created
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of a challenge organizer
+          example: 507f1f77bcf86cd799439011
+          type: string
+      required:
+      - id
+      title: ChallengeOrganizerCreateResponse
+      type: object
+    ChallengeOrganizerRole:
+      description: The status of the challenge
+      enum:
+      - challenge_lead
+      - infrastructure_lead
+      example: active
+      title: ChallengeOrganizerRole
+      type: string
+    ChallengeOrganizerCreateRequest:
+      description: The information used to create a challenge organizer
+      example:
+        name: John Smith
+        login: jsmith
+        organizerRoles:
+        - challenge_lead
+        - infrastructure_lead
+      properties:
+        name:
+          type: string
+        login:
+          description: The user or organization account name
+          example: awesome-user
+          maxLength: 25
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+        organizerRoles:
+          items:
+            $ref: '#/components/schemas/ChallengeOrganizerRole'
+          type: array
+      required:
+      - name
+      type: object
+    ChallengeOrganizer:
+      allOf:
+      - $ref: '#/components/schemas/ChallengeOrganizerCreateResponse'
+      - $ref: '#/components/schemas/ChallengeOrganizerCreateRequest'
+      description: A challenge organizer
+      title: ChallengeOrganizer
+      type: object
+    PageOfChallengeOrganizers:
+      allOf:
+      - $ref: '#/components/schemas/ResponsePageMetadata'
+      - $ref: '#/components/schemas/PageOfChallengeOrganizers_allOf'
+      description: A page of challenge organizers
+      title: PageOfChallengeOrganizers
+      type: object
     ChallengeReadmeId:
       description: The unique identifier of a challenge README
       example: 507f1f77bcf86cd799439011
@@ -2996,7 +3010,6 @@ components:
         id:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
-          title: AccountId
           type: string
       required:
       - id
@@ -3152,7 +3165,6 @@ components:
         id:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
-          title: AccountId
           type: string
       required:
       - id
@@ -3285,61 +3297,6 @@ components:
       description: A page of org memberships
       title: PageOfOrgMemberships
       type: object
-    PersonId:
-      description: The unique identifier of a person
-      example: 507f1f77bcf86cd799439011
-      type: string
-    PersonCreateResponse:
-      description: The unique identifier of the person created
-      example:
-        id: 507f1f77bcf86cd799439011
-      properties:
-        id:
-          description: The unique identifier of a person
-          example: 507f1f77bcf86cd799439011
-          type: string
-      required:
-      - id
-      title: PersonCreateResponse
-      type: object
-    PersonCreateRequest:
-      description: The information used to create a person
-      example:
-        name: John Smith
-        email: john.smith@example.com
-        organizationIds:
-        - 507f1f77bcf86cd799439011
-        - 507f1f77bcf86cd799439012
-      properties:
-        name:
-          type: string
-        email:
-          description: An email address
-          example: john.smith@example.com
-          format: email
-          type: string
-        organizationIds:
-          items:
-            $ref: '#/components/schemas/AccountId'
-          type: array
-      required:
-      - name
-      - organizationIds
-      type: object
-    Person:
-      allOf:
-      - $ref: '#/components/schemas/PersonCreateResponse'
-      - $ref: '#/components/schemas/PersonCreateRequest'
-      description: A person
-      title: Person
-      type: object
-    PageOfPersons:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfPersons_allOf'
-      description: A page of Persons
-      title: PageOfPersons
-      type: object
     TagId:
       description: The unique identifier of a tag
       example: 507f1f77bcf86cd799439011
@@ -3468,7 +3425,6 @@ components:
         ownerId:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
-          title: AccountId
           type: string
         createdAt:
           format: date-time
@@ -3491,6 +3447,16 @@ components:
           type: array
       required:
       - challenges
+      type: object
+    PageOfChallengeOrganizers_allOf:
+      properties:
+        users:
+          description: An array of ChallengeOrganizers
+          items:
+            $ref: '#/components/schemas/ChallengeOrganizer'
+          type: array
+      required:
+      - users
       type: object
     ChallengeReadme_allOf:
       example:
@@ -3621,16 +3587,6 @@ components:
           type: array
       required:
       - orgMemberships
-      type: object
-    PageOfPersons_allOf:
-      properties:
-        persons:
-          description: An array of Persons
-          items:
-            $ref: '#/components/schemas/Person'
-          type: array
-      required:
-      - persons
       type: object
     PageOfTags_allOf:
       properties:

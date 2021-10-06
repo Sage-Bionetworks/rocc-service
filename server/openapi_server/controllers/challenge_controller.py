@@ -14,6 +14,7 @@ from openapi_server.models.challenge_create_request import ChallengeCreateReques
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
@@ -529,3 +530,51 @@ def update_challenge_readme(account_name, challenge_name):  # noqa: E501
 #         status = 500
 #         res = Error("Internal error", status, str(error))
 #     return res, status
+
+def create_challenge_organizer(account_name, challenge_name):  # noqa: E501
+    """Create a challenge organizer
+
+    Create a challenge organizer # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeOrganizerCreateResponse
+    """
+    # if connexion.request.is_json:
+    #     challenge_organizer_create_request = ChallengeOrganizerCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
+def delete_challenge_organizer(account_name, challenge_name, organizer_id):  # noqa: E501
+    """Delete a challenge organizer
+
+    Deletes the challenge organizer specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param organizer_id: The identifier of the challenge organizer
+    :type organizer_id: str
+
+    :rtype: object
+    """
+    return 'do some magic!'
+
+
+def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
+    """List organizers
+
+    Lists the organizers of the challenge. # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: PageOfChallengeOrganizers
+    """
+    return 'do some magic!'
