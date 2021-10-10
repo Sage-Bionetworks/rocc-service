@@ -1,5 +1,4 @@
-import datetime
-from mongoengine import DateTimeField, EmailField, StringField, URLField  # noqa: E501
+from mongoengine import EmailField, StringField, URLField  # noqa: E501
 
 from openapi_server.dbmodels.account import Account
 
@@ -10,8 +9,6 @@ class Organization(Account):
     avatarUrl = URLField()
     websiteUrl = URLField()
     description = StringField()
-    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
-    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()

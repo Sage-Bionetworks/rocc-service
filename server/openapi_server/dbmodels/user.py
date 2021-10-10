@@ -1,5 +1,4 @@
-import datetime
-from mongoengine import DateTimeField, EmailField, StringField, URLField  # noqa: E501
+from mongoengine import EmailField, StringField, URLField  # noqa: E501
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from openapi_server.dbmodels.account import Account
@@ -10,8 +9,6 @@ class User(Account):
     name = StringField(required=True)
     avatarUrl = URLField()
     bio = StringField()
-    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
-    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     passwordHash = StringField(required=True)
 
     def to_dict(self):

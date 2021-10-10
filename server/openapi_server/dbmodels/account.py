@@ -1,5 +1,6 @@
+import datetime
 from bson import ObjectId
-from mongoengine import Document, ObjectIdField, StringField
+from mongoengine import Document, ObjectIdField, StringField, IntField, DateTimeField  # noqa: E501
 
 
 class Account(Document):
@@ -9,6 +10,9 @@ class Account(Document):
         required=True,
         choices=["User", "Organization"]
     )
+    createdAt = DateTimeField(required=True, default=datetime.datetime.now)
+    updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
+    v = IntField(db_field='__v')
 
     meta = {'allow_inheritance': True}
 
