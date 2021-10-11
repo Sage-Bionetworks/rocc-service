@@ -6,6 +6,7 @@ import datetime
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
+from openapi_server.dbmodels.challenge_organizer import ChallengeOrganizer as DbChallengeOrganizer  # noqa: E501
 from openapi_server.dbmodels.challenge_readme import ChallengeReadme as DbChallengeReadme  # noqa: E501
 from openapi_server.dbmodels.starred_challenge import StarredChallenge as DbStarredChallenge  # noqa: E501
 from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
@@ -15,6 +16,7 @@ from openapi_server.models.challenge_create_response import ChallengeCreateRespo
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
 from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
+from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 # from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
@@ -548,9 +550,38 @@ def create_challenge_organizer(account_name, challenge_name):  # noqa: E501
 
     :rtype: ChallengeOrganizerCreateResponse
     """
-    # if connexion.request.is_json:
-    #     challenge_organizer_create_request = ChallengeOrganizerCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-    return 'do some magic!'
+    if connexion.request.is_json:
+        try:
+            try:
+                challenge_full_name = f"{account_name}/{challenge_name}"
+                print(f"challenge: {challenge_full_name}")
+                db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+                return res, status
+
+            organizer_create_request = ChallengeOrganizerCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            organizer = DbChallengeOrganizer(
+                name=organizer_create_request.name,
+                login=organizer_create_request.login,  # TODO check that login exists  # noqa: E501
+                organizerRoles=organizer_create_request.organizer_roles,
+                challengeId=db_challenge.id
+            ).save()
+            organizer_id = organizer.to_dict().get("id")
+
+            res = ChallengeOrganizerCreateResponse(id=organizer_id)
+            status = 201
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status, "Missing body")
+    return res, status
 
 
 def delete_challenge_organizer(account_name, challenge_name, organizer_id):  # noqa: E501
