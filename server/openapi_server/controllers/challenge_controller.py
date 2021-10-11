@@ -134,7 +134,6 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
 
         # delete organizers
 
-
         db_challenge.delete()
         res = {}
         status = 200
