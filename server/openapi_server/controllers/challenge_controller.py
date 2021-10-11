@@ -128,7 +128,13 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
         account_id = account.to_dict().get("id")
         db_challenge = DbChallenge.objects.get(owner_id=account_id, name=challenge_name)  # noqa: E501
         challenge_id = db_challenge.to_dict().get("id")
+
+        # delete readme
         DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
+
+        # delete organizers
+
+
         db_challenge.delete()
         res = {}
         status = 200

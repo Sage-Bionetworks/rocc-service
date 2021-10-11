@@ -2912,11 +2912,11 @@ components:
       title: ChallengeOrganizerCreateResponse
       type: object
     ChallengeOrganizerRole:
-      description: The status of the challenge
+      description: The role of the challenge organizer
       enum:
       - challenge_lead
       - infrastructure_lead
-      example: active
+      example: challenge_lead
       title: ChallengeOrganizerRole
       type: string
     ChallengeOrganizerCreateRequest:
