@@ -10,7 +10,6 @@ from bson.objectid import ObjectId
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
 from openapi_server.dbmodels.grant import Grant as DbGrant
-from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.dbmodels.tag import Tag as DbTag
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
@@ -33,7 +32,6 @@ class TestChallengeController(BaseTestCase):
     def setUp(self):
         util.connect_db()
         DbChallenge.objects.delete()
-        DbPerson.objects.delete()
         DbTag.objects.delete()
         DbGrant.objects.delete()
         DbChallengePlatform.objects.delete()
