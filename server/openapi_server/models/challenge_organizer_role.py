@@ -18,8 +18,8 @@ class ChallengeOrganizerRole(Model):
     """
     allowed enum values
     """
-    CHALLENGE_LEAD = "challenge_lead"
-    INFRASTRUCTURE_LEAD = "infrastructure_lead"
+    CHALLENGELEAD = "ChallengeLead"
+    INFRASTRUCTURELEAD = "InfrastructureLead"
     def __init__(self):  # noqa: E501
         """ChallengeOrganizerRole - a model defined in OpenAPI
 

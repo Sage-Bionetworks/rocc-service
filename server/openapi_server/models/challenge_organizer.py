@@ -23,7 +23,7 @@ class ChallengeOrganizer(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, login=None, organizer_roles=None):  # noqa: E501
+    def __init__(self, id=None, name=None, login=None, roles=None):  # noqa: E501
         """ChallengeOrganizer - a model defined in OpenAPI
 
         :param id: The id of this ChallengeOrganizer.  # noqa: E501
@@ -32,27 +32,27 @@ class ChallengeOrganizer(Model):
         :type name: str
         :param login: The login of this ChallengeOrganizer.  # noqa: E501
         :type login: str
-        :param organizer_roles: The organizer_roles of this ChallengeOrganizer.  # noqa: E501
-        :type organizer_roles: List[ChallengeOrganizerRole]
+        :param roles: The roles of this ChallengeOrganizer.  # noqa: E501
+        :type roles: List[ChallengeOrganizerRole]
         """
         self.openapi_types = {
             'id': str,
             'name': str,
             'login': str,
-            'organizer_roles': List[ChallengeOrganizerRole]
+            'roles': List[ChallengeOrganizerRole]
         }
 
         self.attribute_map = {
             'id': 'id',
             'name': 'name',
             'login': 'login',
-            'organizer_roles': 'organizerRoles'
+            'roles': 'roles'
         }
 
         self._id = id
         self._name = name
         self._login = login
-        self._organizer_roles = organizer_roles
+        self._roles = roles
 
     @classmethod
     def from_dict(cls, dikt) -> 'ChallengeOrganizer':
@@ -143,22 +143,22 @@ class ChallengeOrganizer(Model):
         self._login = login
 
     @property
-    def organizer_roles(self):
-        """Gets the organizer_roles of this ChallengeOrganizer.
+    def roles(self):
+        """Gets the roles of this ChallengeOrganizer.
 
 
-        :return: The organizer_roles of this ChallengeOrganizer.
+        :return: The roles of this ChallengeOrganizer.
         :rtype: List[ChallengeOrganizerRole]
         """
-        return self._organizer_roles
+        return self._roles
 
-    @organizer_roles.setter
-    def organizer_roles(self, organizer_roles):
-        """Sets the organizer_roles of this ChallengeOrganizer.
+    @roles.setter
+    def roles(self, roles):
+        """Sets the roles of this ChallengeOrganizer.
 
 
-        :param organizer_roles: The organizer_roles of this ChallengeOrganizer.
-        :type organizer_roles: List[ChallengeOrganizerRole]
+        :param roles: The roles of this ChallengeOrganizer.
+        :type roles: List[ChallengeOrganizerRole]
         """
 
-        self._organizer_roles = organizer_roles
+        self._roles = roles
