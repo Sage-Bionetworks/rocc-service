@@ -7,7 +7,6 @@ from flask import json
 from bson.objectid import ObjectId
 
 from openapi_server.dbmodels.organization import Organization as DbOrganization
-from openapi_server.dbmodels.person import Person as DbPerson
 from openapi_server.test.integration import BaseTestCase
 from openapi_server.test.integration import util
 
@@ -29,7 +28,6 @@ class TestPersonController(BaseTestCase):
     def setUp(self):
         util.connect_db()
         DbOrganization.objects.delete()
-        DbPerson.objects.delete()
         util.create_test_organization("awesome-organization")
 
     def tearDown(self):
