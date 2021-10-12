@@ -18,11 +18,11 @@ from openapi_server.models.challenge_readme_update_request import ChallengeReadm
 from openapi_server.models.challenge_organizer import ChallengeOrganizer  # noqa: E501
 from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
 from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse  # noqa: E501
+from openapi_server.models.challenge_organizer_list import ChallengeOrganizerList  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
-from openapi_server.models.page_of_challenge_organizers import PageOfChallengeOrganizers  # noqa: E501
 from openapi_server.models.page_of_users import PageOfUsers  # noqa: E501
 from openapi_server.config import config
 
@@ -563,7 +563,7 @@ def create_challenge_organizer(account_name, challenge_name):  # noqa: E501
             organizer = DbChallengeOrganizer(
                 name=organizer_create_request.name,
                 login=organizer_create_request.login,  # TODO check that login exists  # noqa: E501
-                organizerRoles=organizer_create_request.organizer_roles,
+                roles=organizer_create_request.roles,
                 challengeId=db_challenge.id
             ).save()
             organizer_id = organizer.to_dict().get("id")
@@ -609,10 +609,9 @@ def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
     :param challenge_name: The name of the challenge
     :type challenge_name: str
 
-    :rtype: PageOfChallengeOrganizers
+    :rtype: ChallengeOrganizerList
     """
     try:
-        print("here")
         try:
             challenge_full_name = f"{account_name}/{challenge_name}"
             db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
@@ -622,19 +621,10 @@ def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
             return res, status
 
         challenge_id = db_challenge.to_dict().get("id")
-        # TODO Replace by array of organizer
-        db_organizers = DbChallengeOrganizer.objects(challengeId=challenge_id).skip(0).limit(100)  # noqa: E501
+        db_organizers = DbChallengeOrganizer.objects(challengeId=challenge_id)  # noqa: E501
         organizers = [ChallengeOrganizer.from_dict(d.to_dict()) for d in db_organizers]  # noqa: E501
-
-        total = db_organizers.count()
-        res = PageOfChallengeOrganizers(
-            offset=0,
-            limit=100,
-            paging={
-                "next": ""
-            },
-            total_results=total,
-            users=organizers)
+        print(organizers)
+        res = ChallengeOrganizerList(challenge_organizers=organizers)
         status = 200
     except TypeError:  # TODO: may need include different exceptions for 400
         status = 400
