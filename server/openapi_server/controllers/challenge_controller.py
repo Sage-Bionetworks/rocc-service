@@ -101,6 +101,7 @@ def delete_all_challenges():  # noqa: E501
     :rtype: object
     """
     try:
+        DbChallengeOrganizer.objects.delete()
         DbChallengeReadme.objects.delete()
         DbChallenge.objects.delete()
         res = {}
@@ -129,11 +130,8 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
         db_challenge = DbChallenge.objects.get(owner_id=account_id, name=challenge_name)  # noqa: E501
         challenge_id = db_challenge.to_dict().get("id")
 
-        # delete readme
         DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
-
-        # delete organizers
-
+        DbChallengeOrganizer.objects.get(challengeId=challenge_id).delete()
         db_challenge.delete()
         res = {}
         status = 200
