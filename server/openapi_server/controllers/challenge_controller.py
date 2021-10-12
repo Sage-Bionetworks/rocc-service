@@ -596,7 +596,17 @@ def delete_challenge_organizer(account_name, challenge_name, organizer_id):  # n
 
     :rtype: object
     """
-    return 'do some magic!'
+    try:
+        DbChallengeOrganizer.objects.get(id=organizer_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
 
 
 def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
