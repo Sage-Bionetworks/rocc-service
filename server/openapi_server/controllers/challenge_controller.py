@@ -15,16 +15,14 @@ from openapi_server.models.challenge_create_request import ChallengeCreateReques
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.challenge_organizer import ChallengeOrganizer  # noqa: E501
 from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
 from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
-# from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
-# from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
-# from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
-# from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
+from openapi_server.models.page_of_challenge_organizers import PageOfChallengeOrganizers  # noqa: E501
 from openapi_server.models.page_of_users import PageOfUsers  # noqa: E501
 from openapi_server.config import config
 
@@ -613,4 +611,38 @@ def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
 
     :rtype: PageOfChallengeOrganizers
     """
-    return 'do some magic!'
+    try:
+        print("here")
+        try:
+            challenge_full_name = f"{account_name}/{challenge_name}"
+            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+        except DoesNotExist:
+            status = 400
+            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+            return res, status
+
+        challenge_id = db_challenge.to_dict().get("id")
+        # TODO Replace by array of organizer
+        db_organizers = DbChallengeOrganizer.objects(challengeId=challenge_id).skip(0).limit(100)  # noqa: E501
+        organizers = [ChallengeOrganizer.from_dict(d.to_dict()) for d in db_organizers]  # noqa: E501
+
+        total = db_organizers.count()
+        res = PageOfChallengeOrganizers(
+            offset=0,
+            limit=100,
+            paging={
+                "next": ""
+            },
+            total_results=total,
+            users=organizers)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
