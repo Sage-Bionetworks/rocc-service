@@ -1,6 +1,6 @@
 import datetime
 from bson import ObjectId
-from mongoengine import DateTimeField, Document, ObjectIdField, StringField, ListField, ReferenceField  # noqa: E501
+from mongoengine import DateTimeField, Document, ObjectIdField, StringField, ListField, ReferenceField, IntField  # noqa: E501
 
 from openapi_server.dbmodels.challenge import Challenge
 
@@ -13,6 +13,7 @@ class ChallengeOrganizer(Document):
     challengeId = ReferenceField(Challenge, required=True)
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
+    v = IntField(db_field='__v')
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
