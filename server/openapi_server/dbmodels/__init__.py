@@ -6,5 +6,4 @@ from __future__ import absolute_import
 from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
-from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag

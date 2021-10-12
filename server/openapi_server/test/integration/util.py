@@ -6,7 +6,6 @@ from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform
 from openapi_server.dbmodels.grant import Grant
 from openapi_server.dbmodels.organization import Organization
-from openapi_server.dbmodels.person import Person
 from openapi_server.dbmodels.tag import Tag
 from openapi_server.dbmodels.user import User
 
@@ -29,15 +28,6 @@ def create_test_organization(organization_id):
         name="Awesome Organization",
         shortName="AO",
         url="https://awesome-organization.org"
-    ).save()
-
-
-def create_test_person(organizationIds):
-    return Person(
-        firstName="Awesome",
-        lastName="Person",
-        email="awesome-person@example.org",
-        organizationIds=organizationIds
     ).save()
 
 
@@ -67,12 +57,12 @@ def create_test_challenge_platform(challenge_platform_id):
     ).save()
 
 
-def create_test_challenge_results():
-    return ChallengeResults(
-        nSubmissions=0,
-        nFinalSubmissions=0,
-        nRegisteredParticipants=0
-    )
+# def create_test_challenge_results():
+#     return ChallengeResults(
+#         nSubmissions=0,
+#         nFinalSubmissions=0,
+#         nRegisteredParticipants=0
+#     )
 
 
 def create_test_challenge(tagIds, organizerIds, dataProviderIds, grantIds, platformId):  # noqa: E501

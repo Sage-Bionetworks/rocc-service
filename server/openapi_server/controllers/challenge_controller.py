@@ -6,6 +6,7 @@ import datetime
 from openapi_server.dbmodels.account import Account as DbAccount
 from openapi_server.dbmodels.challenge import Challenge as DbChallenge
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform as DbChallengePlatform  # noqa: E501
+from openapi_server.dbmodels.challenge_organizer import ChallengeOrganizer as DbChallengeOrganizer  # noqa: E501
 from openapi_server.dbmodels.challenge_readme import ChallengeReadme as DbChallengeReadme  # noqa: E501
 from openapi_server.dbmodels.starred_challenge import StarredChallenge as DbStarredChallenge  # noqa: E501
 from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
@@ -14,12 +15,12 @@ from openapi_server.models.challenge_create_request import ChallengeCreateReques
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
 from openapi_server.models.challenge_readme import ChallengeReadme  # noqa: E501
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest  # noqa: E501
+from openapi_server.models.challenge_organizer import ChallengeOrganizer  # noqa: E501
+from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
+from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse  # noqa: E501
+from openapi_server.models.challenge_organizer_list import ChallengeOrganizerList  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
-# from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest  # noqa: E501
-# from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse  # noqa: E501
-# from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
-# from openapi_server.models.date_range import DateRange  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.page_of_challenges import PageOfChallenges  # noqa: E501
 from openapi_server.models.page_of_users import PageOfUsers  # noqa: E501
@@ -100,6 +101,7 @@ def delete_all_challenges():  # noqa: E501
     :rtype: object
     """
     try:
+        DbChallengeOrganizer.objects.delete()
         DbChallengeReadme.objects.delete()
         DbChallenge.objects.delete()
         res = {}
@@ -127,7 +129,9 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
         account_id = account.to_dict().get("id")
         db_challenge = DbChallenge.objects.get(owner_id=account_id, name=challenge_name)  # noqa: E501
         challenge_id = db_challenge.to_dict().get("id")
+
         DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
+        DbChallengeOrganizer.objects.get(challengeId=challenge_id).delete()
         db_challenge.delete()
         res = {}
         status = 200
@@ -529,3 +533,114 @@ def update_challenge_readme(account_name, challenge_name):  # noqa: E501
 #         status = 500
 #         res = Error("Internal error", status, str(error))
 #     return res, status
+
+def create_challenge_organizer(account_name, challenge_name):  # noqa: E501
+    """Create a challenge organizer
+
+    Create a challenge organizer # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeOrganizerCreateResponse
+    """
+    if connexion.request.is_json:
+        try:
+            try:
+                challenge_full_name = f"{account_name}/{challenge_name}"
+                print(f"challenge: {challenge_full_name}")
+                db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+            except DoesNotExist:
+                status = 400
+                res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+                return res, status
+
+            organizer_create_request = ChallengeOrganizerCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            organizer = DbChallengeOrganizer(
+                name=organizer_create_request.name,
+                login=organizer_create_request.login,  # TODO check that login exists  # noqa: E501
+                roles=organizer_create_request.roles,
+                challengeId=db_challenge.id
+            ).save()
+            organizer_id = organizer.to_dict().get("id")
+
+            res = ChallengeOrganizerCreateResponse(id=organizer_id)
+            status = 201
+        except NotUniqueError as error:
+            status = 409
+            res = Error("Conflict", status, str(error))
+        except Exception as error:
+            status = 500
+            res = Error("Internal error", status, str(error))
+    else:
+        status = 400
+        res = Error("Bad request", status, "Missing body")
+    return res, status
+
+
+def delete_challenge_organizer(account_name, challenge_name, organizer_id):  # noqa: E501
+    """Delete a challenge organizer
+
+    Deletes the challenge organizer specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param organizer_id: The identifier of the challenge organizer
+    :type organizer_id: str
+
+    :rtype: object
+    """
+    try:
+        DbChallengeOrganizer.objects.get(id=organizer_id).delete()
+        res = {}
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
+def list_challenge_organizers(account_name, challenge_name):  # noqa: E501
+    """List organizers
+
+    Lists the organizers of the challenge. # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeOrganizerList
+    """
+    try:
+        try:
+            challenge_full_name = f"{account_name}/{challenge_name}"
+            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+        except DoesNotExist:
+            status = 400
+            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+            return res, status
+
+        challenge_id = db_challenge.to_dict().get("id")
+        db_organizers = DbChallengeOrganizer.objects(challengeId=challenge_id)  # noqa: E501
+        organizers = [ChallengeOrganizer.from_dict(d.to_dict()) for d in db_organizers]  # noqa: E501
+        print(organizers)
+        res = ChallengeOrganizerList(challenge_organizers=organizers)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
