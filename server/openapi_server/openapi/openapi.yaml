@@ -899,6 +899,160 @@ paths:
       tags:
       - Challenge
       x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/sponsors:
+    get:
+      description: Lists the sponsors of the challenge.
+      operationId: list_challenge_sponsors
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeSponsorList'
+          description: Success
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: List sponsors
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+    post:
+      description: Create a challenge sponsor
+      operationId: create_challenge_sponsor
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChallengeSponsorCreateRequest'
+        required: true
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChallengeSponsorCreateResponse'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: Invalid request
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request conflicts with current state of the target resource
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Create a challenge sponsor
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
+  /challenges/{accountName}/{challengeName}/sponsors/{sponsorId}:
+    delete:
+      description: Deletes the challenge sponsor specified
+      operationId: delete_challenge_sponsor
+      parameters:
+      - description: The name of the account that owns the challenge
+        explode: false
+        in: path
+        name: accountName
+        required: true
+        schema:
+          $ref: '#/components/schemas/AccountLogin'
+        style: simple
+      - description: The name of the challenge
+        explode: false
+        in: path
+        name: challengeName
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeName'
+        style: simple
+      - description: The identifier of the challenge sponsor
+        explode: false
+        in: path
+        name: sponsorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChallengeSponsorId'
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The specified resource was not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Delete a challenge sponsor
+      tags:
+      - Challenge
+      x-openapi-router-controller: openapi_server.controllers.challenge_controller
   /challenges/{accountName}/{challengeName}/stargazers:
     get:
       description: Lists the people that have starred the challenge.
@@ -1609,194 +1763,6 @@ paths:
       tags:
       - Organization
       x-openapi-router-controller: openapi_server.controllers.organization_controller
-  /tags:
-    delete:
-      description: Delete all tags
-      operationId: delete_all_tags
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmptyObject'
-          description: Success
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Delete all tags
-      tags:
-      - Tag
-      x-openapi-router-controller: openapi_server.controllers.tag_controller
-    get:
-      description: Returns the tags
-      operationId: list_tags
-      parameters:
-      - description: Maximum number of results returned
-        explode: true
-        in: query
-        name: limit
-        required: false
-        schema:
-          default: 10
-          maximum: 100
-          minimum: 10
-          type: integer
-        style: form
-      - description: Index of the first result that must be returned
-        explode: true
-        in: query
-        name: offset
-        required: false
-        schema:
-          default: 0
-          minimum: 0
-          type: integer
-        style: form
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PageOfTags'
-          description: Success
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Get all tags
-      tags:
-      - Tag
-      x-openapi-router-controller: openapi_server.controllers.tag_controller
-    post:
-      description: Create a tag with the specified name
-      operationId: create_tag
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/TagCreateRequest'
-        required: true
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TagCreateResponse'
-          description: Success
-          links:
-            GetTagById:
-              $ref: '#/components/links/GetTagById'
-            DeleteTagById:
-              $ref: '#/components/links/DeleteTagById'
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: Invalid request
-        "409":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request conflicts with current state of the target resource
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Create a tag
-      tags:
-      - Tag
-      x-openapi-router-controller: openapi_server.controllers.tag_controller
-  /tags/{tagId}:
-    delete:
-      description: Deletes the tag specified
-      operationId: delete_tag
-      parameters:
-      - description: The unique identifier of the tag
-        explode: false
-        in: path
-        name: tagId
-        required: true
-        schema:
-          $ref: '#/components/schemas/TagId'
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EmptyObject'
-          description: Success
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Delete a tag
-      tags:
-      - Tag
-      x-openapi-router-controller: openapi_server.controllers.tag_controller
-    get:
-      description: Returns the tag specified
-      operationId: get_tag
-      parameters:
-      - description: The unique identifier of the tag
-        explode: false
-        in: path
-        name: tagId
-        required: true
-        schema:
-          $ref: '#/components/schemas/TagId'
-        style: simple
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Tag'
-          description: Success
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The specified resource was not found
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-          description: The request cannot be fulfilled due to an unexpected server
-            error
-      summary: Get a tag
-      tags:
-      - Tag
-      x-openapi-router-controller: openapi_server.controllers.tag_controller
   /user:
     get:
       description: Get the authenticated user
@@ -2464,18 +2430,6 @@ components:
       operationId: deleteOrganization
       parameters:
         organizationId: $response.body#/organizationId
-    GetTagById:
-      description: |
-        The `id` value returned in the response can be used as the `tagId` parameter in `GET /tags/{tagId}`
-      operationId: getTag
-      parameters:
-        tagId: $response.body#/tagId
-    DeleteTagById:
-      description: |
-        The `id` value returned in the response can be used as the `tagId` parameter in `DELETE /tags/{tagId}`
-      operationId: deleteTag
-      parameters:
-        tagId: $response.body#/tagId
     GetUserById:
       description: |
         The `userName` value returned in the response can be used as the `userName` parameter in `GET /users/{userName}`
@@ -3012,6 +2966,83 @@ components:
       required:
       - text
       type: object
+    ChallengeSponsorId:
+      description: The unique identifier of a challenge sponsor
+      example: 507f1f77bcf86cd799439011
+      type: string
+    ChallengeSponsorCreateResponse:
+      description: The unique identifier of a challenge sponsor
+      example:
+        id: 507f1f77bcf86cd799439011
+      properties:
+        id:
+          description: The unique identifier of a challenge sponsor
+          example: 507f1f77bcf86cd799439011
+          type: string
+      required:
+      - id
+      title: ChallengeSponsorCreateResponse
+      type: object
+    ChallengeSponsorRole:
+      description: The role of a challenge sponsor
+      enum:
+      - ChallengeOrganizer
+      - CloudProvider
+      - DataProvider
+      - Funder
+      - Other
+      example: DataProvider
+      title: ChallengeSponsorRole
+      type: string
+    ChallengeSponsorCreateRequest:
+      description: The information used to create a challenge sponsor
+      example:
+        name: IBM
+        login: ibm
+        roles:
+        - CloudProvider
+        - DataProvider
+      properties:
+        name:
+          type: string
+        login:
+          description: The user or organization account name
+          example: awesome-user
+          maxLength: 25
+          minLength: 3
+          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+          type: string
+        roles:
+          items:
+            $ref: '#/components/schemas/ChallengeSponsorRole'
+          type: array
+      required:
+      - name
+      type: object
+    ChallengeSponsor:
+      allOf:
+      - $ref: '#/components/schemas/ChallengeSponsorCreateResponse'
+      - $ref: '#/components/schemas/ChallengeSponsorCreateRequest'
+      description: A challenge sponsor
+      title: ChallengeSponsor
+      type: object
+    ChallengeSponsorList:
+      description: A list of challenge sponsors
+      example:
+        challengeSponsors:
+        - null
+        - null
+      properties:
+        challengeSponsors:
+          description: A list of ChallengeSponsors
+          items:
+            $ref: '#/components/schemas/ChallengeSponsor'
+          title: challengeSponsors
+          type: array
+      required:
+      - challengeSponsors
+      title: ChallengeSponsorList
+      type: object
     UserCreateResponse:
       description: The response returned after the creation of the user
       example:
@@ -3167,6 +3198,23 @@ components:
       description: A page of Grants
       title: PageOfGrants
       type: object
+    HealthCheck:
+      description: Represents the health of a service
+      example:
+        status: pass
+      properties:
+        status:
+          description: Indicates whether the service status is acceptable or not
+          enum:
+          - pass
+          - fail
+          - warn
+          title: status
+          type: string
+      required:
+      - status
+      title: HealthCheck
+      type: object
     OrganizationCreateResponse:
       description: The unique identifier of the org created
       example:
@@ -3307,59 +3355,6 @@ components:
       description: A page of org memberships
       title: PageOfOrgMemberships
       type: object
-    TagId:
-      description: The unique identifier of a tag
-      example: 507f1f77bcf86cd799439011
-      type: string
-    TagCreateResponse:
-      description: The unique identifier of the tag created
-      example:
-        id: 507f1f77bcf86cd799439011
-      properties:
-        id:
-          description: The unique identifier of a tag
-          example: 507f1f77bcf86cd799439011
-          type: string
-      required:
-      - id
-      title: TagCreateResponse
-      type: object
-    TagName:
-      description: The name of a tag
-      example: awesome-tag
-      maxLength: 30
-      minLength: 3
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      type: string
-    TagCreateRequest:
-      description: The information required to create a tag
-      example:
-        name: awesome-tag
-      properties:
-        name:
-          description: The name of a tag
-          example: awesome-tag
-          maxLength: 30
-          minLength: 3
-          pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-          type: string
-      required:
-      - name
-      type: object
-    Tag:
-      allOf:
-      - $ref: '#/components/schemas/TagCreateResponse'
-      - $ref: '#/components/schemas/TagCreateRequest'
-      description: A tag that can be assigned to a resource
-      title: Tag
-      type: object
-    PageOfTags:
-      allOf:
-      - $ref: '#/components/schemas/ResponsePageMetadata'
-      - $ref: '#/components/schemas/PageOfTags_allOf'
-      description: A page of Tags
-      title: PageOfTags
-      type: object
     UserCreateRequest:
       description: The information required to create a user account
       example:
@@ -3395,23 +3390,6 @@ components:
       - email
       - login
       - password
-      type: object
-    HealthCheck:
-      description: Represents the health of a service
-      example:
-        status: pass
-      properties:
-        status:
-          description: Indicates whether the service status is acceptable or not
-          enum:
-          - pass
-          - fail
-          - warn
-          title: status
-          type: string
-      required:
-      - status
-      title: HealthCheck
       type: object
     ResponsePageMetadata_paging:
       description: Links to navigate to different pages of results
@@ -3587,16 +3565,6 @@ components:
           type: array
       required:
       - orgMemberships
-      type: object
-    PageOfTags_allOf:
-      properties:
-        tags:
-          description: An array of Tags
-          items:
-            $ref: '#/components/schemas/Tag'
-          type: array
-      required:
-      - tags
       type: object
   securitySchemes:
     BearerAuth:

@@ -19,6 +19,9 @@ from openapi_server.models.challenge_organizer import ChallengeOrganizer  # noqa
 from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest  # noqa: E501
 from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse  # noqa: E501
 from openapi_server.models.challenge_organizer_list import ChallengeOrganizerList  # noqa: E501
+from openapi_server.models.challenge_sponsor_create_request import ChallengeSponsorCreateRequest  # noqa: E501
+from openapi_server.models.challenge_sponsor_create_response import ChallengeSponsorCreateResponse  # noqa: E501
+from openapi_server.models.challenge_sponsor_list import ChallengeSponsorList  # noqa: E501
 from openapi_server.models.user import User
 from openapi_server.models.array_of_topics import ArrayOfTopics  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
@@ -92,6 +95,25 @@ def create_challenge(account_name):  # noqa: E501
     return res, status
 
 
+def create_challenge_sponsor(account_name, challenge_name, challenge_sponsor_create_request):  # noqa: E501
+    """Create a challenge sponsor
+
+    Create a challenge sponsor # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param challenge_sponsor_create_request:
+    :type challenge_sponsor_create_request: dict | bytes
+
+    :rtype: ChallengeSponsorCreateResponse
+    """
+    if connexion.request.is_json:
+        challenge_sponsor_create_request = ChallengeSponsorCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+    return 'do some magic!'
+
+
 def delete_all_challenges():  # noqa: E501
     """Delete all challenges
 
@@ -142,6 +164,23 @@ def delete_challenge(account_name, challenge_name):  # noqa: E501
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def delete_challenge_sponsor(account_name, challenge_name, sponsor_id):  # noqa: E501
+    """Delete a challenge sponsor
+
+    Deletes the challenge sponsor specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+    :param sponsor_id: The identifier of the challenge sponsor
+    :type sponsor_id: str
+
+    :rtype: object
+    """
+    return 'do some magic!'
 
 
 def get_challenge(account_name, challenge_name):  # noqa: E501
@@ -377,6 +416,21 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         status = 500
         res = Error("Internal error", status, str(error))
     return res, status
+
+
+def list_challenge_sponsors(account_name, challenge_name):  # noqa: E501
+    """List sponsors
+
+    Lists the sponsors of the challenge. # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeSponsorList
+    """
+    return 'do some magic!'
 
 
 # def create_challenge_readme(account_name, challenge_name):  # noqa: E501
