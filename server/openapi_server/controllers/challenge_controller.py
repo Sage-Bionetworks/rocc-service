@@ -322,6 +322,40 @@ def get_challenge(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
+def get_challenge_readme(account_name, challenge_name):  # noqa: E501
+    """Get a challenge README
+
+    Returns the challenge README specified # noqa: E501
+
+    :param account_name: The name of the account that owns the challenge
+    :type account_name: str
+    :param challenge_name: The name of the challenge
+    :type challenge_name: str
+
+    :rtype: ChallengeReadme
+    """
+    try:
+        try:
+            challenge_full_name = f"{account_name}/{challenge_name}"
+            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
+        except DoesNotExist:
+            status = 400
+            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
+            return res, status
+
+        challenge_id = db_challenge.to_dict().get("id")
+        db_readme = DbChallengeReadme.objects.get(challengeId=challenge_id)
+        res = ChallengeReadme.from_dict(db_readme.to_dict())
+        status = 200
+    except DoesNotExist:
+        status = 404
+        res = Error("The specified resource was not found", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
 def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E501
     """List all the challenges owned by the specified account
 
@@ -345,6 +379,86 @@ def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E50
         if len(challenges) == limit:
             next_ = "%s/challenges/%s?limit=%s&offset=%s" % \
                 (config.server_api_url, account_name, limit, offset + limit)
+
+        total = db_challenges.count()
+        res = PageOfChallenges(
+            offset=offset,
+            limit=limit,
+            paging={
+                "next": next_
+            },
+            total_results=total,
+            challenges=challenges)
+        status = 200
+    except TypeError:  # TODO: may need include different exceptions for 400
+        status = 400
+        res = Error("Bad request", status)
+    except Exception as error:
+        status = 500
+        res = Error("Internal error", status, str(error))
+    return res, status
+
+
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
+    """List all the challenges
+
+    Returns all the challenges # noqa: E501
+
+    :param limit: Maximum number of results returned
+    :type limit: int
+    :param offset: Index of the first result that must be returned
+    :type offset: int
+    :param sort: Property used to sort the results that must be returned
+    :type sort: str
+    :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
+    :type direction: str
+    :param search_terms: A string of search terms used to filter the results
+    :type search_terms: str
+    :param topics: Array of topics used to filter the results
+    :type topics: List[str]
+    :param status: Array of challenge status used to filter the results
+    :type status: list | bytes
+    :param platform_ids: Array of challenge platform ids used to filter the results
+    :type platform_ids: List[str]
+    :param start_date_range: Return challenges that start during the date range specified
+    :type start_date_range: dict | bytes
+
+    :rtype: PageOfChallenges
+    """
+    try:
+        start_date_start = None
+        start_date_end = None
+        if start_date_range is not None and 'start' in start_date_range:
+            start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
+        if start_date_range is not None and 'end' in start_date_range:
+            start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
+
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+        # tag_ids_q = Q(tagIds__in=tag_ids) \
+        #     if tag_ids is not None and len(tag_ids) > 0 else Q()
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
+        startDate_start_q = Q(startDate__gte=start_date_start) \
+            if start_date_start is not None else Q()
+        startDate_end_q = Q(startDate__lte=start_date_end) \
+            if start_date_end is not None else Q()
+
+        db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q)  # noqa: E501
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
+        if sort is not None:
+            order_by = ('-' if direction == 'desc' else '') + sort
+            db_challenges = db_challenges.order_by(order_by)
+
+        db_challenges = db_challenges.skip(offset).limit(limit)
+
+        challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
+        next_ = ""
+        if len(challenges) == limit:
+            next_ = "%s/challenges?limit=%s&offset=%s" % \
+                (config.server_api_url, limit, offset + limit)
 
         total = db_challenges.count()
         res = PageOfChallenges(
@@ -526,165 +640,6 @@ def list_challenge_topics(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
-    """List all the challenges
-
-    Returns all the challenges # noqa: E501
-
-    :param limit: Maximum number of results returned
-    :type limit: int
-    :param offset: Index of the first result that must be returned
-    :type offset: int
-    :param sort: Property used to sort the results that must be returned
-    :type sort: str
-    :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
-    :type direction: str
-    :param search_terms: A string of search terms used to filter the results
-    :type search_terms: str
-    :param topics: Array of topics used to filter the results
-    :type topics: List[str]
-    :param status: Array of challenge status used to filter the results
-    :type status: list | bytes
-    :param platform_ids: Array of challenge platform ids used to filter the results
-    :type platform_ids: List[str]
-    :param start_date_range: Return challenges that start during the date range specified
-    :type start_date_range: dict | bytes
-
-    :rtype: PageOfChallenges
-    """
-    try:
-        start_date_start = None
-        start_date_end = None
-        if start_date_range is not None and 'start' in start_date_range:
-            start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
-        if start_date_range is not None and 'end' in start_date_range:
-            start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
-
-        status_q = Q(status__in=status) \
-            if status is not None else Q()
-        # tag_ids_q = Q(tagIds__in=tag_ids) \
-        #     if tag_ids is not None and len(tag_ids) > 0 else Q()
-        platform_id_q = Q(platformId__in=platform_ids) \
-            if platform_ids is not None and len(platform_ids) > 0 else Q()
-        startDate_start_q = Q(startDate__gte=start_date_start) \
-            if start_date_start is not None else Q()
-        startDate_end_q = Q(startDate__lte=start_date_end) \
-            if start_date_end is not None else Q()
-
-        db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q)  # noqa: E501
-        if search_terms is not None:
-            db_challenges = db_challenges.search_text(search_terms)
-
-        if sort is not None:
-            order_by = ('-' if direction == 'desc' else '') + sort
-            db_challenges = db_challenges.order_by(order_by)
-
-        db_challenges = db_challenges.skip(offset).limit(limit)
-
-        challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
-        next_ = ""
-        if len(challenges) == limit:
-            next_ = "%s/challenges?limit=%s&offset=%s" % \
-                (config.server_api_url, limit, offset + limit)
-
-        total = db_challenges.count()
-        res = PageOfChallenges(
-            offset=offset,
-            limit=limit,
-            paging={
-                "next": next_
-            },
-            total_results=total,
-            challenges=challenges)
-        status = 200
-    except TypeError:  # TODO: may need include different exceptions for 400
-        status = 400
-        res = Error("Bad request", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
-
-
-# def create_challenge_readme(account_name, challenge_name):  # noqa: E501
-#     """Create a challenge README
-
-#     Create a challenge README # noqa: E501
-
-#     :param account_name: The name of the account that owns the challenge
-#     :type account_name: str
-#     :param challenge_name: The name of the challenge
-#     :type challenge_name: str
-
-#     :rtype: ChallengeReadmeCreateResponse
-#     """
-#     if connexion.request.is_json:
-#         try:
-#             try:
-#                 challenge_full_name = f"{account_name}/{challenge_name}"
-#                 db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
-#             except DoesNotExist:
-#                 status = 400
-#                 res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
-#                 return res, status
-
-#             challenge_id = db_challenge.to_dict().get("id")
-#             challenge_readme_create_request = ChallengeReadmeCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-
-#             readme = DbChallengeReadme(
-#                 text=challenge_readme_create_request.text,
-#                 challengeId=challenge_id
-#             ).save()
-
-#             readme_id = readme.to_dict().get("id")
-#             res = ChallengeReadmeCreateResponse(id=readme_id)
-#             status = 201
-#         except NotUniqueError as error:
-#             status = 409
-#             res = Error("Conflict", status, str(error))
-#         except Exception as error:
-#             status = 500
-#             res = Error("Internal error", status, str(error))
-#     else:
-#         status = 400
-#         res = Error("Bad request", status, "Missing body")
-#     return res, status
-
-
-def get_challenge_readme(account_name, challenge_name):  # noqa: E501
-    """Get a challenge README
-
-    Returns the challenge README specified # noqa: E501
-
-    :param account_name: The name of the account that owns the challenge
-    :type account_name: str
-    :param challenge_name: The name of the challenge
-    :type challenge_name: str
-
-    :rtype: ChallengeReadme
-    """
-    try:
-        try:
-            challenge_full_name = f"{account_name}/{challenge_name}"
-            db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
-        except DoesNotExist:
-            status = 400
-            res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
-            return res, status
-
-        challenge_id = db_challenge.to_dict().get("id")
-        db_readme = DbChallengeReadme.objects.get(challengeId=challenge_id)
-        res = ChallengeReadme.from_dict(db_readme.to_dict())
-        status = 200
-    except DoesNotExist:
-        status = 404
-        res = Error("The specified resource was not found", status)
-    except Exception as error:
-        status = 500
-        res = Error("Internal error", status, str(error))
-    return res, status
-
-
 def update_challenge_readme(account_name, challenge_name):  # noqa: E501
     """Update a challenge README
 
@@ -726,37 +681,3 @@ def update_challenge_readme(account_name, challenge_name):  # noqa: E501
         status = 400
         res = Error("Bad request", status, "Missing body")
     return res, status
-
-
-# def delete_challenge_readme(account_name, challenge_name):  # noqa: E501
-#     """Delete a challenge README
-
-#     Deletes the challenge README specified # noqa: E501
-
-#     :param account_name: The name of the account that owns the challenge
-#     :type account_name: str
-#     :param challenge_name: The name of the challenge
-#     :type challenge_name: str
-
-#     :rtype: object
-#     """
-#     try:
-#         try:
-#             challenge_full_name = f"{account_name}/{challenge_name}"
-#             db_challenge = DbChallenge.objects.get(fullName=challenge_full_name)  # noqa: E501
-#         except DoesNotExist:
-#             status = 400
-#             res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
-#             return res, status
-
-#         challenge_id = db_challenge.to_dict().get("id")
-#         DbChallengeReadme.objects.get(challengeId=challenge_id).delete()
-#         res = {}
-#         status = 200
-#     except DoesNotExist:
-#         status = 404
-#         res = Error("The specified resource was not found", status)
-#     except Exception as error:
-#         status = 500
-#         res = Error("Internal error", status, str(error))
-#     return res, status
