@@ -22,6 +22,11 @@ from openapi_server.models.challenge_readme_all_of import ChallengeReadmeAllOf
 from openapi_server.models.challenge_readme_create_request import ChallengeReadmeCreateRequest
 from openapi_server.models.challenge_readme_create_response import ChallengeReadmeCreateResponse
 from openapi_server.models.challenge_readme_update_request import ChallengeReadmeUpdateRequest
+from openapi_server.models.challenge_sponsor import ChallengeSponsor
+from openapi_server.models.challenge_sponsor_create_request import ChallengeSponsorCreateRequest
+from openapi_server.models.challenge_sponsor_create_response import ChallengeSponsorCreateResponse
+from openapi_server.models.challenge_sponsor_list import ChallengeSponsorList
+from openapi_server.models.challenge_sponsor_role import ChallengeSponsorRole
 from openapi_server.models.challenge_status import ChallengeStatus
 from openapi_server.models.date_range import DateRange
 from openapi_server.models.error import Error
@@ -48,15 +53,10 @@ from openapi_server.models.page_of_org_memberships import PageOfOrgMemberships
 from openapi_server.models.page_of_org_memberships_all_of import PageOfOrgMembershipsAllOf
 from openapi_server.models.page_of_organizations import PageOfOrganizations
 from openapi_server.models.page_of_organizations_all_of import PageOfOrganizationsAllOf
-from openapi_server.models.page_of_tags import PageOfTags
-from openapi_server.models.page_of_tags_all_of import PageOfTagsAllOf
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.page_of_users_all_of import PageOfUsersAllOf
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
-from openapi_server.models.tag import Tag
-from openapi_server.models.tag_create_request import TagCreateRequest
-from openapi_server.models.tag_create_response import TagCreateResponse
 from openapi_server.models.user import User
 from openapi_server.models.user_all_of import UserAllOf
 from openapi_server.models.user_create_request import UserCreateRequest
