@@ -2987,7 +2987,7 @@ components:
       description: The role of a challenge sponsor
       enum:
       - ChallengeOrganizer
-      - CloudProvider
+      - ComputeProvider
       - DataProvider
       - Funder
       - Other
@@ -3000,7 +3000,7 @@ components:
         name: IBM
         login: ibm
         roles:
-        - CloudProvider
+        - ComputeProvider
         - DataProvider
       properties:
         name:

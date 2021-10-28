@@ -19,7 +19,7 @@ class ChallengeSponsorRole(Model):
     allowed enum values
     """
     CHALLENGEORGANIZER = "ChallengeOrganizer"
-    CLOUDPROVIDER = "CloudProvider"
+    COMPUTEPROVIDER = "ComputeProvider"
     DATAPROVIDER = "DataProvider"
     FUNDER = "Funder"
     OTHER = "Other"
