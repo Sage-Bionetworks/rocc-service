@@ -9,7 +9,7 @@ class ChallengeSponsor(Document):
     id = ObjectIdField(primary_key=True, default=ObjectId)
     name = StringField(required=True)
     login = StringField()
-    roles = ListField(StringField(choices=["ChallengeOrganizer", "CloudProvider", "DataProvider", "Funder", "Other"]), default=[])  # noqa: E501
+    roles = ListField(StringField(choices=["ChallengeOrganizer", "ComputeProvider", "DataProvider", "Funder", "Other"]), default=[])  # noqa: E501
     challengeId = ReferenceField(Challenge, required=True)
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
