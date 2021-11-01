@@ -375,7 +375,13 @@ def list_account_challenges(account_name, limit=None, offset=None, search_terms=
     try:
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-        db_challenges = DbChallenge.objects(ownerId=account_id).skip(offset).limit(limit)  # noqa: E501
+        db_challenges = DbChallenge.objects(ownerId=account_id)
+
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
+        db_challenges = db_challenges.skip(offset).limit(limit)
+
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
