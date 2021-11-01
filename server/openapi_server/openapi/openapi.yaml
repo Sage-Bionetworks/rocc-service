@@ -478,6 +478,14 @@ paths:
           minimum: 0
           type: integer
         style: form
+      - description: A string of search terms used to filter the results
+        explode: true
+        in: query
+        name: searchTerms
+        required: false
+        schema:
+          type: string
+        style: form
       responses:
         "200":
           content:

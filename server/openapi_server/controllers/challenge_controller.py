@@ -356,7 +356,7 @@ def get_challenge_readme(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
-def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E501
+def list_account_challenges(account_name, limit=None, offset=None, search_terms=None):  # noqa: E501
     """List all the challenges owned by the specified account
 
     List all the challenges owned by the specified account # noqa: E501
@@ -367,13 +367,21 @@ def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E50
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
+    :param search_terms: A string of search terms used to filter the results
+    :type search_terms: str
 
     :rtype: PageOfChallenges
     """
     try:
         account = DbAccount.objects.get(login=account_name)
         account_id = account.to_dict().get("id")
-        db_challenges = DbChallenge.objects(ownerId=account_id).skip(offset).limit(limit)  # noqa: E501
+        db_challenges = DbChallenge.objects(ownerId=account_id)
+
+        if search_terms is not None:
+            db_challenges = db_challenges.search_text(search_terms)
+
+        db_challenges = db_challenges.skip(offset).limit(limit)
+
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
         if len(challenges) == limit:
