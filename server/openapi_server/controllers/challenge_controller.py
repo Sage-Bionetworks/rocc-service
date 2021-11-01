@@ -356,7 +356,7 @@ def get_challenge_readme(account_name, challenge_name):  # noqa: E501
     return res, status
 
 
-def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E501
+def list_account_challenges(account_name, limit=None, offset=None, search_terms=None):  # noqa: E501
     """List all the challenges owned by the specified account
 
     List all the challenges owned by the specified account # noqa: E501
@@ -367,6 +367,8 @@ def list_account_challenges(account_name, limit=None, offset=None):  # noqa: E50
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
+    :param search_terms: A string of search terms used to filter the results
+    :type search_terms: str
 
     :rtype: PageOfChallenges
     """
