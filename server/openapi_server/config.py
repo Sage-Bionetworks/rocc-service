@@ -1,10 +1,13 @@
 import os
+import string
+import random
+
 
 defaultValues = {
     "SERVER_PROTOCOL": "http://",
     "SERVER_DOMAIN": "localhost",
     "SERVER_PORT": "8080",
-    "SERVER_SECRET_KEY": "roccsecretkey",
+    "SERVER_SECRET_KEY": ''.join(random.sample(string.ascii_letters + string.digits, 32)),  # noqa: E501
     "DB_PROTOCOL": "mongodb://",
     "DB_DOMAIN": "localhost",
     "DB_PORT": "27017",
