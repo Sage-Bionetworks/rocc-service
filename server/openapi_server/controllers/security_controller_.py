@@ -20,8 +20,9 @@ def info_from_ApiKeyAuth(api_key, required_scopes):
         if api_key == config.secret_key:
             return {'uid': 'user_id'}
     except Exception as error:
-        print("Invalid API key.", error)
-        return None
+        print("Invalid API key", error)
+
+    return None
 
 
 def info_from_BearerAuth(token):
@@ -40,7 +41,7 @@ def info_from_BearerAuth(token):
         return {"sub": payload["sub"]}
     except jwt.ExpiredSignatureError as error:
         print("Signature expired. Please log in again.", error)
-        return None
     except jwt.InvalidTokenError as error:
         print("Invalid token. Please log in again.", error)
-        return None
+
+    return None
