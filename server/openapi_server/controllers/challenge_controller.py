@@ -62,6 +62,10 @@ def create_challenge(account_name):  # noqa: E501
                 res = Error(f"The challenge platform {platform_id} was not found", status)  # noqa: E501
                 return res, status
 
+            readme = DbChallengeReadme(
+                text=challenge_create_request.name
+            ).save()
+
             challenge = DbChallenge(
               name=challenge_create_request.name,
               displayName=challenge_create_request.display_name,
@@ -71,17 +75,13 @@ def create_challenge(account_name):  # noqa: E501
               startDate=challenge_create_request.start_date,
               endDate=challenge_create_request.end_date,
               platformId=challenge_create_request.platform_id,
+              readmeId=readme.to_dict().get("id"),
               topics=challenge_create_request.topics,
               doi=challenge_create_request.doi,
               fullName="%s/%s" % (account_name, challenge_create_request.name),
               ownerId=account_id
             ).save()
             challenge_id = challenge.to_dict().get("id")
-
-            DbChallengeReadme(
-                text=challenge_create_request.name,
-                challengeId=challenge_id
-            ).save()
 
             res = ChallengeCreateResponse(id=challenge_id)
             status = 201

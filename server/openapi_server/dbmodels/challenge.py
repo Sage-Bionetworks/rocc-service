@@ -5,6 +5,7 @@ from mongoengine import DateTimeField, Document, ReferenceField, StringField, Ob
 
 from openapi_server.dbmodels.account import Account
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform
+from openapi_server.dbmodels.challenge_readme import ChallengeReadme
 
 
 class Challenge(Document):
@@ -22,6 +23,7 @@ class Challenge(Document):
     startDate = DateTimeField()
     endDate = DateTimeField()
     platformId = ReferenceField(ChallengePlatform)
+    readmeId = ReferenceField(ChallengeReadme)
     topics = ListField(StringField(unique=True), default=[])
     doi = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
