@@ -40,8 +40,6 @@ tags:
   name: OrgMembership
 - description: Operations about the registry
   name: Registry
-- description: Operations about tags
-  name: Tag
 - description: Operations about users
   name: User
 - description: Operations about health checks
