@@ -13,6 +13,8 @@ app.add_api('openapi.yaml', pythonic_params=True)
 
 app.add_url_rule('/ui', 'ui', lambda: flask.redirect('/api/v1/ui'))
 
+print(f'Server secret key: {config.secret_key}')
+
 connect(
     db=config.db_database,
     username=config.db_username,

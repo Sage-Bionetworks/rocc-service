@@ -38,8 +38,6 @@ tags:
   name: Organization
 - description: Operations about org memberships
   name: OrgMembership
-- description: Operations about tags
-  name: Tag
 - description: Operations about users
   name: User
 - description: Operations about health checks
@@ -140,6 +138,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all challenge platforms
       tags:
       - ChallengePlatform
@@ -228,6 +228,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Create a challenge platform
       tags:
       - ChallengePlatform
@@ -265,6 +267,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a challenge platform
       tags:
       - ChallengePlatform
@@ -323,6 +327,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all challenges
       tags:
       - Challenge
@@ -559,6 +565,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Add a challenge
       tags:
       - Challenge
@@ -604,6 +612,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a challenge
       tags:
       - Challenge
@@ -749,6 +759,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Create a challenge organizer
       tags:
       - Challenge
@@ -802,6 +814,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a challenge organizer
       tags:
       - Challenge
@@ -903,6 +917,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Update a challenge README
       tags:
       - Challenge
@@ -1004,6 +1020,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Create a challenge sponsor
       tags:
       - Challenge
@@ -1057,6 +1075,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a challenge sponsor
       tags:
       - Challenge
@@ -1190,6 +1210,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all grants
       tags:
       - Grant
@@ -1283,6 +1305,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Create a grant
       tags:
       - Grant
@@ -1320,6 +1344,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a grant
       tags:
       - Grant
@@ -1400,6 +1426,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all org memberships
       tags:
       - OrgMembership
@@ -1541,6 +1569,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete an org membership
       tags:
       - OrgMembership
@@ -1599,6 +1629,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all organizations
       tags:
       - Organization
@@ -1692,6 +1724,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
       summary: Create an organization
       tags:
       - Organization
@@ -1730,6 +1764,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete an organization
       tags:
       - Organization
@@ -2110,6 +2146,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete all users
       tags:
       - User
@@ -2241,6 +2279,8 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - ApiKeyAuth: []
       summary: Delete a user
       tags:
       - User
