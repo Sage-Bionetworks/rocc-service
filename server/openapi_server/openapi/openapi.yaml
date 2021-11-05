@@ -2878,6 +2878,10 @@ components:
       - description
       - name
       type: object
+    ChallengeReadmeId:
+      description: The unique identifier of a challenge README
+      example: 507f1f77bcf86cd799439011
+      type: string
     Challenge:
       allOf:
       - $ref: '#/components/schemas/ChallengeCreateResponse'
@@ -2970,10 +2974,6 @@ components:
       - challengeOrganizers
       title: ChallengeOrganizerList
       type: object
-    ChallengeReadmeId:
-      description: The unique identifier of a challenge README
-      example: 507f1f77bcf86cd799439011
-      type: string
     ChallengeReadmeCreateResponse:
       description: The unique identifier of the challenge README created
       example:
@@ -3462,6 +3462,10 @@ components:
           description: The unique identifier of an account
           example: 507f1f77bcf86cd799439011
           type: string
+        readmeId:
+          description: The unique identifier of a challenge README
+          example: 507f1f77bcf86cd799439011
+          type: string
         createdAt:
           format: date-time
           type: string
@@ -3472,6 +3476,7 @@ components:
       - createdAt
       - fullName
       - ownerId
+      - readmeId
       - updatedAt
       type: object
     PageOfChallenges_allOf:

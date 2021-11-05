@@ -15,13 +15,15 @@ class ChallengeAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, full_name=None, owner_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, full_name=None, owner_id=None, readme_id=None, created_at=None, updated_at=None):  # noqa: E501
         """ChallengeAllOf - a model defined in OpenAPI
 
         :param full_name: The full_name of this ChallengeAllOf.  # noqa: E501
         :type full_name: str
         :param owner_id: The owner_id of this ChallengeAllOf.  # noqa: E501
         :type owner_id: str
+        :param readme_id: The readme_id of this ChallengeAllOf.  # noqa: E501
+        :type readme_id: str
         :param created_at: The created_at of this ChallengeAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this ChallengeAllOf.  # noqa: E501
@@ -30,6 +32,7 @@ class ChallengeAllOf(Model):
         self.openapi_types = {
             'full_name': str,
             'owner_id': str,
+            'readme_id': str,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -37,12 +40,14 @@ class ChallengeAllOf(Model):
         self.attribute_map = {
             'full_name': 'fullName',
             'owner_id': 'ownerId',
+            'readme_id': 'readmeId',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
 
         self._full_name = full_name
         self._owner_id = owner_id
+        self._readme_id = readme_id
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -104,6 +109,31 @@ class ChallengeAllOf(Model):
             raise ValueError("Invalid value for `owner_id`, must not be `None`")  # noqa: E501
 
         self._owner_id = owner_id
+
+    @property
+    def readme_id(self):
+        """Gets the readme_id of this ChallengeAllOf.
+
+        The unique identifier of a challenge README  # noqa: E501
+
+        :return: The readme_id of this ChallengeAllOf.
+        :rtype: str
+        """
+        return self._readme_id
+
+    @readme_id.setter
+    def readme_id(self, readme_id):
+        """Sets the readme_id of this ChallengeAllOf.
+
+        The unique identifier of a challenge README  # noqa: E501
+
+        :param readme_id: The readme_id of this ChallengeAllOf.
+        :type readme_id: str
+        """
+        if readme_id is None:
+            raise ValueError("Invalid value for `readme_id`, must not be `None`")  # noqa: E501
+
+        self._readme_id = readme_id
 
     @property
     def created_at(self):
