@@ -55,6 +55,7 @@ from openapi_server.models.page_of_organizations import PageOfOrganizations
 from openapi_server.models.page_of_organizations_all_of import PageOfOrganizationsAllOf
 from openapi_server.models.page_of_users import PageOfUsers
 from openapi_server.models.page_of_users_all_of import PageOfUsersAllOf
+from openapi_server.models.registry import Registry
 from openapi_server.models.response_page_metadata import ResponsePageMetadata
 from openapi_server.models.response_page_metadata_paging import ResponsePageMetadataPaging
 from openapi_server.models.user import User
