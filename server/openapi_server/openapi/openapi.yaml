@@ -38,6 +38,10 @@ tags:
   name: Organization
 - description: Operations about org memberships
   name: OrgMembership
+- description: Operations about the registry
+  name: Registry
+- description: Operations about tags
+  name: Tag
 - description: Operations about users
   name: User
 - description: Operations about health checks
@@ -1807,6 +1811,28 @@ paths:
       tags:
       - Organization
       x-openapi-router-controller: openapi_server.controllers.organization_controller
+  /registry:
+    get:
+      description: Get information about the registry
+      operationId: get_registry
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Registry'
+          description: Success
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+          description: The request cannot be fulfilled due to an unexpected server
+            error
+      summary: Get registry information
+      tags:
+      - Registry
+      x-openapi-router-controller: openapi_server.controllers.registry_controller
   /user:
     get:
       description: Get the authenticated user
@@ -3402,6 +3428,33 @@ components:
       - $ref: '#/components/schemas/PageOfOrgMemberships_allOf'
       description: A page of org memberships
       title: PageOfOrgMemberships
+      type: object
+    Registry:
+      description: The Challenge Registry
+      example:
+        name: Challenge Registry
+        description: A great challenge registry
+        userCount: 1000
+        orgCount: 1000
+        challengeCound: 1000
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        userCount:
+          type: integer
+        orgCount:
+          type: integer
+        challengeCount:
+          type: integer
+      required:
+      - challengeCount
+      - description
+      - name
+      - orgCount
+      - userCount
+      title: Registry
       type: object
     UserCreateRequest:
       description: The information required to create a user account
