@@ -343,8 +343,8 @@ def get_challenge_readme(account_name, challenge_name):  # noqa: E501
             res = Error(f"The challenge {challenge_full_name} was not found", status)  # noqa: E501
             return res, status
 
-        challenge_id = db_challenge.to_dict().get("id")
-        db_readme = DbChallengeReadme.objects.get(challengeId=challenge_id)
+        readme_id = db_challenge.to_dict().get("readmeId")
+        db_readme = DbChallengeReadme.objects.get(id=readme_id)
         res = ChallengeReadme.from_dict(db_readme.to_dict())
         status = 200
     except DoesNotExist:

@@ -2,6 +2,7 @@
 
 import connexion
 import flask
+from flask_cors import CORS
 from mongoengine import connect
 
 from openapi_server import encoder
@@ -12,6 +13,10 @@ app.app.json_encoder = encoder.JSONEncoder
 app.add_api('openapi.yaml', pythonic_params=True)
 
 app.add_url_rule('/ui', 'ui', lambda: flask.redirect('/api/v1/ui'))
+
+# add CORS support
+# https://connexion.readthedocs.io/en/latest/cookbook.html#cors-support
+CORS(app.app, resources={r"/api/*": {"origins": "*"}})
 
 print(f'Server secret key: {config.secret_key}')
 
