@@ -31,7 +31,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, incentive_types=None, platform_id=None, difficulty=None, submission_types=None, topics=None, input_data_types=None, doi=None, participant_count=None, full_name=None, owner_id=None, readme_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, incentive_types=None, platform_id=None, difficulty=None, submission_types=None, topics=None, input_data_types=None, doi=None, participant_count=0, full_name=None, owner_id=None, readme_id=None, featured=False, view_count=0, starred_count=0, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -72,6 +72,12 @@ class Challenge(Model):
         :type owner_id: str
         :param readme_id: The readme_id of this Challenge.  # noqa: E501
         :type readme_id: str
+        :param featured: The featured of this Challenge.  # noqa: E501
+        :type featured: bool
+        :param view_count: The view_count of this Challenge.  # noqa: E501
+        :type view_count: int
+        :param starred_count: The starred_count of this Challenge.  # noqa: E501
+        :type starred_count: int
         :param created_at: The created_at of this Challenge.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this Challenge.  # noqa: E501
@@ -97,6 +103,9 @@ class Challenge(Model):
             'full_name': str,
             'owner_id': str,
             'readme_id': str,
+            'featured': bool,
+            'view_count': int,
+            'starred_count': int,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -121,6 +130,9 @@ class Challenge(Model):
             'full_name': 'fullName',
             'owner_id': 'ownerId',
             'readme_id': 'readmeId',
+            'featured': 'featured',
+            'view_count': 'viewCount',
+            'starred_count': 'starredCount',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
@@ -144,6 +156,9 @@ class Challenge(Model):
         self._full_name = full_name
         self._owner_id = owner_id
         self._readme_id = readme_id
+        self._featured = featured
+        self._view_count = view_count
+        self._starred_count = starred_count
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -507,6 +522,7 @@ class Challenge(Model):
     def participant_count(self):
         """Gets the participant_count of this Challenge.
 
+        Number of challenge participants  # noqa: E501
 
         :return: The participant_count of this Challenge.
         :rtype: int
@@ -517,12 +533,11 @@ class Challenge(Model):
     def participant_count(self, participant_count):
         """Sets the participant_count of this Challenge.
 
+        Number of challenge participants  # noqa: E501
 
         :param participant_count: The participant_count of this Challenge.
         :type participant_count: int
         """
-        if participant_count is not None and participant_count < 0:  # noqa: E501
-            raise ValueError("Invalid value for `participant_count`, must be a value greater than or equal to `0`")  # noqa: E501
 
         self._participant_count = participant_count
 
@@ -598,6 +613,75 @@ class Challenge(Model):
             raise ValueError("Invalid value for `readme_id`, must not be `None`")  # noqa: E501
 
         self._readme_id = readme_id
+
+    @property
+    def featured(self):
+        """Gets the featured of this Challenge.
+
+        Whether the challenge is featured  # noqa: E501
+
+        :return: The featured of this Challenge.
+        :rtype: bool
+        """
+        return self._featured
+
+    @featured.setter
+    def featured(self, featured):
+        """Sets the featured of this Challenge.
+
+        Whether the challenge is featured  # noqa: E501
+
+        :param featured: The featured of this Challenge.
+        :type featured: bool
+        """
+
+        self._featured = featured
+
+    @property
+    def view_count(self):
+        """Gets the view_count of this Challenge.
+
+        Number of challenge views  # noqa: E501
+
+        :return: The view_count of this Challenge.
+        :rtype: int
+        """
+        return self._view_count
+
+    @view_count.setter
+    def view_count(self, view_count):
+        """Sets the view_count of this Challenge.
+
+        Number of challenge views  # noqa: E501
+
+        :param view_count: The view_count of this Challenge.
+        :type view_count: int
+        """
+
+        self._view_count = view_count
+
+    @property
+    def starred_count(self):
+        """Gets the starred_count of this Challenge.
+
+        Number of times the challenge has been starred by users  # noqa: E501
+
+        :return: The starred_count of this Challenge.
+        :rtype: int
+        """
+        return self._starred_count
+
+    @starred_count.setter
+    def starred_count(self, starred_count):
+        """Sets the starred_count of this Challenge.
+
+        Number of times the challenge has been starred by users  # noqa: E501
+
+        :param starred_count: The starred_count of this Challenge.
+        :type starred_count: int
+        """
+
+        self._starred_count = starred_count
 
     @property
     def created_at(self):

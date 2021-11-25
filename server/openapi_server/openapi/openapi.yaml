@@ -364,12 +364,12 @@ paths:
           Properties used to sort the results that must be returned:
             * featured - featured challenge, from featured to non-featured.
             * startDate - start date of a challenge, from latest to oldest.
-            * participantCount - number of participants of a challenge, from latest to oldest
-            * viewCount - number of views of a challenge, from latest to oldest
-            * favoriteCount - number of stargazers of a challenge, from latest to oldest
-            * alphabetical - name of a challenge, from A to Z
-            * createdAt - when a challenge is created, from latest to oldest
-            * updatedAt - when a challenge is updated, from latest to oldest
+            * participantCount - number of participants of a challenge, from most to least.
+            * viewCount - number of views of a challenge, from most to least.
+            * starredCount - number of stargazers of a challenge, from most to least.
+            * name - name of a challenge, from A to Z.
+            * createdAt - when a challenge is created, from latest to oldest.
+            * updatedAt - when a challenge is updated, from latest to oldest.
         explode: true
         in: query
         name: sort
@@ -380,8 +380,8 @@ paths:
           - startDate
           - participantCount
           - viewCount
-          - favoriteCount
-          - alphabetical
+          - starredCount
+          - name
           - createdAt
           - updatedAt
           type: string
@@ -2598,12 +2598,12 @@ components:
         Properties used to sort the results that must be returned:
           * featured - featured challenge, from featured to non-featured.
           * startDate - start date of a challenge, from latest to oldest.
-          * participantCount - number of participants of a challenge, from latest to oldest
-          * viewCount - number of views of a challenge, from latest to oldest
-          * favoriteCount - number of stargazers of a challenge, from latest to oldest
-          * alphabetical - name of a challenge, from A to Z
-          * createdAt - when a challenge is created, from latest to oldest
-          * updatedAt - when a challenge is updated, from latest to oldest
+          * participantCount - number of participants of a challenge, from most to least.
+          * viewCount - number of views of a challenge, from most to least.
+          * starredCount - number of stargazers of a challenge, from most to least.
+          * name - name of a challenge, from A to Z.
+          * createdAt - when a challenge is created, from latest to oldest.
+          * updatedAt - when a challenge is updated, from latest to oldest.
       explode: true
       in: query
       name: sort
@@ -2614,8 +2614,8 @@ components:
         - startDate
         - participantCount
         - viewCount
-        - favoriteCount
-        - alphabetical
+        - starredCount
+        - name
         - createdAt
         - updatedAt
         type: string
@@ -3699,6 +3699,22 @@ components:
           description: The unique identifier of a challenge README
           example: 507f1f77bcf86cd799439011
           type: string
+        featured:
+          default: false
+          description: Whether the challenge is featured
+          type: boolean
+        participantCount:
+          default: 0
+          description: Number of challenge participants
+          type: integer
+        viewCount:
+          default: 0
+          description: Number of challenge views
+          type: integer
+        starredCount:
+          default: 0
+          description: Number of times the challenge has been starred by users
+          type: integer
         createdAt:
           format: date-time
           type: string

@@ -1,7 +1,6 @@
 from bson import ObjectId
 import datetime
-from mongoengine import DateTimeField, Document, ReferenceField, StringField, ObjectIdField, URLField, ListField, IntField  # noqa: E501
-# , ListField
+from mongoengine import DateTimeField, Document, ReferenceField, StringField, ObjectIdField, URLField, ListField, IntField, BooleanField  # noqa: E501
 
 from openapi_server.dbmodels.account import Account
 from openapi_server.dbmodels.challenge_platform import ChallengePlatform
@@ -35,6 +34,10 @@ class Challenge(Document):
     incentiveTypes = ListField(StringField(
         choices=["Monetary", "Publication", "SpeakingEngagement", "Other"]  # TODO: DRY
     ))
+    featured = BooleanField(default=False)
+    participantCount = IntField(default=0)
+    viewCount = IntField(default=0)
+    starredCount = IntField(default=0)
     doi = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
