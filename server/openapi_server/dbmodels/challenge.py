@@ -32,7 +32,8 @@ class Challenge(Document):
         choices=["DockerImage", "PredictionFile", "Other"]  # TODO: DRY
     ))
     incentiveTypes = ListField(StringField(
-        choices=["Monetary", "Publication", "SpeakingEngagement", "Other"]  # TODO: DRY
+        # TODO: DRY
+        choices=["Monetary", "Publication", "SpeakingEngagement", "Other"]  # noqa: E501
     ))
     featured = BooleanField(default=False)
     participantCount = IntField(default=0)
