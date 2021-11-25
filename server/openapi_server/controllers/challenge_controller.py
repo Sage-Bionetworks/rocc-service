@@ -407,7 +407,7 @@ def list_account_challenges(account_name, limit=None, offset=None, search_terms=
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, difficulty=None, input_data_types=None, submission_types=None, incentive_types=None, start_date_range=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, input_data_types=None, status=None, platform_ids=None, difficulty=None, submission_types=None, incentive_types=None, start_date_range=None, org_ids=None, organizer_ids=None, sponsor_ids=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -416,7 +416,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
-    :param sort: Properties used to sort the results that must be returned:   * featured - featured challenge, from featured to non-featured.   * startDate - start date of a challenge, from latest to oldest.   * participantCount - number of participants of a challenge, from latest to oldest   * viewCount - number of views of a challenge, from latest to oldest   * favoriteCount - number of stargazers of a challenge, from latest to oldest   * alphabetical - name of a challenge, from A to Z   * createdAt - when a challenge is created, from latest to oldest   * updatedAt - when a challenge is updated, from latest to oldest
+    :param sort: Properties used to sort the results that must be returned:   * featured - featured challenge, from featured to non-featured.   * startDate - start date of a challenge, from latest to oldest.   * participantCount - number of participants of a challenge, from most to least.   * viewCount - number of views of a challenge, from most to least.   * starredCount - number of stargazers of a challenge, from most to least.   * name - name of a challenge, from A to Z.   * createdAt - when a challenge is created, from latest to oldest.   * updatedAt - when a challenge is updated, from latest to oldest.
     :type sort: str
     :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
     :type direction: str
@@ -424,20 +424,26 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type search_terms: str
     :param topics: Array of topics used to filter the results
     :type topics: List[str]
+    :param input_data_types: Array of input data types used to filter the results
+    :type input_data_types: List[str]
     :param status: Array of challenge status used to filter the results
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results
     :type platform_ids: List[str]
     :param difficulty: Array of challenge difficulty levels used to filter the results
     :type difficulty: list | bytes
-    :param input_data_types: Array of input data types used to filter the results
-    :type input_data_types: List[str]
     :param submission_types: Array of challenge submission types used to filter the results
     :type submission_types: list | bytes
     :param incentive_types: Array of challenge incentive types used to filter the results
     :type incentive_types: list | bytes
     :param start_date_range: Return challenges that start during the date range specified
     :type start_date_range: dict | bytes
+    :param org_ids: Array of organization ids used to filter the results
+    :type org_ids: List[str]
+    :param organizer_ids: Array of organizer identifiers used to filter the results
+    :type organizer_ids: List[str]
+    :param sponsor_ids: Array of sponsor org identifiers used to filter the results
+    :type sponsor_ids: List[str]
 
     :rtype: PageOfChallenges
     """

@@ -415,6 +415,16 @@ paths:
             $ref: '#/components/schemas/Topic'
           type: array
         style: form
+      - description: Array of input data types used to filter the results
+        explode: true
+        in: query
+        name: inputDataTypes
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeInputDataType'
+          type: array
+        style: form
       - description: Array of challenge status used to filter the results
         explode: true
         in: query
@@ -445,16 +455,6 @@ paths:
             $ref: '#/components/schemas/ChallengeDifficulty'
           type: array
         style: form
-      - description: Array of input data types used to filter the results
-        explode: true
-        in: query
-        name: inputDataTypes
-        required: false
-        schema:
-          items:
-            $ref: '#/components/schemas/ChallengeInputDataType'
-          type: array
-        style: form
       - description: Array of challenge submission types used to filter the results
         explode: true
         in: query
@@ -483,6 +483,36 @@ paths:
         schema:
           $ref: '#/components/schemas/DateRange'
         style: deepObject
+      - description: Array of organization ids used to filter the results
+        explode: true
+        in: query
+        name: orgIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/OrgId'
+          type: array
+        style: form
+      - description: Array of organizer identifiers used to filter the results
+        explode: true
+        in: query
+        name: organizerIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/UserId'
+          type: array
+        style: form
+      - description: Array of sponsor org identifiers used to filter the results
+        explode: true
+        in: query
+        name: sponsorIds
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/OrgId'
+          type: array
+        style: form
       responses:
         "200":
           content:
@@ -2652,6 +2682,17 @@ components:
           $ref: '#/components/schemas/Topic'
         type: array
       style: form
+    inputDataTypes:
+      description: Array of input data types used to filter the results
+      explode: true
+      in: query
+      name: inputDataTypes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeInputDataType'
+        type: array
+      style: form
     status:
       description: Array of challenge status used to filter the results
       explode: true
@@ -2685,17 +2726,6 @@ components:
           $ref: '#/components/schemas/ChallengeDifficulty'
         type: array
       style: form
-    inputDataTypes:
-      description: Array of input data types used to filter the results
-      explode: true
-      in: query
-      name: inputDataTypes
-      required: false
-      schema:
-        items:
-          $ref: '#/components/schemas/ChallengeInputDataType'
-        type: array
-      style: form
     submissionTypes:
       description: Array of challenge submission types used to filter the results
       explode: true
@@ -2727,6 +2757,39 @@ components:
       schema:
         $ref: '#/components/schemas/DateRange'
       style: deepObject
+    orgIds:
+      description: Array of organization ids used to filter the results
+      explode: true
+      in: query
+      name: orgIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/OrgId'
+        type: array
+      style: form
+    organizerIds:
+      description: Array of organizer identifiers used to filter the results
+      explode: true
+      in: query
+      name: organizerIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/UserId'
+        type: array
+      style: form
+    sponsorIds:
+      description: Array of sponsor org identifiers used to filter the results
+      explode: true
+      in: query
+      name: sponsorIds
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/OrgId'
+        type: array
+      style: form
     orgId:
       description: An organization identifier used to filter the results
       explode: true
@@ -2880,6 +2943,14 @@ components:
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
       title: Topic
       type: string
+    ChallengeInputDataType:
+      description: A challenge input data type
+      example: '["genomic","clinical"]'
+      maxLength: 30
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: ChallengeInputDataType
+      type: string
     ChallengeStatus:
       description: The status of the challenge
       enum:
@@ -2902,14 +2973,6 @@ components:
       - Advanced
       example: Intermediate
       title: ChallengeDifficulty
-      type: string
-    ChallengeInputDataType:
-      description: A challenge input data type
-      example: '["genomic","clinical"]'
-      maxLength: 30
-      minLength: 3
-      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: ChallengeInputDataType
       type: string
     ChallengeSubmissionType:
       description: The submission type of the challenge
@@ -2946,6 +3009,16 @@ components:
           type: string
       title: DateRange
       type: object
+    OrgId:
+      description: The unique identifier of an organization
+      example: 507f1f77bcf86cd799439011
+      title: OrgId
+      type: string
+    UserId:
+      description: The unique identifier of a user
+      example: 507f1f77bcf86cd799439011
+      title: UserId
+      type: string
     ResponsePageMetadata:
       description: A page of results
       properties:
@@ -3534,14 +3607,6 @@ components:
       description: A page of Organizations
       title: PageOfOrganizations
       type: object
-    OrgId:
-      description: The unique identifier of an organization
-      example: 507f1f77bcf86cd799439011
-      type: string
-    UserId:
-      description: The unique identifier of a user
-      example: 507f1f77bcf86cd799439011
-      type: string
     OrgMembershipId:
       description: The unique identifier of the org membership
       example: 507f1f77bcf86cd799439011
@@ -3584,10 +3649,12 @@ components:
         organizationId:
           description: The unique identifier of an organization
           example: 507f1f77bcf86cd799439011
+          title: OrgId
           type: string
         userId:
           description: The unique identifier of a user
           example: 507f1f77bcf86cd799439011
+          title: UserId
           type: string
       required:
       - organizationId
