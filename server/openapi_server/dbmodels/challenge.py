@@ -28,15 +28,13 @@ class Challenge(Document):
     difficulty = StringField(
         choices=["GoodForBeginners", "Intermediate", "Advanced"]  # TODO: DRY
     )
-    inputDataTypes = StringField(
-        choices=["genomic", "clinical"]  # TODO: DRY
-    )
-    submissionTypes = StringField(
+    inputDataTypes = ListField(StringField(unique=True), default=[])
+    submissionTypes = ListField(StringField(
         choices=["DockerImage", "PredictionFile", "Other"]  # TODO: DRY
-    )
-    incentiveTypes = StringField(
+    ))
+    incentiveTypes = ListField(StringField(
         choices=["Monetary", "Publication", "SpeakingEngagement", "Other"]  # TODO: DRY
-    )
+    ))
     doi = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)

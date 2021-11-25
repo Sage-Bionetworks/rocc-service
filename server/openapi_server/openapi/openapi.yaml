@@ -452,7 +452,7 @@ paths:
         required: false
         schema:
           items:
-            $ref: '#/components/schemas/inputDataType'
+            $ref: '#/components/schemas/ChallengeInputDataType'
           type: array
         style: form
       - description: Array of challenge submission types used to filter the results
@@ -2693,7 +2693,7 @@ components:
       required: false
       schema:
         items:
-          $ref: '#/components/schemas/inputDataType'
+          $ref: '#/components/schemas/ChallengeInputDataType'
         type: array
       style: form
     submissionTypes:
@@ -2903,13 +2903,13 @@ components:
       example: Intermediate
       title: ChallengeDifficulty
       type: string
-    inputDataType:
-      description: The Input Data Type
+    ChallengeInputDataType:
+      description: A challenge input data type
       example: '["genomic","clinical"]'
       maxLength: 30
       minLength: 3
       pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
-      title: inputDataType
+      title: ChallengeInputDataType
       type: string
     ChallengeSubmissionType:
       description: The submission type of the challenge
@@ -3069,7 +3069,7 @@ components:
           type: array
         inputDataTypes:
           items:
-            $ref: '#/components/schemas/inputDataType'
+            $ref: '#/components/schemas/ChallengeInputDataType'
           maxItems: 10
           nullable: true
           type: array
