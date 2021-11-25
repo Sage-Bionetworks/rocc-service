@@ -9,14 +9,20 @@ from openapi_server.models.base_model_ import Model
 from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
+from openapi_server.models.challenge_difficulty import ChallengeDifficulty
+from openapi_server.models.challenge_incentive_type import ChallengeIncentiveType
 from openapi_server.models.challenge_status import ChallengeStatus
+from openapi_server.models.challenge_submission_type import ChallengeSubmissionType
 import re
 from openapi_server import util
 
 from openapi_server.models.challenge_all_of import ChallengeAllOf  # noqa: E501
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest  # noqa: E501
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse  # noqa: E501
+from openapi_server.models.challenge_difficulty import ChallengeDifficulty  # noqa: E501
+from openapi_server.models.challenge_incentive_type import ChallengeIncentiveType  # noqa: E501
 from openapi_server.models.challenge_status import ChallengeStatus  # noqa: E501
+from openapi_server.models.challenge_submission_type import ChallengeSubmissionType  # noqa: E501
 import re  # noqa: E501
 
 class Challenge(Model):
@@ -25,7 +31,7 @@ class Challenge(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, platform_id=None, topics=None, doi=None, full_name=None, owner_id=None, readme_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, id=None, name=None, display_name=None, description=None, website_url=None, status=None, start_date=None, end_date=None, incentive_types=None, platform_id=None, difficulty=None, submission_types=None, topics=None, input_data_types=None, doi=None, participant_count=None, full_name=None, owner_id=None, readme_id=None, created_at=None, updated_at=None):  # noqa: E501
         """Challenge - a model defined in OpenAPI
 
         :param id: The id of this Challenge.  # noqa: E501
@@ -44,12 +50,22 @@ class Challenge(Model):
         :type start_date: date
         :param end_date: The end_date of this Challenge.  # noqa: E501
         :type end_date: date
+        :param incentive_types: The incentive_types of this Challenge.  # noqa: E501
+        :type incentive_types: List[ChallengeIncentiveType]
         :param platform_id: The platform_id of this Challenge.  # noqa: E501
         :type platform_id: str
+        :param difficulty: The difficulty of this Challenge.  # noqa: E501
+        :type difficulty: ChallengeDifficulty
+        :param submission_types: The submission_types of this Challenge.  # noqa: E501
+        :type submission_types: List[ChallengeSubmissionType]
         :param topics: The topics of this Challenge.  # noqa: E501
         :type topics: List[str]
+        :param input_data_types: The input_data_types of this Challenge.  # noqa: E501
+        :type input_data_types: List[str]
         :param doi: The doi of this Challenge.  # noqa: E501
         :type doi: str
+        :param participant_count: The participant_count of this Challenge.  # noqa: E501
+        :type participant_count: int
         :param full_name: The full_name of this Challenge.  # noqa: E501
         :type full_name: str
         :param owner_id: The owner_id of this Challenge.  # noqa: E501
@@ -70,9 +86,14 @@ class Challenge(Model):
             'status': ChallengeStatus,
             'start_date': date,
             'end_date': date,
+            'incentive_types': List[ChallengeIncentiveType],
             'platform_id': str,
+            'difficulty': ChallengeDifficulty,
+            'submission_types': List[ChallengeSubmissionType],
             'topics': List[str],
+            'input_data_types': List[str],
             'doi': str,
+            'participant_count': int,
             'full_name': str,
             'owner_id': str,
             'readme_id': str,
@@ -89,9 +110,14 @@ class Challenge(Model):
             'status': 'status',
             'start_date': 'startDate',
             'end_date': 'endDate',
+            'incentive_types': 'incentiveTypes',
             'platform_id': 'platformId',
+            'difficulty': 'difficulty',
+            'submission_types': 'submissionTypes',
             'topics': 'topics',
+            'input_data_types': 'inputDataTypes',
             'doi': 'doi',
+            'participant_count': 'participantCount',
             'full_name': 'fullName',
             'owner_id': 'ownerId',
             'readme_id': 'readmeId',
@@ -107,9 +133,14 @@ class Challenge(Model):
         self._status = status
         self._start_date = start_date
         self._end_date = end_date
+        self._incentive_types = incentive_types
         self._platform_id = platform_id
+        self._difficulty = difficulty
+        self._submission_types = submission_types
         self._topics = topics
+        self._input_data_types = input_data_types
         self._doi = doi
+        self._participant_count = participant_count
         self._full_name = full_name
         self._owner_id = owner_id
         self._readme_id = readme_id
@@ -320,6 +351,27 @@ class Challenge(Model):
         self._end_date = end_date
 
     @property
+    def incentive_types(self):
+        """Gets the incentive_types of this Challenge.
+
+
+        :return: The incentive_types of this Challenge.
+        :rtype: List[ChallengeIncentiveType]
+        """
+        return self._incentive_types
+
+    @incentive_types.setter
+    def incentive_types(self, incentive_types):
+        """Sets the incentive_types of this Challenge.
+
+
+        :param incentive_types: The incentive_types of this Challenge.
+        :type incentive_types: List[ChallengeIncentiveType]
+        """
+
+        self._incentive_types = incentive_types
+
+    @property
     def platform_id(self):
         """Gets the platform_id of this Challenge.
 
@@ -341,6 +393,48 @@ class Challenge(Model):
         """
 
         self._platform_id = platform_id
+
+    @property
+    def difficulty(self):
+        """Gets the difficulty of this Challenge.
+
+
+        :return: The difficulty of this Challenge.
+        :rtype: ChallengeDifficulty
+        """
+        return self._difficulty
+
+    @difficulty.setter
+    def difficulty(self, difficulty):
+        """Sets the difficulty of this Challenge.
+
+
+        :param difficulty: The difficulty of this Challenge.
+        :type difficulty: ChallengeDifficulty
+        """
+
+        self._difficulty = difficulty
+
+    @property
+    def submission_types(self):
+        """Gets the submission_types of this Challenge.
+
+
+        :return: The submission_types of this Challenge.
+        :rtype: List[ChallengeSubmissionType]
+        """
+        return self._submission_types
+
+    @submission_types.setter
+    def submission_types(self, submission_types):
+        """Sets the submission_types of this Challenge.
+
+
+        :param submission_types: The submission_types of this Challenge.
+        :type submission_types: List[ChallengeSubmissionType]
+        """
+
+        self._submission_types = submission_types
 
     @property
     def topics(self):
@@ -366,6 +460,29 @@ class Challenge(Model):
         self._topics = topics
 
     @property
+    def input_data_types(self):
+        """Gets the input_data_types of this Challenge.
+
+
+        :return: The input_data_types of this Challenge.
+        :rtype: List[str]
+        """
+        return self._input_data_types
+
+    @input_data_types.setter
+    def input_data_types(self, input_data_types):
+        """Sets the input_data_types of this Challenge.
+
+
+        :param input_data_types: The input_data_types of this Challenge.
+        :type input_data_types: List[str]
+        """
+        if input_data_types is not None and len(input_data_types) > 10:
+            raise ValueError("Invalid value for `input_data_types`, number of items must be less than or equal to `10`")  # noqa: E501
+
+        self._input_data_types = input_data_types
+
+    @property
     def doi(self):
         """Gets the doi of this Challenge.
 
@@ -385,6 +502,29 @@ class Challenge(Model):
         """
 
         self._doi = doi
+
+    @property
+    def participant_count(self):
+        """Gets the participant_count of this Challenge.
+
+
+        :return: The participant_count of this Challenge.
+        :rtype: int
+        """
+        return self._participant_count
+
+    @participant_count.setter
+    def participant_count(self, participant_count):
+        """Sets the participant_count of this Challenge.
+
+
+        :param participant_count: The participant_count of this Challenge.
+        :type participant_count: int
+        """
+        if participant_count is not None and participant_count < 0:  # noqa: E501
+            raise ValueError("Invalid value for `participant_count`, must be a value greater than or equal to `0`")  # noqa: E501
+
+        self._participant_count = participant_count
 
     @property
     def full_name(self):

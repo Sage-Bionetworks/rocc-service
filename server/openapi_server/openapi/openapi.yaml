@@ -360,13 +360,28 @@ paths:
           minimum: 0
           type: integer
         style: form
-      - description: Property used to sort the results that must be returned
+      - description: |
+          Properties used to sort the results that must be returned:
+            * featured - featured challenge, from featured to non-featured.
+            * startDate - start date of a challenge, from latest to oldest.
+            * participantCount - number of participants of a challenge, from latest to oldest
+            * viewCount - number of views of a challenge, from latest to oldest
+            * favoriteCount - number of stargazers of a challenge, from latest to oldest
+            * alphabetical - name of a challenge, from A to Z
+            * createdAt - when a challenge is created, from latest to oldest
+            * updatedAt - when a challenge is updated, from latest to oldest
         explode: true
         in: query
         name: sort
         required: false
         schema:
           enum:
+          - featured
+          - startDate
+          - participantCount
+          - viewCount
+          - favoriteCount
+          - alphabetical
           - createdAt
           - updatedAt
           type: string
@@ -418,6 +433,46 @@ paths:
         schema:
           items:
             $ref: '#/components/schemas/ChallengePlatformId'
+          type: array
+        style: form
+      - description: Array of challenge difficulty levels used to filter the results
+        explode: true
+        in: query
+        name: difficulty
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeDifficulty'
+          type: array
+        style: form
+      - description: Array of input data types used to filter the results
+        explode: true
+        in: query
+        name: inputDataTypes
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/inputDataType'
+          type: array
+        style: form
+      - description: Array of challenge submission types used to filter the results
+        explode: true
+        in: query
+        name: submissionTypes
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeSubmissionType'
+          type: array
+        style: form
+      - description: Array of challenge incentive types used to filter the results
+        explode: true
+        in: query
+        name: incentiveTypes
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/ChallengeIncentiveType'
           type: array
         style: form
       - description: Return challenges that start during the date range specified
@@ -2539,13 +2594,28 @@ components:
         type: integer
       style: form
     sort:
-      description: Property used to sort the results that must be returned
+      description: |
+        Properties used to sort the results that must be returned:
+          * featured - featured challenge, from featured to non-featured.
+          * startDate - start date of a challenge, from latest to oldest.
+          * participantCount - number of participants of a challenge, from latest to oldest
+          * viewCount - number of views of a challenge, from latest to oldest
+          * favoriteCount - number of stargazers of a challenge, from latest to oldest
+          * alphabetical - name of a challenge, from A to Z
+          * createdAt - when a challenge is created, from latest to oldest
+          * updatedAt - when a challenge is updated, from latest to oldest
       explode: true
       in: query
       name: sort
       required: false
       schema:
         enum:
+        - featured
+        - startDate
+        - participantCount
+        - viewCount
+        - favoriteCount
+        - alphabetical
         - createdAt
         - updatedAt
         type: string
@@ -2602,6 +2672,50 @@ components:
       schema:
         items:
           $ref: '#/components/schemas/ChallengePlatformId'
+        type: array
+      style: form
+    difficulty:
+      description: Array of challenge difficulty levels used to filter the results
+      explode: true
+      in: query
+      name: difficulty
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeDifficulty'
+        type: array
+      style: form
+    inputDataTypes:
+      description: Array of input data types used to filter the results
+      explode: true
+      in: query
+      name: inputDataTypes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/inputDataType'
+        type: array
+      style: form
+    submissionTypes:
+      description: Array of challenge submission types used to filter the results
+      explode: true
+      in: query
+      name: submissionTypes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeSubmissionType'
+        type: array
+      style: form
+    incentiveTypes:
+      description: Array of challenge incentive types used to filter the results
+      explode: true
+      in: query
+      name: incentiveTypes
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/ChallengeIncentiveType'
         type: array
       style: form
     startDateRange:
@@ -2780,6 +2894,42 @@ components:
       example: 507f1f77bcf86cd799439011
       title: ChallengePlatformId
       type: string
+    ChallengeDifficulty:
+      description: The difficulty level of a challenge
+      enum:
+      - GoodForBeginners
+      - Intermediate
+      - Advanced
+      example: Intermediate
+      title: ChallengeDifficulty
+      type: string
+    inputDataType:
+      description: The Input Data Type
+      example: '["genomic","clinical"]'
+      maxLength: 30
+      minLength: 3
+      pattern: ^[a-z0-9]+(?:-[a-z0-9]+)*$
+      title: inputDataType
+      type: string
+    ChallengeSubmissionType:
+      description: The submission type of the challenge
+      enum:
+      - DockerImage
+      - PredictionFile
+      - Other
+      example: DockerImage
+      title: ChallengeSubmissionType
+      type: string
+    ChallengeIncentiveType:
+      description: The incentive type of the challenge
+      enum:
+      - Monetary
+      - Publication
+      - SpeakingEngagement
+      - Other
+      example: Monetary
+      title: ChallengeIncentiveType
+      type: string
     DateRange:
       description: A date range
       example:
@@ -2851,10 +3001,20 @@ components:
         startDate: 2020-11-10
         endDate: 2020-12-31
         platformId: 507f1f77bcf86cd799439011
+        submissionTypes:
+        - PredictionFile
+        - DockerImage
+        incentiveTypes:
+        - Monetary
+        - Publication
         topics:
         - breast-cancer
+        - covid
+        dataTypes:
+        - genomic
         - ehr
         doi: http://doi.org/10.5281/zenodo.3714971
+        participantCount: 100
       properties:
         name:
           description: The name of the a challenge
@@ -2885,19 +3045,41 @@ components:
           format: date
           nullable: true
           type: string
+        incentiveTypes:
+          items:
+            $ref: '#/components/schemas/ChallengeIncentiveType'
+          nullable: true
+          type: array
         platformId:
           description: The unique identifier of a challenge platform
           example: 507f1f77bcf86cd799439011
           title: ChallengePlatformId
           type: string
+        difficulty:
+          $ref: '#/components/schemas/ChallengeDifficulty'
+        submissionTypes:
+          items:
+            $ref: '#/components/schemas/ChallengeSubmissionType'
+          nullable: true
+          type: array
         topics:
           items:
             $ref: '#/components/schemas/Topic'
           maxItems: 30
           type: array
+        inputDataTypes:
+          items:
+            $ref: '#/components/schemas/inputDataType'
+          maxItems: 10
+          nullable: true
+          type: array
         doi:
           nullable: true
           type: string
+        participantCount:
+          minimum: 0
+          nullable: true
+          type: integer
       required:
       - description
       - name

@@ -407,7 +407,7 @@ def list_account_challenges(account_name, limit=None, offset=None, search_terms=
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, difficulty=None, input_data_types=None, submission_types=None, incentive_types=None, start_date_range=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -416,7 +416,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
-    :param sort: Property used to sort the results that must be returned
+    :param sort: Properties used to sort the results that must be returned:   * featured - featured challenge, from featured to non-featured.   * startDate - start date of a challenge, from latest to oldest.   * participantCount - number of participants of a challenge, from latest to oldest   * viewCount - number of views of a challenge, from latest to oldest   * favoriteCount - number of stargazers of a challenge, from latest to oldest   * alphabetical - name of a challenge, from A to Z   * createdAt - when a challenge is created, from latest to oldest   * updatedAt - when a challenge is updated, from latest to oldest
     :type sort: str
     :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
     :type direction: str
@@ -428,6 +428,14 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results
     :type platform_ids: List[str]
+    :param difficulty: Array of challenge difficulty levels used to filter the results
+    :type difficulty: list | bytes
+    :param input_data_types: Array of input data types used to filter the results
+    :type input_data_types: List[str]
+    :param submission_types: Array of challenge submission types used to filter the results
+    :type submission_types: list | bytes
+    :param incentive_types: Array of challenge incentive types used to filter the results
+    :type incentive_types: list | bytes
     :param start_date_range: Return challenges that start during the date range specified
     :type start_date_range: dict | bytes
 
