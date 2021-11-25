@@ -25,26 +25,22 @@ class Challenge(Document):
     platformId = ReferenceField(ChallengePlatform)
     readmeId = ReferenceField(ChallengeReadme)
     topics = ListField(StringField(unique=True), default=[])
+    difficulty = StringField(
+        choices=["GoodForBeginners", "Intermediate", "Advanced"]  # TODO: DRY
+    )
+    inputDataTypes = StringField(
+        choices=["genomic", "clinical"]  # TODO: DRY
+    )
+    submissionTypes = StringField(
+        choices=["DockerImage", "PredictionFile", "Other"]  # TODO: DRY
+    )
+    incentiveTypes = StringField(
+        choices=["Monetary", "Publication", "SpeakingEngagement", "Other"]  # TODO: DRY
+    )
     doi = StringField()
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)
     updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
     v = IntField(db_field='__v')
-
-    # summary = StringField()
-    # startDate = DateTimeField()
-    # endDate = DateTimeField()
-    # url = URLField(required=True)
-    # status = StringField(
-    #     required=True,
-    #     choices=["active", "upcoming", "completed"]  # TODO: DRY
-    # )
-    # tagIds = ListField(ReferenceField(Tag))
-    # organizerIds = ListField(ReferenceField(Person))
-    # dataProviderIds = ListField(ReferenceField(Organization))
-    # grantIds = ListField(ReferenceField(Grant))
-    # platformId = ReferenceField(ChallengePlatform)
-    # createdAt = DateTimeField(required=True, default=datetime.datetime.now)
-    # updatedAt = DateTimeField(required=True, default=datetime.datetime.now)
 
     meta = {'indexes': [
         {

@@ -29,7 +29,7 @@ connect(
 
 
 def main():
-    app.run(port=8080, debug=False)
+    app.run(port=8080, debug=True)
 
 
 if __name__ == '__main__':
