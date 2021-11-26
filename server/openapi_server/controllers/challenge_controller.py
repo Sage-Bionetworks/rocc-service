@@ -490,6 +490,10 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         startDate_end_q = Q(startDate__lte=start_date_end) \
             if start_date_end is not None else Q()
 
+        # create owner/org filter
+        owner_id_q = Q(ownerId__in=org_ids) \
+            if org_ids is not None and len(org_ids) > 0 else Q()
+
         # apply filters except search terms
         db_challenges = DbChallenge.objects(
             topics_q &
@@ -500,7 +504,9 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
             submission_types_q &
             incentive_types_q &
             startDate_start_q &
-            startDate_end_q)  # noqa: E501
+            startDate_end_q &
+            owner_id_q
+        )
 
         # apply filter by search terms
         if search_terms is not None:
