@@ -497,7 +497,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         # create organizer filter
         # organizer_ids is a list of User ids
         organizers_q = Q()
-        if (len(organizer_ids) > 0):
+        if (organizer_ids is not None and len(organizer_ids) > 0):
             db_organizer_users = DbUser.objects(id__in=organizer_ids)
             organizer_logins = [User.from_dict(d.to_dict()).login for d in db_organizer_users]  # noqa: E501
             db_organizers = DbChallengeOrganizer.objects(login__in=organizer_logins)  # noqa: E501
