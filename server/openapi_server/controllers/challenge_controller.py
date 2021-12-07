@@ -494,6 +494,16 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
         owner_id_q = Q(ownerId__in=org_ids) \
             if org_ids is not None and len(org_ids) > 0 else Q()
 
+        # create organizer filter
+        # organizer_ids is a list of User ids
+        organizers_q = Q()
+        if (len(organizer_ids) > 0):
+            db_organizer_users = DbUser.objects(id__in=organizer_ids)
+            organizer_logins = [User.from_dict(d.to_dict()).login for d in db_organizer_users]  # noqa: E501
+            db_organizers = DbChallengeOrganizer.objects(login__in=organizer_logins)  # noqa: E501
+            organizer_challenge_ids = [d.to_dict()['challengeId'] for d in db_organizers]  # noqa: E501
+            organizers_q = Q(id__in=organizer_challenge_ids)
+
         # apply filters except search terms
         db_challenges = DbChallenge.objects(
             topics_q &
@@ -505,7 +515,8 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
             incentive_types_q &
             startDate_start_q &
             startDate_end_q &
-            owner_id_q
+            owner_id_q &
+            organizers_q
         )
 
         # apply filter by search terms
