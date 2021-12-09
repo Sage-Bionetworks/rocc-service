@@ -15,7 +15,7 @@ class ChallengeAllOf(Model):
     Do not edit the class manually.
     """
 
-    def __init__(self, full_name=None, owner_id=None, readme_id=None, created_at=None, updated_at=None):  # noqa: E501
+    def __init__(self, full_name=None, owner_id=None, readme_id=None, featured=False, participant_count=0, view_count=0, starred_count=0, created_at=None, updated_at=None):  # noqa: E501
         """ChallengeAllOf - a model defined in OpenAPI
 
         :param full_name: The full_name of this ChallengeAllOf.  # noqa: E501
@@ -24,6 +24,14 @@ class ChallengeAllOf(Model):
         :type owner_id: str
         :param readme_id: The readme_id of this ChallengeAllOf.  # noqa: E501
         :type readme_id: str
+        :param featured: The featured of this ChallengeAllOf.  # noqa: E501
+        :type featured: bool
+        :param participant_count: The participant_count of this ChallengeAllOf.  # noqa: E501
+        :type participant_count: int
+        :param view_count: The view_count of this ChallengeAllOf.  # noqa: E501
+        :type view_count: int
+        :param starred_count: The starred_count of this ChallengeAllOf.  # noqa: E501
+        :type starred_count: int
         :param created_at: The created_at of this ChallengeAllOf.  # noqa: E501
         :type created_at: datetime
         :param updated_at: The updated_at of this ChallengeAllOf.  # noqa: E501
@@ -33,6 +41,10 @@ class ChallengeAllOf(Model):
             'full_name': str,
             'owner_id': str,
             'readme_id': str,
+            'featured': bool,
+            'participant_count': int,
+            'view_count': int,
+            'starred_count': int,
             'created_at': datetime,
             'updated_at': datetime
         }
@@ -41,6 +53,10 @@ class ChallengeAllOf(Model):
             'full_name': 'fullName',
             'owner_id': 'ownerId',
             'readme_id': 'readmeId',
+            'featured': 'featured',
+            'participant_count': 'participantCount',
+            'view_count': 'viewCount',
+            'starred_count': 'starredCount',
             'created_at': 'createdAt',
             'updated_at': 'updatedAt'
         }
@@ -48,6 +64,10 @@ class ChallengeAllOf(Model):
         self._full_name = full_name
         self._owner_id = owner_id
         self._readme_id = readme_id
+        self._featured = featured
+        self._participant_count = participant_count
+        self._view_count = view_count
+        self._starred_count = starred_count
         self._created_at = created_at
         self._updated_at = updated_at
 
@@ -134,6 +154,98 @@ class ChallengeAllOf(Model):
             raise ValueError("Invalid value for `readme_id`, must not be `None`")  # noqa: E501
 
         self._readme_id = readme_id
+
+    @property
+    def featured(self):
+        """Gets the featured of this ChallengeAllOf.
+
+        Whether the challenge is featured  # noqa: E501
+
+        :return: The featured of this ChallengeAllOf.
+        :rtype: bool
+        """
+        return self._featured
+
+    @featured.setter
+    def featured(self, featured):
+        """Sets the featured of this ChallengeAllOf.
+
+        Whether the challenge is featured  # noqa: E501
+
+        :param featured: The featured of this ChallengeAllOf.
+        :type featured: bool
+        """
+
+        self._featured = featured
+
+    @property
+    def participant_count(self):
+        """Gets the participant_count of this ChallengeAllOf.
+
+        Number of challenge participants  # noqa: E501
+
+        :return: The participant_count of this ChallengeAllOf.
+        :rtype: int
+        """
+        return self._participant_count
+
+    @participant_count.setter
+    def participant_count(self, participant_count):
+        """Sets the participant_count of this ChallengeAllOf.
+
+        Number of challenge participants  # noqa: E501
+
+        :param participant_count: The participant_count of this ChallengeAllOf.
+        :type participant_count: int
+        """
+
+        self._participant_count = participant_count
+
+    @property
+    def view_count(self):
+        """Gets the view_count of this ChallengeAllOf.
+
+        Number of challenge views  # noqa: E501
+
+        :return: The view_count of this ChallengeAllOf.
+        :rtype: int
+        """
+        return self._view_count
+
+    @view_count.setter
+    def view_count(self, view_count):
+        """Sets the view_count of this ChallengeAllOf.
+
+        Number of challenge views  # noqa: E501
+
+        :param view_count: The view_count of this ChallengeAllOf.
+        :type view_count: int
+        """
+
+        self._view_count = view_count
+
+    @property
+    def starred_count(self):
+        """Gets the starred_count of this ChallengeAllOf.
+
+        Number of times the challenge has been starred by users  # noqa: E501
+
+        :return: The starred_count of this ChallengeAllOf.
+        :rtype: int
+        """
+        return self._starred_count
+
+    @starred_count.setter
+    def starred_count(self, starred_count):
+        """Sets the starred_count of this ChallengeAllOf.
+
+        Number of times the challenge has been starred by users  # noqa: E501
+
+        :param starred_count: The starred_count of this ChallengeAllOf.
+        :type starred_count: int
+        """
+
+        self._starred_count = starred_count
 
     @property
     def created_at(self):

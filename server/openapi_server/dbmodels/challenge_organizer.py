@@ -18,5 +18,6 @@ class ChallengeOrganizer(Document):
     def to_dict(self):
         doc = self.to_mongo().to_dict()
         doc['id'] = str(self.pk)
-        doc.pop('challengeId', None)
+        doc['challengeId'] = str(self.challengeId['id'])
+        # doc.pop('challengeId', None)
         return doc

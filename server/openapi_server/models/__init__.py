@@ -9,6 +9,8 @@ from openapi_server.models.challenge import Challenge
 from openapi_server.models.challenge_all_of import ChallengeAllOf
 from openapi_server.models.challenge_create_request import ChallengeCreateRequest
 from openapi_server.models.challenge_create_response import ChallengeCreateResponse
+from openapi_server.models.challenge_difficulty import ChallengeDifficulty
+from openapi_server.models.challenge_incentive_type import ChallengeIncentiveType
 from openapi_server.models.challenge_organizer import ChallengeOrganizer
 from openapi_server.models.challenge_organizer_create_request import ChallengeOrganizerCreateRequest
 from openapi_server.models.challenge_organizer_create_response import ChallengeOrganizerCreateResponse
@@ -28,6 +30,7 @@ from openapi_server.models.challenge_sponsor_create_response import ChallengeSpo
 from openapi_server.models.challenge_sponsor_list import ChallengeSponsorList
 from openapi_server.models.challenge_sponsor_role import ChallengeSponsorRole
 from openapi_server.models.challenge_status import ChallengeStatus
+from openapi_server.models.challenge_submission_type import ChallengeSubmissionType
 from openapi_server.models.date_range import DateRange
 from openapi_server.models.error import Error
 from openapi_server.models.grant import Grant

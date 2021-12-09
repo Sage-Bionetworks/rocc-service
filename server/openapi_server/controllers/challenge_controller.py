@@ -407,7 +407,7 @@ def list_account_challenges(account_name, limit=None, offset=None, search_terms=
     return res, status
 
 
-def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, status=None, platform_ids=None, start_date_range=None):  # noqa: E501
+def list_challenges(limit=None, offset=None, sort=None, direction=None, search_terms=None, topics=None, input_data_types=None, status=None, platform_ids=None, difficulty=None, submission_types=None, incentive_types=None, start_date_range=None, org_ids=None, organizer_ids=None, sponsor_ids=None):  # noqa: E501
     """List all the challenges
 
     Returns all the challenges # noqa: E501
@@ -416,7 +416,7 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type limit: int
     :param offset: Index of the first result that must be returned
     :type offset: int
-    :param sort: Property used to sort the results that must be returned
+    :param sort: Properties used to sort the results that must be returned:   * featured - featured challenge, from featured to non-featured.   * startDate - start date of a challenge, from latest to oldest.   * participantCount - number of participants of a challenge, from most to least.   * viewCount - number of views of a challenge, from most to least.   * starredCount - number of stargazers of a challenge, from most to least.   * name - name of a challenge, from A to Z.   * createdAt - when a challenge is created, from latest to oldest.   * updatedAt - when a challenge is updated, from latest to oldest.
     :type sort: str
     :param direction: Can be either &#x60;asc&#x60; or &#x60;desc&#x60;. Ignored without &#x60;sort&#x60; parameter.
     :type direction: str
@@ -424,42 +424,111 @@ def list_challenges(limit=None, offset=None, sort=None, direction=None, search_t
     :type search_terms: str
     :param topics: Array of topics used to filter the results
     :type topics: List[str]
+    :param input_data_types: Array of input data types used to filter the results
+    :type input_data_types: List[str]
     :param status: Array of challenge status used to filter the results
     :type status: list | bytes
     :param platform_ids: Array of challenge platform ids used to filter the results
     :type platform_ids: List[str]
+    :param difficulty: Array of challenge difficulty levels used to filter the results
+    :type difficulty: list | bytes
+    :param submission_types: Array of challenge submission types used to filter the results
+    :type submission_types: list | bytes
+    :param incentive_types: Array of challenge incentive types used to filter the results
+    :type incentive_types: list | bytes
     :param start_date_range: Return challenges that start during the date range specified
     :type start_date_range: dict | bytes
+    :param org_ids: Array of organization ids used to filter the results
+    :type org_ids: List[str]
+    :param organizer_ids: Array of organizer identifiers used to filter the results
+    :type organizer_ids: List[str]
+    :param sponsor_ids: Array of sponsor org identifiers used to filter the results
+    :type sponsor_ids: List[str]
 
     :rtype: PageOfChallenges
     """
     try:
+        # create topics filter
+        topics_q = Q(topics__in=topics) \
+            if topics is not None and len(topics) > 0 else Q()
+
+        # create status filter
+        status_q = Q(status__in=status) \
+            if status is not None else Q()
+
+        # create platform filter
+        platform_id_q = Q(platformId__in=platform_ids) \
+            if platform_ids is not None and len(platform_ids) > 0 else Q()
+
+        # create difficulty filter
+        # TODO query parameters platform_ids is plural. Query parameter is
+        # singular. Stay consistent.
+        difficulty_q = Q(difficulty__in=difficulty) \
+            if difficulty is not None else Q()
+
+        # create input data type filter
+        input_data_types_q = Q(inputDataTypes__in=input_data_types) \
+            if input_data_types is not None and len(input_data_types) > 0 else Q()  # noqa: E501
+
+        # create submission type filter
+        submission_types_q = Q(submissionTypes__in=submission_types) \
+            if submission_types is not None and len(submission_types) > 0 else Q()  # noqa: E501
+
+        # create incentive type filter
+        incentive_types_q = Q(incentiveTypes__in=incentive_types) \
+            if incentive_types is not None and len(incentive_types) > 0 else Q()  # noqa: E501
+
+        # create start date filter
         start_date_start = None
         start_date_end = None
         if start_date_range is not None and 'start' in start_date_range:
             start_date_start = datetime.datetime.strptime(start_date_range['start'], '%Y-%m-%d')  # noqa: E501
         if start_date_range is not None and 'end' in start_date_range:
             start_date_end = datetime.datetime.strptime(start_date_range['end'], '%Y-%m-%d')  # noqa: E501
-
-        status_q = Q(status__in=status) \
-            if status is not None else Q()
-        # tag_ids_q = Q(tagIds__in=tag_ids) \
-        #     if tag_ids is not None and len(tag_ids) > 0 else Q()
-        platform_id_q = Q(platformId__in=platform_ids) \
-            if platform_ids is not None and len(platform_ids) > 0 else Q()
         startDate_start_q = Q(startDate__gte=start_date_start) \
             if start_date_start is not None else Q()
         startDate_end_q = Q(startDate__lte=start_date_end) \
             if start_date_end is not None else Q()
 
-        db_challenges = DbChallenge.objects(status_q & platform_id_q & startDate_start_q & startDate_end_q)  # noqa: E501
+        # create owner/org filter
+        owner_id_q = Q(ownerId__in=org_ids) \
+            if org_ids is not None and len(org_ids) > 0 else Q()
+
+        # create organizer filter
+        # organizer_ids is a list of User ids
+        organizers_q = Q()
+        if (organizer_ids is not None and len(organizer_ids) > 0):
+            db_organizer_users = DbUser.objects(id__in=organizer_ids)
+            organizer_logins = [User.from_dict(d.to_dict()).login for d in db_organizer_users]  # noqa: E501
+            db_organizers = DbChallengeOrganizer.objects(login__in=organizer_logins)  # noqa: E501
+            organizer_challenge_ids = [d.to_dict()['challengeId'] for d in db_organizers]  # noqa: E501
+            organizers_q = Q(id__in=organizer_challenge_ids)
+
+        # apply filters except search terms
+        db_challenges = DbChallenge.objects(
+            topics_q &
+            status_q &
+            platform_id_q &
+            difficulty_q &
+            input_data_types_q &
+            submission_types_q &
+            incentive_types_q &
+            startDate_start_q &
+            startDate_end_q &
+            owner_id_q &
+            organizers_q
+        )
+
+        # apply filter by search terms
         if search_terms is not None:
             db_challenges = db_challenges.search_text(search_terms)
 
+        # sort results
         if sort is not None:
             order_by = ('-' if direction == 'desc' else '') + sort
             db_challenges = db_challenges.order_by(order_by)
 
+        # paginate results
         db_challenges = db_challenges.skip(offset).limit(limit)
 
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
