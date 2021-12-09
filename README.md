@@ -15,8 +15,8 @@ specification] (schemas).
 
 ## Specification
 
-- ROCC service version: 0.7.0
-- ROCC schemas version: 0.5.0
+- ROCC service version: 0.8.0
+- ROCC schemas version: 0.6.0
 - Docker image: [sagebionetworks/rocc-service]
 
 
