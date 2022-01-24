@@ -14,6 +14,37 @@ The workflow is the following:
 - The style of staged files is validated upon creating a new commit.
 - The style of files pushed to GitHub is validated using a GitHub workflow. -->
 
+## Examples
+
+Python style validation issues detected upon creating a commit:
+
+```console
+$ git commit -S -m 'Test automated linter before commit'
+
+> lint-staged
+> lint-staged
+
+✔ Preparing lint-staged...
+⚠ Running tasks for staged files...
+  ❯ package.json — 1 file
+    ❯ server/**/*.py — 1 file
+      ✖ npm run lint [FAILED]
+↓ Skipped because of errors from tasks. [SKIPPED]
+✔ Reverting to original state because of errors...
+✔ Cleaning up temporary files...
+
+✖ npm run lint:
+would reformat /home/tschaffter/dev2/sage-bionetworks/rocc/rocc-service/server/openapi_server/__main__.py
+would reformat openapi_server/__main__.py
+Oh no! 💥 💔 💥
+2 files would be reformatted, 31 files would be left unchanged.
+
+> lint
+> cd server && black --check openapi_server/ --exclude 'openapi_server/(models|test)' "/home/tschaffter/dev2/sage-bionetworks/rocc/rocc-service/server/openapi_server/__main__.py"
+
+husky - pre-commit hook exited with code 1 (error)
+```
+
 ## Setup
 
 - VS Code invites you to install the recommended extensions, which include
