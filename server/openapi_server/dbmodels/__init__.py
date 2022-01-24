@@ -2,6 +2,7 @@
 
 # flake8: noqa
 from __future__ import absolute_import
+
 # import models into model package
 from openapi_server.dbmodels.challenge import Challenge
 from openapi_server.dbmodels.grant import Grant

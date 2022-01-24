@@ -18,7 +18,7 @@ def info_from_ApiKeyAuth(api_key, required_scopes):
     """
     try:
         if api_key == config.secret_key:
-            return {'uid': 'user_id'}
+            return {"uid": "user_id"}
     except Exception as error:
         print("Invalid API key", error)
 

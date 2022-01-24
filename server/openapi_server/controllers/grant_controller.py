@@ -18,7 +18,7 @@ def create_grant(grant_create_request):  # noqa: E501
 
     :rtype: GrantCreateResponse
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def delete_all_grants():  # noqa: E501
@@ -29,7 +29,7 @@ def delete_all_grants():  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def delete_grant(grant_id):  # noqa: E501
@@ -42,7 +42,7 @@ def delete_grant(grant_id):  # noqa: E501
 
     :rtype: object
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def get_grant(grant_id):  # noqa: E501
@@ -55,7 +55,7 @@ def get_grant(grant_id):  # noqa: E501
 
     :rtype: Grant
     """
-    return 'do some magic!'
+    return "do some magic!"
 
 
 def list_grants(limit=None, offset=None):  # noqa: E501
@@ -70,4 +70,4 @@ def list_grants(limit=None, offset=None):  # noqa: E501
 
     :rtype: PageOfGrants
     """
-    return 'do some magic!'
+    return "do some magic!"

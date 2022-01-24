@@ -21,7 +21,7 @@ The workflow is the following:
   settings file `settings.json` available in this repository.
 - Install `flake8` and other development Python packages.
 
-      pip -r server/dev-requirements.txt
+      pip install -r server/dev-requirements.txt
 
 ## Markdown
 

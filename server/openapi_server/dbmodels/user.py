@@ -13,8 +13,8 @@ class User(Account):
 
     def to_dict(self):
         doc = self.to_mongo().to_dict()
-        doc['id'] = str(self.pk)
-        doc.pop('passwordHash', None)
+        doc["id"] = str(self.pk)
+        doc.pop("passwordHash", None)
         return doc
 
     def verify_password(self, password) -> bool:
