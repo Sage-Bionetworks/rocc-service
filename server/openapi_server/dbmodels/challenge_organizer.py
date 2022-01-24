@@ -18,7 +18,8 @@ class ChallengeOrganizer(Document):
     name = StringField(required=True)
     login = StringField()
     roles = ListField(
-        StringField(choices=["ChallengeLead", "InfrastructureLead"]), default=[]
+        StringField(choices=["ChallengeLead", "InfrastructureLead"]),
+        default=[],
     )  # noqa: E501
     challengeId = ReferenceField(Challenge, required=True)
     createdAt = DateTimeField(required=True, default=datetime.datetime.now)

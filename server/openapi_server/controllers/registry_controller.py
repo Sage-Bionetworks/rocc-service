@@ -1,5 +1,9 @@
-from openapi_server.dbmodels.challenge import Challenge as DbChallenge  # noqa: E501
-from openapi_server.dbmodels.organization import Organization as DbOrg  # noqa: E501
+from openapi_server.dbmodels.challenge import (
+    Challenge as DbChallenge,
+)  # noqa: E501
+from openapi_server.dbmodels.organization import (
+    Organization as DbOrg,
+)  # noqa: E501
 from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.registry import Registry  # noqa: E501

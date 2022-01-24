@@ -5,8 +5,12 @@ import datetime
 
 from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.local_auth_request import LocalAuthRequest  # noqa: E501
-from openapi_server.models.local_auth_response import LocalAuthResponse  # noqa: E501
+from openapi_server.models.local_auth_request import (
+    LocalAuthRequest,
+)  # noqa: E501
+from openapi_server.models.local_auth_response import (
+    LocalAuthResponse,
+)  # noqa: E501
 from openapi_server.config import config
 
 

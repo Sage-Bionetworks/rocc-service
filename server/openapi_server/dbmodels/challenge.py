@@ -41,7 +41,9 @@ class Challenge(Document):
     )
     inputDataTypes = ListField(StringField(unique=True), default=[])
     submissionTypes = ListField(
-        StringField(choices=["DockerImage", "PredictionFile", "Other"])  # TODO: DRY
+        StringField(
+            choices=["DockerImage", "PredictionFile", "Other"]
+        )  # TODO: DRY
     )
     incentiveTypes = ListField(
         StringField(

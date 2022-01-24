@@ -55,7 +55,11 @@ class Config(AbstractConfig):
 
     @property
     def server_url(self):
-        return "%s%s:%s" % (self.server_protocol, self.server_domain, self.server_port)
+        return "%s%s:%s" % (
+            self.server_protocol,
+            self.server_domain,
+            self.server_port,
+        )
 
     @property
     def server_api_url(self):
