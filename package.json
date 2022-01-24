@@ -1,6 +1,8 @@
 {
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.3.9",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.1",
     "release-it": "^14.10.1"
   },
   "private": true,
@@ -12,10 +14,17 @@
     "generate:version": "npm run clean:models && openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/${npm_config_schemas_version}/openapi.json",
     "lint": "cd server && black --check openapi_server/ --exclude 'openapi_server/(models|test)'",
     "lint:fix": "cd server && black openapi_server/ --exclude 'openapi_server/(models|test)'",
+    "lint-staged": "lint-staged",
+    "prepare": "husky install",
     "test": "cd server && tox",
     "install:dependencies": "npm ci && cd server && pip install -r requirements.txt",
     "start:dev": "cd server && python -m openapi_server",
     "start:prod": "docker compose up --build",
     "release": "release-it"
+  },
+  "lint-staged": {
+    "server/**/*.py": [
+      "npm run lint"
+    ]
   }
 }
