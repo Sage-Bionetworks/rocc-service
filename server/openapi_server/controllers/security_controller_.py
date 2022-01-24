@@ -13,7 +13,8 @@ def info_from_ApiKeyAuth(api_key, required_scopes):
     :param api_key API key provided by Authorization header :type api_key: str
     :param required_scopes Always None. Used for other authentication method
     :type required_scopes: None :return: Information attached to provided
-    api_key or None if api_key is invalid or does not allow access to called API
+    api_key or None if api_key is invalid or does not allow access to called
+    API
     :rtype: dict | None
     """
     try:
