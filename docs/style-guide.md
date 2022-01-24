@@ -3,20 +3,41 @@
 ## Requirements
 
 - [Visual Studio Code]
--
+- [Node.js] >= v14.x
 
 ## Overview
 
 The workflow is the following:
 
-- VS Code shows immediately style issues when editing Python files.
-<!-- - VS Code automatically fix style issues when saving files.
+- VS Code shows style issues after saving Python files.
+  - Issues are reported by `flake8` because `black` does not provide this
+    service. However, this feature is of limited use because `black` fixes most
+    style issues upon saving files.
+- VS Code automatically fix style issues when saving files.
+  - Manually lint all files with `npm run lint`.
+  - Manually fix all style issues with `npm run lint:fix`.
 - The style of staged files is validated upon creating a new commit.
-- The style of files pushed to GitHub is validated using a GitHub workflow. -->
+- The style of files pushed to GitHub is validated using a GitHub workflow.
 
 ## Examples
 
-Python style validation issues detected upon creating a commit:
+Sucessful validation of the style when creating a commit:
+
+```console
+$ git commit -S -m 'Fix issue and commit again'
+
+> lint-staged
+> lint-staged
+
+✔ Preparing lint-staged...
+✔ Running tasks for staged files...
+✔ Applying modifications from tasks...
+✔ Cleaning up temporary files...
+[add-style-guide-and-tools 2861202] Fix issue and commit again
+ 2 files changed, 31 insertions(+), 5 deletions(-)
+```
+
+Failed validation of the style when creating a commit:
 
 ```console
 $ git commit -S -m 'Test automated linter before commit'
@@ -47,10 +68,9 @@ husky - pre-commit hook exited with code 1 (error)
 
 ## Setup
 
-- VS Code invites you to install the recommended extensions, which include
-  `dbaeumer.vscode-eslint`. This extension is used in the VS Code workspace
-  settings file `settings.json` available in this repository.
-- Install `flake8` and other development Python packages.
+- VS Code invites you to install the recommended extensions required to validate
+  and fix style issues.
+- Install `flake8`, `black` and other development Python packages.
 
       pip install -r server/dev-requirements.txt
 
@@ -60,16 +80,9 @@ husky - pre-commit hook exited with code 1 (error)
   in a paragraph or highlight multiple paragraph and press `ALT+Q` provided by
   the VS Code extension `stkb.rewrap`.
 
-## References
-
--
-
 <!-- Links -->
 
-[google typescript style guide]: https://google.github.io/styleguide/tsguide.html
-[eslint]: https://www.npmjs.com/package/eslint
 [husky]: https://www.npmjs.com/package/husky
 [stage-lint]: https://www.npmjs.com/package/lint-staged
-[prettier]: https://www.npmjs.com/package/prettier
 [Visual Studio Code]: https://code.visualstudio.com/
 [Node.js]: https://nodejs.org/en/
