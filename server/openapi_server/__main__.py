@@ -18,7 +18,6 @@ app.add_url_rule("/ui", "ui", lambda: flask.redirect("/api/v1/ui"))
 # https://connexion.readthedocs.io/en/latest/cookbook.html#cors-support
 CORS(app.app, resources={r"/api/*": {"origins": "*"}})
 
-
 print(f"Server secret key: {config.secret_key}")
 
 connect(

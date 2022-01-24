@@ -1,7 +1,16 @@
 {
+  "python.linting.pylintEnabled": false,
+  "python.linting.flake8Enabled": true,
+  "python.linting.enabled": true,
   "python.formatting.provider": "black",
+  "editor.tabSize": 2,
+  "python.formatting.blackArgs": [
+    "--line-length",
+    "79"
+  ],
   "[python]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "editor.tabSize": 4
   },
   "[json]": {
     "editor.tabSize": 2
