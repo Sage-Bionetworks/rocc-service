@@ -12,6 +12,11 @@ app = connexion.App(__name__, specification_dir="./openapi/")
 app.app.json_encoder = encoder.JSONEncoder
 app.add_api("openapi.yaml", pythonic_params=True)
 
+
+
+
+
+
 app.add_url_rule("/ui", "ui", lambda: flask.redirect("/api/v1/ui"))
 
 # add CORS support
