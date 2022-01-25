@@ -73,6 +73,13 @@ husky - pre-commit hook exited with code 1 (error)
 - Install `flake8`, `black` and other development Python packages.
 
       pip install -r server/dev-requirements.txt
+- Python files are automatically validated and their style is fixed upon saving.
+  This behavior is controled by the VS Code workspace settings file
+  `.vscode/settings.json`.
+- Staged files are automatically validated before the creation of a commit. This
+  is possible thanks to the package [husky], which manages the pre-commit hook,
+  and the package [stage-lint], which lints only the files that have been staged
+  for the sake of saving time.
 
 ## Why using `npm` in a Python project
 
