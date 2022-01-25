@@ -1,12 +1,20 @@
 import connexion
 from mongoengine.errors import DoesNotExist, NotUniqueError
 
-from openapi_server.dbmodels.organization import Organization as DbOrganization  # noqa: E501
+from openapi_server.dbmodels.organization import (
+    Organization as DbOrganization,
+)  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
 from openapi_server.models.organization import Organization  # noqa: E501
-from openapi_server.models.organization_create_request import OrganizationCreateRequest  # noqa: E501
-from openapi_server.models.organization_create_response import OrganizationCreateResponse  # noqa: E501
-from openapi_server.models.page_of_organizations import PageOfOrganizations  # noqa: E501
+from openapi_server.models.organization_create_request import (
+    OrganizationCreateRequest,
+)  # noqa: E501
+from openapi_server.models.organization_create_response import (
+    OrganizationCreateResponse,
+)  # noqa: E501
+from openapi_server.models.page_of_organizations import (
+    PageOfOrganizations,
+)  # noqa: E501
 from openapi_server.config import config
 
 
@@ -19,7 +27,9 @@ def create_organization():  # noqa: E501
     """
     if connexion.request.is_json:
         try:
-            org_create_request = OrganizationCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            org_create_request = OrganizationCreateRequest.from_dict(
+                connexion.request.get_json()
+            )  # noqa: E501
             org = DbOrganization(
                 login=org_create_request.login,
                 email=org_create_request.email,
@@ -27,7 +37,7 @@ def create_organization():  # noqa: E501
                 avatarUrl=org_create_request.avatar_url,
                 websiteUrl=org_create_request.website_url,
                 description=org_create_request.description,
-                type="Organization"  # TODO: Use enum value
+                type="Organization",  # TODO: Use enum value
             ).save()
             org_id = org.to_dict().get("id")
             res = OrganizationCreateResponse(id=org_id)
@@ -125,18 +135,20 @@ def list_organizations(limit=None, offset=None):  # noqa: E501
         orgs = [Organization.from_dict(d.to_dict()) for d in db_orgs]
         next_ = ""
         if len(orgs) == limit:
-            next_ = "%s/organizations?limit=%s&offset=%s" % \
-                (config.server_api_url, limit, offset + limit)
+            next_ = "%s/organizations?limit=%s&offset=%s" % (
+                config.server_api_url,
+                limit,
+                offset + limit,
+            )
 
         total = db_orgs.count()
         res = PageOfOrganizations(
             offset=offset,
             limit=limit,
-            paging={
-                "next": next_
-            },
+            paging={"next": next_},
             total_results=total,
-            organizations=orgs)
+            organizations=orgs,
+        )
         status = 200
     except TypeError:  # TODO: may need include different exceptions for 400
         status = 400

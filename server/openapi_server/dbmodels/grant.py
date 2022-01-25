@@ -11,5 +11,5 @@ class Grant(Document):
     def to_dict(self):
         doc = self.to_mongo().to_dict()
         doc["id"] = str(self.pk)
-        doc.pop('_id', None)
+        doc.pop("_id", None)
         return doc

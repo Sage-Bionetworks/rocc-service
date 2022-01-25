@@ -83,6 +83,13 @@ jobs:
       with:
         args: --config server/setup.cfg server
 
+    # - name: Lint Python code with Black
+    #   uses: psf/black@stable
+    #   with:
+    #     options: "--check --verbose --line-length 79 --exclude 'openapi_server/(models|test)'"
+    #     src: "./openapi_server"
+    #     version: "21.12b0"
+
   test:
     needs: [lint]
     runs-on: ubuntu-latest

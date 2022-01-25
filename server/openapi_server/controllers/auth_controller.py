@@ -5,8 +5,12 @@ import datetime
 
 from openapi_server.dbmodels.user import User as DbUser  # noqa: E501
 from openapi_server.models.error import Error  # noqa: E501
-from openapi_server.models.local_auth_request import LocalAuthRequest  # noqa: E501
-from openapi_server.models.local_auth_response import LocalAuthResponse  # noqa: E501
+from openapi_server.models.local_auth_request import (
+    LocalAuthRequest,
+)  # noqa: E501
+from openapi_server.models.local_auth_response import (
+    LocalAuthResponse,
+)  # noqa: E501
 from openapi_server.config import config
 
 
@@ -19,7 +23,9 @@ def auth_local():  # noqa: E501
     """
     if connexion.request.is_json:
         try:
-            local_auth_request = LocalAuthRequest.from_dict(connexion.request.get_json())  # noqa: E501
+            local_auth_request = LocalAuthRequest.from_dict(
+                connexion.request.get_json()
+            )  # noqa: E501
             user = DbUser.objects.get(login=local_auth_request.login)
             if user.verify_password(local_auth_request.password):
                 # Returns a JWT (RFC 7519) signed by the app secret.
@@ -27,9 +33,12 @@ def auth_local():  # noqa: E501
                 payload = {
                     "sub": user_id,
                     "iat": datetime.datetime.utcnow(),
-                    "exp": datetime.datetime.utcnow() + datetime.timedelta(days=1)  # noqa: E501
+                    "exp": datetime.datetime.utcnow()
+                    + datetime.timedelta(days=1),  # noqa: E501
                 }
-                token = jwt.encode(payload, config.secret_key, algorithm="HS256")  # noqa: E501
+                token = jwt.encode(
+                    payload, config.secret_key, algorithm="HS256"
+                )  # noqa: E501
                 res = LocalAuthResponse(token=token)
                 status = 200
             else:

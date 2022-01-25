@@ -7,13 +7,15 @@ defaultValues = {
     "SERVER_PROTOCOL": "http://",
     "SERVER_DOMAIN": "localhost",
     "SERVER_PORT": "8080",
-    "SERVER_SECRET_KEY": ''.join(random.sample(string.ascii_letters + string.digits, 32)),  # noqa: E501
+    "SERVER_SECRET_KEY": "".join(
+        random.sample(string.ascii_letters + string.digits, 32)
+    ),  # noqa: E501
     "DB_PROTOCOL": "mongodb://",
     "DB_DOMAIN": "localhost",
     "DB_PORT": "27017",
     "DB_DATABASE": "rocc",
     "DB_USERNAME": "roccmongo",
-    "DB_PASSWORD": "roccmongo"
+    "DB_PASSWORD": "roccmongo",
 }
 
 
@@ -41,60 +43,61 @@ class Config(AbstractConfig):
 
     @property
     def server_protocol(self):
-        return self.get_property('SERVER_PROTOCOL')
+        return self.get_property("SERVER_PROTOCOL")
 
     @property
     def server_domain(self):
-        return self.get_property('SERVER_DOMAIN')
+        return self.get_property("SERVER_DOMAIN")
 
     @property
     def server_port(self):
-        return self.get_property('SERVER_PORT')
+        return self.get_property("SERVER_PORT")
 
     @property
     def server_url(self):
         return "%s%s:%s" % (
-            self.server_protocol, self.server_domain, self.server_port)
+            self.server_protocol,
+            self.server_domain,
+            self.server_port,
+        )
 
     @property
     def server_api_url(self):
-        return '{server_url}{base_path}'.format(
-            server_url=self.server_url,
-            base_path='/api/v1'
+        return "{server_url}{base_path}".format(
+            server_url=self.server_url, base_path="/api/v1"
         )
 
     @property
     def secret_key(self):
-        return self.get_property('SERVER_SECRET_KEY')
+        return self.get_property("SERVER_SECRET_KEY")
 
     @property
     def db_protocol(self):
-        return self.get_property('DB_PROTOCOL')
+        return self.get_property("DB_PROTOCOL")
 
     @property
     def db_domain(self):
-        return self.get_property('DB_DOMAIN')
+        return self.get_property("DB_DOMAIN")
 
     @property
     def db_port(self):
-        return self.get_property('DB_PORT')
+        return self.get_property("DB_PORT")
 
     @property
     def db_database(self):
-        return self.get_property('DB_DATABASE')
+        return self.get_property("DB_DATABASE")
 
     @property
     def db_username(self):
-        return self.get_property('DB_USERNAME')
+        return self.get_property("DB_USERNAME")
 
     @property
     def db_password(self):
-        return self.get_property('DB_PASSWORD')
+        return self.get_property("DB_PASSWORD")
 
     @property
     def db_host(self):
-        return "%s%s:%s" % (
-            self.db_protocol, self.db_domain, self.db_port)
+        return "%s%s:%s" % (self.db_protocol, self.db_domain, self.db_port)
 
 
 config = Config()

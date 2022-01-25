@@ -19,10 +19,10 @@ def create_tag():  # noqa: E501
     """
     if connexion.request.is_json:
         try:
-            tag_create_request = TagCreateRequest.from_dict(connexion.request.get_json())  # noqa: E501
-            tag = DbTag(
-                name=tag_create_request.name
-            ).save()
+            tag_create_request = TagCreateRequest.from_dict(
+                connexion.request.get_json()
+            )  # noqa: E501
+            tag = DbTag(name=tag_create_request.name).save()
             tag_id = tag.to_dict().get("id")
             res = TagCreateResponse(id=tag_id)
             status = 201
@@ -118,18 +118,20 @@ def list_tags(limit=None, offset=None):  # noqa: E501
         tags = [Tag.from_dict(d.to_dict()) for d in db_tags]
         next_ = ""
         if len(tags) == limit:
-            next_ = "%s/tags?limit=%s&offset=%s" % \
-                (config.server_api_url, limit, offset + limit)
+            next_ = "%s/tags?limit=%s&offset=%s" % (
+                config.server_api_url,
+                limit,
+                offset + limit,
+            )
 
         total = db_tags.count()
         res = PageOfTags(
             offset=offset,
             limit=limit,
-            paging={
-                "next": next_
-            },
+            paging={"next": next_},
             total_results=total,
-            tags=tags)
+            tags=tags,
+        )
         status = 200
     except TypeError:  # TODO: may need include different exceptions for 400
         status = 400
