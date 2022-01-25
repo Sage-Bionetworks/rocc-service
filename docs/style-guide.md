@@ -13,7 +13,7 @@ The workflow is the following:
   - Issues are reported by `flake8` because `black` does not provide this
     service. However, this feature is of limited use because `black` fixes most
     style issues upon saving files.
-- VS Code automatically fix style issues when saving files.
+- VS Code automatically fixes style issues when saving files.
   - Manually lint all files with `npm run lint`.
   - Manually fix all style issues with `npm run lint:fix`.
 - The style of staged files is validated upon creating a new commit.
@@ -74,6 +74,14 @@ husky - pre-commit hook exited with code 1 (error)
 
       pip install -r server/dev-requirements.txt
 
+## Why using `npm` in a Python project
+
+- Standardize scripts across projects developed with different programming
+  languages/frameworks.
+    - Examples: `npm test`, `npm run lint`, `npm run release`.
+- Development tools such as [OpenAPI Generator] (server and client projects) and
+  [release-it] are available via `npm`.
+
 ## Markdown
 
 - Lines must not be longer than 80 characters. To rewrap text, place your cursor
@@ -86,3 +94,5 @@ husky - pre-commit hook exited with code 1 (error)
 [stage-lint]: https://www.npmjs.com/package/lint-staged
 [Visual Studio Code]: https://code.visualstudio.com/
 [Node.js]: https://nodejs.org/en/
+[OpenAPI Generator]: https://www.npmjs.com/package/@openapitools/openapi-generator-cli
+[release-it]: https://www.npmjs.com/package/release-it
