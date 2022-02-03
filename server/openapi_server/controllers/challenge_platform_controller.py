@@ -28,9 +28,7 @@ def create_challenge_platform():  # noqa: E501
     if connexion.request.is_json:
         try:
             challenge_platform_create_request = (
-                ChallengePlatformCreateRequest.from_dict(
-                    connexion.request.get_json()
-                )
+                ChallengePlatformCreateRequest.from_dict(connexion.request.get_json())
             )  # noqa: E501
             challenge_platform = DbChallengePlatform(
                 name=challenge_platform_create_request.name,
@@ -131,14 +129,11 @@ def list_challenge_platforms(limit=None, offset=None):  # noqa: E501
     :rtype: PageOfChallengePlatforms
     """
     try:
-        db_challenge_platforms = DbChallengePlatform.objects.skip(
-            offset
-        ).limit(
+        db_challenge_platforms = DbChallengePlatform.objects.skip(offset).limit(
             limit
         )  # noqa: E501
         challenge_platforms = [
-            ChallengePlatform.from_dict(d.to_dict())
-            for d in db_challenge_platforms
+            ChallengePlatform.from_dict(d.to_dict()) for d in db_challenge_platforms
         ]  # noqa: E501
         next_ = ""
         if len(challenge_platforms) == limit:

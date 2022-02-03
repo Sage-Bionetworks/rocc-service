@@ -78,10 +78,17 @@ jobs:
         sort -f --check server/requirements.txt
         sort -f --check server/test-requirements.txt
 
-    - name: Lint Python code with Flake8
-      uses: docker://alpine/flake8:latest
+    - name: Validate Python code style with Black
+      uses: psf/black@stable
       with:
-        args: --config server/setup.cfg server
+        options: "--check --exclude 'openapi_server/(models|test)'"
+        src: "./server/openapi_server"
+        version: "22.1.0"
+
+    # - name: Lint Python code with Flake8
+    #   uses: docker://alpine/flake8:latest
+    #   with:
+    #     args: --config server/setup.cfg server
 
     # - name: Lint Python code with Black
     #   uses: psf/black@stable

@@ -127,9 +127,7 @@ def get_user(user_id):  # noqa: E501
     return res, status
 
 
-def list_user_starred_challenges(
-    user_id, limit=None, offset=None
-):  # noqa: E501
+def list_user_starred_challenges(user_id, limit=None, offset=None):  # noqa: E501
     """List repositories starred by a user
 
     Lists repositories a user has starred. # noqa: E501
@@ -144,16 +142,12 @@ def list_user_starred_challenges(
     :rtype: PageOfChallenges
     """
     try:
-        db_starred_challenges = DbStarredChallenge.objects(
-            userId=user_id
-        )  # noqa: E501
+        db_starred_challenges = DbStarredChallenge.objects(userId=user_id)  # noqa: E501
         starred_challenges_ids = [
             d.to_dict()["challengeId"] for d in db_starred_challenges
         ]  # noqa: E501
         db_challenges = (
-            DbChallenge.objects(id__in=starred_challenges_ids)
-            .skip(offset)
-            .limit(limit)
+            DbChallenge.objects(id__in=starred_challenges_ids).skip(offset).limit(limit)
         )  # noqa: E501
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
@@ -183,9 +177,7 @@ def list_user_starred_challenges(
     return res, status
 
 
-def is_starred_challenge(
-    token_info, account_name, challenge_name
-):  # noqa: E501
+def is_starred_challenge(token_info, account_name, challenge_name):  # noqa: E501
     """Check if a repository is starred by the authenticated user
 
     Check if a repository is starred by the authenticated user # noqa: E501
@@ -232,16 +224,12 @@ def list_starred_challenges(token_info, limit=None, offset=None):  # noqa: E501
     # TODO DRY, reuse get_user_starred_challenges
     try:
         user_id = token_info["sub"]
-        db_starred_challenges = DbStarredChallenge.objects(
-            userId=user_id
-        )  # noqa: E501
+        db_starred_challenges = DbStarredChallenge.objects(userId=user_id)  # noqa: E501
         challenges_ids = [
             d.to_dict()["challengeId"] for d in db_starred_challenges
         ]  # noqa: E501
         db_challenges = (
-            DbChallenge.objects(id__in=challenges_ids)
-            .skip(offset)
-            .limit(limit)
+            DbChallenge.objects(id__in=challenges_ids).skip(offset).limit(limit)
         )  # noqa: E501
         challenges = [Challenge.from_dict(d.to_dict()) for d in db_challenges]
         next_ = ""
