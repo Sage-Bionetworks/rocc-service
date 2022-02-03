@@ -82,6 +82,21 @@ paths:
       tags:
       - Account
       x-openapi-router-controller: openapi_server.controllers.account_controller
+  /auth/googleOauth:
+    get:
+      description: Authentify a local account with Google OAuth 2.1
+      operationId: auth_google_oauth
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+      summary: Authentify a local account with Google OAuth 2.1
+      tags:
+      - Auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
   /auth/local:
     post:
       description: Authentify a local account with the specified credential
@@ -2938,6 +2953,9 @@ components:
       - token
       title: LocalAuthResponse
       type: object
+    EmptyObject:
+      description: Empty JSON object
+      type: object
     Topic:
       description: The topic
       example: '["breast-cancer","ehr"]'
@@ -3178,9 +3196,6 @@ components:
       - $ref: '#/components/schemas/PageOfChallenges_allOf'
       description: A page of Challenges
       title: PageOfChallenges
-      type: object
-    EmptyObject:
-      description: Empty JSON object
       type: object
     ChallengeOrganizerId:
       description: The unique identifier of a challenge organizer
