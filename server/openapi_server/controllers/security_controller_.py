@@ -60,7 +60,16 @@ def info_from_OAuth(token):
     :return: Decoded token information or None if token is invalid
     :rtype: dict | None
     """
-    return {"scopes": ["read:pets", "write:pets"], "uid": "user_id"}
+    try:
+        payload = jwt.decode(token, config.secret_key, algorithms=["HS256"])
+        return {"sub": payload["sub"]}
+        # return {"scopes": ["read:pets", "write:pets"], "uid": "user_id"}
+    except jwt.ExpiredSignatureError as error:
+        print("Signature expired. Please log in again.", error)
+    except jwt.InvalidTokenError as error:
+        print("Invalid token. Please log in again.", error)
+
+    return None
 
 
 def validate_scope_OAuth(required_scopes, token_scopes):
