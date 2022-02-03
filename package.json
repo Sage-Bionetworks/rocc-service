@@ -12,7 +12,7 @@
     "generate:latest": "npm run clean:models && openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/latest/openapi.json",
     "generate:edge": "npm run clean:models && openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/edge/openapi.json",
     "generate:version": "npm run clean:models && openapi-generator-cli generate -g python-flask -o server -i https://sage-bionetworks.github.io/rocc-schemas/${npm_config_schemas_version}/openapi.json",
-    "lint": "cd server && black --check openapi_server/ --exclude 'openapi_server/(models|test)'",
+    "lint": "cd server && black openapi_server/ --check --exclude 'openapi_server/(models|test)'",
     "lint:fix": "cd server && black openapi_server/ --exclude 'openapi_server/(models|test)'",
     "lint-staged": "lint-staged",
     "prepare": "husky install",
