@@ -82,10 +82,10 @@ paths:
       tags:
       - Account
       x-openapi-router-controller: openapi_server.controllers.account_controller
-  /auth/googleOauth:
+  /auth/google:
     get:
       description: Authentify a local account with Google OAuth 2.1
-      operationId: auth_google_oauth
+      operationId: auth_google
       responses:
         "200":
           content:
