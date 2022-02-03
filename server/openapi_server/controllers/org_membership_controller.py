@@ -142,9 +142,7 @@ def list_org_memberships(
         user_id_q = Q(userId=user_id) if user_id is not None else Q()
 
         db_org_memberships = (
-            DbOrgMembership.objects(org_id_q & user_id_q)
-            .skip(offset)
-            .limit(limit)
+            DbOrgMembership.objects(org_id_q & user_id_q).skip(offset).limit(limit)
         )
         org_memberships = [
             OrgMembership.from_dict(d.to_dict()) for d in db_org_memberships

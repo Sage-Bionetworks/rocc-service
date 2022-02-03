@@ -105,9 +105,7 @@ def create_challenge(account_name):  # noqa: E501
                 )  # noqa: E501
                 return res, status
 
-            readme = DbChallengeReadme(
-                text=challenge_create_request.name
-            ).save()
+            readme = DbChallengeReadme(text=challenge_create_request.name).save()
 
             challenge = DbChallenge(
                 name=challenge_create_request.name,
@@ -121,8 +119,7 @@ def create_challenge(account_name):  # noqa: E501
                 readmeId=readme.to_dict().get("id"),
                 topics=challenge_create_request.topics,
                 doi=challenge_create_request.doi,
-                fullName="%s/%s"
-                % (account_name, challenge_create_request.name),
+                fullName="%s/%s" % (account_name, challenge_create_request.name),
                 ownerId=account_id,
             ).save()
             challenge_id = challenge.to_dict().get("id")
@@ -169,10 +166,8 @@ def create_challenge_organizer(account_name, challenge_name):  # noqa: E501
                 )  # noqa: E501
                 return res, status
 
-            organizer_create_request = (
-                ChallengeOrganizerCreateRequest.from_dict(
-                    connexion.request.get_json()
-                )
+            organizer_create_request = ChallengeOrganizerCreateRequest.from_dict(
+                connexion.request.get_json()
             )  # noqa: E501
             organizer = DbChallengeOrganizer(
                 name=organizer_create_request.name,
@@ -332,9 +327,7 @@ def delete_challenge_organizer(
     return res, status
 
 
-def delete_challenge_sponsor(
-    account_name, challenge_name, sponsor_id
-):  # noqa: E501
+def delete_challenge_sponsor(account_name, challenge_name, sponsor_id):  # noqa: E501
     """Delete a challenge sponsor
 
     Deletes the challenge sponsor specified # noqa: E501
@@ -544,9 +537,7 @@ def list_challenges(
     try:
         # create topics filter
         topics_q = (
-            Q(topics__in=topics)
-            if topics is not None and len(topics) > 0
-            else Q()
+            Q(topics__in=topics) if topics is not None and len(topics) > 0 else Q()
         )
 
         # create status filter
@@ -562,9 +553,7 @@ def list_challenges(
         # create difficulty filter
         # TODO query parameters platform_ids is plural. Query parameter is
         # singular. Stay consistent.
-        difficulty_q = (
-            Q(difficulty__in=difficulty) if difficulty is not None else Q()
-        )
+        difficulty_q = Q(difficulty__in=difficulty) if difficulty is not None else Q()
 
         # create input data type filter
         input_data_types_q = (
@@ -599,21 +588,15 @@ def list_challenges(
                 start_date_range["end"], "%Y-%m-%d"
             )  # noqa: E501
         startDate_start_q = (
-            Q(startDate__gte=start_date_start)
-            if start_date_start is not None
-            else Q()
+            Q(startDate__gte=start_date_start) if start_date_start is not None else Q()
         )
         startDate_end_q = (
-            Q(startDate__lte=start_date_end)
-            if start_date_end is not None
-            else Q()
+            Q(startDate__lte=start_date_end) if start_date_end is not None else Q()
         )
 
         # create owner/org filter
         owner_id_q = (
-            Q(ownerId__in=org_ids)
-            if org_ids is not None and len(org_ids) > 0
-            else Q()
+            Q(ownerId__in=org_ids) if org_ids is not None and len(org_ids) > 0 else Q()
         )
 
         # create organizer filter
@@ -758,9 +741,7 @@ def list_challenge_sponsors(account_name, challenge_name):  # noqa: E501
             return res, status
 
         challenge_id = db_challenge.to_dict().get("id")
-        db_sponsors = DbChallengeSponsor.objects(
-            challengeId=challenge_id
-        )  # noqa: E501
+        db_sponsors = DbChallengeSponsor.objects(challengeId=challenge_id)  # noqa: E501
         sponsors = [
             ChallengeSponsor.from_dict(d.to_dict()) for d in db_sponsors
         ]  # noqa: E501
@@ -895,10 +876,8 @@ def update_challenge_readme(account_name, challenge_name):  # noqa: E501
     """
     if connexion.request.is_json:
         try:
-            challenge_readme_update_request = (
-                ChallengeReadmeUpdateRequest.from_dict(
-                    connexion.request.get_json()
-                )
+            challenge_readme_update_request = ChallengeReadmeUpdateRequest.from_dict(
+                connexion.request.get_json()
             )  # noqa: E501
 
             try:

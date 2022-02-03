@@ -12,9 +12,7 @@ from openapi_server.dbmodels.user import User
 
 
 class OrgMembership(Document):
-    state = StringField(
-        required=True, choices=["active", "pending"]
-    )  # TODO: DRY
+    state = StringField(required=True, choices=["active", "pending"])  # TODO: DRY
     role = StringField(required=True, choices=["admin", "member"])  # TODO: DRY
     organizationId = ReferenceField(Organization)
     userId = ReferenceField(User, unique_with="organizationId")
