@@ -16,6 +16,8 @@ defaultValues = {
     "DB_DATABASE": "rocc",
     "DB_USERNAME": "roccmongo",
     "DB_PASSWORD": "roccmongo",
+    "GOOGLE_CLIENT_ID": "",
+    "GOOGLE_CLIENT_SECRET": "",
 }
 
 
@@ -98,6 +100,14 @@ class Config(AbstractConfig):
     @property
     def db_host(self):
         return "%s%s:%s" % (self.db_protocol, self.db_domain, self.db_port)
+
+    @property
+    def google_client_id(self):
+        return self.get_property("GOOGLE_CLIENT_ID")
+
+    @property
+    def google_client_secret(self):
+        return self.get_property("GOOGLE_CLIENT_SECRET")
 
 
 config = Config()

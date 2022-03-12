@@ -14,6 +14,17 @@ from openapi_server.models.local_auth_response import (
 from openapi_server.config import config
 
 
+def auth_google():  # noqa: E501
+    """Authentify a local account with Google OAuth 2.1
+
+    Authentify a local account with Google OAuth 2.1 # noqa: E501
+
+
+    :rtype: object
+    """
+    return "do some magic!"
+
+
 def auth_local():  # noqa: E501
     """Authentify a local account
 

@@ -82,6 +82,21 @@ paths:
       tags:
       - Account
       x-openapi-router-controller: openapi_server.controllers.account_controller
+  /auth/google:
+    get:
+      description: Authentify a local account with Google OAuth 2.1
+      operationId: auth_google
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyObject'
+          description: Success
+      summary: Authentify a local account with Google OAuth 2.1
+      tags:
+      - Auth
+      x-openapi-router-controller: openapi_server.controllers.auth_controller
   /auth/local:
     post:
       description: Authentify a local account with the specified credential
@@ -2306,6 +2321,9 @@ paths:
                 $ref: '#/components/schemas/Error'
           description: The request cannot be fulfilled due to an unexpected server
             error
+      security:
+      - BearerAuth: []
+      - OAuth: []
       summary: Get all users
       tags:
       - User
@@ -2935,6 +2953,9 @@ components:
       - token
       title: LocalAuthResponse
       type: object
+    EmptyObject:
+      description: Empty JSON object
+      type: object
     Topic:
       description: The topic
       example: '["breast-cancer","ehr"]'
@@ -3175,9 +3196,6 @@ components:
       - $ref: '#/components/schemas/PageOfChallenges_allOf'
       description: A page of Challenges
       title: PageOfChallenges
-      type: object
-    EmptyObject:
-      description: Empty JSON object
       type: object
     ChallengeOrganizerId:
       description: The unique identifier of a challenge organizer
@@ -3946,3 +3964,14 @@ components:
       name: X-API-Key
       type: apiKey
       x-apikeyInfoFunc: openapi_server.controllers.security_controller_.info_from_ApiKeyAuth
+    OAuth:
+      description: For more information, see https://api.challenge-registry.org/docs/oauth
+      flows:
+        implicit:
+          authorizationUrl: /oauth2/authorize
+          scopes:
+            read:users: read users info
+            write:users: modify or remove users
+      type: oauth2
+      x-tokenInfoFunc: openapi_server.controllers.security_controller_.info_from_OAuth
+      x-scopeValidateFunc: openapi_server.controllers.security_controller_.validate_scope_OAuth
